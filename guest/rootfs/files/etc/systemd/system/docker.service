@@ -1,0 +1,17 @@
+[Unit]
+Description=Guest Docker Engine
+Requires=piwork-storage.service
+Wants=network-online.target
+After=piwork-storage.service network-online.target
+Before=piwork-images.service piwork.service
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/dockerd --data-root=/mnt/state/docker --host=unix:///run/docker.sock --storage-driver=overlay2 --exec-opt native.cgroupdriver=systemd
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=120
+TimeoutStopSec=60
+KillMode=process
+Delegate=yes
+LimitNOFILE=1048576
+TasksMax=infinity

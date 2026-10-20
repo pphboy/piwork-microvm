@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount Piwork persistent ext4 storage
+Requires=mnt-state.mount
+After=mnt-state.mount
+Before=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/piwork-guest storage
+RemainAfterExit=yes

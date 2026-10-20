@@ -1,0 +1,11 @@
+[Unit]
+Description=Verify embedded production Piwork images
+Requires=docker.service
+After=docker.service
+Before=piwork.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/piwork-guest images
+TimeoutStartSec=600
+RemainAfterExit=yes

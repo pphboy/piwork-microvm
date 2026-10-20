@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "piwork": {
+    "url": "https://github.com/pphboy/piwork.git",
+    "commit": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+    "branch": "main",
+    "resolvedAt": "2026-10-20T21:26:10.543788+00:00"
+  },
+  "go": "go1.25.5",
+  "nodeImage": "node@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20",
+  "dockerImage": "docker@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac",
+  "linux": {
+    "version": "6.6.159",
+    "url": "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.159.tar.xz",
+    "sha256": "7206727244da5d85f4a03758d29e1c0673f2f01877793f494c0f3638c46b8fa5"
+  },
+  "guestBaseImage": "debian@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587",
+  "debianSnapshot": "20261018T000000Z",
+  "goImage": "golang@sha256:3587db7cc96576822c606d119729370dbf581931c5f43ac6d3fa03ab4ed85a10",
+  "dockerVersion": "28.5.2",
+  "qemu": {
+    "version": "10.0.8",
+    "url": "https://download.qemu.org/qemu-10.0.8.tar.xz",
+    "sha256": "e038542a698b003605f4982d469d9f55ad17ea8172ebe2b92e97e3a675aa338f",
+    "windowsToolchain": {
+      "manifest": "guest/qemu/windows-toolchain.lock.json",
+      "sha256": "615f4ad845455ef2569363173ee00fb28ca3e25d2d5b0a04350840741b67a83f",
+      "baseImage": "registry.fedoraproject.org/fedora@sha256:291ed4c06d5435a92d05ad622c9717afde6911e96d335e02919336eed0c8ae03"
+    },
+    "windowsPatches": [
+      {
+        "file": "guest/qemu/pipe-poll.patch",
+        "sha256": "167c73ba5be702d3b4992cfce2767325e8304c3159773066bc89f16c9d489ce1"
+      },
+      {
+        "file": "guest/qemu/private-pipe.patch",
+        "sha256": "bd91ee0ef2cd5184affb86b015669a8edc0ca43ac7fdaf6c9826ac81e43a55ab"
+      }
+    ]
+  },
+  "qboot": {
+    "file": "pc-bios/qboot.rom in the fixed QEMU source archive",
+    "sha256": "9b9dfc6c25740d6225625570d71cab6805cc9216e68c8932e343266daaeb8c4b"
+  }
+}

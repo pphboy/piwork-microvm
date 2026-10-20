@@ -1,0 +1,1 @@
+/dev/vdb /mnt/state ext4 defaults,noatime 0 2

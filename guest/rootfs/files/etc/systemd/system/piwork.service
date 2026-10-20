@@ -1,0 +1,15 @@
+[Unit]
+Description=Piwork unified application
+Requires=piwork-images.service
+After=piwork-images.service docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/piwork-guest serve
+Environment=DOCKER_HOST=unix:///run/docker.sock
+Environment=DOCKER_CONFIG=/etc/piwork/docker
+TimeoutStopSec=60
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

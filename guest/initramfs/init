@@ -1,0 +1,18 @@
+#!/bin/busybox sh
+set -eu
+export PATH=/bin
+mkdir -p /dev /proc /sys /lower /rw /newroot
+mount -t devtmpfs devtmpfs /dev
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t ext4 -o ro /dev/vda /lower
+mount -t tmpfs -o mode=0755 tmpfs /rw
+mkdir /rw/upper /rw/work
+mount -t overlay overlay -o lowerdir=/lower,upperdir=/rw/upper,workdir=/rw/work /newroot
+mkdir -p /newroot/.lower /newroot/.rw
+mount --move /lower /newroot/.lower
+mount --move /rw /newroot/.rw
+mount --move /dev /newroot/dev
+mount --move /proc /newroot/proc
+mount --move /sys /newroot/sys
+exec switch_root /newroot /sbin/init
