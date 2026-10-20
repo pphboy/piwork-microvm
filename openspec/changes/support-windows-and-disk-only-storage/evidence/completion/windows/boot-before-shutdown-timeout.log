@@ -1,0 +1,15 @@
+Installation: C:\Users\p\AppData\Local\PiworkMicroVM-completion-20261021\安装 数据
+Persistent state: C:\Users\p\AppData\Local\PiworkMicroVM-completion-20261021\安装 数据\disks\state.qcow2
+Log: C:\Users\p\AppData\Local\PiworkMicroVM-completion-20261021\安装 数据\logs\20261020T232108.566970800.log
+Guest stage: storage
+Guest stage: images
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:19180
+Core API: http://127.0.0.1:19181
+Open Piwork to sign in or complete first-time setup.
+Piwork runtime is ready.
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest control channel was unavailable within the shutdown budget.
+Guest reboot/shutdown request was not confirmed: context deadline exceeded
+Guest shutdown timed out; forcing QEMU to exit. This is an unclean shutdown.
+piwork-microvm: unclean shutdown; inspect logs and persistent disk on next start

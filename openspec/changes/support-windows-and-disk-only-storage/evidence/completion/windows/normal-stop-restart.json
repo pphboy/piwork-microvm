@@ -1,0 +1,6 @@
+﻿{
+    "label":  "restart",
+    "exitCode":  0,
+    "clean":  true,
+    "diskRetained":  true
+}

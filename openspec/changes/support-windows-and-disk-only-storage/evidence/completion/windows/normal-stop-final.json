@@ -1,0 +1,6 @@
+﻿{
+    "label":  "after-launcher-kill",
+    "exitCode":  0,
+    "clean":  true,
+    "diskRetained":  true
+}

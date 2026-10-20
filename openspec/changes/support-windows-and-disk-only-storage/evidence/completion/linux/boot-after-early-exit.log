@@ -1,0 +1,16 @@
+Installation: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation
+Persistent state: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/disks/state.qcow2
+Log: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/logs/20261020T230408.415894353.log
+Previous shutdown was not confirmed clean; Guest ext4 recovery checks will run. Data retained.
+Guest stage: storage
+Guest stage: docker
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:18080
+Core API: http://127.0.0.1:18081
+Open Piwork to sign in or complete first-time setup.
+Piwork runtime is ready.
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest control channel was unavailable within the shutdown budget.
+Guest reboot/shutdown request was not confirmed: dial unix /tmp/piwork-microvm-1000/3ae0c6cabd9601f0/qga.sock: i/o timeout
+Guest shutdown timed out; forcing QEMU to exit. This is an unclean shutdown.
+piwork-microvm: unclean shutdown; inspect logs and persistent disk on next start

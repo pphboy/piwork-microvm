@@ -1,0 +1,295 @@
+{
+  "work": "work-53d2e525-20ed-4105-8749-81e0fa238ded",
+  "kernel": "6.6.159-piwork",
+  "docker": {
+    "version": "28.5.2",
+    "driver": "overlay2",
+    "cgroupVersion": "2",
+    "dataRoot": "/mnt/state/docker"
+  },
+  "volumes": [
+    {
+      "Name": "piwork-vol-4ff6c1da2af32fd5",
+      "Driver": "local",
+      "Mountpoint": "/mnt/state/docker/volumes/piwork-vol-4ff6c1da2af32fd5/_data",
+      "Labels": {
+        "piwork.installation_id": "installation-1c5a67248baada671c46370adeeb4aaf",
+        "piwork.logical_id": "work-workspace",
+        "piwork.managed": "true",
+        "piwork.volume_kind": "managed-data",
+        "piwork.work_id": "work-53d2e525-20ed-4105-8749-81e0fa238ded"
+      }
+    },
+    {
+      "Name": "piwork-vol-bb51b724eda57928",
+      "Driver": "local",
+      "Mountpoint": "/mnt/state/docker/volumes/piwork-vol-bb51b724eda57928/_data",
+      "Labels": {
+        "piwork.installation_id": "installation-1c5a67248baada671c46370adeeb4aaf",
+        "piwork.logical_id": "work-private",
+        "piwork.managed": "true",
+        "piwork.volume_kind": "managed-data",
+        "piwork.work_id": "work-53d2e525-20ed-4105-8749-81e0fa238ded"
+      }
+    }
+  ],
+  "databases": [
+    {
+      "path": "/var/lib/piwork/core/core.sqlite",
+      "integrity": "ok",
+      "journalMode": "wal",
+      "backing": {
+        "target": "/var/lib/piwork/core",
+        "fstype": "ext4",
+        "source": "/dev/vdb[/core]"
+      }
+    },
+    {
+      "path": "/mnt/state/docker/volumes/piwork-vol-4ff6c1da2af32fd5/_data/data/microvm.sqlite",
+      "integrity": "ok",
+      "journalMode": "wal",
+      "backing": {
+        "target": "/mnt/state/docker",
+        "fstype": "ext4",
+        "source": "/dev/vdb[/docker]"
+      },
+      "counter": 1
+    },
+    {
+      "path": "/mnt/state/docker/volumes/piwork-vol-bb51b724eda57928/_data/work.sqlite",
+      "integrity": "ok",
+      "journalMode": "delete",
+      "backing": {
+        "target": "/mnt/state/docker",
+        "fstype": "ext4",
+        "source": "/dev/vdb[/docker]"
+      },
+      "sessions": 1
+    },
+    {
+      "path": "/mnt/state/docker/volumes/piwork-vol-bb51b724eda57928/_data/memory.sqlite",
+      "integrity": "ok",
+      "journalMode": "delete",
+      "backing": {
+        "target": "/mnt/state/docker",
+        "fstype": "ext4",
+        "source": "/dev/vdb[/docker]"
+      },
+      "head": 0
+    }
+  ],
+  "containers": [
+    {
+      "id": "43a4d37fcf6a5f7bc78f8df774a4b493c446d177005a1d79a9666df79375dbf3",
+      "image": "sha256:c46356d9a1fa82e176064065be6b364d96c30c869f2463999a8e4e66198de9d6",
+      "user": "10001:10001",
+      "ports": null,
+      "mounts": [
+        {
+          "Destination": "/etc/piwork/interaction/config.json",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/service-interaction-service-f6d04b5b-630e-4e0e-bf84-09855801ed0b/config-64e2e6d41e0eac87db31fbba599d031c8e090e8b1dd0ed8701adc7dd64d1980e.json",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/interaction/installation-ca.crt",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/service-interaction-service-f6d04b5b-630e-4e0e-bf84-09855801ed0b/installation-ca.crt",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/tmp",
+          "Mode": "",
+          "Propagation": "",
+          "RW": true,
+          "Source": "",
+          "Type": "tmpfs"
+        },
+        {
+          "Destination": "/var/data/workspace",
+          "Driver": "local",
+          "Mode": "z",
+          "Name": "piwork-vol-4ff6c1da2af32fd5",
+          "Propagation": "",
+          "RW": true,
+          "Source": "/mnt/state/docker/volumes/piwork-vol-4ff6c1da2af32fd5/_data",
+          "Type": "volume"
+        }
+      ],
+      "labels": {
+        "io.piwork.agent.protocol": "v2",
+        "io.piwork.agent.variant": "production",
+        "io.piwork.agent.version": "0.1.0",
+        "io.piwork.package-helper.contract": "2",
+        "io.piwork.run-model.contract": "1",
+        "io.piwork.service-mcp.contract": "1",
+        "io.piwork.source.input-sha256": "0e1261f05b9d1e217a4da93096fbe046256924c7a3821122d7ebb952cf41c9b9",
+        "io.piwork.source.modified": "false",
+        "io.piwork.work-feedback.contract": "1",
+        "io.piwork.work-history.schema": "5",
+        "org.opencontainers.image.revision": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+        "org.opencontainers.image.version": "0.0.9",
+        "piwork.installation_id": "installation-1c5a67248baada671c46370adeeb4aaf",
+        "piwork.logical_id": "service-f6d04b5b-630e-4e0e-bf84-09855801ed0b",
+        "piwork.managed": "true",
+        "piwork.resource_kind": "service",
+        "piwork.service_revision": "1",
+        "piwork.spec_hash": "8390c09dc1d529dbbdf7e1f5105d5e428e2290a04bdd48f7a5603d4f92208a48",
+        "piwork.work_id": "work-53d2e525-20ed-4105-8749-81e0fa238ded"
+      }
+    },
+    {
+      "id": "2381f0af5f4c62d7832f9e55aa673339077c60967fb38b5c89236203d0b4ef54",
+      "image": "sha256:c46356d9a1fa82e176064065be6b364d96c30c869f2463999a8e4e66198de9d6",
+      "user": "10001:10001",
+      "ports": null,
+      "mounts": [
+        {
+          "Destination": "/etc/piwork/control/installation-ca.crt",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/pki/installation-ca.crt",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/runtime.json",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/agent-config.json",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/tls/agent-server.key",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/tls-generation-1/agent-server.key",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/tls/installation-ca.crt",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/pki/installation-ca.crt",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/run/piwork",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/works/work-53d2e525-20ed-4105-8749-81e0fa238ded/contexts/context-ca0400b0-6cb1-41ce-88a1-6b10876a2c32",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/tmp",
+          "Mode": "",
+          "Propagation": "",
+          "RW": true,
+          "Source": "",
+          "Type": "tmpfs"
+        },
+        {
+          "Destination": "/etc/piwork/control/agent-service-client.key",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/tls-generation-1/agent-service-client.key",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/service-control.json",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/service-control.json",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/etc/piwork/tls/agent-server.crt",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/tls-generation-1/agent-server.crt",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/run/secrets/model-api-key",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/tls-generation-1/model-credential.secret",
+          "Type": "bind"
+        },
+        {
+          "Destination": "/var/data",
+          "Driver": "local",
+          "Mode": "z",
+          "Name": "piwork-vol-bb51b724eda57928",
+          "Propagation": "",
+          "RW": true,
+          "Source": "/mnt/state/docker/volumes/piwork-vol-bb51b724eda57928/_data",
+          "Type": "volume"
+        },
+        {
+          "Destination": "/var/data/workspace",
+          "Driver": "local",
+          "Mode": "z",
+          "Name": "piwork-vol-4ff6c1da2af32fd5",
+          "Propagation": "",
+          "RW": true,
+          "Source": "/mnt/state/docker/volumes/piwork-vol-4ff6c1da2af32fd5/_data",
+          "Type": "volume"
+        },
+        {
+          "Destination": "/etc/piwork/control/agent-service-client.crt",
+          "Mode": "",
+          "Propagation": "rprivate",
+          "RW": false,
+          "Source": "/var/lib/piwork/core/runtime/agent-tls/work-53d2e525-20ed-4105-8749-81e0fa238ded/tls-generation-1/agent-service-client.crt",
+          "Type": "bind"
+        }
+      ],
+      "labels": {
+        "io.piwork.agent.protocol": "v2",
+        "io.piwork.agent.variant": "production",
+        "io.piwork.agent.version": "0.1.0",
+        "io.piwork.package-helper.contract": "2",
+        "io.piwork.run-model.contract": "1",
+        "io.piwork.service-mcp.contract": "1",
+        "io.piwork.source.input-sha256": "0e1261f05b9d1e217a4da93096fbe046256924c7a3821122d7ebb952cf41c9b9",
+        "io.piwork.source.modified": "false",
+        "io.piwork.work-feedback.contract": "1",
+        "io.piwork.work-history.schema": "5",
+        "org.opencontainers.image.revision": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+        "org.opencontainers.image.version": "0.0.9",
+        "piwork.context_identity": "context-ca0400b0-6cb1-41ce-88a1-6b10876a2c32",
+        "piwork.generation": "1",
+        "piwork.installation_id": "installation-1c5a67248baada671c46370adeeb4aaf",
+        "piwork.instance_id": "agent-352957cf-f9f6-4d96-a76f-4b3c85af5299",
+        "piwork.logical_id": "agentd",
+        "piwork.managed": "true",
+        "piwork.protocol_version": "v2",
+        "piwork.resource_kind": "agent",
+        "piwork.spec_hash": "23f3e308fc70a1ae90191577f2e75e06426fa274b06fadf6ef662d99f5078630",
+        "piwork.work_id": "work-53d2e525-20ed-4105-8749-81e0fa238ded"
+      }
+    }
+  ],
+  "containerd": {
+    "root": "/mnt/state/docker/containerd/daemon",
+    "state": "/var/run/docker/containerd/daemon",
+    "rootBacking": {
+      "target": "/mnt/state/docker",
+      "fstype": "ext4",
+      "source": "/dev/vdb[/docker]"
+    }
+  }
+}

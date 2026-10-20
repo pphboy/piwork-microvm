@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "administrator",
+    "models",
+    "Work identity",
+    "Service revision",
+    "Agent Session identity",
+    "Run result",
+    "Chinese/binary Files SHA256"
+  ],
+  "textSessionHistoryHTTP": 200,
+  "toolSessionHistoryHTTP": 200,
+  "knownUpstreamIssue": null
+}

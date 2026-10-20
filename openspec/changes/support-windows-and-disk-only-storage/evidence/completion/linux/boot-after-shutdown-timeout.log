@@ -1,0 +1,11 @@
+Installation: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation
+Persistent state: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/disks/state.qcow2
+Log: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/logs/20261020T230945.298106327.log
+Previous shutdown was not confirmed clean; Guest ext4 recovery checks will run. Data retained.
+Guest stage: storage
+Guest stage: images
+Piwork is available: http://127.0.0.1:18080
+Core API: http://127.0.0.1:18081
+Open Piwork to sign in or complete first-time setup.
+Guest stage: web-available
+Piwork runtime is ready.

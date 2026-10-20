@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-10-20T22:53:06.730868+00:00",
+  "nativeWindows": true,
+  "tests": {
+    "network": "PASS",
+    "qemu": "PASS",
+    "launcher": "PASS"
+  },
+  "testSource": "Existing current network.test.exe, qemu.test.exe, launcher.test.exe executed on native Windows in this completion run"
+}

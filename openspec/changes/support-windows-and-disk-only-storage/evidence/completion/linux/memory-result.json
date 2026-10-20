@@ -1,0 +1,12 @@
+{
+  "realProvider": true,
+  "workId": "work-f12e765b-e0b5-457b-83ad-b502f51fe296",
+  "sessionId": "01a15b87-b5ba-72b1-a9c2-af4b697155d5",
+  "runId": "run-a4ac92ab-4edf-490b-840c-75d3eea18560",
+  "state": 4,
+  "finalText": "ACCEPTANCE_WRITTEN PIWORK_REAL_MODEL_d99e1d50-4025-4bc3-9ebc-f4a2490aefb1\n\nFile `/var/data/workspace/acceptance-real-model.txt` contains exactly that single line (verified by both `read` and `cat -A`, which shows no trailing whitespace beyond the newline). No other files were modified and nothing was installed.",
+  "toolSessionHistoryHTTP": 200,
+  "historySessionId": "01a15b87-b5ba-72b1-a9c2-af4b697155d5",
+  "historyRunId": "run-a4ac92ab-4edf-490b-840c-75d3eea18560",
+  "historyFinalText": "ACCEPTANCE_WRITTEN PIWORK_REAL_MODEL_d99e1d50-4025-4bc3-9ebc-f4a2490aefb1\n\nFile `/var/data/workspace/acceptance-real-model.txt` contains exactly that single line (verified by both `read` and `cat -A`, which shows no trailing whitespace beyond the newline). No other files were modified and nothing was installed."
+}

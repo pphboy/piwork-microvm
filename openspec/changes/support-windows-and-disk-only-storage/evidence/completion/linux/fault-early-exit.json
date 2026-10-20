@@ -1,0 +1,11 @@
+{
+  "mode": "early-exit",
+  "qemuPID": 1076857,
+  "launcherPID": 1076779,
+  "finalELF": true,
+  "elapsedSeconds": 0.411,
+  "uncleanMarkerRetained": true,
+  "installationMetadataUnchanged": true,
+  "diskRetained": true,
+  "allOriginalWritersExited": true
+}

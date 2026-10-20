@@ -1,0 +1,8 @@
+{
+  "origin": "http://127.0.0.1:18080",
+  "counter": {
+    "value": 1
+  },
+  "integrity": "ok",
+  "websocket": "echo:restart"
+}

@@ -1,0 +1,11 @@
+{
+  "mode": "shutdown-timeout",
+  "qemuPID": 1081803,
+  "launcherPID": 1081781,
+  "finalELF": true,
+  "elapsedSeconds": 125.37,
+  "uncleanMarkerRetained": true,
+  "installationMetadataUnchanged": true,
+  "diskRetained": true,
+  "allOriginalWritersExited": true
+}

@@ -1,0 +1,26 @@
+﻿{
+    "mode":  "shutdown-timeout",
+    "nativeWindows":  true,
+    "finalPE":  true,
+    "binarySHA256":  "4b372f391928f61db808a7ed865c2020821b5867f88da0ea6ab5a1a6bffc6a77",
+    "launcherExitCode":  1,
+    "qemuExitCode":  1,
+    "elapsedSeconds":  125.34,
+    "writerLocksBefore":  [
+                              "installation: locked",
+                              "disk: locked",
+                              "case alias: locked"
+                          ],
+    "writerLocksAfter":  [
+                             "installation: available",
+                             "disk: available",
+                             "case alias: available"
+                         ],
+    "uncleanMarkerRetained":  true,
+    "installationMetadataUnchanged":  true,
+    "diskRetained":  true,
+    "allOriginalWritersExited":  true,
+    "controllerDiagnostic":  [
+                                 "launcher exit=1"
+                             ]
+}

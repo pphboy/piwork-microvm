@@ -1,0 +1,14 @@
+{
+  "mode": "launcher-kill",
+  "qemuPID": 1089628,
+  "launcherPID": 1089594,
+  "finalELF": true,
+  "launcherExitCode": -9,
+  "orphanWriterRejectedSecondLauncher": true,
+  "secondLauncherDiagnostic": "piwork-microvm: another instance owns this installation or disk",
+  "uncleanMarkerRetained": true,
+  "installationMetadataUnchanged": true,
+  "diskRetained": true,
+  "allOriginalWritersExited": true,
+  "harnessCorrection": "Initial assertion expected lock literal; corrected to actual another instance owns diagnostic and repeated second-writer check against same surviving QEMU"
+}

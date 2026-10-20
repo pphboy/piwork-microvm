@@ -1,0 +1,11 @@
+Installation: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation
+Persistent state: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/disks/state.qcow2
+Log: /home/p/Projects/piwork-microvm/dist/runs/final-completion/linux/installation/logs/20261020T225855.219144209.log
+Guest stage: storage
+Guest stage: docker
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:18080
+Core API: http://127.0.0.1:18081
+Open Piwork to sign in or complete first-time setup.
+Piwork runtime is ready.
+piwork-microvm: Guest exited unexpectedly; inspect the log

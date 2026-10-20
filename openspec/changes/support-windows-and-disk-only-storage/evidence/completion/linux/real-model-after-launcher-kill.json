@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-20T23:12:23.098Z",
+  "realProvider": true,
+  "mode": "check",
+  "label": "after-launcher-kill",
+  "workId": "work-f12e765b-e0b5-457b-83ad-b502f51fe296",
+  "sessionId": "01a15b87-b5ba-72b1-a9c2-af4b697155d5",
+  "model": {
+    "id": "managed-model-90b9c9f2-550b-4039-9102-39b830886a5c",
+    "modelRef": "model-config-1c89e961-c3bf-48c7-b7f1-fe8b269b7361",
+    "model": "deepseek-flash",
+    "api": "anthropic-messages"
+  },
+  "runs": {
+    "first": "run-a4ac92ab-4edf-490b-840c-75d3eea18560",
+    "restart": "run-952337c0-9bc5-4d34-95dc-111e8c14d785"
+  },
+  "history": {
+    "http": 200,
+    "messages": 13,
+    "toolCalls": 4,
+    "toolResults": 4,
+    "idsWithPipe": 0
+  },
+  "file": "acceptance-real-model.txt",
+  "fileSHA256": "51c5e2a7ddf64a64da33aa4ab5025ca8bc14e3cf768263c30ce5c6e52a423f51",
+  "originalToolHistoryPresent": true
+}
