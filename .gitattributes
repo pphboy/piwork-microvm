@@ -1,0 +1,2 @@
+# QEMU patch context lines may intentionally consist of a single space.
+*.patch -whitespace
