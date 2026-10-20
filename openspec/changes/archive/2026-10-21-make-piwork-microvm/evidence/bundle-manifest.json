@@ -1,0 +1,228 @@
+{
+  "files": [
+    {
+      "mode": 292,
+      "path": "guest/initramfs",
+      "sha256": "3d00cdeb0192ea13a423becbcf21e2beeae3e7287b31c452f73ed4273587100e",
+      "size": 1028400
+    },
+    {
+      "mode": 292,
+      "path": "guest/kernel",
+      "sha256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "size": 9933824
+    },
+    {
+      "mode": 292,
+      "path": "guest/kernel.config",
+      "sha256": "583290f40f15ec13d18b8501d305a79cb2a5ae4a3e5afe4060a5d86037355ece",
+      "size": 123307
+    },
+    {
+      "mode": 292,
+      "path": "guest/qemu-data/qboot.rom",
+      "sha256": "9b9dfc6c25740d6225625570d71cab6805cc9216e68c8932e343266daaeb8c4b",
+      "size": 65536
+    },
+    {
+      "mode": 292,
+      "path": "guest/rootfs.ext4",
+      "sha256": "d4cffddb56080e0ecbe6741f9ac474df4c30958414d20f9553f52e90d2d0a277",
+      "size": 2147483648
+    },
+    {
+      "mode": 292,
+      "path": "guest/state.qcow2",
+      "sha256": "e186109c891886f96ced4fc36348f38e0c2e47a33d4d63c4d46142977d1ae6f0",
+      "size": 10027008
+    },
+    {
+      "mode": 292,
+      "path": "provenance/build.lock.json",
+      "sha256": "9cc6fbec4c59bc2cda4dfff891210baa2eb30fa75255f5b670700cbedf6298d8",
+      "size": 1178
+    },
+    {
+      "mode": 292,
+      "path": "provenance/dotl-nanoseconds.patch",
+      "sha256": "d18a5a1e9c3f9b718715dc8752233a62db7a329e8da956ffeb5706ffd715dd8b",
+      "size": 580
+    },
+    {
+      "mode": 292,
+      "path": "provenance/host-owner.patch",
+      "sha256": "8301991c90c161cfafc818db61d236c7916201ef737154d42804b83862a7b416",
+      "size": 2661
+    },
+    {
+      "mode": 292,
+      "path": "provenance/kernel.COPYING",
+      "sha256": "fb5a425bd3b3cd6071a3a9aff9909a859e7c1158d54d32e07658398cd67eb6a0",
+      "size": 496
+    },
+    {
+      "mode": 292,
+      "path": "provenance/piwork-images.json",
+      "sha256": "4898896e8ff6dd5a3f81f4da1ad5e52c768e0b7fbe4ca89a92f8d4811ab1018b",
+      "size": 646
+    },
+    {
+      "mode": 292,
+      "path": "provenance/piwork-metadata.json",
+      "sha256": "60ba566f76ac6d0689d619f0ca4e67029544b556648d40d7b32de4cb2bba1f61",
+      "size": 1316
+    },
+    {
+      "mode": 292,
+      "path": "provenance/piwork-source.json",
+      "sha256": "042ea37ee4d9d3e892107ff6343e70591738daeeda3b15395ef460bff265eda4",
+      "size": 332
+    },
+    {
+      "mode": 292,
+      "path": "provenance/piwork-workspace-sharing.patch",
+      "sha256": "5f4e09c85fefaadbb7583fc193b1a310d0be7e96854b7eaee1ee80c067a95693",
+      "size": 28640
+    },
+    {
+      "mode": 292,
+      "path": "provenance/piwork.LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size": 11358
+    },
+    {
+      "mode": 292,
+      "path": "qemu/build-packages.txt",
+      "sha256": "ff2e953f20ad441cef436a9d5623a4580009c6a34168c68e4ecf05ef34d1ace0",
+      "size": 6036
+    },
+    {
+      "mode": 292,
+      "path": "qemu/dependencies.json",
+      "sha256": "cf64e09a6bf4846d549d0dc7b74e4b8c90969d305614fe6327a36bc02d7b2205",
+      "size": 982
+    },
+    {
+      "mode": 365,
+      "path": "qemu/ld-linux-x86-64.so.2",
+      "sha256": "02bcda52c1a5dfc236f94d9e5255b4a0e26347d8a372a5223b650e31f291ce3c",
+      "size": 215000
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libc.so.6",
+      "sha256": "6b4a45352fd0c540a9c7c718f35ce8c8e46a4e482f9d3885a910c32d1a0e1421",
+      "size": 1926232
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libfdt.so.1",
+      "sha256": "eec98cca18bb43f3f1c9af3ff67fdba8daeeaad4c220cb890f38cb9931fec170",
+      "size": 38904
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libglib-2.0.so.0",
+      "sha256": "1708487c60fb32855e9d4aec503f0c32dcb74c6834a839e015ccbd27a606a879",
+      "size": 1273360
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libm.so.6",
+      "sha256": "7f2ca87f652f56b094462474b076749e90e689d0ecb9cb63c7679820b271b4e7",
+      "size": 911904
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libnss_dns.so.2",
+      "sha256": "6a6a0a97f4a88153581ce0dbf4f1e74e317156508bc50699cd2168a3189773d4",
+      "size": 14400
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libnss_files.so.2",
+      "sha256": "2981d2bd2e3082d0acc96e6150594cacac55da17b638282d5e8b0ed45b81d213",
+      "size": 14400
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libpcre2-8.so.0",
+      "sha256": "092bc945140e65c691c7c717d71083111f46813f31a76dd848bf82e91450778b",
+      "size": 629384
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libslirp.so.0",
+      "sha256": "cd021edf1481d66728604dfbc8dc3d7526f694a814a7a42ca8808beec6b7996b",
+      "size": 141176
+    },
+    {
+      "mode": 292,
+      "path": "qemu/lib/libz.so.1",
+      "sha256": "7e2a72b4c4b38c61e6962de6e3f4a5e9ae692e732c68deead10a7ce2135a7f68",
+      "size": 121280
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/COPYING",
+      "sha256": "6f04ae8364d0079a192b14635f4b1da294ce18724c034c39a6a41d1b09df6100",
+      "size": 17992
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/COPYING.LIB",
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+      "size": 26530
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libatomic1.copyright",
+      "sha256": "da8191658b3452ce9caf31638ba61dab31a38c619fa39df119812e050f592fd3",
+      "size": 68194
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libc6.copyright",
+      "sha256": "40c7e1f2118531f038ca22999bd976901254e1bc5cd1b0f0211bdd064c599987",
+      "size": 25467
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libfdt1.copyright",
+      "sha256": "95953beda954a8ebe99bdc54ac0ea947ec2644a30ba3b3b198646190a8a17c60",
+      "size": 5621
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libglib2.0-0.copyright",
+      "sha256": "03cbcd6142c92bb14c997af557b8c73b1534710c34fe7f69788f8e8fc5fd941d",
+      "size": 51488
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libpcre2-8-0.copyright",
+      "sha256": "030511beb4d9d620ad09914c369c36ec0528dcf301d1923cc643c948ee7c6a38",
+      "size": 6626
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/libslirp0.copyright",
+      "sha256": "72bbbaf2539f2ad3a568da80758a6417b119bee5b19b988f8d99e2b3b80ae4a3",
+      "size": 4660
+    },
+    {
+      "mode": 292,
+      "path": "qemu/licenses/zlib1g.copyright",
+      "sha256": "9e5b96d63773a5d177ba264254390f792be07e41748ebd94730981c6cac31cc6",
+      "size": 2927
+    },
+    {
+      "mode": 365,
+      "path": "qemu/qemu-system-x86_64",
+      "sha256": "105b574d3df7d7cee1f135bd5afe4ae1efe08abd41747620ddc22459fbbda6bf",
+      "size": 24413424
+    }
+  ],
+  "payloadSha256": "4a14a709f0e293580562c9435ea390eb4f6897c02a8d8e18884b0686387b4bba",
+  "version": 1
+}

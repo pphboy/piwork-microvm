@@ -1,0 +1,7 @@
+﻿{
+    "data":  "C:\\Users\\p\\AppData\\Local\\PiworkMicroVM-final-20261020\\安装 数据",
+    "disk":  "C:\\Users\\p\\AppData\\Local\\PiworkMicroVM-final-20261020\\安装 数据\\disks\\state.qcow2",
+    "pid":  14588,
+    "qga":  "\\\\.\\pipe\\piwork-62c1b5cbc126aad6-qga",
+    "qmp":  "\\\\.\\pipe\\piwork-62c1b5cbc126aad6-qmp"
+}

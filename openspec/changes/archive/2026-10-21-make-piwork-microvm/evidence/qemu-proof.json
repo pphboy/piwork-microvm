@@ -1,0 +1,281 @@
+{
+  "binarySHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "machine": "microvm-machine",
+  "pci": [],
+  "libraries": [
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/ld-linux-x86-64.so.2",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libc.so.6",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libfdt.so.1",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libglib-2.0.so.0",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libm.so.6",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libpcre2-8.so.0",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libslirp.so.0",
+    "/clean/cache/piwork-microvm/bundles/3d82eefdabeabac2fe34a37685c287fff18ad19c4396c23fb71b0dcf558ebabc/qemu/lib/libz.so.1"
+  ],
+  "listeners": [
+    {
+      "addressHex": "0100007F",
+      "port": 7171
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17954
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17953
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17952
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17939
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17938
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17937
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17936
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17943
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17942
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17941
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17940
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17947
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17946
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17945
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17944
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17951
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17950
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17949
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17948
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17923
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17922
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17921
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17920
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17927
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17926
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17925
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17924
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17931
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17930
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17929
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17928
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17935
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17934
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17933
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17932
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17907
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17906
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17905
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17904
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17911
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17910
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17909
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17908
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17915
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17914
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17913
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17912
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17919
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17918
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17917
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17916
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17891
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17895
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17894
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17893
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17892
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17899
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17898
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17897
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17896
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17903
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17902
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17901
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17900
+    }
+  ]
+}

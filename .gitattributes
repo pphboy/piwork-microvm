@@ -1,2 +1,4 @@
 # QEMU patch context lines may intentionally consist of a single space.
 *.patch -whitespace
+# Preserve native Windows evidence bytes while accepting CRLF line endings.
+openspec/**/evidence/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,54 @@
+{
+  "ports": [
+    {
+      "port": 8080,
+      "origin": "http://127.0.0.1:8080",
+      "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+      "serviceId": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+      "sessionId": "01a156b0-38e6-714a-9da5-caf92f0d1b71",
+      "counter": 1,
+      "cleanStop": true
+    },
+    {
+      "port": 8081,
+      "origin": "http://127.0.0.1:8081",
+      "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+      "serviceId": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+      "sessionId": "01a156b0-38e6-714a-9da5-caf92f0d1b71",
+      "counter": 2,
+      "cleanStop": true
+    },
+    {
+      "port": 7171,
+      "origin": "http://127.0.0.1:7171",
+      "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+      "serviceId": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+      "sessionId": "01a156b0-38e6-714a-9da5-caf92f0d1b71",
+      "counter": 3,
+      "cleanStop": true
+    },
+    {
+      "port": 80,
+      "origin": "http://127.0.0.1",
+      "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+      "serviceId": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+      "sessionId": "01a156b0-38e6-714a-9da5-caf92f0d1b71",
+      "counter": 4,
+      "cleanStop": true
+    }
+  ],
+  "sameFinalELF": true,
+  "sameInstallation": true,
+  "sameHostRealKVM": true,
+  "emptyChroot": true,
+  "guestListener": 7171,
+  "serviceRange": [
+    17891,
+    17954
+  ],
+  "allOwnedVMsStopped": true,
+  "allDataRetained": true,
+  "secretsInPublicEvidence": false,
+  "realProviderCallVerified": false,
+  "independentCleanHostVerified": false
+}

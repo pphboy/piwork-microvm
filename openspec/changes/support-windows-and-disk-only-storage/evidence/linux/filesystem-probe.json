@@ -1,0 +1,31 @@
+[
+  {
+    "path": "/mnt/state/.acceptance-storage-probe",
+    "fsyncRename": true,
+    "crossProcessLock": true,
+    "DELETE": {
+      "journalMode": "delete",
+      "writerExitCodes": [
+        0,
+        0,
+        0
+      ],
+      "committedCount": 75,
+      "afterInterruptedTransaction": 75,
+      "integrity": "ok",
+      "passed": true
+    },
+    "WAL": {
+      "journalMode": "wal",
+      "writerExitCodes": [
+        0,
+        0,
+        0
+      ],
+      "committedCount": 75,
+      "afterInterruptedTransaction": 75,
+      "integrity": "ok",
+      "passed": true
+    }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "artifactSHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+  "openSpecStrictValidation": "Change 'make-piwork-microvm' is valid",
+  "tasksCompleted": 41,
+  "tasksTotal": 41,
+  "sameHostRealKVM": true,
+  "emptyChrootRuntimeDependencyIsolation": true,
+  "ownedVMsStopped": true,
+  "allDataRetained": true,
+  "realProviderCallVerified": false,
+  "independentCleanHostVerified": false,
+  "unrelatedPiworkTreeChanged": false,
+  "remotePushOrRelease": false
+}

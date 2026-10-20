@@ -1,0 +1,45 @@
+{
+  "firstEmptyCache": true,
+  "validCacheReusedSameInodeAndMtime": true,
+  "corruptCacheReextractedAndKernelHashRestored": true,
+  "clearedCacheReextracted": true,
+  "orphanRecoveryReusedCache": true,
+  "imageLoadingOnlyOnInitialBoot": true,
+  "records": [
+    {
+      "pid": 3908717,
+      "rootInode": 9333790,
+      "rootMtimeNS": 1792438489564752246,
+      "kernelSHA256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "imageLoadInJournal": true
+    },
+    {
+      "pid": 3911072,
+      "rootInode": 9333790,
+      "rootMtimeNS": 1792438489564752246,
+      "kernelSHA256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "imageLoadInJournal": false
+    },
+    {
+      "pid": 3913099,
+      "rootInode": 9333788,
+      "rootMtimeNS": 1792438872020723290,
+      "kernelSHA256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "imageLoadInJournal": false
+    },
+    {
+      "pid": 3914112,
+      "rootInode": 9333795,
+      "rootMtimeNS": 1792438957972715624,
+      "kernelSHA256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "imageLoadInJournal": false
+    },
+    {
+      "pid": 3915209,
+      "rootInode": 9333795,
+      "rootMtimeNS": 1792438957972715624,
+      "kernelSHA256": "1f393639a4f3c174cf15124e9fa407a5fa75f32a894ae8a896c0c4c674b0e8c8",
+      "imageLoadInJournal": false
+    }
+  ]
+}

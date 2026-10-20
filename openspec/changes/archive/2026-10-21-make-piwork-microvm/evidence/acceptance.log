@@ -1,0 +1,75 @@
+go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+?   	piwork-microvm/cmd/piwork-guest	[no test files]
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/launcher	0.039s
+ok  	piwork-microvm/internal/qemu	0.189s
+bash scripts/acceptance.sh
+Private runtime paths mapped for the Host browser and probes.
+PASS Protected first administrator created through existing UI
+Stage: sign in
+Stage: Quick setup
+Quick setup form is available
+Model and Runtime saved; waiting for real preparation
+PASS Existing QuickStart saved configuration and all production runtime dependencies became Ready
+PASS Real production Agent Work created and ready
+Stage: Files
+PASS Real browser Files edit persisted in the Work volume
+Stage: deploy Service
+PASS Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent
+PASS Anonymous Service access rejected
+PASS Real Service WebSocket round trip and SSE passed through QEMU forwarding
+PASS Real Work network DNS/HTTPS and AI API reachability verified; no model invocation
+Browser setup and Work acceptance completed.
+PASS Host ↔ real Work Files bidirectional create/read/modify/delete, including Host-created directory
+PASS Durable shared file and real Agent Session recorded
+Synthetic protocol fixture started on the real Agent private loopback. No real provider.
+PASS Production Agent SDK Session/Run used a clearly synthetic Responses fixture and completed Memory tools. External provider remains unverified.
+Real read-only and no-grant Services deployed; inspect their actual container results next.
+PASS recursive read-only, no-grant private isolation and real UID 10001 Service ↔ Host shared file access
+PASS two original local volumes, all real Core/Work/Memory/Service databases on ext4 with integrity ok, Memory and Session durable, no Docker published Service ports
+9P database probe recorded accurately; production databases continue to use ext4.
+PASS Service application Cookie, independent origin, socket closure and denied old route after real Work stop
+PASS Real cold snapshot exported, uploaded and imported stopped; next boot will attach its independent Host tree.
+Persistence baseline captured; real Work and Service running before VM shutdown.
+Private runtime paths mapped for the Host browser and probes.
+PASS exact administrator, model identities, Work, Service revision, Agent Session, ext4 note and 9P shared bytes survived shutdown and restart
+PASS nonempty Host conflict preserved; real cold import got an independent 9P tree, ext4 files and SDK history; other Work isolation and ordinary-delete retention passed
+PASS authenticated internal purge refused both referenced source volumes and removed only the deleted Work's two retained volumes
+PASS exact administrator, model identities, Work, Service revision, Agent Session, ext4 note and 9P shared bytes survived shutdown and restart
+PASS two original local volumes, all real Core/Work/Memory/Service databases on ext4 with integrity ok, Memory and Session durable, no Docker published Service ports
+9P database probe recorded accurately; production databases continue to use ext4.
+Stage: sign in
+Stage: Quick setup
+Quick setup form is available
+PASS Existing QuickStart saved configuration and all production runtime dependencies became Ready
+PASS Real production Agent Work created and ready
+Stage: Files
+PASS Real browser Files edit persisted in the Work volume
+Stage: deploy Service
+PASS Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent
+PASS Anonymous Service access rejected
+PASS Real Service WebSocket round trip and SSE passed through QEMU forwarding
+PASS Real Work network DNS/HTTPS and AI API reachability verified; no model invocation
+Browser setup and Work acceptance completed.
+Persistence baseline captured; real Work and Service running before VM shutdown.
+Owned immutable cache corrupt applied. Persistent disks and Host files were not touched.
+Private runtime paths mapped for the Host browser and probes.
+PASS exact administrator, model identities, Work, Service revision, Agent Session, ext4 note and 9P shared bytes survived shutdown and restart
+PASS two original local volumes, all real Core/Work/Memory/Service databases on ext4 with integrity ok, Memory and Session durable, no Docker published Service ports
+9P database probe recorded accurately; production databases continue to use ext4.
+Owned immutable cache clear applied. Persistent disks and Host files were not touched.
+Private runtime paths mapped for the Host browser and probes.
+PASS exact administrator, model identities, Work, Service revision, Agent Session, ext4 note and 9P shared bytes survived shutdown and restart
+PASS two original local volumes, all real Core/Work/Memory/Service databases on ext4 with integrity ok, Memory and Session durable, no Docker published Service ports
+9P database probe recorded accurately; production databases continue to use ext4.
+PASS real orphan QEMU retained exclusive locks; a second network namespace could not open the installation; Guest then stopped and synced through its private agent
+Private runtime paths mapped for the Host browser and probes.
+PASS exact administrator, model identities, Work, Service revision, Agent Session, ext4 note and 9P shared bytes survived shutdown and restart
+PASS two original local volumes, all real Core/Work/Memory/Service databases on ext4 with integrity ok, Memory and Session durable, no Docker published Service ports
+9P database probe recorded accurately; production databases continue to use ext4.
+PASS real final-ELF cache reuse, corruption repair, cache deletion and orphan recovery; images not reloaded
+PASS missing KVM, KVM permissions, missing/invalid associated disks and unsafe shared permissions; original disk hash unchanged
+Real KVM acceptance evidence: /home/p/Projects/piwork-microvm/dist/acceptance-runs/20261019T193437-3908348/evidence
+Real external model call and a separate clean KVM Host remain unverified unless supplied and tested explicitly.

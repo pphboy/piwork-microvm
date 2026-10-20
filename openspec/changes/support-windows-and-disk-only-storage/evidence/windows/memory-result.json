@@ -1,0 +1,12 @@
+{
+  "realProvider": false,
+  "workId": "work-f998c1b2-7135-41aa-bfe3-538ff531e20e",
+  "sessionId": "01a15829-549a-77c4-9670-ca4c896f061c",
+  "runId": "run-18567f7e-cec3-4c73-9b29-6b08a9d95cd1",
+  "state": 4,
+  "finalText": "SYNTHETIC_FIXTURE_MEMORY_COMMITTED",
+  "toolSessionHistoryHTTP": 503,
+  "historySessionId": "01a1582e-1c96-77eb-af18-8d333314ba70",
+  "historyRunId": "run-095f4dd2-e591-4e17-883d-1915f84344f5",
+  "historyFinalText": "SYNTHETIC_FIXTURE_TEXT_HISTORY"
+}

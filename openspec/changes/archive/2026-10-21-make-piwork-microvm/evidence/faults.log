@@ -1,0 +1,5 @@
+PASS guest-early-exit
+PASS image-load-failure
+PASS shared-mount-unavailable
+PASS paused-guest-shutdown
+PASS recovery after all injected faults; persistent sentinel retained and subsequent shutdown clean

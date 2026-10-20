@@ -1,0 +1,31 @@
+{
+  "environment": "real KVM Guest",
+  "origin": "http://127.0.0.1:8080",
+  "realModelCall": "not verified: no provider credential supplied",
+  "checks": [
+    "Protected first administrator created through existing UI",
+    "Existing QuickStart saved configuration and all production runtime dependencies became Ready",
+    "Real production Agent Work created and ready",
+    "Real browser Files edit persisted in the Work volume",
+    "Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent",
+    "Anonymous Service access rejected",
+    "Real Service WebSocket round trip and SSE passed through QEMU forwarding",
+    "Real Work network DNS/HTTPS and AI API reachability verified; no model invocation"
+  ],
+  "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+  "serviceId": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+  "serviceOrigin": "http://127.0.0.1:17891",
+  "counterBefore": {
+    "value": 0
+  },
+  "counterAfter": {
+    "value": 1
+  },
+  "workNetwork": {
+    "dns": true,
+    "https": 200,
+    "aiApiReachable": true,
+    "aiHttpStatus": 401,
+    "modelCalled": false
+  }
+}

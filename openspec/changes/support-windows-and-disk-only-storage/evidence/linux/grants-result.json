@@ -1,0 +1,12 @@
+[
+  {
+    "mode": "readonly",
+    "read": "persistent workspace bytes",
+    "workspace": "EROFS"
+  },
+  {
+    "mode": "none",
+    "workspace": false,
+    "private": false
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "case": "guest-early-exit",
+    "exit": 1,
+    "expectedDiagnostic": "Guest exited unexpectedly",
+    "passed": true
+  },
+  {
+    "case": "image-load-failure",
+    "exit": 1,
+    "expectedDiagnostic": "Guest images failed: loading embedded production images failed",
+    "passed": true
+  },
+  {
+    "case": "shared-mount-unavailable",
+    "exit": 1,
+    "expectedDiagnostic": "Guest storage failed: 9P shared directory mount:",
+    "passed": true
+  },
+  {
+    "case": "paused-guest-shutdown",
+    "exit": 1,
+    "expectedDiagnostic": "Guest shutdown timed out; forcing QEMU to exit.",
+    "passed": true,
+    "elapsedSeconds": 120.3
+  },
+  {
+    "case": "recovery-after-forced-exit",
+    "passed": true,
+    "sentinelRetained": true,
+    "normalShutdownSignal": "SIGINT",
+    "realWorkAndServiceRunning": true
+  }
+]

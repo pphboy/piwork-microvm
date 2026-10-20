@@ -1,0 +1,10 @@
+{
+  "kvm": true,
+  "orphanPid": 3914112,
+  "qemuSurvivedLauncherKill": true,
+  "secondInstanceRefused": true,
+  "removedPidRecordAndPathAliasRefused": true,
+  "message": "piwork-microvm: another instance owns this installation",
+  "guestServicesStoppedAndSynced": true,
+  "qemuExitedAfterGuestReboot": true
+}

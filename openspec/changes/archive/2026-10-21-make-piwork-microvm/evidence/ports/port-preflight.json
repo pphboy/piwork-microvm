@@ -1,0 +1,21 @@
+[
+  {
+    "invalidInputs": 8,
+    "beforeKVMAndData": true,
+    "exitNonzero": true
+  },
+  {
+    "occupiedPort": 8080,
+    "selectedPort": 8080,
+    "safeFailure": true
+  },
+  {
+    "occupiedPort": 17954,
+    "selectedPort": 8080,
+    "safeFailure": true
+  },
+  {
+    "unprivilegedPort": 80,
+    "safeFailure": true
+  }
+]

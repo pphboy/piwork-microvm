@@ -1,0 +1,11 @@
+{
+  "workId": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+  "host": "/home/p/Projects/piwork-microvm/dist/acceptance-runs/ports-20261020T002114-4031035/host/state/User Files, Shared/works/installation-a3b8d1c54510bde606e08fcd9488ac42/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+  "sessionId": "01a156b0-38e6-714a-9da5-caf92f0d1b71",
+  "checks": [
+    "Host-created file and nested directory visible and editable through real Files",
+    "Work-created file directly edited by Host, then deleted through Files",
+    "Host deletion visible in Work",
+    "Persistent shared bytes and real Agent Session recorded"
+  ]
+}

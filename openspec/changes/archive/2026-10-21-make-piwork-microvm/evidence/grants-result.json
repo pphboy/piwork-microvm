@@ -1,0 +1,17 @@
+[
+  {
+    "mode": "readonly",
+    "read": "persistent shared bytes",
+    "workspace": "EROFS",
+    "nested": "EROFS"
+  },
+  {
+    "mode": "none",
+    "workspace": false,
+    "private": false
+  },
+  {
+    "uid": 10001,
+    "read": "persistent shared bytes"
+  }
+]

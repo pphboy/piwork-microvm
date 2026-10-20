@@ -1,0 +1,29 @@
+{
+  "user": {
+    "id": "user-26a83207-fc07-4f9c-aae8-179c353961da",
+    "account": "microvm-admin",
+    "role": "admin"
+  },
+  "workId": "work-c1089e91-440e-48d3-a996-4a70b9209907",
+  "serviceId": "service-88db99d8-c15a-4d79-845e-77d65e5805c4",
+  "serviceRevision": 1,
+  "sessionId": "01a155a9-e0cf-7658-a1bb-e179a0c9522d",
+  "noteSHA256": "4d3fe05e12667f2ab927313477b458f2a141c52201caa42f6d62ef4b81d229e0",
+  "models": [
+    {
+      "id": "managed-model-9e95b18e-3906-4d45-8cad-6d9ea65baa8b",
+      "modelRef": "model-config-cf559372-f5cb-414c-bcc9-be97e96dee34",
+      "name": "Synthetic MicroVM fixture",
+      "model": "gpt-4.1-mini",
+      "baseUrl": "http://127.0.0.1:18555/v1"
+    },
+    {
+      "id": "managed-model-37308fc4-79b6-469e-bacd-13e3bb0c492f",
+      "modelRef": "model-config-ed0a5cd7-2d27-4fbf-ae9e-54d0389fe4a2",
+      "name": "gpt-4.1-mini",
+      "model": "gpt-4.1-mini",
+      "baseUrl": "https://api.openai.com/v1"
+    }
+  ],
+  "counter": 2
+}

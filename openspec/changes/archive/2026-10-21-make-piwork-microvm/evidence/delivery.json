@@ -1,0 +1,87 @@
+{
+  "artifact": "dist/piwork-microvm",
+  "bytes": 392425611,
+  "SHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+  "format": "Linux x86-64 static Go ELF with appended verified gzip/tar payload",
+  "source": {
+    "repository": "https://github.com/pphboy/piwork.git",
+    "commit": "efce08c228c12f10d18a968b69c3398bb0e783e1",
+    "tree": "515566c4d5c096ee6365446e683417d619e0c67e",
+    "patches": [
+      {
+        "file": "piwork-workspace-sharing.patch",
+        "sha256": "5f4e09c85fefaadbb7583fc193b1a310d0be7e96854b7eaee1ee80c067a95693"
+      }
+    ]
+  },
+  "buildInputs": {
+    "version": 1,
+    "piwork": {
+      "url": "https://github.com/pphboy/piwork.git",
+      "commit": "efce08c228c12f10d18a968b69c3398bb0e783e1"
+    },
+    "go": "go1.25.5",
+    "nodeImage": "node@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20",
+    "dockerImage": "docker@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac",
+    "linux": {
+      "version": "6.6.159",
+      "url": "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.159.tar.xz",
+      "sha256": "7206727244da5d85f4a03758d29e1c0673f2f01877793f494c0f3638c46b8fa5"
+    },
+    "guestBaseImage": "debian@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587",
+    "debianSnapshot": "20261018T000000Z",
+    "goImage": "golang@sha256:3587db7cc96576822c606d119729370dbf581931c5f43ac6d3fa03ab4ed85a10",
+    "dockerVersion": "28.5.2",
+    "qemu": {
+      "version": "10.0.8",
+      "url": "https://download.qemu.org/qemu-10.0.8.tar.xz",
+      "sha256": "e038542a698b003605f4982d469d9f55ad17ea8172ebe2b92e97e3a675aa338f"
+    },
+    "qboot": {
+      "file": "pc-bios/qboot.rom in the fixed QEMU source archive",
+      "sha256": "9b9dfc6c25740d6225625570d71cab6805cc9216e68c8932e343266daaeb8c4b"
+    }
+  },
+  "piworkCandidate": {
+    "manifestVersion": 2,
+    "application": "unified-linux",
+    "releaseVersion": "0.0.7",
+    "sourceCommit": "efce08c228c12f10d18a968b69c3398bb0e783e1",
+    "sourceModified": true,
+    "sourceInputHash": "4e50d76c7609a19ae6dac7dec321e3841da48a102fd16de280967258ae4ba908",
+    "desktopUIHash": "66f4c18757a92e617256969fd4c13f3c3929349819cb3d2a23667bfe50f4f76a",
+    "consoleUIHash": "61eb64298d65416d5204ced8a056be74aa3dd7513da370737c47403425c926bd",
+    "registry": "docker.io/piwork-microvm-local",
+    "platform": "linux/amd64",
+    "runtimeImage": "alpine:3.22@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8",
+    "core": {
+      "format": "piwork-go-core",
+      "schemaVersion": 1
+    },
+    "clientCredentialVersion": 1,
+    "releaseId": "0.0.7-efce08c228c1-4e50d76c7609-dirty",
+    "images": {
+      "core": "docker.io/piwork-microvm-local/piwork-core:0.0.7-efce08c228c1-4e50d76c7609-dirty",
+      "cli": "docker.io/piwork-microvm-local/piwork-cli:0.0.7-efce08c228c1-4e50d76c7609-dirty",
+      "agent": "docker.io/piwork-microvm-local/piwork-agentd:0.0.7-efce08c228c1-4e50d76c7609-dirty",
+      "fileHelper": "docker.io/piwork-microvm-local/piwork-file-helper:0.0.7-efce08c228c1-4e50d76c7609-dirty",
+      "snapshotHelper": "docker.io/piwork-microvm-local/piwork-snapshot-helper:0.0.7-efce08c228c1-4e50d76c7609-dirty"
+    }
+  },
+  "finalRun": "dist/acceptance-runs/20261019T193437-3908348",
+  "realProviderCall": {
+    "verified": false,
+    "reason": "No valid provider credential supplied by the user"
+  },
+  "independentCleanHost": {
+    "verified": false,
+    "reason": "Only this real KVM Host available; empty chroot and separate Host network namespace used"
+  },
+  "existingHostPiworkStopped": false,
+  "launcherSourceHashes": {
+    "internal/bundle/bundle.go": "1db804932ec560889d0be0f801aa7c21fcb315c57cc34f9882a8c4f9157af126",
+    "internal/launcher/run.go": "08e53a35404c493af2d6c00d952e6dea1695dc40fd3685af7be36a8f76cd0148",
+    "internal/qemu/args.go": "eae72c4f8070b3827922d799aa4b3351ae4ba612b6ddd23c33d195918f6a62ab",
+    "internal/qemu/client.go": "32bc8cf9f08efebbf7e60f985aa3ac9ee25d5397c48171ee274575ae70ab41d5"
+  }
+}

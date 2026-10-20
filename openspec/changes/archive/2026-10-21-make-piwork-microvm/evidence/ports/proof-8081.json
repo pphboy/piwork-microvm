@@ -1,0 +1,669 @@
+{
+  "binarySHA256": "fbfb7ba3bfb231d94dee91a00e1b23041a669481c74565358b7b06961bef2ca1",
+  "port": 8081,
+  "origin": "http://127.0.0.1:8081",
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "machine": "microvm-machine",
+  "pci": [],
+  "qemuArgv": [
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/ld-linux-x86-64.so.2",
+    "--library-path",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/qemu-system-x86_64",
+    "-M",
+    "microvm,pcie=off,acpi=off,auto-kernel-cmdline=on",
+    "-accel",
+    "kvm,kernel-irqchip=on",
+    "-cpu",
+    "host",
+    "-smp",
+    "2",
+    "-m",
+    "4096",
+    "-nodefaults",
+    "-no-user-config",
+    "-display",
+    "none",
+    "-monitor",
+    "none",
+    "-L",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/guest/qemu-data",
+    "-bios",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/guest/qemu-data/qboot.rom",
+    "-kernel",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/guest/kernel",
+    "-initrd",
+    "/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/guest/initramfs",
+    "-append",
+    "console=ttyS0 panic=1 reboot=t root=/dev/vda ro net.ifnames=0 systemd.unified_cgroup_hierarchy=1 piwork.host_port=8081",
+    "-no-reboot",
+    "-global",
+    "virtio-mmio.force-legacy=false",
+    "-drive",
+    "if=none,id=root,file=/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/guest/rootfs.ext4,format=raw,readonly=on",
+    "-device",
+    "virtio-blk-device,drive=root",
+    "-drive",
+    "if=none,id=state,file=/state/piwork-microvm/installations/8318b0406f88b4bb/disks/state.qcow2,format=qcow2,cache=none,file.locking=on",
+    "-device",
+    "virtio-blk-device,drive=state",
+    "-netdev",
+    "user,id=net0,hostfwd=tcp:127.0.0.1:8081-:7171,hostfwd=tcp:127.0.0.1:17891-:17891,hostfwd=tcp:127.0.0.1:17892-:17892,hostfwd=tcp:127.0.0.1:17893-:17893,hostfwd=tcp:127.0.0.1:17894-:17894,hostfwd=tcp:127.0.0.1:17895-:17895,hostfwd=tcp:127.0.0.1:17896-:17896,hostfwd=tcp:127.0.0.1:17897-:17897,hostfwd=tcp:127.0.0.1:17898-:17898,hostfwd=tcp:127.0.0.1:17899-:17899,hostfwd=tcp:127.0.0.1:17900-:17900,hostfwd=tcp:127.0.0.1:17901-:17901,hostfwd=tcp:127.0.0.1:17902-:17902,hostfwd=tcp:127.0.0.1:17903-:17903,hostfwd=tcp:127.0.0.1:17904-:17904,hostfwd=tcp:127.0.0.1:17905-:17905,hostfwd=tcp:127.0.0.1:17906-:17906,hostfwd=tcp:127.0.0.1:17907-:17907,hostfwd=tcp:127.0.0.1:17908-:17908,hostfwd=tcp:127.0.0.1:17909-:17909,hostfwd=tcp:127.0.0.1:17910-:17910,hostfwd=tcp:127.0.0.1:17911-:17911,hostfwd=tcp:127.0.0.1:17912-:17912,hostfwd=tcp:127.0.0.1:17913-:17913,hostfwd=tcp:127.0.0.1:17914-:17914,hostfwd=tcp:127.0.0.1:17915-:17915,hostfwd=tcp:127.0.0.1:17916-:17916,hostfwd=tcp:127.0.0.1:17917-:17917,hostfwd=tcp:127.0.0.1:17918-:17918,hostfwd=tcp:127.0.0.1:17919-:17919,hostfwd=tcp:127.0.0.1:17920-:17920,hostfwd=tcp:127.0.0.1:17921-:17921,hostfwd=tcp:127.0.0.1:17922-:17922,hostfwd=tcp:127.0.0.1:17923-:17923,hostfwd=tcp:127.0.0.1:17924-:17924,hostfwd=tcp:127.0.0.1:17925-:17925,hostfwd=tcp:127.0.0.1:17926-:17926,hostfwd=tcp:127.0.0.1:17927-:17927,hostfwd=tcp:127.0.0.1:17928-:17928,hostfwd=tcp:127.0.0.1:17929-:17929,hostfwd=tcp:127.0.0.1:17930-:17930,hostfwd=tcp:127.0.0.1:17931-:17931,hostfwd=tcp:127.0.0.1:17932-:17932,hostfwd=tcp:127.0.0.1:17933-:17933,hostfwd=tcp:127.0.0.1:17934-:17934,hostfwd=tcp:127.0.0.1:17935-:17935,hostfwd=tcp:127.0.0.1:17936-:17936,hostfwd=tcp:127.0.0.1:17937-:17937,hostfwd=tcp:127.0.0.1:17938-:17938,hostfwd=tcp:127.0.0.1:17939-:17939,hostfwd=tcp:127.0.0.1:17940-:17940,hostfwd=tcp:127.0.0.1:17941-:17941,hostfwd=tcp:127.0.0.1:17942-:17942,hostfwd=tcp:127.0.0.1:17943-:17943,hostfwd=tcp:127.0.0.1:17944-:17944,hostfwd=tcp:127.0.0.1:17945-:17945,hostfwd=tcp:127.0.0.1:17946-:17946,hostfwd=tcp:127.0.0.1:17947-:17947,hostfwd=tcp:127.0.0.1:17948-:17948,hostfwd=tcp:127.0.0.1:17949-:17949,hostfwd=tcp:127.0.0.1:17950-:17950,hostfwd=tcp:127.0.0.1:17951-:17951,hostfwd=tcp:127.0.0.1:17952-:17952,hostfwd=tcp:127.0.0.1:17953-:17953,hostfwd=tcp:127.0.0.1:17954-:17954",
+    "-device",
+    "virtio-net-device,netdev=net0",
+    "-fsdev",
+    "local,id=files,path=/state/User Files,, Shared,security_model=mapped-xattr",
+    "-device",
+    "virtio-9p-device,fsdev=files,mount_tag=piwork-data",
+    "-chardev",
+    "socket,id=qga,path=/tmp/piwork-microvm-1000/8318b0406f88b4bb/qga.sock,server=on,wait=off",
+    "-device",
+    "virtio-serial-device",
+    "-device",
+    "virtserialport,chardev=qga,name=org.qemu.guest_agent.0",
+    "-device",
+    "virtio-rng-device",
+    "-qmp",
+    "unix:/tmp/piwork-microvm-1000/8318b0406f88b4bb/qmp.sock,server=on,wait=off",
+    "-serial",
+    "stdio",
+    "-add-fd",
+    "fd=3,set=101,opaque=installation-lock",
+    "-add-fd",
+    "fd=4,set=102,opaque=shared-data-lock"
+  ],
+  "listeners": [
+    {
+      "addressHex": "0100007F",
+      "port": 17907
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17906
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17905
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17904
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17911
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17910
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17909
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17908
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17915
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17914
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17913
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17912
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17919
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17918
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17917
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17916
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17891
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17895
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17894
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17893
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17892
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17899
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17898
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17897
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17896
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17903
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17902
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17901
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17900
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17954
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17953
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17952
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17939
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17938
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17937
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17936
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17943
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17942
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17941
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17940
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17947
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17946
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17945
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17944
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17951
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17950
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17949
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17948
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17923
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17922
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17921
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17920
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17927
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17926
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17925
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17924
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17931
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17930
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17929
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17928
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17935
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17934
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17933
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 17932
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 8081
+    }
+  ],
+  "libraries": [
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/ld-linux-x86-64.so.2",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libc.so.6",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libfdt.so.1",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libglib-2.0.so.0",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libm.so.6",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libpcre2-8.so.0",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libslirp.so.0",
+    "/clean/cache/piwork-microvm/bundles/a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a/qemu/lib/libz.so.1"
+  ],
+  "guest": {
+    "kernelCmdline": "console=ttyS0 panic=1 reboot=t root=/dev/vda ro net.ifnames=0 systemd.unified_cgroup_hierarchy=1 piwork.host_port=8081 virtio_mmio.device=512@0xfeb00e00:12 virtio_mmio.device=512@0xfeb00c00:11 virtio_mmio.device=512@0xfeb00a00:10 virtio_mmio.device=512@0xfeb00800:9 virtio_mmio.device=512@0xfeb00600:8 virtio_mmio.device=512@0xfeb00400:7",
+    "commands": [
+      [
+        "/usr/local/bin/piwork-serve",
+        "serve",
+        "--listen",
+        "0.0.0.0:7171",
+        "--public-origin",
+        "http://127.0.0.1:8081",
+        "--data-dir",
+        "/var/lib/piwork/core",
+        "--service-ports",
+        "17891-17954",
+        "--no-open",
+        "--workspace-shared-root",
+        "/var/lib/piwork/host-data/works"
+      ]
+    ]
+  },
+  "inspection": {
+    "work": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0",
+    "kernel": "6.6.159-piwork",
+    "docker": {
+      "version": "28.5.2",
+      "driver": "overlay2",
+      "cgroupVersion": "2",
+      "dataRoot": "/mnt/state/docker"
+    },
+    "volumes": [
+      {
+        "Name": "piwork-vol-4229544dc1f9465a",
+        "Driver": "local",
+        "Mountpoint": "/mnt/state/docker/volumes/piwork-vol-4229544dc1f9465a/_data",
+        "Labels": {
+          "piwork.installation_id": "installation-a3b8d1c54510bde606e08fcd9488ac42",
+          "piwork.logical_id": "work-workspace",
+          "piwork.managed": "true",
+          "piwork.volume_kind": "managed-data",
+          "piwork.work_id": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0"
+        }
+      },
+      {
+        "Name": "piwork-vol-c66450787214317f",
+        "Driver": "local",
+        "Mountpoint": "/mnt/state/docker/volumes/piwork-vol-c66450787214317f/_data",
+        "Labels": {
+          "piwork.installation_id": "installation-a3b8d1c54510bde606e08fcd9488ac42",
+          "piwork.logical_id": "work-private",
+          "piwork.managed": "true",
+          "piwork.volume_kind": "managed-data",
+          "piwork.work_id": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0"
+        }
+      }
+    ],
+    "databases": [
+      {
+        "path": "/var/lib/piwork/core/core.sqlite",
+        "integrity": "ok",
+        "journalMode": "wal",
+        "backing": {
+          "target": "/var/lib/piwork/core",
+          "fstype": "ext4",
+          "source": "/dev/vdb[/core]"
+        }
+      },
+      {
+        "path": "/mnt/state/docker/volumes/piwork-vol-4229544dc1f9465a/_data/data/microvm.sqlite",
+        "integrity": "ok",
+        "journalMode": "wal",
+        "backing": {
+          "target": "/mnt/state/docker",
+          "fstype": "ext4",
+          "source": "/dev/vdb[/docker]"
+        },
+        "counter": 2
+      },
+      {
+        "path": "/mnt/state/docker/volumes/piwork-vol-c66450787214317f/_data/work.sqlite",
+        "integrity": "ok",
+        "journalMode": "delete",
+        "backing": {
+          "target": "/mnt/state/docker",
+          "fstype": "ext4",
+          "source": "/dev/vdb[/docker]"
+        },
+        "sessions": 1
+      },
+      {
+        "path": "/mnt/state/docker/volumes/piwork-vol-c66450787214317f/_data/memory.sqlite",
+        "integrity": "ok",
+        "journalMode": "delete",
+        "backing": {
+          "target": "/mnt/state/docker",
+          "fstype": "ext4",
+          "source": "/dev/vdb[/docker]"
+        },
+        "head": 0
+      }
+    ],
+    "containers": [
+      {
+        "id": "79d5107f441ec0f7a31d8ed0a62c78320ea72b696711b885cabdfbb67e00c778",
+        "image": "sha256:a2d313ed7a30dd26c75f48a5d02db011b2584cf3f339c5532798bbc21c8576c6",
+        "user": "10001:10001",
+        "ports": null,
+        "mounts": [
+          {
+            "Destination": "/tmp",
+            "Mode": "",
+            "Propagation": "",
+            "RW": true,
+            "Source": "",
+            "Type": "tmpfs"
+          },
+          {
+            "Destination": "/etc/piwork/interaction/config.json",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/service-interaction-service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b/config-c0749550cdbf969391165364381a713244c6c4f5fd4ea10d141c495e82a33ceb.json",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/interaction/installation-ca.crt",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/service-interaction-service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b/installation-ca.crt",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/var/data/workspace",
+            "Driver": "local",
+            "Mode": "z",
+            "Name": "piwork-vol-4229544dc1f9465a",
+            "Propagation": "",
+            "RW": true,
+            "Source": "/mnt/state/docker/volumes/piwork-vol-4229544dc1f9465a/_data",
+            "Type": "volume"
+          }
+        ],
+        "labels": {
+          "io.piwork.agent.protocol": "v2",
+          "io.piwork.agent.variant": "production",
+          "io.piwork.agent.version": "0.1.0",
+          "io.piwork.package-helper.contract": "2",
+          "io.piwork.run-model.contract": "1",
+          "io.piwork.service-mcp.contract": "1",
+          "io.piwork.source.input-sha256": "4e50d76c7609a19ae6dac7dec321e3841da48a102fd16de280967258ae4ba908",
+          "io.piwork.source.modified": "true",
+          "io.piwork.work-feedback.contract": "1",
+          "io.piwork.work-history.schema": "5",
+          "org.opencontainers.image.revision": "efce08c228c12f10d18a968b69c3398bb0e783e1",
+          "org.opencontainers.image.version": "0.0.7",
+          "piwork.installation_id": "installation-a3b8d1c54510bde606e08fcd9488ac42",
+          "piwork.logical_id": "service-737707cb-3c3f-40dd-84b0-0e6ff38dae8b",
+          "piwork.managed": "true",
+          "piwork.resource_kind": "service",
+          "piwork.service_revision": "1",
+          "piwork.spec_hash": "7a20a9de48895f11a49444282b0f9373f7e1c77c164f6b493aea9db7144525ed",
+          "piwork.work_id": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0"
+        }
+      },
+      {
+        "id": "7dcad9e499ef46ef179bb49dca5ae9f0e5fda6fcf47dc5e0ef247c7f16c1fd4b",
+        "image": "sha256:a2d313ed7a30dd26c75f48a5d02db011b2584cf3f339c5532798bbc21c8576c6",
+        "user": "10001:10001",
+        "ports": null,
+        "mounts": [
+          {
+            "Destination": "/var/data/workspace",
+            "Driver": "local",
+            "Mode": "z",
+            "Name": "piwork-vol-4229544dc1f9465a",
+            "Propagation": "",
+            "RW": true,
+            "Source": "/mnt/state/docker/volumes/piwork-vol-4229544dc1f9465a/_data",
+            "Type": "volume"
+          },
+          {
+            "Destination": "/etc/piwork/runtime.json",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/agent-config.json",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/tls/installation-ca.crt",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/pki/installation-ca.crt",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/run/piwork",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/works/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/contexts/context-43479dc1-b9b2-486d-a383-7f40726e519e",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/run/secrets/model-api-key",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/tls-generation-1/model-credential.secret",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/tmp",
+            "Mode": "",
+            "Propagation": "",
+            "RW": true,
+            "Source": "",
+            "Type": "tmpfs"
+          },
+          {
+            "Destination": "/var/data",
+            "Driver": "local",
+            "Mode": "z",
+            "Name": "piwork-vol-c66450787214317f",
+            "Propagation": "",
+            "RW": true,
+            "Source": "/mnt/state/docker/volumes/piwork-vol-c66450787214317f/_data",
+            "Type": "volume"
+          },
+          {
+            "Destination": "/etc/piwork/control/agent-service-client.crt",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/tls-generation-1/agent-service-client.crt",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/control/agent-service-client.key",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/tls-generation-1/agent-service-client.key",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/control/installation-ca.crt",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/pki/installation-ca.crt",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/service-control.json",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/service-control.json",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/tls/agent-server.crt",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/tls-generation-1/agent-server.crt",
+            "Type": "bind"
+          },
+          {
+            "Destination": "/etc/piwork/tls/agent-server.key",
+            "Mode": "",
+            "Propagation": "rprivate",
+            "RW": false,
+            "Source": "/var/lib/piwork/core/runtime/agent-tls/work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0/tls-generation-1/agent-server.key",
+            "Type": "bind"
+          }
+        ],
+        "labels": {
+          "io.piwork.agent.protocol": "v2",
+          "io.piwork.agent.variant": "production",
+          "io.piwork.agent.version": "0.1.0",
+          "io.piwork.package-helper.contract": "2",
+          "io.piwork.run-model.contract": "1",
+          "io.piwork.service-mcp.contract": "1",
+          "io.piwork.source.input-sha256": "4e50d76c7609a19ae6dac7dec321e3841da48a102fd16de280967258ae4ba908",
+          "io.piwork.source.modified": "true",
+          "io.piwork.work-feedback.contract": "1",
+          "io.piwork.work-history.schema": "5",
+          "org.opencontainers.image.revision": "efce08c228c12f10d18a968b69c3398bb0e783e1",
+          "org.opencontainers.image.version": "0.0.7",
+          "piwork.context_identity": "context-43479dc1-b9b2-486d-a383-7f40726e519e",
+          "piwork.generation": "1",
+          "piwork.installation_id": "installation-a3b8d1c54510bde606e08fcd9488ac42",
+          "piwork.instance_id": "agent-3d4391ef-dd91-4e85-8fb6-7d96a4659fd7",
+          "piwork.logical_id": "agentd",
+          "piwork.managed": "true",
+          "piwork.protocol_version": "v2",
+          "piwork.resource_kind": "agent",
+          "piwork.spec_hash": "dcf478b88d9c7c59bc89e2bdbcf9bd2ba3c1c3399d4a4d230c84c02e91db5fba",
+          "piwork.work_id": "work-1b495cdf-6f97-44aa-820e-d7c7eedfe3b0"
+        }
+      }
+    ],
+    "containerd": {
+      "root": "/mnt/state/docker/containerd/daemon",
+      "state": "/var/run/docker/containerd/daemon",
+      "rootBacking": {
+        "target": "/mnt/state/docker",
+        "fstype": "ext4",
+        "source": "/dev/vdb[/docker]"
+      }
+    }
+  },
+  "controlled7171Listener": "piwork-microvm controlled port-7171 listener",
+  "differentPortSameDataLockRefused": true,
+  "setupProofOrPasswordInLogs": false,
+  "realProviderCall": "not verified; no supplied key"
+}

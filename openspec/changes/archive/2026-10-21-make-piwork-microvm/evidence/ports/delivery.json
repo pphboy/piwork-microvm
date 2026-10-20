@@ -1,0 +1,33 @@
+{
+  "artifact": "dist/piwork-microvm",
+  "bytes": 392429214,
+  "SHA256": "fbfb7ba3bfb231d94dee91a00e1b23041a669481c74565358b7b06961bef2ca1",
+  "bundleKey": "a9e89d48a30771bcc17030aa23947ff988efd0781ebfeef4b9d8ce3fa621ab5a",
+  "format": "Linux x86-64 static Go ELF with appended verified Guest/QEMU payload",
+  "sourceCommit": "efce08c228c12f10d18a968b69c3398bb0e783e1",
+  "sourceHashes": {
+    "internal/launcher/run.go": "86db88a60ce0bb266bdd3efa6a2d6357603fa23fb58c7ca3e254c9d8c6b7327e",
+    "internal/qemu/args.go": "6c4b307b3b620f08787772c1c168ed108247c804d331bb228cf8f97ed9d139fd",
+    "internal/qemu/client.go": "32bc8cf9f08efebbf7e60f985aa3ac9ee25d5397c48171ee274575ae70ab41d5",
+    "internal/network/ports.go": "546459f9a38378263be8b553f617c0aee220d0b9e530d5a50d5e95a27ae37611",
+    "cmd/piwork-guest/main.go": "928dd5f6d43018c8c2ac4679426bbafd8f518f5d712816a27087d7e6d29c8b8e",
+    "internal/bundle/bundle.go": "1db804932ec560889d0be0f801aa7c21fcb315c57cc34f9882a8c4f9157af126"
+  },
+  "buildCommands": [
+    "go test ./...",
+    "python3 scripts/rootfs.py",
+    "python3 scripts/bundle.py"
+  ],
+  "acceptanceCommand": "make acceptance-ports",
+  "defaultPort": 7171,
+  "servicePorts": [
+    17891,
+    17954
+  ],
+  "baselineArtifactSHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+  "unchangedPiworkImages": true,
+  "realProviderCallVerified": false,
+  "independentCleanHostVerified": false,
+  "finalRun": "dist/acceptance-runs/ports-20261020T002114-4031035",
+  "existingHostPiworkStopped": false
+}

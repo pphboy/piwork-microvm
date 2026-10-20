@@ -1,0 +1,6 @@
+ok  	piwork/internal/app	0.547s
+ok  	piwork/internal/coreapp	63.185s
+ok  	piwork/internal/dockerengine	0.403s
+ok  	piwork/internal/filehelper	0.429s
+ok  	piwork/internal/snapshottree	0.030s
+ok  	piwork/internal/contracts	0.486s

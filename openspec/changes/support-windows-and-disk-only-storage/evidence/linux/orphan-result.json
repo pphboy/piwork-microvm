@@ -1,0 +1,6 @@
+{
+  "parentKilled": true,
+  "qemuRetainedInstallationAndDiskAliasLocks": true,
+  "supplementaryGuestSyncUnmount": true,
+  "uncleanMarkerPreserved": true
+}

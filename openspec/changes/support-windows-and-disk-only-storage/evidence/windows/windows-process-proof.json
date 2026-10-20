@@ -1,0 +1,382 @@
+﻿{
+    "commandLine":  "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\qemu-system-x86_64.exe -M microvm,pcie=off,acpi=off,auto-kernel-cmdline=on -accel whpx,kernel-irqchip=on -cpu qemu64 -smp 2 -m 4096 -nodefaults -no-user-config -display none -monitor none -L C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\guest\\qemu-data -bios C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\guest\\qemu-data\\qboot.rom -kernel C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\guest\\kernel -initrd C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\guest\\initramfs -append \"console=ttyS0 earlycon=uart8250,io,0x3f8,115200 panic=1 reboot=t root=/dev/vda ro net.ifnames=0 systemd.unified_cgroup_hierarchy=1 piwork.host_port=8081 tsc_early_khz=2495263 tsc=reliable clocksource=tsc\" -no-reboot -global virtio-mmio.force-legacy=false -drive if=none,id=root,file=C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\guest\\rootfs.ext4,format=raw,readonly=on -device virtio-blk-device,drive=root -drive \"if=none,id=state,file=C:\\Users\\p\\AppData\\Local\\PiworkMicroVM-final-20261020\\安装 数据\\disks\\state.qcow2,format=qcow2,cache=writeback\" -device virtio-blk-device,drive=state -netdev user,id=net0,hostfwd=tcp:127.0.0.1:8081-:7171,hostfwd=tcp:127.0.0.1:17891-:17891,hostfwd=tcp:127.0.0.1:17892-:17892,hostfwd=tcp:127.0.0.1:17893-:17893,hostfwd=tcp:127.0.0.1:17894-:17894,hostfwd=tcp:127.0.0.1:17895-:17895,hostfwd=tcp:127.0.0.1:17896-:17896,hostfwd=tcp:127.0.0.1:17897-:17897,hostfwd=tcp:127.0.0.1:17898-:17898,hostfwd=tcp:127.0.0.1:17899-:17899,hostfwd=tcp:127.0.0.1:17900-:17900,hostfwd=tcp:127.0.0.1:17901-:17901,hostfwd=tcp:127.0.0.1:17902-:17902,hostfwd=tcp:127.0.0.1:17903-:17903,hostfwd=tcp:127.0.0.1:17904-:17904,hostfwd=tcp:127.0.0.1:17905-:17905,hostfwd=tcp:127.0.0.1:17906-:17906,hostfwd=tcp:127.0.0.1:17907-:17907,hostfwd=tcp:127.0.0.1:17908-:17908,hostfwd=tcp:127.0.0.1:17909-:17909,hostfwd=tcp:127.0.0.1:17910-:17910,hostfwd=tcp:127.0.0.1:17911-:17911,hostfwd=tcp:127.0.0.1:17912-:17912,hostfwd=tcp:127.0.0.1:17913-:17913,hostfwd=tcp:127.0.0.1:17914-:17914,hostfwd=tcp:127.0.0.1:17915-:17915,hostfwd=tcp:127.0.0.1:17916-:17916,hostfwd=tcp:127.0.0.1:17917-:17917,hostfwd=tcp:127.0.0.1:17918-:17918,hostfwd=tcp:127.0.0.1:17919-:17919,hostfwd=tcp:127.0.0.1:17920-:17920,hostfwd=tcp:127.0.0.1:17921-:17921,hostfwd=tcp:127.0.0.1:17922-:17922,hostfwd=tcp:127.0.0.1:17923-:17923,hostfwd=tcp:127.0.0.1:17924-:17924,hostfwd=tcp:127.0.0.1:17925-:17925,hostfwd=tcp:127.0.0.1:17926-:17926,hostfwd=tcp:127.0.0.1:17927-:17927,hostfwd=tcp:127.0.0.1:17928-:17928,hostfwd=tcp:127.0.0.1:17929-:17929,hostfwd=tcp:127.0.0.1:17930-:17930,hostfwd=tcp:127.0.0.1:17931-:17931,hostfwd=tcp:127.0.0.1:17932-:17932,hostfwd=tcp:127.0.0.1:17933-:17933,hostfwd=tcp:127.0.0.1:17934-:17934,hostfwd=tcp:127.0.0.1:17935-:17935,hostfwd=tcp:127.0.0.1:17936-:17936,hostfwd=tcp:127.0.0.1:17937-:17937,hostfwd=tcp:127.0.0.1:17938-:17938,hostfwd=tcp:127.0.0.1:17939-:17939,hostfwd=tcp:127.0.0.1:17940-:17940,hostfwd=tcp:127.0.0.1:17941-:17941,hostfwd=tcp:127.0.0.1:17942-:17942,hostfwd=tcp:127.0.0.1:17943-:17943,hostfwd=tcp:127.0.0.1:17944-:17944,hostfwd=tcp:127.0.0.1:17945-:17945,hostfwd=tcp:127.0.0.1:17946-:17946,hostfwd=tcp:127.0.0.1:17947-:17947,hostfwd=tcp:127.0.0.1:17948-:17948,hostfwd=tcp:127.0.0.1:17949-:17949,hostfwd=tcp:127.0.0.1:17950-:17950,hostfwd=tcp:127.0.0.1:17951-:17951,hostfwd=tcp:127.0.0.1:17952-:17952,hostfwd=tcp:127.0.0.1:17953-:17953,hostfwd=tcp:127.0.0.1:17954-:17954 -device virtio-net-device,netdev=net0 -chardev pipe,id=qga,path=piwork-62c1b5cbc126aad6-qga -device virtio-serial-device -device virtserialport,chardev=qga,name=org.qemu.guest_agent.0 -device virtio-rng-device -qmp pipe:piwork-62c1b5cbc126aad6-qmp -serial stdio",
+    "binarySHA256":  "9007B45E34AF52FD8A4F98DCF93348BB121C753907F57BB79158ACECCCEA1FD8",
+    "os":  {
+               "Caption":  "Microsoft Windows 11 家庭版 中文版",
+               "Version":  "10.0.26200",
+               "BuildNumber":  "26200"
+           },
+    "listeners":  [
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17954,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17953,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17952,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17951,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17950,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17949,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17948,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17947,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17946,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17945,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17944,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17943,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17942,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17941,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17940,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17939,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17938,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17937,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17936,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17935,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17934,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17933,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17932,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17931,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17930,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17929,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17928,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17927,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17926,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17925,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17924,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17923,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17922,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17921,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17920,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17919,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17918,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17917,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17916,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17915,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17914,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17913,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17912,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17911,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17910,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17909,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17908,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17907,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17906,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17905,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17904,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17903,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17902,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17901,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17900,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17899,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17898,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17897,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17896,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17895,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17894,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17893,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17892,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  17891,
+                          "OwningProcess":  86880
+                      },
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  8081,
+                          "OwningProcess":  86880
+                      }
+                  ],
+    "pid":  86880,
+    "modules":  [
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\qemu-system-x86_64.exe",
+                    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+                    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+                    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\apphelp.dll",
+                    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+                    "C:\\WINDOWS\\System32\\msvcrt.dll",
+                    "C:\\WINDOWS\\System32\\sechost.dll",
+                    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+                    "C:\\WINDOWS\\System32\\ole32.dll",
+                    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+                    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+                    "C:\\WINDOWS\\System32\\GDI32.dll",
+                    "C:\\WINDOWS\\System32\\win32u.dll",
+                    "C:\\WINDOWS\\System32\\gdi32full.dll",
+                    "C:\\WINDOWS\\System32\\USER32.dll",
+                    "C:\\WINDOWS\\System32\\combase.dll",
+                    "C:\\WINDOWS\\System32\\WS2_32.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\libwinpthread-1.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\zlib1.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\libglib-2.0-0.dll",
+                    "C:\\WINDOWS\\System32\\SHELL32.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\libslirp-0.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\libintl-8.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\iconv.dll",
+                    "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\libpcre2-8-0.dll",
+                    "C:\\WINDOWS\\System32\\IMM32.DLL",
+                    "C:\\WINDOWS\\SYSTEM32\\CRYPTSP.dll",
+                    "C:\\WINDOWS\\system32\\rsaenh.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.dll",
+                    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\WinHvPlatform.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\DEVOBJ.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\cfgmgr32.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\WinHvEmulation.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\vid.dll",
+                    "C:\\WINDOWS\\system32\\mswsock.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+                    "C:\\WINDOWS\\SYSTEM32\\DSPARSE.dll",
+                    "C:\\WINDOWS\\System32\\NSI.dll"
+                ],
+    "executable":  "C:\\Users\\p\\AppData\\Local\\piwork-microvm\\bundles\\cdec31327cd7ebe4b71165a6f30f57bc5c9b0bb83f28c194a5319521377148d4\\qemu\\qemu-system-x86_64.exe"
+}

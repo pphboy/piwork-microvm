@@ -1,0 +1,32 @@
+[
+  {
+    "case": "missing-kvm",
+    "exit": 1,
+    "message": "piwork-microvm: KVM unavailable or permission denied: open /dev/kvm: no such file or directory"
+  },
+  {
+    "case": "kvm-permission",
+    "exit": 1,
+    "message": "piwork-microvm: KVM unavailable or permission denied: open /dev/kvm: permission denied"
+  },
+  {
+    "case": "occupied-port-7171",
+    "exit": 1,
+    "message": "piwork-microvm: required TCP port 127.0.0.1:7171 is occupied or unavailable: listen tcp4 127.0.0.1:7171: bind: address already in use"
+  },
+  {
+    "case": "occupied-port-17954",
+    "exit": 1,
+    "message": "piwork-microvm: required TCP port 127.0.0.1:17954 is occupied or unavailable: listen tcp4 127.0.0.1:17954: bind: address already in use"
+  },
+  {
+    "case": "existing-disk-missing",
+    "exit": 1,
+    "message": "piwork-microvm: existing persistent disk is missing or inaccessible; refusing an empty replacement: open /state/Installation/disks/state.qcow2: no such file or directory"
+  },
+  {
+    "case": "existing-disk-corrupt",
+    "exit": 1,
+    "message": "piwork-microvm: persistent qcow2 header/size is invalid or unsupported; refusing to reset it"
+  }
+]

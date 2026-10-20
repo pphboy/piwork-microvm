@@ -1,0 +1,13 @@
+Shared files: /state/User Files, Shared
+Persistent state: /state/piwork-microvm/installations/8318b0406f88b4bb/disks/state.qcow2
+Log: /state/piwork-microvm/installations/8318b0406f88b4bb/logs/20261019T194620.290190313.log
+Guest stage: storage
+Guest stage: images
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:7171
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest control channel was unavailable within the shutdown budget.
+Guest reboot/shutdown request was not confirmed: dial unix /tmp/piwork-microvm-1000/8318b0406f88b4bb/qga.sock: i/o timeout
+Guest shutdown timed out; forcing QEMU to exit. This is an unclean shutdown.
+qemu-system-x86_64: terminating on signal 15 from pid 3917706 (/piwork-microvm)
+piwork-microvm: unclean shutdown; inspect logs and persistent disk on next start

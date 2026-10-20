@@ -1,0 +1,4 @@
+Shared files: /state/User Files, Shared
+Persistent state: /state/piwork-microvm/installations/8318b0406f88b4bb/disks/state.qcow2
+Log: /state/piwork-microvm/installations/8318b0406f88b4bb/logs/20261019T194541.081787960.log
+piwork-microvm: Guest exited unexpectedly; inspect the log

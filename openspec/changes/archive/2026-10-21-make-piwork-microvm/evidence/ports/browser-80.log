@@ -1,0 +1,13 @@
+Stage: sign in
+Stage: Quick setup
+Quick setup form is available
+PASS Existing QuickStart saved configuration and all production runtime dependencies became Ready
+PASS Real production Agent Work created and ready
+Stage: Files
+PASS Real browser Files edit persisted in the Work volume
+Stage: deploy Service
+PASS Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent
+PASS Anonymous Service access rejected
+PASS Real Service WebSocket round trip and SSE passed through QEMU forwarding
+PASS Real Work network DNS/HTTPS and AI API reachability verified; no model invocation
+Browser setup and Work acceptance completed.

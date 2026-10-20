@@ -1,0 +1,169 @@
+{
+  "dns": true,
+  "https": 200,
+  "unauthenticatedAIAPI": 401,
+  "addresses": [
+    {
+      "ifindex": 1,
+      "ifname": "lo",
+      "flags": [
+        "LOOPBACK",
+        "UP",
+        "LOWER_UP"
+      ],
+      "mtu": 65536,
+      "qdisc": "noqueue",
+      "operstate": "UNKNOWN",
+      "group": "default",
+      "txqlen": 1000,
+      "addr_info": [
+        {
+          "family": "inet",
+          "local": "127.0.0.1",
+          "prefixlen": 8,
+          "scope": "host",
+          "label": "lo",
+          "valid_life_time": 4294967295,
+          "preferred_life_time": 4294967295
+        }
+      ]
+    },
+    {
+      "ifindex": 2,
+      "ifname": "eth0",
+      "flags": [
+        "BROADCAST",
+        "MULTICAST",
+        "UP",
+        "LOWER_UP"
+      ],
+      "mtu": 1500,
+      "qdisc": "pfifo_fast",
+      "operstate": "UP",
+      "group": "default",
+      "txqlen": 1000,
+      "addr_info": [
+        {
+          "family": "inet",
+          "local": "10.0.2.15",
+          "prefixlen": 24,
+          "metric": 1024,
+          "broadcast": "10.0.2.255",
+          "scope": "global",
+          "dynamic": true,
+          "label": "eth0",
+          "valid_life_time": 86359,
+          "preferred_life_time": 86359
+        }
+      ]
+    },
+    {
+      "ifindex": 4,
+      "ifname": "docker0",
+      "flags": [
+        "NO-CARRIER",
+        "BROADCAST",
+        "MULTICAST",
+        "UP"
+      ],
+      "mtu": 1500,
+      "qdisc": "noqueue",
+      "operstate": "DOWN",
+      "group": "default",
+      "addr_info": [
+        {
+          "family": "inet",
+          "local": "172.17.0.1",
+          "prefixlen": 16,
+          "broadcast": "172.17.255.255",
+          "scope": "global",
+          "label": "docker0",
+          "valid_life_time": 4294967295,
+          "preferred_life_time": 4294967295
+        }
+      ]
+    },
+    {
+      "ifindex": 5,
+      "ifname": "br-dcc281bb99b4",
+      "flags": [
+        "BROADCAST",
+        "MULTICAST",
+        "UP",
+        "LOWER_UP"
+      ],
+      "mtu": 1500,
+      "qdisc": "noqueue",
+      "operstate": "UP",
+      "group": "default",
+      "addr_info": [
+        {
+          "family": "inet",
+          "local": "172.18.0.1",
+          "prefixlen": 16,
+          "broadcast": "172.18.255.255",
+          "scope": "global",
+          "label": "br-dcc281bb99b4",
+          "valid_life_time": 4294967295,
+          "preferred_life_time": 4294967295
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "dst": "default",
+      "gateway": "10.0.2.2",
+      "dev": "eth0",
+      "protocol": "dhcp",
+      "prefsrc": "10.0.2.15",
+      "metric": 1024,
+      "flags": []
+    },
+    {
+      "dst": "10.0.2.0/24",
+      "dev": "eth0",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "10.0.2.15",
+      "metric": 1024,
+      "flags": []
+    },
+    {
+      "dst": "10.0.2.2",
+      "dev": "eth0",
+      "protocol": "dhcp",
+      "scope": "link",
+      "prefsrc": "10.0.2.15",
+      "metric": 1024,
+      "flags": []
+    },
+    {
+      "dst": "10.0.2.3",
+      "dev": "eth0",
+      "protocol": "dhcp",
+      "scope": "link",
+      "prefsrc": "10.0.2.15",
+      "metric": 1024,
+      "flags": []
+    },
+    {
+      "dst": "172.17.0.0/16",
+      "dev": "docker0",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "172.17.0.1",
+      "flags": [
+        "linkdown"
+      ]
+    },
+    {
+      "dst": "172.18.0.0/16",
+      "dev": "br-dcc281bb99b4",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "172.18.0.1",
+      "flags": []
+    }
+  ]
+}

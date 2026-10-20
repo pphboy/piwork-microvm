@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "administrator",
+    "models",
+    "Work identity",
+    "Service revision",
+    "Agent Session identity",
+    "Run result",
+    "Chinese/binary Files SHA256"
+  ],
+  "textSessionHistoryHTTP": 200,
+  "toolSessionHistoryHTTP": 503,
+  "knownUpstreamIssue": "Original 0.0.8 rejects Responses toolCallId containing |; Core source unchanged"
+}

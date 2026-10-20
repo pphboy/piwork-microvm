@@ -1,0 +1,14 @@
+[
+  {
+    "case": "manifest-checksum",
+    "artifactSHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+    "exit": 1,
+    "diagnostic": "piwork-microvm: bundle manifest checksum mismatch"
+  },
+  {
+    "case": "truncated-trailer",
+    "artifactSHA256": "aa5f2d7acd062a0f428db20338d9ad0da7234fc149061fc0a8eb7e06fbd80829",
+    "exit": 1,
+    "diagnostic": "piwork-microvm: single-file bundle trailer invalid"
+  }
+]

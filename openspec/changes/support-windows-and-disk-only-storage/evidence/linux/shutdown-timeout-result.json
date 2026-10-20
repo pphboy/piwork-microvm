@@ -1,0 +1,6 @@
+{
+  "qgaStopped": true,
+  "boundedTimeout": true,
+  "forcedQEMUExit": true,
+  "uncleanMarkerPreserved": true
+}

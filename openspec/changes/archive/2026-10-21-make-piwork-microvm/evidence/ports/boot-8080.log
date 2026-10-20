@@ -1,0 +1,13 @@
+Shared files: /state/User Files, Shared
+Persistent state: /state/piwork-microvm/installations/8318b0406f88b4bb/disks/state.qcow2
+Log: /state/piwork-microvm/installations/8318b0406f88b4bb/logs/20261020T002124.957834170.log
+Guest stage: storage
+Guest stage: docker
+Guest stage: loading-images
+Guest stage: images
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:8080
+First-time setup: open private file /tmp/piwork-microvm-1000/8318b0406f88b4bb/setup.html in your browser (authorization expires in 10 minutes).
+Piwork runtime is ready.
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest stopped cleanly. All user data retained.

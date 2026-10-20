@@ -1,0 +1,8 @@
+{
+  "artifactSHA256": "4f181691e282c703980071c5baf6b37ddbf2acaa7c74f454072078c028a384ff",
+  "signalToExitSeconds": 132.33,
+  "shutdownBudgetSeconds": 120,
+  "budgetPassed": false,
+  "reason": "Pending QGA read/file-close and HTTP probes delayed entering coordinated shutdown",
+  "fix": "Cancel in-flight QGA socket I/O, respect cancellation during file-close and HTTP probes, then repeat real KVM tests"
+}

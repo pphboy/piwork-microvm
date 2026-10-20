@@ -1,0 +1,12 @@
+Shared files: /state/User Files, Shared
+Persistent state: /state/piwork-microvm/installations/8318b0406f88b4bb/disks/state.qcow2
+Log: /state/piwork-microvm/installations/8318b0406f88b4bb/logs/20261019T194543.303277501.log
+Guest stage: storage
+Guest stage: images
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:7171
+Guest stage: piwork-stopped
+Guest images failed: loading embedded production images failed
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest stopped cleanly. All user data retained.
+piwork-microvm: Guest images failed: loading embedded production images failed

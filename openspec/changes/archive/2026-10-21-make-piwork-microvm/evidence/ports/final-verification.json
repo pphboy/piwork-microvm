@@ -1,0 +1,27 @@
+{
+  "artifactSHA256": "fbfb7ba3bfb231d94dee91a00e1b23041a669481c74565358b7b06961bef2ca1",
+  "bytes": 392429214,
+  "tasksCompleted": 46,
+  "tasksTotal": 46,
+  "openSpecStrictValidation": "passed; no issues",
+  "goTests": "go test ./... passed",
+  "realKVMPorts": [
+    8080,
+    8081,
+    7171,
+    80
+  ],
+  "sameFinalELFForEveryPort": true,
+  "fourCleanStops": true,
+  "sameInstallationAndDataRecovered": true,
+  "sameHostRealKVM": true,
+  "emptyChrootRuntimeDependencyIsolation": true,
+  "ownedVMsStopped": true,
+  "allDataRetained": true,
+  "portConflictsAndPermissionFailureVerified": true,
+  "realProviderCallVerified": false,
+  "independentCleanHostVerified": false,
+  "unrelatedPiworkTreeChanged": false,
+  "remotePushOrRelease": false,
+  "baselineFaultInjectionReexecutedForPortDelta": false
+}

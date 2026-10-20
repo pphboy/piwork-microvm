@@ -1,0 +1,5 @@
+{
+  "case": "wildcard-service-port",
+  "exit": 1,
+  "message": "piwork-microvm: required TCP port 127.0.0.1:17954 is occupied or unavailable: listen tcp4 127.0.0.1:17954: bind: address already in use"
+}

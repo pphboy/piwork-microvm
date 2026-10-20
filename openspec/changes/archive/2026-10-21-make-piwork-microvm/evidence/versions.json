@@ -1,0 +1,7 @@
+{
+  "hostKernel": "Linux 6.18.54.1-microsoft-standard-WSL2 x86_64 GNU/Linux",
+  "hostGo": "go version go1.25.5 linux/amd64",
+  "hostDocker": "26.1.5+dfsg1",
+  "buildNode": "v24.21.0",
+  "qemu": "QEMU emulator version 10.0.8 (Piwork-MicroVM-9P-UID10001)"
+}

@@ -1,0 +1,6 @@
+{
+  "qmpQuitWithoutGuestShutdown": true,
+  "launcherFailedExplicitly": true,
+  "originalDiskRetained": true,
+  "uncleanMarkerPreserved": true
+}
