@@ -124,3 +124,7 @@ Windows 验收使用原生 Edge、原生 Node 作为测试工具。用 `GOOS=win
 `-Phase recovery` 验证已有基线，`-Phase failures` 要求停止
 测试安装。额外 Guest 检查程序持独占锁准备合成模型夹具和检查挂载，单独记录，
 不代替正式 PE 启动验收，不打包进产品文件。用户启动产品无需这些测试工具。
+
+Piwork MicroVM 的原创代码使用 [Apache-2.0](LICENSE) 许可，另见 [NOTICE](NOTICE)。
+Piwork、Linux、QEMU 等第三方组件及上游组件补丁保留各自的许可证和声明；
+内置第三方组件的许可证文件随运行资源一起解压。

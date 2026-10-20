@@ -145,3 +145,8 @@ and `-Phase failures` requires a stopped test installation. The supplementary
 Guest controller prepares the synthetic provider and inspects backing mounts
 while holding exclusive disk locks; it is separate from final-PE launch tests and
 is never included in a product artifact.
+
+The original code of Piwork MicroVM is licensed under [Apache-2.0](LICENSE).
+See [NOTICE](NOTICE). Third-party components, including Piwork, Linux and QEMU,
+and patches to upstream components retain their respective licenses and notices.
+Bundled third-party license files are included in the extracted resources.
