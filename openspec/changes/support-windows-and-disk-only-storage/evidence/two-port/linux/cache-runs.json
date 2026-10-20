@@ -1,0 +1,23 @@
+[
+  {
+    "pid": 947231,
+    "rootInode": 10370398,
+    "rootMtimeNS": 1792531942264593699,
+    "kernelSHA256": "cbfa26500b4685269576457fae0909f00f2b6651ff1404c9acda37ebde368b28",
+    "imageLoadInJournal": true
+  },
+  {
+    "pid": 950490,
+    "rootInode": 10370398,
+    "rootMtimeNS": 1792531942264593699,
+    "kernelSHA256": "cbfa26500b4685269576457fae0909f00f2b6651ff1404c9acda37ebde368b28",
+    "imageLoadInJournal": false
+  },
+  {
+    "pid": 953304,
+    "rootInode": 10373105,
+    "rootMtimeNS": 1792532490424545499,
+    "kernelSHA256": "cbfa26500b4685269576457fae0909f00f2b6651ff1404c9acda37ebde368b28",
+    "imageLoadInJournal": false
+  }
+]

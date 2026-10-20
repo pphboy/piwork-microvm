@@ -1,0 +1,29 @@
+{
+  "binarySHA256": "c1fb34a767be973c92e1bdaea100c9914078c753ee49bb83b77689a2f33ee47f",
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "machine": "microvm-machine",
+  "pci": [],
+  "libraries": [
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/ld-linux-x86-64.so.2",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libc.so.6",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libfdt.so.1",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libglib-2.0.so.0",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libm.so.6",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libpcre2-8.so.0",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libslirp.so.0",
+    "/clean/cache/piwork-microvm/bundles/2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29/qemu/lib/libz.so.1"
+  ],
+  "listeners": [
+    {
+      "addressHex": "0100007F",
+      "port": 80
+    },
+    {
+      "addressHex": "0100007F",
+      "port": 8081
+    }
+  ]
+}

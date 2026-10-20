@@ -1,0 +1,89 @@
+{
+  "piwork": {
+    "url": "https://github.com/pphboy/piwork.git",
+    "commit": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+    "branch": "main",
+    "resolvedAt": "2026-10-20T21:26:10.543788+00:00"
+  },
+  "release": {
+    "manifestVersion": 2,
+    "application": "unified-linux",
+    "controlPlanePort": 17891,
+    "corePort": 17871,
+    "serviceEntryMode": "path",
+    "releaseVersion": "0.0.9",
+    "sourceCommit": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+    "sourceModified": false,
+    "sourceInputHash": "0e1261f05b9d1e217a4da93096fbe046256924c7a3821122d7ebb952cf41c9b9",
+    "desktopUIHash": "62293470129c1aafa4815209ebca63b65d9990568d7ff5bae70f17c8c19efa56",
+    "consoleUIHash": "5c1a66790dd8ae8c47d0308dc3331a2dca1512a6ab471eff7107c1987726f2ba",
+    "registry": "docker.io/piwork-microvm-local",
+    "platform": "linux/amd64",
+    "runtimeImage": "alpine:3.22@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8",
+    "core": {
+      "format": "piwork-go-core",
+      "schemaVersion": 1
+    },
+    "clientCredentialVersion": 1,
+    "releaseId": "0.0.9-a6c36da16ebc-0e1261f05b9d",
+    "images": {
+      "core": "docker.io/piwork-microvm-local/piwork-core:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "cli": "docker.io/piwork-microvm-local/piwork-cli:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "agent": "docker.io/piwork-microvm-local/piwork-agentd:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "fileHelper": "docker.io/piwork-microvm-local/piwork-file-helper:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "snapshotHelper": "docker.io/piwork-microvm-local/piwork-snapshot-helper:0.0.9-a6c36da16ebc-0e1261f05b9d"
+    }
+  },
+  "images": {
+    "agent": {
+      "reference": "docker.io/piwork-microvm-local/piwork-agentd:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "id": "sha256:c46356d9a1fa82e176064065be6b364d96c30c869f2463999a8e4e66198de9d6"
+    },
+    "fileHelper": {
+      "reference": "docker.io/piwork-microvm-local/piwork-file-helper:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "id": "sha256:1de76f6dfec175026aee3738d61c063fb6d89ce7a0c5e6d43606d61de3454b4d"
+    },
+    "snapshotHelper": {
+      "reference": "docker.io/piwork-microvm-local/piwork-snapshot-helper:0.0.9-a6c36da16ebc-0e1261f05b9d",
+      "id": "sha256:82d2b9e97fc80f75850de1418196a858b0de72e0e4cf37d10586acfebe9306f7"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "dist/piwork-microvm",
+      "os": "linux",
+      "arch": "amd64",
+      "size": 391886624,
+      "sha256": "c1fb34a767be973c92e1bdaea100c9914078c753ee49bb83b77689a2f33ee47f",
+      "manifestSha256": "2f1844e641e85cd32cf9c43189597c3e2a283067fdd272f356695a8de56d5f29",
+      "resources": 40
+    },
+    {
+      "path": "dist/piwork-microvm.exe",
+      "os": "windows",
+      "arch": "amd64",
+      "size": 408696024,
+      "sha256": "4b372f391928f61db808a7ed865c2020821b5867f88da0ea6ab5a1a6bffc6a77",
+      "manifestSha256": "9d0f9ed5acd4805f2204d6dc95ce0eb7c03d479711fc8afe287c5ffc62bbc1a1",
+      "resources": 65
+    }
+  ],
+  "distribution": "local only; no push or release",
+  "realProviderCall": "NOT VERIFIED: no real key supplied",
+  "toolSessionHistoryHTTP": {
+    "linux": 503,
+    "windows": 503
+  },
+  "network": {
+    "forwardedEndpoints": 2,
+    "UI": {
+      "defaultHostPort": 17891,
+      "guestPort": 17891
+    },
+    "Core": {
+      "defaultHostPort": 17871,
+      "guestPort": 17871
+    },
+    "services": "same UI origin /services/...; no separate Service forwards"
+  }
+}

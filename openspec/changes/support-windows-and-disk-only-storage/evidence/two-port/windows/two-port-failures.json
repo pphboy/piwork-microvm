@@ -1,0 +1,6 @@
+{
+  "sameInstallationDifferentPortsRefused": true,
+  "originalPID": 55140,
+  "exit": 1,
+  "diagnostic": "piwork-microvm: another instance owns this installation or disk"
+}

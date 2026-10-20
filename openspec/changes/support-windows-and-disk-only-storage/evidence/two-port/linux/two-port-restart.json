@@ -1,0 +1,11 @@
+{
+  "defaultUI": "http://127.0.0.1:17891",
+  "defaultCore": "http://127.0.0.1:17871",
+  "legacy17954Unchanged": true,
+  "defaultPortRestartPassed": true,
+  "port80Origin": "http://127.0.0.1",
+  "port80Core": "http://127.0.0.1:8081",
+  "port80BrowserServiceWebSocket": true,
+  "emptyCachePreservedInstallation": true,
+  "port80HostPermission": "normal user rejected with permission denied; succeeded in isolated KVM namespace without changing Host sysctl"
+}

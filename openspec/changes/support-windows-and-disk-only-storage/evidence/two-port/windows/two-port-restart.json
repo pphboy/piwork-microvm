@@ -1,0 +1,18 @@
+﻿{
+    "restarts":  [
+                     {
+                         "core":  19081,
+                         "ui":  19080,
+                         "diskRecovered":  true
+                     },
+                     {
+                         "emptyCache":  true,
+                         "core":  19083,
+                         "ui":  19082,
+                         "diskRecovered":  true
+                     }
+                 ],
+    "browserWebSocket":  true,
+    "sameOriginService":  true,
+    "allNormalStopsConfirmed":  true
+}

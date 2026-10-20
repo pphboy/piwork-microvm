@@ -1,0 +1,81 @@
+{
+  "originalDiskSHA256": "419b15180a5ccfeac97439f8466b327f4e2eddca3caf5ff97ff3801e38fee7c6",
+  "originalDiskBytesPreserved": true,
+  "checks": [
+    {
+      "case": "help",
+      "exit": 0,
+      "diagnostic": "Usage: piwork-microvm [OPTIONS]\nRun Piwork in one QEMU microvm: Linux x86-64/KVM or native Windows 11/WHPX.\n\n  --data-dir DIR   complete installation root (metadata, disks, logs)\n  --port PORT      host browser UI/ControlPlane port (default 17891)\n  --core-port PORT host Core API port for CLI/backend (default 17871)\n  --cpus N         virtual CPUs (default 2)\n  --memory MiB     guest memory in MiB (default 4096)\n  --no-open        do not open the Piwork access address in a browser\n  --help           show this help without virtualization or data changes\n\nHost UI: http://127.0.0.1:<PORT> (default 17891); Core API default 17871.\nOnly these two ports are forwarded, both on 127.0.0.1. Work Services use the UI\n/services/ path. Guest UI/Core ports are fixed at 17891/17871 respectively.\nBoth host ports accept 1-65535 and must differ. Separate installations can run\nconcurrently with different --port and --core-port values and data directories.\nChanging --port reuses the same installation; log in again at the new address.\nThe process stays in the foreground. Ctrl+C requests a clean Guest shutdown.\nAll accounts, configuration, Work files/history and persistent Service data are\nin disks/state.qcow2 (Guest ext4). Use Piwork Files to upload/download files.\nDefault root: Linux $XDG_DATA_HOME/piwork-microvm (or ~/.local/share/...);\nWindows: %LOCALAPPDATA%\\PiworkMicroVM. No host directory sharing is required.\nAfter a confirmed clean stop, back up state.qcow2 and installation.json together.\nNever mount/copy a running disk as a consistent backup. Cache is disposable.\n\nBuild/development only: --assets DIR --qemu PATH use an external QEMU explicitly."
+    },
+    {
+      "case": "invalid---port-0",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---port--1",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---port-abc",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---port-65536",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---core-port-0",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --core-port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---core-port--1",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --core-port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---core-port-abc",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --core-port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "invalid---core-port-65536",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --core-port: port must be an integer from 1 to 65535"
+    },
+    {
+      "case": "same-host-ports",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: --port and --core-port must use different host ports"
+    },
+    {
+      "case": "missing-existing-disk",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: existing persistent disk is missing or inaccessible; refusing an empty replacement: The system cannot find the file specified."
+    },
+    {
+      "case": "corrupt-existing-disk",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: persistent qcow2 header/size is invalid or unsupported; refusing to reset it"
+    },
+    {
+      "case": "unknown-data",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: installation root contains unknown data; choose an empty directory (nothing was overwritten)"
+    },
+    {
+      "case": "occupied-8080",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: required TCP port 127.0.0.1:8080 is occupied or unavailable: listen tcp4 127.0.0.1:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+    },
+    {
+      "case": "occupied-19081",
+      "exit": 1,
+      "diagnostic": "piwork-microvm: required TCP port 127.0.0.1:19081 is occupied or unavailable: listen tcp4 127.0.0.1:19081: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+    }
+  ]
+}
