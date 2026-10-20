@@ -1,0 +1,57 @@
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -47,6 +47,11 @@
+     int ret;
+     DWORD size;
+     char *openname;
++    HANDLE token;
++    DWORD needed = 0;
++    g_autofree TOKEN_DEFAULT_DACL *token_dacl = NULL;
++    SECURITY_DESCRIPTOR descriptor;
++    SECURITY_ATTRIBUTES attributes;
+ 
+     s->fpipe = TRUE;
+ 
+@@ -60,13 +65,41 @@
+         error_setg(errp, "Failed CreateEvent");
+         goto fail;
+     }
++
++    /* Named pipes otherwise get an Everyone/Anonymous-readable default,
++     * even when the launcher supplied a restrictive token default DACL.
++     * Apply that token DACL explicitly, from the instant of creation. */
++    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
++        error_setg_win32(errp, GetLastError(), "Open pipe security token");
++        goto fail;
++    }
++    GetTokenInformation(token, TokenDefaultDacl, NULL, 0, &needed);
++    token_dacl = g_malloc0(needed);
++    ret = GetTokenInformation(token, TokenDefaultDacl, token_dacl,
++                              needed, &needed);
++    CloseHandle(token);
++    if (!ret || !token_dacl->DefaultDacl) {
++        error_setg(errp, "Missing explicit pipe token DACL");
++        goto fail;
++    }
++    if (!InitializeSecurityDescriptor(&descriptor,
++                                      SECURITY_DESCRIPTOR_REVISION) ||
++        !SetSecurityDescriptorDacl(&descriptor, TRUE,
++                                   token_dacl->DefaultDacl, FALSE)) {
++        error_setg_win32(errp, GetLastError(), "Initialize pipe DACL");
++        goto fail;
++    }
++    attributes.nLength = sizeof(attributes);
++    attributes.lpSecurityDescriptor = &descriptor;
++    attributes.bInheritHandle = FALSE;
+ 
+     openname = g_strdup_printf("\\\\.\\pipe\\%s", filename);
+     s->file = CreateNamedPipe(openname,
+                               PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED,
+                               PIPE_TYPE_BYTE | PIPE_READMODE_BYTE |
+                               PIPE_WAIT,
+-                              MAXCONNECT, NSENDBUF, NRECVBUF, NTIMEOUT, NULL);
++                              MAXCONNECT, NSENDBUF, NRECVBUF, NTIMEOUT,
++                              &attributes);
+     g_free(openname);
+     if (s->file == INVALID_HANDLE_VALUE) {
+         error_setg_win32(errp, GetLastError(), "Failed CreateNamedPipe");

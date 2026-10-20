@@ -1,0 +1,3210 @@
+{
+  "version": 1,
+  "base": "registry.fedoraproject.org/fedora@sha256:291ed4c06d5435a92d05ad622c9717afde6911e96d335e02919336eed0c8ae03",
+  "installedPackages": [
+    [
+      "libgcc",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "publicsuffix-list-dafsa",
+      "20260116",
+      "1.fc43",
+      "noarch",
+      "publicsuffix-list-20260116-1.fc43.src.rpm"
+    ],
+    [
+      "libssh-config",
+      "0.11.5",
+      "1.fc43",
+      "noarch",
+      "libssh-0.11.5-1.fc43.src.rpm"
+    ],
+    [
+      "fedora-release-identity-container",
+      "43",
+      "27",
+      "noarch",
+      "fedora-release-43-27.src.rpm"
+    ],
+    [
+      "fedora-gpg-keys",
+      "43",
+      "2",
+      "noarch",
+      "fedora-repos-43-2.src.rpm"
+    ],
+    [
+      "fedora-repos",
+      "43",
+      "2",
+      "noarch",
+      "fedora-repos-43-2.src.rpm"
+    ],
+    [
+      "fedora-release-common",
+      "43",
+      "27",
+      "noarch",
+      "fedora-release-43-27.src.rpm"
+    ],
+    [
+      "fedora-release-container",
+      "43",
+      "27",
+      "noarch",
+      "fedora-release-43-27.src.rpm"
+    ],
+    [
+      "setup",
+      "2.15.0",
+      "26.fc43",
+      "noarch",
+      "setup-2.15.0-26.fc43.src.rpm"
+    ],
+    [
+      "filesystem",
+      "3.18",
+      "50.fc43",
+      "x86_64",
+      "filesystem-3.18-50.fc43.src.rpm"
+    ],
+    [
+      "pcre2-syntax",
+      "10.47",
+      "1.fc43",
+      "noarch",
+      "pcre2-10.47-1.fc43.src.rpm"
+    ],
+    [
+      "gnulib-l10n",
+      "20241231",
+      "1.fc43",
+      "noarch",
+      "gnulib-l10n-20241231-1.fc43.src.rpm"
+    ],
+    [
+      "coreutils-common",
+      "9.7",
+      "10.fc43",
+      "x86_64",
+      "coreutils-9.7-10.fc43.src.rpm"
+    ],
+    [
+      "ncurses-base",
+      "6.5",
+      "7.20250614.fc43",
+      "noarch",
+      "ncurses-6.5-7.20250614.fc43.src.rpm"
+    ],
+    [
+      "bash",
+      "5.3.0",
+      "2.fc43",
+      "x86_64",
+      "bash-5.3.0-2.fc43.src.rpm"
+    ],
+    [
+      "glibc-common",
+      "2.42",
+      "17.fc43",
+      "x86_64",
+      "glibc-2.42-17.fc43.src.rpm"
+    ],
+    [
+      "glibc",
+      "2.42",
+      "17.fc43",
+      "x86_64",
+      "glibc-2.42-17.fc43.src.rpm"
+    ],
+    [
+      "ncurses-libs",
+      "6.5",
+      "7.20250614.fc43",
+      "x86_64",
+      "ncurses-6.5-7.20250614.fc43.src.rpm"
+    ],
+    [
+      "glibc-minimal-langpack",
+      "2.42",
+      "17.fc43",
+      "x86_64",
+      "glibc-2.42-17.fc43.src.rpm"
+    ],
+    [
+      "zlib-ng-compat",
+      "2.3.3",
+      "2.fc43",
+      "x86_64",
+      "zlib-ng-2.3.3-2.fc43.src.rpm"
+    ],
+    [
+      "libstdc++",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "libgpg-error",
+      "1.55",
+      "2.fc43",
+      "x86_64",
+      "libgpg-error-1.55-2.fc43.src.rpm"
+    ],
+    [
+      "bzip2-libs",
+      "1.0.8",
+      "21.fc43",
+      "x86_64",
+      "bzip2-1.0.8-21.fc43.src.rpm"
+    ],
+    [
+      "libacl",
+      "2.4.0",
+      "1.fc43",
+      "x86_64",
+      "acl-2.4.0-1.fc43.src.rpm"
+    ],
+    [
+      "xz-libs",
+      "5.8.1",
+      "4.fc43",
+      "x86_64",
+      "xz-5.8.1-4.fc43.src.rpm"
+    ],
+    [
+      "libassuan",
+      "2.5.7",
+      "4.fc43",
+      "x86_64",
+      "libassuan-2.5.7-4.fc43.src.rpm"
+    ],
+    [
+      "libgcrypt",
+      "1.11.1",
+      "4.fc43",
+      "x86_64",
+      "libgcrypt-1.11.1-4.fc43.src.rpm"
+    ],
+    [
+      "libzstd",
+      "1.5.7",
+      "2.fc43",
+      "x86_64",
+      "zstd-1.5.7-2.fc43.src.rpm"
+    ],
+    [
+      "gmp",
+      "6.3.0",
+      "4.fc43",
+      "x86_64",
+      "gmp-6.3.0-4.fc43.src.rpm"
+    ],
+    [
+      "popt",
+      "1.19",
+      "9.fc43",
+      "x86_64",
+      "popt-1.19-9.fc43.src.rpm"
+    ],
+    [
+      "libxcrypt",
+      "4.5.2",
+      "1.fc43",
+      "x86_64",
+      "libxcrypt-4.5.2-1.fc43.src.rpm"
+    ],
+    [
+      "npth",
+      "1.8",
+      "3.fc43",
+      "x86_64",
+      "npth-1.8-3.fc43.src.rpm"
+    ],
+    [
+      "libxml2",
+      "2.12.10",
+      "5.fc43",
+      "x86_64",
+      "libxml2-2.12.10-5.fc43.src.rpm"
+    ],
+    [
+      "fmt",
+      "11.2.0",
+      "3.fc43",
+      "x86_64",
+      "fmt-11.2.0-3.fc43.src.rpm"
+    ],
+    [
+      "readline",
+      "8.3",
+      "2.fc43",
+      "x86_64",
+      "readline-8.3-2.fc43.src.rpm"
+    ],
+    [
+      "json-c",
+      "0.18",
+      "7.fc43",
+      "x86_64",
+      "json-c-0.18-7.fc43.src.rpm"
+    ],
+    [
+      "libuuid",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "sqlite-libs",
+      "3.50.2",
+      "3.fc43",
+      "x86_64",
+      "sqlite-3.50.2-3.fc43.src.rpm"
+    ],
+    [
+      "gnupg2-gpgconf",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "libeconf",
+      "0.7.9",
+      "2.fc43",
+      "x86_64",
+      "libeconf-0.7.9-2.fc43.src.rpm"
+    ],
+    [
+      "gdbm-libs",
+      "1.23",
+      "10.fc43",
+      "x86_64",
+      "gdbm-1.23-10.fc43.src.rpm"
+    ],
+    [
+      "pcre2",
+      "10.47",
+      "1.fc43",
+      "x86_64",
+      "pcre2-10.47-1.fc43.src.rpm"
+    ],
+    [
+      "libunistring",
+      "1.1",
+      "10.fc43",
+      "x86_64",
+      "libunistring-1.1-10.fc43.src.rpm"
+    ],
+    [
+      "libidn2",
+      "2.3.8",
+      "2.fc43",
+      "x86_64",
+      "libidn2-2.3.8-2.fc43.src.rpm"
+    ],
+    [
+      "libffi",
+      "3.5.2",
+      "1.fc43",
+      "x86_64",
+      "libffi-3.5.2-1.fc43.src.rpm"
+    ],
+    [
+      "libtasn1",
+      "4.21.0",
+      "1.fc43",
+      "x86_64",
+      "libtasn1-4.21.0-1.fc43.src.rpm"
+    ],
+    [
+      "p11-kit",
+      "0.26.5",
+      "1.fc43",
+      "x86_64",
+      "p11-kit-0.26.5-1.fc43.src.rpm"
+    ],
+    [
+      "crypto-policies",
+      "20251125",
+      "1.git63291f8.fc43",
+      "noarch",
+      "crypto-policies-20251125-1.git63291f8.fc43.src.rpm"
+    ],
+    [
+      "grep",
+      "3.12",
+      "2.fc43",
+      "x86_64",
+      "grep-3.12-2.fc43.src.rpm"
+    ],
+    [
+      "libblkid",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "elfutils-libelf",
+      "0.196",
+      "1.fc43",
+      "x86_64",
+      "elfutils-0.196-1.fc43.src.rpm"
+    ],
+    [
+      "libksba",
+      "1.6.7",
+      "4.fc43",
+      "x86_64",
+      "libksba-1.6.7-4.fc43.src.rpm"
+    ],
+    [
+      "lz4-libs",
+      "1.10.0",
+      "3.fc43",
+      "x86_64",
+      "lz4-1.10.0-3.fc43.src.rpm"
+    ],
+    [
+      "libsepol",
+      "3.9",
+      "2.fc43",
+      "x86_64",
+      "libsepol-3.9-2.fc43.src.rpm"
+    ],
+    [
+      "libselinux",
+      "3.9",
+      "5.fc43",
+      "x86_64",
+      "libselinux-3.9-5.fc43.src.rpm"
+    ],
+    [
+      "libmount",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "sed",
+      "4.9",
+      "5.fc43",
+      "x86_64",
+      "sed-4.9-5.fc43.src.rpm"
+    ],
+    [
+      "libsmartcols",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "lua-libs",
+      "5.4.8",
+      "4.fc43",
+      "x86_64",
+      "lua-5.4.8-4.fc43.src.rpm"
+    ],
+    [
+      "libcom_err",
+      "1.47.3",
+      "2.fc43",
+      "x86_64",
+      "e2fsprogs-1.47.3-2.fc43.src.rpm"
+    ],
+    [
+      "findutils",
+      "4.10.0",
+      "6.fc43",
+      "x86_64",
+      "findutils-4.10.0-6.fc43.src.rpm"
+    ],
+    [
+      "gnupg2-keyboxd",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "libpsl",
+      "0.21.5",
+      "6.fc43",
+      "x86_64",
+      "libpsl-0.21.5-6.fc43.src.rpm"
+    ],
+    [
+      "cyrus-sasl-lib",
+      "2.1.28",
+      "33.fc43",
+      "x86_64",
+      "cyrus-sasl-2.1.28-33.fc43.src.rpm"
+    ],
+    [
+      "gdbm",
+      "1.23",
+      "10.fc43",
+      "x86_64",
+      "gdbm-1.23-10.fc43.src.rpm"
+    ],
+    [
+      "gnupg2-verify",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "mpfr",
+      "4.2.2",
+      "2.fc43",
+      "x86_64",
+      "mpfr-4.2.2-2.fc43.src.rpm"
+    ],
+    [
+      "nettle",
+      "3.10.1",
+      "2.fc43",
+      "x86_64",
+      "nettle-3.10.1-2.fc43.src.rpm"
+    ],
+    [
+      "file-libs",
+      "5.46",
+      "9.fc43",
+      "x86_64",
+      "file-5.46-9.fc43.src.rpm"
+    ],
+    [
+      "libgomp",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "libtool-ltdl",
+      "2.5.4",
+      "8.fc43",
+      "x86_64",
+      "libtool-2.5.4-8.fc43.src.rpm"
+    ],
+    [
+      "keyutils-libs",
+      "1.6.3",
+      "6.fc43",
+      "x86_64",
+      "keyutils-1.6.3-6.fc43.src.rpm"
+    ],
+    [
+      "libverto",
+      "0.3.2",
+      "11.fc43",
+      "x86_64",
+      "libverto-0.3.2-11.fc43.src.rpm"
+    ],
+    [
+      "libyaml",
+      "0.2.5",
+      "17.fc43",
+      "x86_64",
+      "libyaml-0.2.5-17.fc43.src.rpm"
+    ],
+    [
+      "libattr",
+      "2.6.0",
+      "1.fc43",
+      "x86_64",
+      "attr-2.6.0-1.fc43.src.rpm"
+    ],
+    [
+      "libcap-ng",
+      "0.9.6",
+      "1.fc43",
+      "x86_64",
+      "libcap-ng-0.9.6-1.fc43.src.rpm"
+    ],
+    [
+      "audit-libs",
+      "4.2.1",
+      "1.fc43",
+      "x86_64",
+      "audit-4.2.1-1.fc43.src.rpm"
+    ],
+    [
+      "pam-libs",
+      "1.7.1",
+      "5.fc43",
+      "x86_64",
+      "pam-1.7.1-5.fc43.src.rpm"
+    ],
+    [
+      "libcap",
+      "2.76",
+      "4.fc43",
+      "x86_64",
+      "libcap-2.76-4.fc43.src.rpm"
+    ],
+    [
+      "systemd-libs",
+      "258.11",
+      "1.fc43",
+      "x86_64",
+      "systemd-258.11-1.fc43.src.rpm"
+    ],
+    [
+      "sdbus-cpp",
+      "2.1.0",
+      "3.fc43",
+      "x86_64",
+      "sdbus-cpp-2.1.0-3.fc43.src.rpm"
+    ],
+    [
+      "libusb1",
+      "1.0.30",
+      "1.fc43",
+      "x86_64",
+      "libusb1-1.0.30-1.fc43.src.rpm"
+    ],
+    [
+      "systemd-standalone-sysusers",
+      "258.11",
+      "1.fc43",
+      "x86_64",
+      "systemd-258.11-1.fc43.src.rpm"
+    ],
+    [
+      "libsemanage",
+      "3.9",
+      "4.fc43",
+      "x86_64",
+      "libsemanage-3.9-4.fc43.src.rpm"
+    ],
+    [
+      "alternatives",
+      "1.33",
+      "3.fc43",
+      "x86_64",
+      "chkconfig-1.33-3.fc43.src.rpm"
+    ],
+    [
+      "p11-kit-trust",
+      "0.26.5",
+      "1.fc43",
+      "x86_64",
+      "p11-kit-0.26.5-1.fc43.src.rpm"
+    ],
+    [
+      "gnutls",
+      "3.8.13",
+      "1.fc43",
+      "x86_64",
+      "gnutls-3.8.13-1.fc43.src.rpm"
+    ],
+    [
+      "glib2",
+      "2.86.5",
+      "1.fc43",
+      "x86_64",
+      "glib2-2.86.5-1.fc43.src.rpm"
+    ],
+    [
+      "openssl-libs",
+      "3.5.9",
+      "1.fc43",
+      "x86_64",
+      "openssl-3.5.9-1.fc43.src.rpm"
+    ],
+    [
+      "coreutils",
+      "9.7",
+      "10.fc43",
+      "x86_64",
+      "coreutils-9.7-10.fc43.src.rpm"
+    ],
+    [
+      "ca-certificates",
+      "2026.2.90_v9.0.317",
+      "1.fc43",
+      "noarch",
+      "ca-certificates-2026.2.90_v9.0.317-1.fc43.src.rpm"
+    ],
+    [
+      "krb5-libs",
+      "1.22.2",
+      "4.fc43",
+      "x86_64",
+      "krb5-1.22.2-4.fc43.src.rpm"
+    ],
+    [
+      "libtirpc",
+      "1.3.7",
+      "1.rc1.fc43",
+      "x86_64",
+      "libtirpc-1.3.7-1.rc1.fc43.src.rpm"
+    ],
+    [
+      "tpm2-tss",
+      "4.1.3",
+      "8.fc43",
+      "x86_64",
+      "tpm2-tss-4.1.3-8.fc43.src.rpm"
+    ],
+    [
+      "zchunk-libs",
+      "1.5.4",
+      "1.fc43",
+      "x86_64",
+      "zchunk-1.5.4-1.fc43.src.rpm"
+    ],
+    [
+      "ima-evm-utils-libs",
+      "1.6.2",
+      "6.fc43",
+      "x86_64",
+      "ima-evm-utils-1.6.2-6.fc43.src.rpm"
+    ],
+    [
+      "gnupg2-gpg-agent",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "libnsl2",
+      "2.0.1",
+      "4.fc43",
+      "x86_64",
+      "libnsl2-2.0.1-4.fc43.src.rpm"
+    ],
+    [
+      "libssh",
+      "0.11.5",
+      "1.fc43",
+      "x86_64",
+      "libssh-0.11.5-1.fc43.src.rpm"
+    ],
+    [
+      "gzip",
+      "1.13",
+      "4.fc43",
+      "x86_64",
+      "gzip-1.13-4.fc43.src.rpm"
+    ],
+    [
+      "cracklib",
+      "2.10.3",
+      "1.fc43",
+      "x86_64",
+      "cracklib-2.10.3-1.fc43.src.rpm"
+    ],
+    [
+      "libpwquality",
+      "1.4.5",
+      "14.fc43",
+      "x86_64",
+      "libpwquality-1.4.5-14.fc43.src.rpm"
+    ],
+    [
+      "pam",
+      "1.7.1",
+      "5.fc43",
+      "x86_64",
+      "pam-1.7.1-5.fc43.src.rpm"
+    ],
+    [
+      "authselect-libs",
+      "1.6.2",
+      "1.fc43",
+      "x86_64",
+      "authselect-1.6.2-1.fc43.src.rpm"
+    ],
+    [
+      "libfsverity",
+      "1.6",
+      "3.fc43",
+      "x86_64",
+      "fsverity-utils-1.6-3.fc43.src.rpm"
+    ],
+    [
+      "rpm-sequoia",
+      "1.10.3",
+      "1.fc43",
+      "x86_64",
+      "rust-rpm-sequoia-1.10.3-1.fc43.src.rpm"
+    ],
+    [
+      "rpm-libs",
+      "6.0.2",
+      "1.fc43",
+      "x86_64",
+      "rpm-6.0.2-1.fc43.src.rpm"
+    ],
+    [
+      "libmodulemd",
+      "2.15.3",
+      "1.fc43",
+      "x86_64",
+      "libmodulemd-2.15.3-1.fc43.src.rpm"
+    ],
+    [
+      "libsolv",
+      "0.7.40",
+      "1.fc43",
+      "x86_64",
+      "libsolv-0.7.40-1.fc43.src.rpm"
+    ],
+    [
+      "libarchive",
+      "3.8.4",
+      "1.fc43",
+      "x86_64",
+      "libarchive-3.8.4-1.fc43.src.rpm"
+    ],
+    [
+      "libevent",
+      "2.1.13",
+      "1.fc43",
+      "x86_64",
+      "libevent-2.1.13-1.fc43.src.rpm"
+    ],
+    [
+      "openldap",
+      "2.6.14",
+      "1.fc43",
+      "x86_64",
+      "openldap-2.6.14-1.fc43.src.rpm"
+    ],
+    [
+      "gnupg2-dirmngr",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "gnupg2",
+      "2.4.9",
+      "5.fc43",
+      "x86_64",
+      "gnupg2-2.4.9-5.fc43.src.rpm"
+    ],
+    [
+      "rpm-sign-libs",
+      "6.0.2",
+      "1.fc43",
+      "x86_64",
+      "rpm-6.0.2-1.fc43.src.rpm"
+    ],
+    [
+      "libbrotli",
+      "1.2.0",
+      "1.fc43",
+      "x86_64",
+      "brotli-1.2.0-1.fc43.src.rpm"
+    ],
+    [
+      "libnghttp2",
+      "1.66.0",
+      "3.fc43",
+      "x86_64",
+      "nghttp2-1.66.0-3.fc43.src.rpm"
+    ],
+    [
+      "libcurl",
+      "8.15.0",
+      "10.fc43",
+      "x86_64",
+      "curl-8.15.0-10.fc43.src.rpm"
+    ],
+    [
+      "librepo",
+      "1.20.0",
+      "4.fc43",
+      "x86_64",
+      "librepo-1.20.0-4.fc43.src.rpm"
+    ],
+    [
+      "libdnf5",
+      "5.2.18.0",
+      "5.fc43",
+      "x86_64",
+      "dnf5-5.2.18.0-5.fc43.src.rpm"
+    ],
+    [
+      "libdnf5-cli",
+      "5.2.18.0",
+      "5.fc43",
+      "x86_64",
+      "dnf5-5.2.18.0-5.fc43.src.rpm"
+    ],
+    [
+      "dnf5",
+      "5.2.18.0",
+      "5.fc43",
+      "x86_64",
+      "dnf5-5.2.18.0-5.fc43.src.rpm"
+    ],
+    [
+      "curl",
+      "8.15.0",
+      "10.fc43",
+      "x86_64",
+      "curl-8.15.0-10.fc43.src.rpm"
+    ],
+    [
+      "elfutils-default-yama-scope",
+      "0.196",
+      "1.fc43",
+      "noarch",
+      "elfutils-0.196-1.fc43.src.rpm"
+    ],
+    [
+      "elfutils-libs",
+      "0.196",
+      "1.fc43",
+      "x86_64",
+      "elfutils-0.196-1.fc43.src.rpm"
+    ],
+    [
+      "rpm-build-libs",
+      "6.0.2",
+      "1.fc43",
+      "x86_64",
+      "rpm-6.0.2-1.fc43.src.rpm"
+    ],
+    [
+      "vim-data",
+      "9.2.1129",
+      "1.fc43",
+      "noarch",
+      "vim-9.2.1129-1.fc43.src.rpm"
+    ],
+    [
+      "vim-minimal",
+      "9.2.1129",
+      "1.fc43",
+      "x86_64",
+      "vim-9.2.1129-1.fc43.src.rpm"
+    ],
+    [
+      "dnf5-plugins",
+      "5.2.18.0",
+      "5.fc43",
+      "x86_64",
+      "dnf5-5.2.18.0-5.fc43.src.rpm"
+    ],
+    [
+      "rpm",
+      "6.0.2",
+      "1.fc43",
+      "x86_64",
+      "rpm-6.0.2-1.fc43.src.rpm"
+    ],
+    [
+      "sudo",
+      "1.9.17",
+      "7.p2.fc43",
+      "x86_64",
+      "sudo-1.9.17-7.p2.fc43.src.rpm"
+    ],
+    [
+      "authselect",
+      "1.6.2",
+      "1.fc43",
+      "x86_64",
+      "authselect-1.6.2-1.fc43.src.rpm"
+    ],
+    [
+      "shadow-utils",
+      "4.18.0",
+      "3.fc43",
+      "x86_64",
+      "shadow-utils-4.18.0-3.fc43.src.rpm"
+    ],
+    [
+      "util-linux-core",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "gawk",
+      "5.3.2",
+      "2.fc43",
+      "x86_64",
+      "gawk-5.3.2-2.fc43.src.rpm"
+    ],
+    [
+      "tar",
+      "1.35",
+      "6.fc43",
+      "x86_64",
+      "tar-1.35-6.fc43.src.rpm"
+    ],
+    [
+      "zstd",
+      "1.5.7",
+      "2.fc43",
+      "x86_64",
+      "zstd-1.5.7-2.fc43.src.rpm"
+    ],
+    [
+      "xz",
+      "5.8.1",
+      "4.fc43",
+      "x86_64",
+      "xz-5.8.1-4.fc43.src.rpm"
+    ],
+    [
+      "bzip2",
+      "1.0.8",
+      "21.fc43",
+      "x86_64",
+      "bzip2-1.0.8-21.fc43.src.rpm"
+    ],
+    [
+      "tzdata",
+      "2026e",
+      "1.fc43",
+      "noarch",
+      "tzdata-2026e-1.fc43.src.rpm"
+    ],
+    [
+      "rootfiles",
+      "9.0",
+      "4.fc43",
+      "noarch",
+      "rootfiles-9.0-4.fc43.src.rpm"
+    ],
+    [
+      "gpg-pubkey",
+      "c6e7f081cf80e13146676e88829b606631645531",
+      "66b6dccf",
+      "(none)",
+      "(none)"
+    ],
+    [
+      "libmpc",
+      "1.3.1",
+      "8.fc43",
+      "x86_64",
+      "libmpc-1.3.1-8.fc43.src.rpm"
+    ],
+    [
+      "less",
+      "704",
+      "4.fc43",
+      "x86_64",
+      "less-704-4.fc43.src.rpm"
+    ],
+    [
+      "mingw-binutils-generic",
+      "2.45.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-binutils-2.45.1-2.fc43.src.rpm"
+    ],
+    [
+      "expat",
+      "2.8.5",
+      "1.fc43",
+      "x86_64",
+      "expat-2.8.5-1.fc43.src.rpm"
+    ],
+    [
+      "cpp",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "llhttp",
+      "9.3.1",
+      "1.fc43",
+      "x86_64",
+      "llhttp-9.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "libssh2",
+      "1.11.1",
+      "9.fc43",
+      "x86_64",
+      "libssh2-1.11.1-9.fc43.src.rpm"
+    ],
+    [
+      "libgit2",
+      "1.9.7",
+      "1.fc43",
+      "x86_64",
+      "libgit2-1.9.7-1.fc43.src.rpm"
+    ],
+    [
+      "oniguruma",
+      "6.9.10",
+      "3.fc43",
+      "x86_64",
+      "oniguruma-6.9.10-3.fc43.src.rpm"
+    ],
+    [
+      "gpgverify",
+      "2.2",
+      "3.fc43",
+      "noarch",
+      "gpgverify-2.2-3.fc43.src.rpm"
+    ],
+    [
+      "liblastlog2",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "libfdisk",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "util-linux",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "openssh",
+      "10.0p1",
+      "12.fc43",
+      "x86_64",
+      "openssh-10.0p1-12.fc43.src.rpm"
+    ],
+    [
+      "kernel-headers",
+      "7.2.4",
+      "100.fc43",
+      "x86_64",
+      "kernel-headers-7.2.4-100.fc43.src.rpm"
+    ],
+    [
+      "libedit",
+      "3.1",
+      "58.20260512cvs.fc43",
+      "x86_64",
+      "libedit-3.1-58.20260512cvs.fc43.src.rpm"
+    ],
+    [
+      "rust-srpm-macros",
+      "28.5",
+      "1.fc43",
+      "noarch",
+      "cargo-rpm-macros-28.5-1.fc43.src.rpm"
+    ],
+    [
+      "qt6-srpm-macros",
+      "6.10.3",
+      "1.fc43",
+      "noarch",
+      "qt6-6.10.3-1.fc43.src.rpm"
+    ],
+    [
+      "qt5-srpm-macros",
+      "5.15.18",
+      "1.fc43",
+      "noarch",
+      "qt5-5.15.18-1.fc43.src.rpm"
+    ],
+    [
+      "pyproject-srpm-macros",
+      "1.23.2",
+      "1.fc43",
+      "noarch",
+      "pyproject-rpm-macros-1.23.2-1.fc43.src.rpm"
+    ],
+    [
+      "package-notes-srpm-macros",
+      "0.20",
+      "1.fc43",
+      "noarch",
+      "package-notes-0.20-1.fc43.src.rpm"
+    ],
+    [
+      "gnat-srpm-macros",
+      "7",
+      "1.fc43",
+      "noarch",
+      "gnat-srpm-macros-7-1.fc43.src.rpm"
+    ],
+    [
+      "file",
+      "5.46",
+      "9.fc43",
+      "x86_64",
+      "file-5.46-9.fc43.src.rpm"
+    ],
+    [
+      "add-determinism",
+      "0.6.0",
+      "3.fc43",
+      "x86_64",
+      "rust-add-determinism-0.6.0-3.fc43.src.rpm"
+    ],
+    [
+      "build-reproducibility-srpm-macros",
+      "0.6.0",
+      "3.fc43",
+      "noarch",
+      "rust-add-determinism-0.6.0-3.fc43.src.rpm"
+    ],
+    [
+      "cmake-filesystem",
+      "3.31.11",
+      "1.fc43",
+      "x86_64",
+      "cmake-3.31.11-1.fc43.src.rpm"
+    ],
+    [
+      "elfutils-debuginfod-client",
+      "0.196",
+      "1.fc43",
+      "x86_64",
+      "elfutils-0.196-1.fc43.src.rpm"
+    ],
+    [
+      "jansson",
+      "2.14",
+      "3.fc43",
+      "x86_64",
+      "jansson-2.14-3.fc43.src.rpm"
+    ],
+    [
+      "binutils",
+      "2.45.1",
+      "5.fc43",
+      "x86_64",
+      "binutils-2.45.1-5.fc43.src.rpm"
+    ],
+    [
+      "libcbor",
+      "0.12.0",
+      "6.fc43",
+      "x86_64",
+      "libcbor-0.12.0-6.fc43.src.rpm"
+    ],
+    [
+      "libfido2",
+      "1.16.0",
+      "3.fc43",
+      "x86_64",
+      "libfido2-1.16.0-3.fc43.src.rpm"
+    ],
+    [
+      "openssh-clients",
+      "10.0p1",
+      "12.fc43",
+      "x86_64",
+      "openssh-10.0p1-12.fc43.src.rpm"
+    ],
+    [
+      "git-core",
+      "2.56.0",
+      "1.fc43",
+      "x86_64",
+      "git-2.56.0-1.fc43.src.rpm"
+    ],
+    [
+      "git-core-doc",
+      "2.56.0",
+      "1.fc43",
+      "noarch",
+      "git-2.56.0-1.fc43.src.rpm"
+    ],
+    [
+      "pkgconf-m4",
+      "2.3.0",
+      "3.fc43",
+      "noarch",
+      "pkgconf-2.3.0-3.fc43.src.rpm"
+    ],
+    [
+      "pcre2-utf32",
+      "10.47",
+      "1.fc43",
+      "x86_64",
+      "pcre2-10.47-1.fc43.src.rpm"
+    ],
+    [
+      "pcre2-utf16",
+      "10.47",
+      "1.fc43",
+      "x86_64",
+      "pcre2-10.47-1.fc43.src.rpm"
+    ],
+    [
+      "libpkgconf",
+      "2.3.0",
+      "3.fc43",
+      "x86_64",
+      "pkgconf-2.3.0-3.fc43.src.rpm"
+    ],
+    [
+      "pkgconf",
+      "2.3.0",
+      "3.fc43",
+      "x86_64",
+      "pkgconf-2.3.0-3.fc43.src.rpm"
+    ],
+    [
+      "pkgconf-pkg-config",
+      "2.3.0",
+      "3.fc43",
+      "x86_64",
+      "pkgconf-2.3.0-3.fc43.src.rpm"
+    ],
+    [
+      "pcre2-devel",
+      "10.47",
+      "1.fc43",
+      "x86_64",
+      "pcre2-10.47-1.fc43.src.rpm"
+    ],
+    [
+      "libffi-devel",
+      "3.5.2",
+      "1.fc43",
+      "x86_64",
+      "libffi-3.5.2-1.fc43.src.rpm"
+    ],
+    [
+      "zlib-ng-compat-devel",
+      "2.3.3",
+      "2.fc43",
+      "x86_64",
+      "zlib-ng-2.3.3-2.fc43.src.rpm"
+    ],
+    [
+      "libsepol-devel",
+      "3.9",
+      "2.fc43",
+      "x86_64",
+      "libsepol-3.9-2.fc43.src.rpm"
+    ],
+    [
+      "libselinux-devel",
+      "3.9",
+      "5.fc43",
+      "x86_64",
+      "libselinux-3.9-5.fc43.src.rpm"
+    ],
+    [
+      "sysprof-capture-devel",
+      "49.0",
+      "1.fc43",
+      "x86_64",
+      "sysprof-49.0-1.fc43.src.rpm"
+    ],
+    [
+      "libblkid-devel",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "libmount-devel",
+      "2.41.5",
+      "1.fc43",
+      "x86_64",
+      "util-linux-2.41.5-1.fc43.src.rpm"
+    ],
+    [
+      "libxcrypt-devel",
+      "4.5.2",
+      "1.fc43",
+      "x86_64",
+      "libxcrypt-4.5.2-1.fc43.src.rpm"
+    ],
+    [
+      "glibc-devel",
+      "2.42",
+      "17.fc43",
+      "x86_64",
+      "glibc-2.42-17.fc43.src.rpm"
+    ],
+    [
+      "unzip",
+      "6.0",
+      "67.fc43",
+      "x86_64",
+      "unzip-6.0-67.fc43.src.rpm"
+    ],
+    [
+      "zip",
+      "3.0",
+      "44.fc43",
+      "x86_64",
+      "zip-3.0-44.fc43.src.rpm"
+    ],
+    [
+      "annobin-docs",
+      "12.99",
+      "1.fc43",
+      "noarch",
+      "annobin-12.99-1.fc43.src.rpm"
+    ],
+    [
+      "zig-srpm-macros",
+      "1",
+      "5.fc43",
+      "noarch",
+      "zig-srpm-macros-1-5.fc43.src.rpm"
+    ],
+    [
+      "tree-sitter-srpm-macros",
+      "0.4.2",
+      "1.fc43",
+      "noarch",
+      "tree-sitter-srpm-macros-0.4.2-1.fc43.src.rpm"
+    ],
+    [
+      "perl-srpm-macros",
+      "1",
+      "60.fc43",
+      "noarch",
+      "perl-srpm-macros-1-60.fc43.src.rpm"
+    ],
+    [
+      "openblas-srpm-macros",
+      "2",
+      "20.fc43",
+      "noarch",
+      "openblas-srpm-macros-2-20.fc43.src.rpm"
+    ],
+    [
+      "ocaml-srpm-macros",
+      "11",
+      "2.fc43",
+      "noarch",
+      "ocaml-srpm-macros-11-2.fc43.src.rpm"
+    ],
+    [
+      "lua-srpm-macros",
+      "1",
+      "16.fc43",
+      "noarch",
+      "lua-rpm-macros-1-16.fc43.src.rpm"
+    ],
+    [
+      "kernel-srpm-macros",
+      "1.0",
+      "27.fc43",
+      "noarch",
+      "kernel-srpm-macros-1.0-27.fc43.src.rpm"
+    ],
+    [
+      "java-srpm-macros",
+      "1",
+      "7.fc43",
+      "noarch",
+      "java-rpm-macros-1-7.fc43.src.rpm"
+    ],
+    [
+      "ghc-srpm-macros",
+      "1.9.2",
+      "3.fc43",
+      "noarch",
+      "ghc-srpm-macros-1.9.2-3.fc43.src.rpm"
+    ],
+    [
+      "gap-srpm-macros",
+      "2",
+      "1.fc43",
+      "noarch",
+      "gap-srpm-macros-2-1.fc43.src.rpm"
+    ],
+    [
+      "fpc-srpm-macros",
+      "1.3",
+      "15.fc43",
+      "noarch",
+      "fpc-srpm-macros-1.3-15.fc43.src.rpm"
+    ],
+    [
+      "filesystem-srpm-macros",
+      "3.18",
+      "50.fc43",
+      "noarch",
+      "filesystem-3.18-50.fc43.src.rpm"
+    ],
+    [
+      "efi-srpm-macros",
+      "6",
+      "4.fc43",
+      "noarch",
+      "efi-rpm-macros-6-4.fc43.src.rpm"
+    ],
+    [
+      "dwz",
+      "0.16",
+      "2.fc43",
+      "x86_64",
+      "dwz-0.16-2.fc43.src.rpm"
+    ],
+    [
+      "ansible-srpm-macros",
+      "1",
+      "18.1.fc43",
+      "noarch",
+      "ansible-packaging-1-18.1.fc43.src.rpm"
+    ],
+    [
+      "gnome-srpm-macros",
+      "1.0",
+      "1.fc43",
+      "noarch",
+      "gnome-srpm-macros-1.0-1.fc43.src.rpm"
+    ],
+    [
+      "cmake-srpm-macros",
+      "3.31.11",
+      "1.fc43",
+      "noarch",
+      "cmake-3.31.11-1.fc43.src.rpm"
+    ],
+    [
+      "python-pip-wheel",
+      "25.1.1",
+      "19.fc43",
+      "noarch",
+      "python-pip-25.1.1-19.fc43.src.rpm"
+    ],
+    [
+      "vim-filesystem",
+      "9.2.1129",
+      "1.fc43",
+      "noarch",
+      "vim-9.2.1129-1.fc43.src.rpm"
+    ],
+    [
+      "groff-base",
+      "1.23.0",
+      "11.fc43",
+      "x86_64",
+      "groff-1.23.0-11.fc43.src.rpm"
+    ],
+    [
+      "ncurses",
+      "6.5",
+      "7.20250614.fc43",
+      "x86_64",
+      "ncurses-6.5-7.20250614.fc43.src.rpm"
+    ],
+    [
+      "perl-Digest",
+      "1.20",
+      "520.fc43",
+      "noarch",
+      "perl-Digest-1.20-520.fc43.src.rpm"
+    ],
+    [
+      "perl-FileHandle",
+      "2.05",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-B",
+      "1.89",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Digest-MD5",
+      "2.59",
+      "520.fc43",
+      "x86_64",
+      "perl-Digest-MD5-2.59-520.fc43.src.rpm"
+    ],
+    [
+      "perl-libnet",
+      "3.15",
+      "521.fc43",
+      "noarch",
+      "perl-libnet-3.15-521.fc43.src.rpm"
+    ],
+    [
+      "perl-Data-Dumper",
+      "2.192",
+      "522.fc43",
+      "x86_64",
+      "perl-Data-Dumper-2.192-522.fc43.src.rpm"
+    ],
+    [
+      "perl-Unicode-Normalize",
+      "1.32",
+      "520.fc43",
+      "x86_64",
+      "perl-Unicode-Normalize-1.32-520.fc43.src.rpm"
+    ],
+    [
+      "perl-MIME-Base32",
+      "1.303",
+      "24.fc43",
+      "noarch",
+      "perl-MIME-Base32-1.303-24.fc43.src.rpm"
+    ],
+    [
+      "perl-URI",
+      "5.36",
+      "1.fc43",
+      "noarch",
+      "perl-URI-5.36-1.fc43.src.rpm"
+    ],
+    [
+      "perl-IO-Socket-IP",
+      "0.43",
+      "521.fc43",
+      "noarch",
+      "perl-IO-Socket-IP-0.43-521.fc43.src.rpm"
+    ],
+    [
+      "perl-AutoLoader",
+      "5.74",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-IO-Socket-SSL",
+      "2.095",
+      "2.fc43",
+      "noarch",
+      "perl-IO-Socket-SSL-2.095-2.fc43.src.rpm"
+    ],
+    [
+      "perl-locale",
+      "1.13",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Net-SSLeay",
+      "1.94",
+      "11.fc43",
+      "x86_64",
+      "perl-Net-SSLeay-1.94-11.fc43.src.rpm"
+    ],
+    [
+      "perl-Time-Local",
+      "1.350",
+      "520.fc43",
+      "noarch",
+      "perl-Time-Local-1.350-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Time-HiRes",
+      "1.9778",
+      "520.fc43",
+      "x86_64",
+      "perl-Time-HiRes-1.9778-520.fc43.src.rpm"
+    ],
+    [
+      "perl-if",
+      "0.61.000",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-File-Path",
+      "2.18",
+      "520.fc43",
+      "noarch",
+      "perl-File-Path-2.18-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Pod-Escapes",
+      "1.07",
+      "520.fc43",
+      "noarch",
+      "perl-Pod-Escapes-1.07-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Text-Tabs+Wrap",
+      "2024.001",
+      "520.fc43",
+      "noarch",
+      "perl-Text-Tabs+Wrap-2024.001-520.fc43.src.rpm"
+    ],
+    [
+      "perl-HTTP-Tiny",
+      "0.096",
+      "1.fc43",
+      "noarch",
+      "perl-HTTP-Tiny-0.096-1.fc43.src.rpm"
+    ],
+    [
+      "perl-Class-Struct",
+      "0.68",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-IPC-Open3",
+      "1.24",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-File-Temp",
+      "0.231.100",
+      "520.fc43",
+      "noarch",
+      "perl-File-Temp-0.231.100-520.fc43.src.rpm"
+    ],
+    [
+      "perl-POSIX",
+      "2.23",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Pod-Simple",
+      "3.47",
+      "3.fc43",
+      "noarch",
+      "perl-Pod-Simple-3.47-3.fc43.src.rpm"
+    ],
+    [
+      "perl-Term-Cap",
+      "1.18",
+      "520.fc43",
+      "noarch",
+      "perl-Term-Cap-1.18-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Term-ANSIColor",
+      "5.01",
+      "521.fc43",
+      "noarch",
+      "perl-Term-ANSIColor-5.01-521.fc43.src.rpm"
+    ],
+    [
+      "perl-Pod-Perldoc",
+      "3.28.01",
+      "521.fc43",
+      "noarch",
+      "perl-Pod-Perldoc-3.28.01-521.fc43.src.rpm"
+    ],
+    [
+      "perl-podlators",
+      "6.0.2",
+      "521.fc43",
+      "noarch",
+      "perl-podlators-6.0.2-521.fc43.src.rpm"
+    ],
+    [
+      "perl-File-stat",
+      "1.14",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-SelectSaver",
+      "1.02",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Socket",
+      "2.043",
+      "1.fc43",
+      "x86_64",
+      "perl-Socket-2.043-1.fc43.src.rpm"
+    ],
+    [
+      "perl-Symbol",
+      "1.09",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Pod-Usage",
+      "2.05",
+      "520.fc43",
+      "noarch",
+      "perl-Pod-Usage-2.05-520.fc43.src.rpm"
+    ],
+    [
+      "perl-IO",
+      "1.55",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-overloading",
+      "0.02",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-mro",
+      "1.29",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-base",
+      "2.27",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Fcntl",
+      "1.20",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Text-ParseWords",
+      "3.31",
+      "520.fc43",
+      "noarch",
+      "perl-Text-ParseWords-3.31-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Getopt-Long",
+      "2.58",
+      "520.fc43",
+      "noarch",
+      "perl-Getopt-Long-2.58-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Storable",
+      "3.37",
+      "521.fc43",
+      "x86_64",
+      "perl-Storable-3.37-521.fc43.src.rpm"
+    ],
+    [
+      "perl-overload",
+      "1.40",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Getopt-Std",
+      "1.14",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-MIME-Base64",
+      "3.16",
+      "520.fc43",
+      "x86_64",
+      "perl-MIME-Base64-3.16-520.fc43.src.rpm"
+    ],
+    [
+      "perl-File-Basename",
+      "2.86",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-vars",
+      "1.05",
+      "524.fc43",
+      "noarch",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-Errno",
+      "1.38",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-parent",
+      "0.244",
+      "520.fc43",
+      "noarch",
+      "perl-parent-0.244-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Scalar-List-Utils",
+      "1.70",
+      "1.fc43",
+      "x86_64",
+      "perl-Scalar-List-Utils-1.70-1.fc43.src.rpm"
+    ],
+    [
+      "perl-constant",
+      "1.33",
+      "521.fc43",
+      "noarch",
+      "perl-constant-1.33-521.fc43.src.rpm"
+    ],
+    [
+      "perl-Encode",
+      "3.21",
+      "520.fc43",
+      "x86_64",
+      "perl-Encode-3.21-520.fc43.src.rpm"
+    ],
+    [
+      "perl-DynaLoader",
+      "1.57",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-PathTools",
+      "3.94",
+      "520.fc43",
+      "x86_64",
+      "perl-PathTools-3.94-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Carp",
+      "1.54",
+      "520.fc43",
+      "noarch",
+      "perl-Carp-1.54-520.fc43.src.rpm"
+    ],
+    [
+      "perl-Exporter",
+      "5.79",
+      "520.fc43",
+      "noarch",
+      "perl-Exporter-5.79-520.fc43.src.rpm"
+    ],
+    [
+      "perl-libs",
+      "5.42.3",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-interpreter",
+      "5.42.3",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "perl-TermReadKey",
+      "2.38",
+      "26.fc43",
+      "x86_64",
+      "perl-TermReadKey-2.38-26.fc43.src.rpm"
+    ],
+    [
+      "perl-Error",
+      "0.17030",
+      "2.fc43",
+      "noarch",
+      "perl-Error-0.17030-2.fc43.src.rpm"
+    ],
+    [
+      "perl-lib",
+      "0.65",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "git",
+      "2.56.0",
+      "1.fc43",
+      "x86_64",
+      "git-2.56.0-1.fc43.src.rpm"
+    ],
+    [
+      "perl-Git",
+      "2.56.0",
+      "1.fc43",
+      "noarch",
+      "git-2.56.0-1.fc43.src.rpm"
+    ],
+    [
+      "mpdecimal",
+      "4.0.1",
+      "2.fc43",
+      "x86_64",
+      "mpdecimal-4.0.1-2.fc43.src.rpm"
+    ],
+    [
+      "python3-libs",
+      "3.14.8",
+      "1.fc43",
+      "x86_64",
+      "python3.14-3.14.8-1.fc43.src.rpm"
+    ],
+    [
+      "python3",
+      "3.14.8",
+      "1.fc43",
+      "x86_64",
+      "python3.14-3.14.8-1.fc43.src.rpm"
+    ],
+    [
+      "ninja-build",
+      "1.13.1",
+      "4.fc43",
+      "x86_64",
+      "ninja-build-1.13.1-4.fc43.src.rpm"
+    ],
+    [
+      "python3-packaging",
+      "25.0",
+      "7.fc43",
+      "noarch",
+      "python-packaging-25.0-7.fc43.src.rpm"
+    ],
+    [
+      "python3-setuptools",
+      "78.1.1",
+      "15.fc43",
+      "noarch",
+      "python-setuptools-78.1.1-15.fc43.src.rpm"
+    ],
+    [
+      "cmake-rpm-macros",
+      "3.31.11",
+      "1.fc43",
+      "noarch",
+      "cmake-3.31.11-1.fc43.src.rpm"
+    ],
+    [
+      "make",
+      "4.4.1",
+      "11.fc43",
+      "x86_64",
+      "make-4.4.1-11.fc43.src.rpm"
+    ],
+    [
+      "gcc",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "gcc-plugin-annobin",
+      "15.3.1",
+      "1.fc43",
+      "x86_64",
+      "gcc-15.3.1-1.fc43.src.rpm"
+    ],
+    [
+      "annobin-plugin-gcc",
+      "12.99",
+      "1.fc43",
+      "x86_64",
+      "annobin-12.99-1.fc43.src.rpm"
+    ],
+    [
+      "redhat-rpm-config",
+      "343",
+      "14.fc43",
+      "noarch",
+      "redhat-rpm-config-343-14.fc43.src.rpm"
+    ],
+    [
+      "forge-srpm-macros",
+      "0.4.0",
+      "3.fc43",
+      "noarch",
+      "forge-srpm-macros-0.4.0-3.fc43.src.rpm"
+    ],
+    [
+      "fonts-srpm-macros",
+      "2.0.5",
+      "23.fc43",
+      "noarch",
+      "fonts-rpm-macros-2.0.5-23.fc43.src.rpm"
+    ],
+    [
+      "go-srpm-macros",
+      "3.8.0",
+      "1.fc43",
+      "noarch",
+      "go-rpm-macros-3.8.0-1.fc43.src.rpm"
+    ],
+    [
+      "python-srpm-macros",
+      "3.14",
+      "5.fc43",
+      "noarch",
+      "python-rpm-macros-3.14-5.fc43.src.rpm"
+    ],
+    [
+      "mingw-filesystem-base",
+      "152",
+      "1.fc43",
+      "noarch",
+      "mingw-filesystem-152-1.fc43.src.rpm"
+    ],
+    [
+      "mingw64-filesystem",
+      "152",
+      "1.fc43",
+      "noarch",
+      "mingw-filesystem-152-1.fc43.src.rpm"
+    ],
+    [
+      "mingw64-crt",
+      "13.0.0",
+      "2.fc43",
+      "noarch",
+      "mingw-crt-13.0.0-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-winpthreads",
+      "13.0.0",
+      "2.fc43",
+      "noarch",
+      "mingw-winpthreads-13.0.0-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-libgcc",
+      "15.2.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-gcc-15.2.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-libstdc++",
+      "15.2.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-gcc-15.2.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-headers",
+      "13.0.0",
+      "2.fc43",
+      "noarch",
+      "mingw-headers-13.0.0-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-winpthreads-static",
+      "13.0.0",
+      "2.fc43",
+      "noarch",
+      "mingw-winpthreads-13.0.0-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-libffi",
+      "3.5.1",
+      "2.fc43",
+      "noarch",
+      "mingw-libffi-3.5.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-termcap",
+      "1.3.1",
+      "39.fc43",
+      "noarch",
+      "mingw-termcap-1.3.1-39.fc43.src.rpm"
+    ],
+    [
+      "mingw64-win-iconv",
+      "0.0.10",
+      "3.fc43",
+      "noarch",
+      "mingw-win-iconv-0.0.10-3.fc43.src.rpm"
+    ],
+    [
+      "mingw64-gettext",
+      "0.25.1",
+      "1.fc43",
+      "noarch",
+      "mingw-gettext-0.25.1-1.fc43.src.rpm"
+    ],
+    [
+      "mingw64-zlib",
+      "1.3.2",
+      "1.fc43",
+      "noarch",
+      "mingw-zlib-1.3.2-1.fc43.src.rpm"
+    ],
+    [
+      "mingw64-pcre2",
+      "10.48",
+      "1.fc43",
+      "noarch",
+      "mingw-pcre2-10.48-1.fc43.src.rpm"
+    ],
+    [
+      "mingw64-cpp",
+      "15.2.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-gcc-15.2.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-binutils",
+      "2.45.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-binutils-2.45.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-gcc",
+      "15.2.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-gcc-15.2.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-gcc-c++",
+      "15.2.1",
+      "2.fc43",
+      "x86_64",
+      "mingw-gcc-15.2.1-2.fc43.src.rpm"
+    ],
+    [
+      "mingw64-glib2",
+      "2.86.5",
+      "2.fc43",
+      "noarch",
+      "mingw-glib2-2.86.5-2.fc43.src.rpm"
+    ],
+    [
+      "meson",
+      "1.8.5",
+      "3.fc43",
+      "noarch",
+      "meson-1.8.5-3.fc43.src.rpm"
+    ],
+    [
+      "glib2-devel",
+      "2.86.5",
+      "1.fc43",
+      "x86_64",
+      "glib2-2.86.5-1.fc43.src.rpm"
+    ],
+    [
+      "python3-pip",
+      "25.1.1",
+      "19.fc43",
+      "noarch",
+      "python-pip-25.1.1-19.fc43.src.rpm"
+    ],
+    [
+      "python-unversioned-command",
+      "3.14.8",
+      "1.fc43",
+      "noarch",
+      "python3.14-3.14.8-1.fc43.src.rpm"
+    ],
+    [
+      "python3-html2text",
+      "2025.4.15",
+      "5.fc43",
+      "noarch",
+      "python-html2text-2025.4.15-5.fc43.src.rpm"
+    ],
+    [
+      "perl-NDBM_File",
+      "1.18",
+      "524.fc43",
+      "x86_64",
+      "perl-5.42.3-524.fc43.src.rpm"
+    ],
+    [
+      "bat",
+      "0.26.1",
+      "4.fc43",
+      "x86_64",
+      "rust-bat-0.26.1-4.fc43.src.rpm"
+    ],
+    [
+      "less-color",
+      "704",
+      "4.fc43",
+      "x86_64",
+      "less-704-4.fc43.src.rpm"
+    ],
+    [
+      "7zip",
+      "26.04",
+      "1.fc43",
+      "x86_64",
+      "7zip-26.04-1.fc43.src.rpm"
+    ],
+    [
+      "glibc-gconv-extra",
+      "2.42",
+      "17.fc43",
+      "x86_64",
+      "glibc-2.42-17.fc43.src.rpm"
+    ],
+    [
+      "diffutils",
+      "3.12",
+      "3.fc43",
+      "x86_64",
+      "diffutils-3.12-3.fc43.src.rpm"
+    ]
+  ],
+  "rpms": [
+    {
+      "file": "7zip-26.04-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/7zip/26.04/1.fc43/x86_64/7zip-26.04-1.fc43.x86_64.rpm",
+      "sha256": "0f462a5b83901bca95735b16e69a3661678e5468fc8e6f7a774cb98f88e3dc6c"
+    },
+    {
+      "file": "add-determinism-0.6.0-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/rust-add-determinism/0.6.0/3.fc43/x86_64/add-determinism-0.6.0-3.fc43.x86_64.rpm",
+      "sha256": "c1b251faeb59d70b2dc96784595b3f813b389fdd9c90c986e1138c76712a467a"
+    },
+    {
+      "file": "annobin-docs-12.99-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/annobin/12.99/1.fc43/noarch/annobin-docs-12.99-1.fc43.noarch.rpm",
+      "sha256": "ee58430c8aeaaa8999b3d24ae898f916adffa97ba356e69cbdf4071e5de3e516"
+    },
+    {
+      "file": "annobin-plugin-gcc-12.99-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/annobin/12.99/1.fc43/x86_64/annobin-plugin-gcc-12.99-1.fc43.x86_64.rpm",
+      "sha256": "29ec9afbd46cafe9b4d4bffe7e061702867c0caee4c1a44fd8c2c7f5f7a47b81"
+    },
+    {
+      "file": "ansible-srpm-macros-1-18.1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/ansible-packaging/1/18.1.fc43/noarch/ansible-srpm-macros-1-18.1.fc43.noarch.rpm",
+      "sha256": "898909933c874ac67fd9105dbe7efa115846a0c1e3cc6d061e16e7b0cb625547"
+    },
+    {
+      "file": "bat-0.26.1-4.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/rust-bat/0.26.1/4.fc43/x86_64/bat-0.26.1-4.fc43.x86_64.rpm",
+      "sha256": "ca308362c9de4bb76715c04f9918b096de8fe62ffe90acc2bd4fa9293edce458"
+    },
+    {
+      "file": "binutils-2.45.1-5.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/binutils/2.45.1/5.fc43/x86_64/binutils-2.45.1-5.fc43.x86_64.rpm",
+      "sha256": "a3971b2f8c7b97b8f6e7000223226dc47d4ef8fa0d5b585791a3cf1f9f975431"
+    },
+    {
+      "file": "build-reproducibility-srpm-macros-0.6.0-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/rust-add-determinism/0.6.0/3.fc43/noarch/build-reproducibility-srpm-macros-0.6.0-3.fc43.noarch.rpm",
+      "sha256": "41e8ebea164492f0ab6c2399c7173e1f8e93fe6a244e6b59d767acae6030a1b0"
+    },
+    {
+      "file": "cmake-filesystem-3.31.11-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/cmake/3.31.11/1.fc43/x86_64/cmake-filesystem-3.31.11-1.fc43.x86_64.rpm",
+      "sha256": "8f21fbcc0a6af3d421d75a60ea8d34225a1c158964d0cc548efc2810bf274a3b"
+    },
+    {
+      "file": "cmake-rpm-macros-3.31.11-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/cmake/3.31.11/1.fc43/noarch/cmake-rpm-macros-3.31.11-1.fc43.noarch.rpm",
+      "sha256": "0473442f9f04c4210a466dbcfb1424942be9eebd5b3032d36d54791cf9d354dc"
+    },
+    {
+      "file": "cmake-srpm-macros-3.31.11-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/cmake/3.31.11/1.fc43/noarch/cmake-srpm-macros-3.31.11-1.fc43.noarch.rpm",
+      "sha256": "a775226c91d43b8c7571b341370f13569e18e7562fbf8c076e88b8eed9527b1c"
+    },
+    {
+      "file": "cpp-15.3.1-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gcc/15.3.1/1.fc43/x86_64/cpp-15.3.1-1.fc43.x86_64.rpm",
+      "sha256": "ba6af3406aa4af56d7ed293aac32e2c2f6b645d04414f915cfce0f381dedf69c"
+    },
+    {
+      "file": "diffutils-3.12-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/diffutils/3.12/3.fc43/x86_64/diffutils-3.12-3.fc43.x86_64.rpm",
+      "sha256": "8ca998423c0070614bbfe4a21db7f41dd5350bbe391e37c9b886896186f79832"
+    },
+    {
+      "file": "dwz-0.16-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/dwz/0.16/2.fc43/x86_64/dwz-0.16-2.fc43.x86_64.rpm",
+      "sha256": "48522c88bb01e830b466bebad2f6512fe898a9e4e06a4c7be19f1857259de701"
+    },
+    {
+      "file": "efi-srpm-macros-6-4.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/efi-rpm-macros/6/4.fc43/noarch/efi-srpm-macros-6-4.fc43.noarch.rpm",
+      "sha256": "9899f3308655e19b1a4ecb86be145b2171132d2d4f8f5794a0065d1b99841cb2"
+    },
+    {
+      "file": "elfutils-debuginfod-client-0.196-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/elfutils/0.196/1.fc43/x86_64/elfutils-debuginfod-client-0.196-1.fc43.x86_64.rpm",
+      "sha256": "119443ec3a3911f63a95b09068178a5a1b66af4f7cf0bc1ed3e107a596ee3137"
+    },
+    {
+      "file": "expat-2.8.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/expat/2.8.5/1.fc43/x86_64/expat-2.8.5-1.fc43.x86_64.rpm",
+      "sha256": "3ab0a79ec649cb4e09bb140504d62a98e627ac4af8b2c56e9d40edabe1220a6c"
+    },
+    {
+      "file": "file-5.46-9.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/file/5.46/9.fc43/x86_64/file-5.46-9.fc43.x86_64.rpm",
+      "sha256": "3f3f54057791c3c4eff794812226ca382d7434cc4fe454aa86dca22bfebeae76"
+    },
+    {
+      "file": "filesystem-srpm-macros-3.18-50.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/filesystem/3.18/50.fc43/noarch/filesystem-srpm-macros-3.18-50.fc43.noarch.rpm",
+      "sha256": "db491e64a09143feca4402613e818528b3c94125722ba3325828e4c626733366"
+    },
+    {
+      "file": "fonts-srpm-macros-2.0.5-23.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/fonts-rpm-macros/2.0.5/23.fc43/noarch/fonts-srpm-macros-2.0.5-23.fc43.noarch.rpm",
+      "sha256": "1c1cdb3cb290d9ae7c0236c94e9c246c97672d5e2f30a75c04b215dcc24a20fa"
+    },
+    {
+      "file": "forge-srpm-macros-0.4.0-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/forge-srpm-macros/0.4.0/3.fc43/noarch/forge-srpm-macros-0.4.0-3.fc43.noarch.rpm",
+      "sha256": "a461923569e0743684b11477ebf731c399be4f7b84aacfb2760f84bb8ca19fd9"
+    },
+    {
+      "file": "fpc-srpm-macros-1.3-15.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/fpc-srpm-macros/1.3/15.fc43/noarch/fpc-srpm-macros-1.3-15.fc43.noarch.rpm",
+      "sha256": "fe7e429aac8f5a26224f99a83290c952978795908c3c2a12e871362eb0c956a4"
+    },
+    {
+      "file": "gap-srpm-macros-2-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gap-srpm-macros/2/1.fc43/noarch/gap-srpm-macros-2-1.fc43.noarch.rpm",
+      "sha256": "219bcb94722c4b855d4deae76b1084c189402c83def844191e4a8a24457216f7"
+    },
+    {
+      "file": "gcc-15.3.1-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gcc/15.3.1/1.fc43/x86_64/gcc-15.3.1-1.fc43.x86_64.rpm",
+      "sha256": "5361a544a8412eecfdfb1dc117749b637bfcd19de41eaa9468f94cade6cf1824"
+    },
+    {
+      "file": "gcc-plugin-annobin-15.3.1-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gcc/15.3.1/1.fc43/x86_64/gcc-plugin-annobin-15.3.1-1.fc43.x86_64.rpm",
+      "sha256": "91ea506b56a5802d9b5152840c9f3ff678c808c81a4eb345d85b74778cc498e6"
+    },
+    {
+      "file": "ghc-srpm-macros-1.9.2-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/ghc-srpm-macros/1.9.2/3.fc43/noarch/ghc-srpm-macros-1.9.2-3.fc43.noarch.rpm",
+      "sha256": "f2ef5bc4c26894105e0e9163590baa12fd78f83b451c796b6d27cd9dfe86aa6c"
+    },
+    {
+      "file": "git-2.56.0-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/git/2.56.0/1.fc43/x86_64/git-2.56.0-1.fc43.x86_64.rpm",
+      "sha256": "2dac147a4355c30483f37ba39a0e17379e3d676b37e5c0160a94b3c899542a6b"
+    },
+    {
+      "file": "git-core-2.56.0-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/git/2.56.0/1.fc43/x86_64/git-core-2.56.0-1.fc43.x86_64.rpm",
+      "sha256": "70317aa73bc8bc52a4bae7dcbbc353761c7e1d10d5653612f6d59ee44ec54426"
+    },
+    {
+      "file": "git-core-doc-2.56.0-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/git/2.56.0/1.fc43/noarch/git-core-doc-2.56.0-1.fc43.noarch.rpm",
+      "sha256": "d5686cff3ff24a6ed827642cfac4cbe1a76634c54eb45f789d948154dd089047"
+    },
+    {
+      "file": "glib2-devel-2.86.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/glib2/2.86.5/1.fc43/x86_64/glib2-devel-2.86.5-1.fc43.x86_64.rpm",
+      "sha256": "1c2ff86b0e87be2af7a1b4e09a8815141387dc4dc679924c36dda26cf0bde9b5"
+    },
+    {
+      "file": "glibc-devel-2.42-17.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/glibc/2.42/17.fc43/x86_64/glibc-devel-2.42-17.fc43.x86_64.rpm",
+      "sha256": "a5e0f6016bcc494636f26aa82a8f316da04e74226f50af6f5c12a491b0049c23"
+    },
+    {
+      "file": "glibc-gconv-extra-2.42-17.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/glibc/2.42/17.fc43/x86_64/glibc-gconv-extra-2.42-17.fc43.x86_64.rpm",
+      "sha256": "61ef0b5abd133af7cc9b2a527f27737c2b06eed49f68ba20a0d7850210b94e16"
+    },
+    {
+      "file": "gnat-srpm-macros-7-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gnat-srpm-macros/7/1.fc43/noarch/gnat-srpm-macros-7-1.fc43.noarch.rpm",
+      "sha256": "ad4c999f931645c68060ff4b66e52c6529c83701bd35606581989ea671719b11"
+    },
+    {
+      "file": "gnome-srpm-macros-1.0-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gnome-srpm-macros/1.0/1.fc43/noarch/gnome-srpm-macros-1.0-1.fc43.noarch.rpm",
+      "sha256": "3d049716ef8e6696a0daec11602131d167c44aafccf44c4b7c2bd7ab3a936e87"
+    },
+    {
+      "file": "go-srpm-macros-3.8.0-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/go-rpm-macros/3.8.0/1.fc43/noarch/go-srpm-macros-3.8.0-1.fc43.noarch.rpm",
+      "sha256": "d1420a5ca154756603a99c10d0ade522d01871e02fad7c5b9ff929269f2d1218"
+    },
+    {
+      "file": "gpgverify-2.2-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/gpgverify/2.2/3.fc43/noarch/gpgverify-2.2-3.fc43.noarch.rpm",
+      "sha256": "0b2d1cd8d4752b9196da66c3b13e34d8c5daf5c1e25c9aa1d3622189ba90d113"
+    },
+    {
+      "file": "groff-base-1.23.0-11.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/groff/1.23.0/11.fc43/x86_64/groff-base-1.23.0-11.fc43.x86_64.rpm",
+      "sha256": "a0b89e2df51a9cfb8f67b9a84d7d184b75c2858f9ee33e70826821f22902fe58"
+    },
+    {
+      "file": "jansson-2.14-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/jansson/2.14/3.fc43/x86_64/jansson-2.14-3.fc43.x86_64.rpm",
+      "sha256": "48492f7854dd58df263d1cef2feacd102555688a0e31f37cd5d12c69288b3e9b"
+    },
+    {
+      "file": "java-srpm-macros-1-7.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/java-rpm-macros/1/7.fc43/noarch/java-srpm-macros-1-7.fc43.noarch.rpm",
+      "sha256": "7da1580a16b534cf9cb6beb365df76ca14fd55c0a591462ec7b4473a6c897572"
+    },
+    {
+      "file": "kernel-headers-7.2.4-100.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/kernel-headers/7.2.4/100.fc43/x86_64/kernel-headers-7.2.4-100.fc43.x86_64.rpm",
+      "sha256": "14d1effce93a349b7ea7fcf9e7b93385217543089c5e996dfa18164e69478ef6"
+    },
+    {
+      "file": "kernel-srpm-macros-1.0-27.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/kernel-srpm-macros/1.0/27.fc43/noarch/kernel-srpm-macros-1.0-27.fc43.noarch.rpm",
+      "sha256": "1d9f0e2712e62385895ffc201830721528780cfa8e9cdf74bd380956d7caa3cf"
+    },
+    {
+      "file": "less-704-4.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/less/704/4.fc43/x86_64/less-704-4.fc43.x86_64.rpm",
+      "sha256": "bd8c5560d0aaf37795be27e272c728007d426ae5e5e34234a33adb9af2900fb9"
+    },
+    {
+      "file": "less-color-704-4.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/less/704/4.fc43/x86_64/less-color-704-4.fc43.x86_64.rpm",
+      "sha256": "6d5930f51aa028f8dad5359fc73e33254daf80ef8e55cc1f80f0c2e62b7a4700"
+    },
+    {
+      "file": "libblkid-devel-2.41.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/util-linux/2.41.5/1.fc43/x86_64/libblkid-devel-2.41.5-1.fc43.x86_64.rpm",
+      "sha256": "a01cc4110c893f5450992628f5a2a8f3d809e68ad2e7256255a8b1550079c27f"
+    },
+    {
+      "file": "libcbor-0.12.0-6.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libcbor/0.12.0/6.fc43/x86_64/libcbor-0.12.0-6.fc43.x86_64.rpm",
+      "sha256": "02464edab23ce969c2cfcd05c00539de32cf0f44a429563df83f76de7bb850d2"
+    },
+    {
+      "file": "libedit-3.1-58.20260512cvs.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libedit/3.1/58.20260512cvs.fc43/x86_64/libedit-3.1-58.20260512cvs.fc43.x86_64.rpm",
+      "sha256": "3a23a311a02e26d87de37259c1b7b2f892400f05b473d63451a16dbeefe426ef"
+    },
+    {
+      "file": "libfdisk-2.41.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/util-linux/2.41.5/1.fc43/x86_64/libfdisk-2.41.5-1.fc43.x86_64.rpm",
+      "sha256": "d6b217edd34f20006d9acf72c7a808ab41aa217a6f2e44322e7805a6629d4ee7"
+    },
+    {
+      "file": "libffi-devel-3.5.2-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libffi/3.5.2/1.fc43/x86_64/libffi-devel-3.5.2-1.fc43.x86_64.rpm",
+      "sha256": "565cdfd21e6efd267eef3bd4dc3560a048428a9f7836d5bdd640662d5ba4bee8"
+    },
+    {
+      "file": "libfido2-1.16.0-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libfido2/1.16.0/3.fc43/x86_64/libfido2-1.16.0-3.fc43.x86_64.rpm",
+      "sha256": "38af95239f9dcc79815b5686af697cd9113669bad164fe83b469a0f2b5e87e04"
+    },
+    {
+      "file": "libgit2-1.9.7-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libgit2/1.9.7/1.fc43/x86_64/libgit2-1.9.7-1.fc43.x86_64.rpm",
+      "sha256": "3449a8470f717dfca5b5a1eef3bff40a96f294553a5cfb9dc87ee93abfb1e8e2"
+    },
+    {
+      "file": "liblastlog2-2.41.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/util-linux/2.41.5/1.fc43/x86_64/liblastlog2-2.41.5-1.fc43.x86_64.rpm",
+      "sha256": "8db14c14d2d3646914e297af7929d147c2e9d94dbde7a6f00da0d66435455d05"
+    },
+    {
+      "file": "libmount-devel-2.41.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/util-linux/2.41.5/1.fc43/x86_64/libmount-devel-2.41.5-1.fc43.x86_64.rpm",
+      "sha256": "bb579f80a5db5e93d3760a40d7ecf392023c73afa7460c9071ed4f2320ac8238"
+    },
+    {
+      "file": "libmpc-1.3.1-8.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libmpc/1.3.1/8.fc43/x86_64/libmpc-1.3.1-8.fc43.x86_64.rpm",
+      "sha256": "43ecdd4de0cc153080c3f832036f503edbb8a4cfb67e247ade74f7e36559e245"
+    },
+    {
+      "file": "libpkgconf-2.3.0-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pkgconf/2.3.0/3.fc43/x86_64/libpkgconf-2.3.0-3.fc43.x86_64.rpm",
+      "sha256": "dbf599093093e8aeb5e74b40bc2b1cf77c801b455596e253ed02b84b1c53505f"
+    },
+    {
+      "file": "libselinux-devel-3.9-5.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libselinux/3.9/5.fc43/x86_64/libselinux-devel-3.9-5.fc43.x86_64.rpm",
+      "sha256": "86ba34af56e046bd86d862aea2929a4d29ff2acb1f129d012be6a7a1365ba245"
+    },
+    {
+      "file": "libsepol-devel-3.9-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libsepol/3.9/2.fc43/x86_64/libsepol-devel-3.9-2.fc43.x86_64.rpm",
+      "sha256": "f02145dcbe88e6d5d0d74f5a1337d513ee9cbe3f7bebb0e24eaf506e7ff850f6"
+    },
+    {
+      "file": "libssh2-1.11.1-9.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libssh2/1.11.1/9.fc43/x86_64/libssh2-1.11.1-9.fc43.x86_64.rpm",
+      "sha256": "b88dd9b32225934643b088ac469ee38ffb048e05a0d6ac243af90c60643e509b"
+    },
+    {
+      "file": "libxcrypt-devel-4.5.2-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/libxcrypt/4.5.2/1.fc43/x86_64/libxcrypt-devel-4.5.2-1.fc43.x86_64.rpm",
+      "sha256": "e00b6c7e2f87e47ce72437368dad2d80f2fbca4438c61fa1e2b449a1f30e99ca"
+    },
+    {
+      "file": "llhttp-9.3.1-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/llhttp/9.3.1/1.fc43/x86_64/llhttp-9.3.1-1.fc43.x86_64.rpm",
+      "sha256": "0a3ded4f2a039683ae4bb638f6e7b49356246d4b09e5aeaaa4d6e13734ec1507"
+    },
+    {
+      "file": "lua-srpm-macros-1-16.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/lua-rpm-macros/1/16.fc43/noarch/lua-srpm-macros-1-16.fc43.noarch.rpm",
+      "sha256": "73b758a6b7550a0570b82e129bb3ef409b3f9d84b52202dc78422a5cd890c2c6"
+    },
+    {
+      "file": "make-4.4.1-11.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/make/4.4.1/11.fc43/x86_64/make-4.4.1-11.fc43.x86_64.rpm",
+      "sha256": "15efaea3972cca7f43e9619af676498a3e586d312b59acfc3715d9fb595c06d2"
+    },
+    {
+      "file": "meson-1.8.5-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/meson/1.8.5/3.fc43/noarch/meson-1.8.5-3.fc43.noarch.rpm",
+      "sha256": "c9f2d4d5de6e63ccd6d5de6d55263fb798bd6e2c8b2c9d5b963a913139e515e4"
+    },
+    {
+      "file": "mingw-binutils-generic-2.45.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-binutils/2.45.1/2.fc43/x86_64/mingw-binutils-generic-2.45.1-2.fc43.x86_64.rpm",
+      "sha256": "93cac2e992731cb4dcadd03ae4c998a039dcd3061ad816db5a1b5d2f92512e22"
+    },
+    {
+      "file": "mingw-filesystem-base-152-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-filesystem/152/1.fc43/noarch/mingw-filesystem-base-152-1.fc43.noarch.rpm",
+      "sha256": "0300e8c600e2b0665144d79afad6d169dc2336bbc68afbdd54c50e62f4797bb8"
+    },
+    {
+      "file": "mingw64-binutils-2.45.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-binutils/2.45.1/2.fc43/x86_64/mingw64-binutils-2.45.1-2.fc43.x86_64.rpm",
+      "sha256": "1c4e4a77e150cb7a344841aad0b8fd126c7af94bc4cf03b85caf8062343fbbcd"
+    },
+    {
+      "file": "mingw64-cpp-15.2.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gcc/15.2.1/2.fc43/x86_64/mingw64-cpp-15.2.1-2.fc43.x86_64.rpm",
+      "sha256": "a10fbcdc367d446f048a5803d674b3342edf4600ca5f85b41e66617151387b27"
+    },
+    {
+      "file": "mingw64-crt-13.0.0-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-crt/13.0.0/2.fc43/noarch/mingw64-crt-13.0.0-2.fc43.noarch.rpm",
+      "sha256": "db4583dbb1877a962ab981e197404753ee87c84159f07918cade42f6ce9bbb92"
+    },
+    {
+      "file": "mingw64-filesystem-152-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-filesystem/152/1.fc43/noarch/mingw64-filesystem-152-1.fc43.noarch.rpm",
+      "sha256": "a9237e3005be21e01ec0e8060990cf8fe4c623812092887175d4bf67e0e8b54c"
+    },
+    {
+      "file": "mingw64-gcc-15.2.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gcc/15.2.1/2.fc43/x86_64/mingw64-gcc-15.2.1-2.fc43.x86_64.rpm",
+      "sha256": "d9609608c8e9e74e95dd4c730169676e9d674dc766d63d18489962fd66154fa0"
+    },
+    {
+      "file": "mingw64-gcc-c++-15.2.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gcc/15.2.1/2.fc43/x86_64/mingw64-gcc-c++-15.2.1-2.fc43.x86_64.rpm",
+      "sha256": "32f43c9b27eeacd3026e780bb5b976813619d0fda893656df6ada8eb8e3e744a"
+    },
+    {
+      "file": "mingw64-gettext-0.25.1-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gettext/0.25.1/1.fc43/noarch/mingw64-gettext-0.25.1-1.fc43.noarch.rpm",
+      "sha256": "d82348369f91ea0383d3113f869b31c75214c007837d9b772a59e6c7b9147536"
+    },
+    {
+      "file": "mingw64-glib2-2.86.5-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-glib2/2.86.5/2.fc43/noarch/mingw64-glib2-2.86.5-2.fc43.noarch.rpm",
+      "sha256": "d30b48356749e8822e09b49d14efe5bb59caec9903f10e1e376ea7be6a06f49a"
+    },
+    {
+      "file": "mingw64-headers-13.0.0-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-headers/13.0.0/2.fc43/noarch/mingw64-headers-13.0.0-2.fc43.noarch.rpm",
+      "sha256": "3f3fa040b7c436c5fc15100ff24dfcf757579ddc8eb8214de7d6c5795a1c572a"
+    },
+    {
+      "file": "mingw64-libffi-3.5.1-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-libffi/3.5.1/2.fc43/noarch/mingw64-libffi-3.5.1-2.fc43.noarch.rpm",
+      "sha256": "b26eea526b4a7a776482b5b2516d1a97c911a6c693df1ee9bb77500e59ebbe2d"
+    },
+    {
+      "file": "mingw64-libgcc-15.2.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gcc/15.2.1/2.fc43/x86_64/mingw64-libgcc-15.2.1-2.fc43.x86_64.rpm",
+      "sha256": "bdb7f6a902aff1ace069f59aa047332f0f466f97182e86817573586322aeaabe"
+    },
+    {
+      "file": "mingw64-libstdc++-15.2.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-gcc/15.2.1/2.fc43/x86_64/mingw64-libstdc++-15.2.1-2.fc43.x86_64.rpm",
+      "sha256": "2cb98145fb0a0bdbf1f26abe0539aa397d49e35bb9a0fecc09c539031fe59f8a"
+    },
+    {
+      "file": "mingw64-pcre2-10.48-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-pcre2/10.48/1.fc43/noarch/mingw64-pcre2-10.48-1.fc43.noarch.rpm",
+      "sha256": "966d3aeafda0aa01bee1c99936226634ec09298fc0150f5be2f0e02d56c96bf1"
+    },
+    {
+      "file": "mingw64-termcap-1.3.1-39.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-termcap/1.3.1/39.fc43/noarch/mingw64-termcap-1.3.1-39.fc43.noarch.rpm",
+      "sha256": "a16f4087539901e2bf29b3b6441a8d0068609829f3040198e57df95d2b8cd51b"
+    },
+    {
+      "file": "mingw64-win-iconv-0.0.10-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-win-iconv/0.0.10/3.fc43/noarch/mingw64-win-iconv-0.0.10-3.fc43.noarch.rpm",
+      "sha256": "e67fcab78fdf42ad26bfea9d21b89874b17de0d11deeb0ccfd44d654bd5810ad"
+    },
+    {
+      "file": "mingw64-winpthreads-13.0.0-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-winpthreads/13.0.0/2.fc43/noarch/mingw64-winpthreads-13.0.0-2.fc43.noarch.rpm",
+      "sha256": "273be735e5fd4812abe210c20a5f9a8412e06b915f6728b5328a262226d38a7f"
+    },
+    {
+      "file": "mingw64-winpthreads-static-13.0.0-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-winpthreads/13.0.0/2.fc43/noarch/mingw64-winpthreads-static-13.0.0-2.fc43.noarch.rpm",
+      "sha256": "40bdb8884fda987dcc969eabd51d80b3dc2ad6a5c5edcf174ddebc916de8909b"
+    },
+    {
+      "file": "mingw64-zlib-1.3.2-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mingw-zlib/1.3.2/1.fc43/noarch/mingw64-zlib-1.3.2-1.fc43.noarch.rpm",
+      "sha256": "d01fdd2e5f51c76168088144f0b832c86bb955dae7b136ff34446e5941c70f4b"
+    },
+    {
+      "file": "mpdecimal-4.0.1-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/mpdecimal/4.0.1/2.fc43/x86_64/mpdecimal-4.0.1-2.fc43.x86_64.rpm",
+      "sha256": "9f544199ac7f4d7d559cdca2971cc1475000f384a3580832d404db305d926d4d"
+    },
+    {
+      "file": "ncurses-6.5-7.20250614.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/ncurses/6.5/7.20250614.fc43/x86_64/ncurses-6.5-7.20250614.fc43.x86_64.rpm",
+      "sha256": "7335535f42be61fe064ad76d98ab9eb8efd99583fc4a1ce57531b038b0747d12"
+    },
+    {
+      "file": "ninja-build-1.13.1-4.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/ninja-build/1.13.1/4.fc43/x86_64/ninja-build-1.13.1-4.fc43.x86_64.rpm",
+      "sha256": "f381109f240b78f27d26d3dc98aaa508ea5ccb19489f78bc01e9580aa2df5955"
+    },
+    {
+      "file": "ocaml-srpm-macros-11-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/ocaml-srpm-macros/11/2.fc43/noarch/ocaml-srpm-macros-11-2.fc43.noarch.rpm",
+      "sha256": "64910b124c699b5e34dcd66f2ce9d7bf7e0364bb9f246c1c65686c2c1adb9a4b"
+    },
+    {
+      "file": "oniguruma-6.9.10-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/oniguruma/6.9.10/3.fc43/x86_64/oniguruma-6.9.10-3.fc43.x86_64.rpm",
+      "sha256": "bf9c52ac74845db99e2eff0a6785de7354817aed3f995a7919784bf87f2590e7"
+    },
+    {
+      "file": "openblas-srpm-macros-2-20.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/openblas-srpm-macros/2/20.fc43/noarch/openblas-srpm-macros-2-20.fc43.noarch.rpm",
+      "sha256": "e4b46fe90d983ba976d598e57cd409d01eeb72308bf50c7750f52064db8c9b65"
+    },
+    {
+      "file": "openssh-10.0p1-12.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/openssh/10.0p1/12.fc43/x86_64/openssh-10.0p1-12.fc43.x86_64.rpm",
+      "sha256": "91fcfd769a080c42af0c8ff70c722bb39930c22d51b40b526d721a8cba94ee01"
+    },
+    {
+      "file": "openssh-clients-10.0p1-12.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/openssh/10.0p1/12.fc43/x86_64/openssh-clients-10.0p1-12.fc43.x86_64.rpm",
+      "sha256": "4b388b61f9c97a7c959a4f5775e7052510595a7364930abe95baf9c213165d4a"
+    },
+    {
+      "file": "package-notes-srpm-macros-0.20-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/package-notes/0.20/1.fc43/noarch/package-notes-srpm-macros-0.20-1.fc43.noarch.rpm",
+      "sha256": "e1978adc1098066c7815080c5131ac42e34d9cfac15bcfaba73a7963d040dde2"
+    },
+    {
+      "file": "pcre2-devel-10.47-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pcre2/10.47/1.fc43/x86_64/pcre2-devel-10.47-1.fc43.x86_64.rpm",
+      "sha256": "4bdd83eec68a177674477b874d87a15698062539c90828e4bd74a85180bc77e9"
+    },
+    {
+      "file": "pcre2-utf16-10.47-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pcre2/10.47/1.fc43/x86_64/pcre2-utf16-10.47-1.fc43.x86_64.rpm",
+      "sha256": "28253375c0640f30ea78256d7e27c53c6d6871050815883c2c10642a42b99690"
+    },
+    {
+      "file": "pcre2-utf32-10.47-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pcre2/10.47/1.fc43/x86_64/pcre2-utf32-10.47-1.fc43.x86_64.rpm",
+      "sha256": "5edcf37e2fe1488b6ce7fa25252f3e076c3db5562ab0f3b7031ce51f7581d749"
+    },
+    {
+      "file": "perl-AutoLoader-5.74-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-AutoLoader-5.74-524.fc43.noarch.rpm",
+      "sha256": "5c8df0fb49fb4f19d3aa75c6a4d021f1117fbb777464cdad284219f5838d7e6f"
+    },
+    {
+      "file": "perl-B-1.89-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-B-1.89-524.fc43.x86_64.rpm",
+      "sha256": "13dc664fffc8b5cb8340130610c8b3e13f4bdaafb53d2d6048deee376ad5de9b"
+    },
+    {
+      "file": "perl-Carp-1.54-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Carp/1.54/520.fc43/noarch/perl-Carp-1.54-520.fc43.noarch.rpm",
+      "sha256": "06297b1f401b3a295e7e11105dab44cfc0f011bfc04c7c19c01f918802fcfa40"
+    },
+    {
+      "file": "perl-Class-Struct-0.68-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-Class-Struct-0.68-524.fc43.noarch.rpm",
+      "sha256": "61c862f3f91afeb9f5068cf5e32635064a5778cd4940ab16cbcef81c086d1985"
+    },
+    {
+      "file": "perl-Data-Dumper-2.192-522.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Data-Dumper/2.192/522.fc43/x86_64/perl-Data-Dumper-2.192-522.fc43.x86_64.rpm",
+      "sha256": "cdeebecd835f7fc136e51f7672b3ce66126912bbfac14896443de1b40ff679c9"
+    },
+    {
+      "file": "perl-Digest-1.20-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Digest/1.20/520.fc43/noarch/perl-Digest-1.20-520.fc43.noarch.rpm",
+      "sha256": "747079ac6f125f27baa2833f1db5f8d72e6e982d217c706f6d49dba9d92936ef"
+    },
+    {
+      "file": "perl-Digest-MD5-2.59-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Digest-MD5/2.59/520.fc43/x86_64/perl-Digest-MD5-2.59-520.fc43.x86_64.rpm",
+      "sha256": "9c4918146731f3bb4433f35cf3527362721768937580fecc5e73e62a2c101771"
+    },
+    {
+      "file": "perl-DynaLoader-1.57-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-DynaLoader-1.57-524.fc43.x86_64.rpm",
+      "sha256": "a0ab49be24743bada691ed3bbdbb251c9c9e9512e2a28b55f0b527f1d1841296"
+    },
+    {
+      "file": "perl-Encode-3.21-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Encode/3.21/520.fc43/x86_64/perl-Encode-3.21-520.fc43.x86_64.rpm",
+      "sha256": "ace610d63a58faf5162bf913b7b8ca8df4d0522c2de0206d0d3222156d0dc490"
+    },
+    {
+      "file": "perl-Errno-1.38-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-Errno-1.38-524.fc43.x86_64.rpm",
+      "sha256": "9c678e092fcc9d0b6e07e45b16eacd5955916013a0c0b946fe9beebdfe93331e"
+    },
+    {
+      "file": "perl-Error-0.17030-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Error/0.17030/2.fc43/noarch/perl-Error-0.17030-2.fc43.noarch.rpm",
+      "sha256": "c2060fd807aa8af2c140183cd08938e41bb74a185ca27fa636307aea50e95cc0"
+    },
+    {
+      "file": "perl-Exporter-5.79-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Exporter/5.79/520.fc43/noarch/perl-Exporter-5.79-520.fc43.noarch.rpm",
+      "sha256": "78cb479191c4cd39e29ceca60a4bf43c5845542fce450ad57764260cbe0f45f7"
+    },
+    {
+      "file": "perl-Fcntl-1.20-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-Fcntl-1.20-524.fc43.x86_64.rpm",
+      "sha256": "56492dfb1ca2abafbd60e5028049b2d951bbb685e0a26ff63ef6259242351ce3"
+    },
+    {
+      "file": "perl-File-Basename-2.86-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-File-Basename-2.86-524.fc43.noarch.rpm",
+      "sha256": "aa25b18c0b7287b0786aacccab51824b9f5f242bc45bb7ae681236ef05675896"
+    },
+    {
+      "file": "perl-File-Path-2.18-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-File-Path/2.18/520.fc43/noarch/perl-File-Path-2.18-520.fc43.noarch.rpm",
+      "sha256": "a4012972381e19e75509806d385834e07bd90ae21bd2ecb2b5dc5dc3b7b6dab8"
+    },
+    {
+      "file": "perl-File-Temp-0.231.100-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-File-Temp/0.231.100/520.fc43/noarch/perl-File-Temp-0.231.100-520.fc43.noarch.rpm",
+      "sha256": "9d3edbf1e52ea5f53f74816d41fda277b4b1c59b14e372800dda258bec67c62a"
+    },
+    {
+      "file": "perl-File-stat-1.14-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-File-stat-1.14-524.fc43.noarch.rpm",
+      "sha256": "321d69082387e7837b3a75b8a57f0f03e7e649117396fa83b950f399695eccf9"
+    },
+    {
+      "file": "perl-FileHandle-2.05-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-FileHandle-2.05-524.fc43.noarch.rpm",
+      "sha256": "fd1483a15fa65737e55294cf2f6bbce35aecd46f7544207ffa9d740958463ba1"
+    },
+    {
+      "file": "perl-Getopt-Long-2.58-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Getopt-Long/2.58/520.fc43/noarch/perl-Getopt-Long-2.58-520.fc43.noarch.rpm",
+      "sha256": "4f6a78fc1656dc622b23bba739e5b90e13f321ba686440f46b9c90b14acfad56"
+    },
+    {
+      "file": "perl-Getopt-Std-1.14-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-Getopt-Std-1.14-524.fc43.noarch.rpm",
+      "sha256": "ff102364b8fbe0e0ef1710850188aa7f09e0378d5ced00e4275b14a95ae8d7c5"
+    },
+    {
+      "file": "perl-Git-2.56.0-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/git/2.56.0/1.fc43/noarch/perl-Git-2.56.0-1.fc43.noarch.rpm",
+      "sha256": "de5b63fd93a5ca693c54c6ac95877fa370b2db1722866461cb485ccfead548a4"
+    },
+    {
+      "file": "perl-HTTP-Tiny-0.096-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-HTTP-Tiny/0.096/1.fc43/noarch/perl-HTTP-Tiny-0.096-1.fc43.noarch.rpm",
+      "sha256": "b7de79f63a85f75bd29547a4c7a867ef8a1b488b57ccf3911f020f9d547500ed"
+    },
+    {
+      "file": "perl-IO-1.55-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-IO-1.55-524.fc43.x86_64.rpm",
+      "sha256": "3b248da2254a25634eba21704ed6d2fbc8157a9da1dfdcb138a0ff40751e89df"
+    },
+    {
+      "file": "perl-IO-Socket-IP-0.43-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-IO-Socket-IP/0.43/521.fc43/noarch/perl-IO-Socket-IP-0.43-521.fc43.noarch.rpm",
+      "sha256": "a1a88e2b6df10f06ef6352da9e5599ee2dbdde884efda6f499111b9ea5c16656"
+    },
+    {
+      "file": "perl-IO-Socket-SSL-2.095-2.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-IO-Socket-SSL/2.095/2.fc43/noarch/perl-IO-Socket-SSL-2.095-2.fc43.noarch.rpm",
+      "sha256": "29e0ff8cc9306cc3501e7eb41362f0a02620a5ea709633262baa7ea85b039085"
+    },
+    {
+      "file": "perl-IPC-Open3-1.24-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-IPC-Open3-1.24-524.fc43.noarch.rpm",
+      "sha256": "eef99fd81f3f6977fb38fa304f2b11754614cfc913cfde56754dfd20f99ea99f"
+    },
+    {
+      "file": "perl-MIME-Base32-1.303-24.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-MIME-Base32/1.303/24.fc43/noarch/perl-MIME-Base32-1.303-24.fc43.noarch.rpm",
+      "sha256": "5d490a7da5544a4b4b9a678f7ce49f1589138f9001dff385c4b4ec7e689b56bd"
+    },
+    {
+      "file": "perl-MIME-Base64-3.16-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-MIME-Base64/3.16/520.fc43/x86_64/perl-MIME-Base64-3.16-520.fc43.x86_64.rpm",
+      "sha256": "3bb1282b35aca7242eef4d4005aadc9f4b7c9f184eb4b57831560c9d91772428"
+    },
+    {
+      "file": "perl-NDBM_File-1.18-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-NDBM_File-1.18-524.fc43.x86_64.rpm",
+      "sha256": "dac7fc03b56306b2c4dbfa3e46f4fd5a31ae729e5040c76d1ff9af9d8137142f"
+    },
+    {
+      "file": "perl-Net-SSLeay-1.94-11.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Net-SSLeay/1.94/11.fc43/x86_64/perl-Net-SSLeay-1.94-11.fc43.x86_64.rpm",
+      "sha256": "c6d561f6ae373151e8d2bcb6736143c6bd4aab8b5684ac246e6c20c11c4f62b9"
+    },
+    {
+      "file": "perl-POSIX-2.23-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-POSIX-2.23-524.fc43.x86_64.rpm",
+      "sha256": "46c27d32e4b183857e0394024994574ccac675bb75f445d3405a3185119cc0b5"
+    },
+    {
+      "file": "perl-PathTools-3.94-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-PathTools/3.94/520.fc43/x86_64/perl-PathTools-3.94-520.fc43.x86_64.rpm",
+      "sha256": "8170e69b6b053dac65f0c74bb01acfd98cf96c2c2e9d364f7da7ed7e99653482"
+    },
+    {
+      "file": "perl-Pod-Escapes-1.07-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Pod-Escapes/1.07/520.fc43/noarch/perl-Pod-Escapes-1.07-520.fc43.noarch.rpm",
+      "sha256": "3af35098c1ae5976f8a2ee079a632be47dda54dbe2ee994a3763cfe06699a35e"
+    },
+    {
+      "file": "perl-Pod-Perldoc-3.28.01-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Pod-Perldoc/3.28.01/521.fc43/noarch/perl-Pod-Perldoc-3.28.01-521.fc43.noarch.rpm",
+      "sha256": "095a3cb2e3af8e4e9c3e67fff0289bd9516b7857d9e175f9b072fe6a836d1fd1"
+    },
+    {
+      "file": "perl-Pod-Simple-3.47-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Pod-Simple/3.47/3.fc43/noarch/perl-Pod-Simple-3.47-3.fc43.noarch.rpm",
+      "sha256": "299c4c2adf7d218c4c14674df266673f94072e73abef773a4942930c44274ac7"
+    },
+    {
+      "file": "perl-Pod-Usage-2.05-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Pod-Usage/2.05/520.fc43/noarch/perl-Pod-Usage-2.05-520.fc43.noarch.rpm",
+      "sha256": "acdda2f6edb677f2c14da7db2f87f969a0d3a2fd52d8bb6eee6e1eeda8a3d829"
+    },
+    {
+      "file": "perl-Scalar-List-Utils-1.70-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Scalar-List-Utils/1.70/1.fc43/x86_64/perl-Scalar-List-Utils-1.70-1.fc43.x86_64.rpm",
+      "sha256": "58374d867d5164ac4e43b6aebf2d2dbfb50f89e5a5665d9f7eaf7e67d5ba7145"
+    },
+    {
+      "file": "perl-SelectSaver-1.02-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-SelectSaver-1.02-524.fc43.noarch.rpm",
+      "sha256": "7f13758e0e99fdde472f5f1c58c48f3359b20a6ba896135a72b01d4332506d42"
+    },
+    {
+      "file": "perl-Socket-2.043-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Socket/2.043/1.fc43/x86_64/perl-Socket-2.043-1.fc43.x86_64.rpm",
+      "sha256": "c7611e152c58e343ec740e6aa6b7ccda93d0d9b8216067c0cd40b2a4041d630f"
+    },
+    {
+      "file": "perl-Storable-3.37-521.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Storable/3.37/521.fc43/x86_64/perl-Storable-3.37-521.fc43.x86_64.rpm",
+      "sha256": "7c2a6636c874036336a6361458aa8ae34a4557c4237f1c93d0c3ebad06d03868"
+    },
+    {
+      "file": "perl-Symbol-1.09-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-Symbol-1.09-524.fc43.noarch.rpm",
+      "sha256": "2b86636a485fff2b3a8d3d25b90689738eb35cbf6d01acecc60c77db49c76529"
+    },
+    {
+      "file": "perl-Term-ANSIColor-5.01-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Term-ANSIColor/5.01/521.fc43/noarch/perl-Term-ANSIColor-5.01-521.fc43.noarch.rpm",
+      "sha256": "1aa739371276e0c7822acb840ac1396635221fddc5fbe38dd196d06d7e73faa2"
+    },
+    {
+      "file": "perl-Term-Cap-1.18-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Term-Cap/1.18/520.fc43/noarch/perl-Term-Cap-1.18-520.fc43.noarch.rpm",
+      "sha256": "757ce6f65033c707c72da08450c40740e1c2124b395c86fcc175494d0a611ca4"
+    },
+    {
+      "file": "perl-TermReadKey-2.38-26.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-TermReadKey/2.38/26.fc43/x86_64/perl-TermReadKey-2.38-26.fc43.x86_64.rpm",
+      "sha256": "f8553a231e77fc9c0dc7a3ce4f6c63735b7964022a47f482ed42c29aced2b765"
+    },
+    {
+      "file": "perl-Text-ParseWords-3.31-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Text-ParseWords/3.31/520.fc43/noarch/perl-Text-ParseWords-3.31-520.fc43.noarch.rpm",
+      "sha256": "b85cc6ee86908d727a5982f3b200c049021960aecffd78a7a58fb55e31969754"
+    },
+    {
+      "file": "perl-Text-Tabs+Wrap-2024.001-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Text-Tabs+Wrap/2024.001/520.fc43/noarch/perl-Text-Tabs+Wrap-2024.001-520.fc43.noarch.rpm",
+      "sha256": "04cc75f82835a394f538ae70254fec24370c3c520002aaf8a690e3aff478dd31"
+    },
+    {
+      "file": "perl-Time-HiRes-1.9778-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Time-HiRes/1.9778/520.fc43/x86_64/perl-Time-HiRes-1.9778-520.fc43.x86_64.rpm",
+      "sha256": "a71ae79b92bf32e07c594f647f7c6d9e72589e4fd83cde0d5793b286b0afbf3d"
+    },
+    {
+      "file": "perl-Time-Local-1.350-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Time-Local/1.350/520.fc43/noarch/perl-Time-Local-1.350-520.fc43.noarch.rpm",
+      "sha256": "3b5d42cce17c26593c39a57a21bf8169502e9f72fe84f6f69ed34c3f1636e466"
+    },
+    {
+      "file": "perl-URI-5.36-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-URI/5.36/1.fc43/noarch/perl-URI-5.36-1.fc43.noarch.rpm",
+      "sha256": "822736b8c029aa592b8dda81397ee6462843e52379dbf9a208410088df1589f7"
+    },
+    {
+      "file": "perl-Unicode-Normalize-1.32-520.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-Unicode-Normalize/1.32/520.fc43/x86_64/perl-Unicode-Normalize-1.32-520.fc43.x86_64.rpm",
+      "sha256": "2df602b3b27dd774ead88e523a53db8e76289c76c746fd3ef0292983205feee6"
+    },
+    {
+      "file": "perl-base-2.27-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-base-2.27-524.fc43.noarch.rpm",
+      "sha256": "e32e6e924c483b1f85cbcfd6e665d62bbacbe0b3985cb85d0a41edfe87ffdef8"
+    },
+    {
+      "file": "perl-constant-1.33-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-constant/1.33/521.fc43/noarch/perl-constant-1.33-521.fc43.noarch.rpm",
+      "sha256": "129237694877ba413c61e44d8adaeb8c7e6cfee097deab78c54e844896025472"
+    },
+    {
+      "file": "perl-if-0.61.000-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-if-0.61.000-524.fc43.noarch.rpm",
+      "sha256": "fe28b073ad764a53b02bfff305288e55a594e9cd9fe3f072b3021dbcf8371a5e"
+    },
+    {
+      "file": "perl-interpreter-5.42.3-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-interpreter-5.42.3-524.fc43.x86_64.rpm",
+      "sha256": "39f86cc07a0ff488da84a5237a80bc4d5047d6d53eafea3dcd796e376d91eb35"
+    },
+    {
+      "file": "perl-lib-0.65-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-lib-0.65-524.fc43.x86_64.rpm",
+      "sha256": "368ee5b13034bc175e217de9212cbb97f6ae353b3ec12c5c871bc26367eca247"
+    },
+    {
+      "file": "perl-libnet-3.15-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-libnet/3.15/521.fc43/noarch/perl-libnet-3.15-521.fc43.noarch.rpm",
+      "sha256": "dc0ec110824e1fdcee34bb20afcd621198f2137f022b7ca20fb323b251bf3e52"
+    },
+    {
+      "file": "perl-libs-5.42.3-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-libs-5.42.3-524.fc43.x86_64.rpm",
+      "sha256": "902ecf072295d634ce98283250be6d10ddda5b15f6afa5273fd295a15d78b192"
+    },
+    {
+      "file": "perl-locale-1.13-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-locale-1.13-524.fc43.noarch.rpm",
+      "sha256": "5e3fe6265b71c6bd4f7cb3d13d455b6ed833008e520864469df831407adeb1b0"
+    },
+    {
+      "file": "perl-mro-1.29-524.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/x86_64/perl-mro-1.29-524.fc43.x86_64.rpm",
+      "sha256": "48cd1c2e996068ef1e15b643fbbe100c72bea0e0446390cc7768b322413f71e3"
+    },
+    {
+      "file": "perl-overload-1.40-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-overload-1.40-524.fc43.noarch.rpm",
+      "sha256": "61f61fa2803c9416cf91cdca98a9fc3f14fc3a9c5064258c58e76c573edbf167"
+    },
+    {
+      "file": "perl-overloading-0.02-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-overloading-0.02-524.fc43.noarch.rpm",
+      "sha256": "92b49171060638474e8374daa41572286f42f7729fb61599c4a233aaa36e62a4"
+    },
+    {
+      "file": "perl-parent-0.244-520.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-parent/0.244/520.fc43/noarch/perl-parent-0.244-520.fc43.noarch.rpm",
+      "sha256": "e02abbe515dff36bd6bb089df814f091496974eee628d3ea40dc848457eb0d36"
+    },
+    {
+      "file": "perl-podlators-6.0.2-521.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-podlators/6.0.2/521.fc43/noarch/perl-podlators-6.0.2-521.fc43.noarch.rpm",
+      "sha256": "edc3c7d2c78f09567603ca9fca7d4e63b7319d1924d45a8eb4b661ae33975a92"
+    },
+    {
+      "file": "perl-srpm-macros-1-60.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl-srpm-macros/1/60.fc43/noarch/perl-srpm-macros-1-60.fc43.noarch.rpm",
+      "sha256": "651ac2538c9b7609f3b96e3fa50183d3de6620959a24a1d66a15f72e57d22807"
+    },
+    {
+      "file": "perl-vars-1.05-524.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/perl/5.42.3/524.fc43/noarch/perl-vars-1.05-524.fc43.noarch.rpm",
+      "sha256": "59d29c0e9b36eb4d8e3f1e50a86a6c651da6d65a845097fcf5393befe24b8780"
+    },
+    {
+      "file": "pkgconf-2.3.0-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pkgconf/2.3.0/3.fc43/x86_64/pkgconf-2.3.0-3.fc43.x86_64.rpm",
+      "sha256": "5554b8034bdfbcd6292c91ba8c4f47314fe2b5bc9c969b7642a539627f678011"
+    },
+    {
+      "file": "pkgconf-m4-2.3.0-3.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pkgconf/2.3.0/3.fc43/noarch/pkgconf-m4-2.3.0-3.fc43.noarch.rpm",
+      "sha256": "275c5016a31a8ecb94577ba9a20526adfa9e9504e2c799d623ec544dce3150a8"
+    },
+    {
+      "file": "pkgconf-pkg-config-2.3.0-3.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pkgconf/2.3.0/3.fc43/x86_64/pkgconf-pkg-config-2.3.0-3.fc43.x86_64.rpm",
+      "sha256": "e614af3015ae31169685e7afc6a0cb8efc54495d3214892fd7a046933ebbf48a"
+    },
+    {
+      "file": "pyproject-srpm-macros-1.23.2-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/pyproject-rpm-macros/1.23.2/1.fc43/noarch/pyproject-srpm-macros-1.23.2-1.fc43.noarch.rpm",
+      "sha256": "1de86f1d3f65bccf00455ba00d6684895b25d9677e31b2c4ad3df0d35f97ed25"
+    },
+    {
+      "file": "python-pip-wheel-25.1.1-19.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-pip/25.1.1/19.fc43/noarch/python-pip-wheel-25.1.1-19.fc43.noarch.rpm",
+      "sha256": "0bf1499b623f41190da7ae7c63c4c02e7826cf4e61a180e491e16e52a10c88ae"
+    },
+    {
+      "file": "python-srpm-macros-3.14-5.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-rpm-macros/3.14/5.fc43/noarch/python-srpm-macros-3.14-5.fc43.noarch.rpm",
+      "sha256": "52f7306599601332bab9c03c5c329adf8cb83ceb7c7e2da51af5082cf826e178"
+    },
+    {
+      "file": "python-unversioned-command-3.14.8-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python3.14/3.14.8/1.fc43/noarch/python-unversioned-command-3.14.8-1.fc43.noarch.rpm",
+      "sha256": "0eed7e5477ba03cc57c03263767f29c7f75d89e6e54a8cee32315ed2d15f927d"
+    },
+    {
+      "file": "python3-3.14.8-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python3.14/3.14.8/1.fc43/x86_64/python3-3.14.8-1.fc43.x86_64.rpm",
+      "sha256": "9b4eaa393a014660aef772fed4d2a6c4f7b4cdc11b09a03e78040c61c0eadcad"
+    },
+    {
+      "file": "python3-html2text-2025.4.15-5.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-html2text/2025.4.15/5.fc43/noarch/python3-html2text-2025.4.15-5.fc43.noarch.rpm",
+      "sha256": "0338498b55cf1903dd43df4b745b5dc809dd69bfd255984f540240c05efca7f0"
+    },
+    {
+      "file": "python3-libs-3.14.8-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python3.14/3.14.8/1.fc43/x86_64/python3-libs-3.14.8-1.fc43.x86_64.rpm",
+      "sha256": "56cece5be951e13c4217d1264725d4bf01b468bf4767c3664cad9cb026d3e46c"
+    },
+    {
+      "file": "python3-packaging-25.0-7.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-packaging/25.0/7.fc43/noarch/python3-packaging-25.0-7.fc43.noarch.rpm",
+      "sha256": "72cb9e6d06897f2a8b72caa1f37fb144fa7675b616db02978ce14b13d1a45db1"
+    },
+    {
+      "file": "python3-pip-25.1.1-19.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-pip/25.1.1/19.fc43/noarch/python3-pip-25.1.1-19.fc43.noarch.rpm",
+      "sha256": "aa8891cb007fd7ad9a10c1e65a2ab3db23d612d048ac779b8ea842e28e6f6f35"
+    },
+    {
+      "file": "python3-setuptools-78.1.1-15.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/python-setuptools/78.1.1/15.fc43/noarch/python3-setuptools-78.1.1-15.fc43.noarch.rpm",
+      "sha256": "8066d95f4b347e03a54470010287a58ef69ff529ee2fce487d722dc183707a67"
+    },
+    {
+      "file": "qt5-srpm-macros-5.15.18-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/qt5/5.15.18/1.fc43/noarch/qt5-srpm-macros-5.15.18-1.fc43.noarch.rpm",
+      "sha256": "ae7e70731f1cba4203b8282b5f05f29a197e20960f8d3d2a557c9fc5db4c0b1e"
+    },
+    {
+      "file": "qt6-srpm-macros-6.10.3-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/qt6/6.10.3/1.fc43/noarch/qt6-srpm-macros-6.10.3-1.fc43.noarch.rpm",
+      "sha256": "08d2b424eacf71b83ab373e1646c4461d44162a9b9cbf0f8704e478a70afda98"
+    },
+    {
+      "file": "redhat-rpm-config-343-14.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/redhat-rpm-config/343/14.fc43/noarch/redhat-rpm-config-343-14.fc43.noarch.rpm",
+      "sha256": "d00745854cc9c2a07270eb20b7ee568662fe299a57c642e7120469f7b7ed2bbd"
+    },
+    {
+      "file": "rust-srpm-macros-28.5-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/cargo-rpm-macros/28.5/1.fc43/noarch/rust-srpm-macros-28.5-1.fc43.noarch.rpm",
+      "sha256": "3ad3bc2b3627979003f0ae145762ca60bef29685ae9ae6d4e399ccf0bcadcd03"
+    },
+    {
+      "file": "sysprof-capture-devel-49.0-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/sysprof/49.0/1.fc43/x86_64/sysprof-capture-devel-49.0-1.fc43.x86_64.rpm",
+      "sha256": "9807968b7e9b6600cd5ed8e1b471405f2b47232fa8dec381730e6d6344f6e648"
+    },
+    {
+      "file": "tree-sitter-srpm-macros-0.4.2-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/tree-sitter-srpm-macros/0.4.2/1.fc43/noarch/tree-sitter-srpm-macros-0.4.2-1.fc43.noarch.rpm",
+      "sha256": "6e688d57665a4c99e13f80d3e36fa91f68e6241c7a9304c3e69addc2cad31900"
+    },
+    {
+      "file": "unzip-6.0-67.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/unzip/6.0/67.fc43/x86_64/unzip-6.0-67.fc43.x86_64.rpm",
+      "sha256": "c0a5cf9e7a44dfd9c5be5bb29daef52c98a3820cab6c339965cdebca78332ebb"
+    },
+    {
+      "file": "util-linux-2.41.5-1.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/util-linux/2.41.5/1.fc43/x86_64/util-linux-2.41.5-1.fc43.x86_64.rpm",
+      "sha256": "346f17e41ce84909a5b9f5d471753a7e411963d2c69a41e3512b895e11db63c0"
+    },
+    {
+      "file": "vim-filesystem-9.2.1129-1.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/vim/9.2.1129/1.fc43/noarch/vim-filesystem-9.2.1129-1.fc43.noarch.rpm",
+      "sha256": "e6378cefb7de5865cb87be71468e9f0580b6526316d6579a0f10a984695ec394"
+    },
+    {
+      "file": "zig-srpm-macros-1-5.fc43.noarch.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/zig-srpm-macros/1/5.fc43/noarch/zig-srpm-macros-1-5.fc43.noarch.rpm",
+      "sha256": "2297fe5685d446509f941a86c4497c6229bdb34337e41c6ca5308a78a87609c5"
+    },
+    {
+      "file": "zip-3.0-44.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/zip/3.0/44.fc43/x86_64/zip-3.0-44.fc43.x86_64.rpm",
+      "sha256": "3a7bf84f99dc04bf152c5b9d6a7efed29d9d38c0f9c5dd0321252e1927a3b574"
+    },
+    {
+      "file": "zlib-ng-compat-devel-2.3.3-2.fc43.x86_64.rpm",
+      "url": "https://kojipkgs.fedoraproject.org/packages/zlib-ng/2.3.3/2.fc43/x86_64/zlib-ng-compat-devel-2.3.3-2.fc43.x86_64.rpm",
+      "sha256": "60d18f5764a5eddbab48bcadf6a9d60f2ebbad8a1416e0cc3ce6a66b65162003"
+    }
+  ]
+}

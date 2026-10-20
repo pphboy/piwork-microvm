@@ -1,0 +1,5 @@
+FROM registry.fedoraproject.org/fedora@sha256:291ed4c06d5435a92d05ad622c9717afde6911e96d335e02919336eed0c8ae03
+COPY rpms/ /rpms/
+RUN rpm -Uvh --replacepkgs /rpms/*.rpm \
+ && rpm -qa | sort > /qemu-build-packages.txt && rm -rf /rpms
+WORKDIR /project

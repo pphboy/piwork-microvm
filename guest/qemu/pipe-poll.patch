@@ -1,0 +1,19 @@
+--- a/chardev/char-win.c
++++ b/chardev/char-win.c
+@@ -143,9 +143,13 @@
+ {
+     Chardev *chr = CHARDEV(opaque);
+     WinChardev *s = WIN_CHARDEV(opaque);
+-    DWORD size;
+-
+-    PeekNamedPipe(s->file, NULL, 0, NULL, &size, NULL);
++    DWORD size = 0;
++
++    /* Do not starve GLib dispatch while a frontend is suspended. */
++    if (qemu_chr_be_can_write(chr) <= 0 ||
++        !PeekNamedPipe(s->file, NULL, 0, NULL, &size, NULL)) {
++        return 0;
++    }
+     if (size > 0) {
+         win_chr_read(chr, size);
+         return 1;

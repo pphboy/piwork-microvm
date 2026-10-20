@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if [[ "${PIWORK_QEMU_WINDOWS_CONTAINER:-}" != 1 ]]; then
+  python3 scripts/windows-toolchain.py
+  docker build -f guest/qemu/Dockerfile.windows -t piwork-microvm-qemu-windows-builder:local dist/windows-toolchain
+  python3 scripts/windows-toolchain.py --check-builder
+  exec docker run --rm --user "$(id -u):$(id -g)" -e PIWORK_QEMU_WINDOWS_CONTAINER=1 \
+    -e PIWORK_BUILD_JOBS="${PIWORK_BUILD_JOBS:-8}" -v "$PWD:/project" -w /project \
+    piwork-microvm-qemu-windows-builder:local bash scripts/qemu-windows.sh
+fi
+python3 - <<'PY'
+import hashlib,json,pathlib
+lock=json.loads(pathlib.Path('build.lock.json').read_text())
+for patch in lock['qemu']['windowsPatches']:
+    path=pathlib.Path(patch['file'])
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=patch['sha256']:
+        raise SystemExit('QEMU Windows patch checksum mismatch: '+str(path))
+PY
+readarray -t qemu_input < <(python3 -c 'import json; d=json.load(open("build.lock.json"))["qemu"]; print(d["version"]); print(d["sha256"])')
+qemu_version=${qemu_input[0]}
+qemu_archive="dist/downloads/qemu-$qemu_version.tar.xz"
+printf '%s  %s\n' "${qemu_input[1]}" "$qemu_archive" | sha256sum --check --strict
+mkdir -p dist/qemu-source/windows dist/qemu-build-windows dist/qemu-windows
+qemu_source="$PWD/dist/qemu-source/windows/qemu-$qemu_version"
+if [[ ! -d "$qemu_source" ]]; then tar -xf "$qemu_archive" -C dist/qemu-source/windows; fi
+for patch in guest/qemu/private-pipe.patch guest/qemu/pipe-poll.patch; do
+  if git -C "$qemu_source" apply --check "$PWD/$patch" 2>/dev/null; then
+    git -C "$qemu_source" apply "$PWD/$patch"
+  else
+    git -C "$qemu_source" apply --reverse --check "$PWD/$patch"
+  fi
+done
+# These are the revisions declared by this QEMU release's own wrap files.
+for dep in dtc slirp; do
+  readarray -t dep_input < <(python3 -c 'import configparser,sys; c=configparser.ConfigParser(); c.read(sys.argv[1]); print(c["wrap-git"]["url"]); print(c["wrap-git"]["revision"])' "$qemu_source/subprojects/$dep.wrap")
+  if [[ ! -d "$qemu_source/subprojects/$dep/.git" ]]; then
+    git clone "${dep_input[0]}" "$qemu_source/subprojects/$dep"
+    git -C "$qemu_source/subprojects/$dep" checkout --detach "${dep_input[1]}"
+  fi
+  [[ "$(git -C "$qemu_source/subprojects/$dep" rev-parse HEAD)" == "${dep_input[1]}" ]]
+done
+cd dist/qemu-build-windows
+"$qemu_source/configure" --target-list=x86_64-softmmu --cross-prefix=x86_64-w64-mingw32- \
+  --without-default-features --enable-system --enable-whpx --disable-tcg \
+  --enable-fdt=internal --enable-slirp --disable-user --disable-tools --disable-docs \
+  --disable-guest-agent --disable-werror --disable-modules --enable-strip \
+  --extra-cflags=-DFD_SETSIZE=1024 --with-pkgversion=Piwork-MicroVM --prefix=/opt/piwork-qemu
+ninja -j"${PIWORK_BUILD_JOBS:-8}" qemu-system-x86_64.exe
+cp qemu-system-x86_64.exe ../qemu-windows/
+cp /qemu-build-packages.txt ../qemu-windows/build-packages.txt
