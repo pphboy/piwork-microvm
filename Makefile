@@ -3,7 +3,7 @@ export CGO_ENABLED := 0
 export GOTOOLCHAIN := local
 PIWORK_SOURCE ?= https://github.com/pphboy/piwork.git
 VERSION ?=
-.PHONY: source source-refresh source-check piwork kernel guest qemu qemu-windows boot-dev piwork-microvm piwork-microvm-windows piwork-microvm-all acceptance-microvm acceptance-ports test release release-publish release-publish-dry-run
+.PHONY: source source-refresh source-check piwork kernel guest qemu qemu-windows boot-dev piwork-microvm piwork-microvm-windows piwork-microvm-all piwork-microvm-gui piwork-microvm-gui-windows piwork-microvm-gui-all acceptance-microvm acceptance-ports test test-scripts release release-publish release-publish-dry-run
 source:
 	python3 scripts/source.py --source "$(PIWORK_SOURCE)"
 source-refresh:
@@ -27,10 +27,17 @@ qemu-windows:
 piwork-microvm-windows: guest qemu-windows
 	python3 scripts/bundle.py --platform windows
 piwork-microvm-all: piwork-microvm piwork-microvm-windows
+piwork-microvm-gui: guest qemu
+	python3 scripts/gui-build.py --platform linux
+piwork-microvm-gui-windows: guest qemu-windows
+	python3 scripts/gui-build.py --platform windows
+piwork-microvm-gui-all: piwork-microvm-gui piwork-microvm-gui-windows
 boot-dev:
 	go build -o dist/piwork-microvm-dev ./cmd/piwork-microvm
 	./dist/piwork-microvm-dev --assets "$(CURDIR)/dist/guest" --qemu /usr/bin/qemu-system-x86_64
-test:
+test-scripts:
+	python3 -m unittest discover -s scripts -p '*_test.py'
+test: test-scripts
 	go test ./...
 acceptance-microvm: test
 	bash scripts/acceptance.sh
