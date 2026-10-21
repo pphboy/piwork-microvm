@@ -96,5 +96,6 @@
   "filter.log": "日志文件",
   "filter.zip": "ZIP 压缩包",
   "yes": "是",
-  "no": "否"
+  "no": "否",
+  "launcher.label": "MicroVM 启动器"
 }

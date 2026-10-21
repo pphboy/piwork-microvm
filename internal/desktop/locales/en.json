@@ -96,5 +96,6 @@
   "filter.log": "Log files",
   "filter.zip": "ZIP archives",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "launcher.label": "MicroVM Launcher"
 }
