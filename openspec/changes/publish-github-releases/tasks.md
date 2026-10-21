@@ -36,5 +36,5 @@
 
 ## 7. 集成校验
 
-- [ ] 7.1 在干净工作树上端到端演练 `make release VERSION=0.1.0` 与 `make release-publish VERSION=0.1.0` 的 dry-run，断言清单、说明、资产与 tag 名齐全且一致，且全程未产生 tag 与远程发布
+- [x] 7.1 在干净工作树上端到端演练 `make release VERSION=0.1.0` 与 `make release-publish VERSION=0.1.0` 的 dry-run，断言清单、说明、资产与 tag 名齐全且一致，且全程未产生 tag 与远程发布
 - [ ] 7.2 执行首次公开发布 `v0.1.0`（需用户明确授权后执行），并在 GitHub 上核对资产齐全、校验和与发布清单一致；验证：Release 页面包含两个产物、各自 `.sha256`、发布清单与补丁归档，且发布说明含对应源码与已知限制两节
