@@ -14,19 +14,19 @@ README，是当前支持范围的唯一事实来源。
 
 ## Contents / 目录
 
-- [What this is](#what-this-is--这是什么)
-- [Quick start](#quick-start--快速开始)
-- [Command-line reference](#command-line-reference--命令行参考)
-- [Networking and access](#networking-and-access--网络与访问)
-- [Installation data and persistence](#installation-data-and-persistence--安装数据与持久化)
-- [Lifecycle, shutdown and disk safety](#lifecycle-shutdown-and-disk-safety--生命周期停止与磁盘安全)
-- [Logs and diagnostics](#logs-and-diagnostics--日志与诊断)
-- [Resource cache](#resource-cache--资源缓存)
-- [Build from source](#build-from-source--从源码构建)
-- [Acceptance and evidence](#acceptance-and-evidence--验收与证据)
-- [Scope and limitations](#scope-and-limitations--范围与限制)
-- [License](#license--许可证)
-- [Related documents](#related-documents--相关文档)
+- [这是什么](#what-this-is--这是什么)
+- [快速开始](#quick-start--快速开始)
+- [命令行参考](#command-line-reference--命令行参考)
+- [网络与访问](#networking-and-access--网络与访问)
+- [安装数据与持久化](#installation-data-and-persistence--安装数据与持久化)
+- [生命周期、停止与磁盘安全](#lifecycle-shutdown-and-disk-safety--生命周期停止与磁盘安全)
+- [日志与诊断](#logs-and-diagnostics--日志与诊断)
+- [资源缓存](#resource-cache--资源缓存)
+- [从源码构建](#build-from-source--从源码构建)
+- [验收与证据](#acceptance-and-evidence--验收与证据)
+- [范围与限制](#scope-and-limitations--范围与限制)
+- [许可证](#license--许可证)
+- [相关文档](#related-documents--相关文档)
 
 ## What this is / 这是什么
 
