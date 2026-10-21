@@ -93,8 +93,7 @@ func (a *wailsAdapter) OpenBrowser(url string) error {
 			continue
 		}
 		cmd := exec.Command(path, candidate[1:]...)
-		if err := cmd.Start(); err == nil {
-			go cmd.Wait()
+		if err := cmd.Run(); err == nil {
 			return nil
 		}
 	}

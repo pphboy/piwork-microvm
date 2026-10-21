@@ -1,10 +1,12 @@
 package desktop
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"syscall"
 	"testing"
 
 	"piwork-microvm/internal/launcher"
@@ -44,7 +46,7 @@ func TestListLogFilesRejectsLinksAndOtherNames(t *testing.T) {
 	}
 	t.Run("symlink", func(t *testing.T) {
 		if err := os.Symlink(valid, filepath.Join(logs, "20260102T000000.000000000.log")); err != nil {
-			if runtime.GOOS == "windows" {
+			if runtime.GOOS == "windows" && errors.Is(err, syscall.Errno(1314)) {
 				t.Skipf("native user cannot create symlinks: %v", err)
 			}
 			t.Fatal(err)
