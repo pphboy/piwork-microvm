@@ -1,33 +1,59 @@
 # Piwork MicroVM
 
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.9-informational)](build.lock.json)
+
 [简体中文](README.zh-CN.md)
 
-Run original Piwork inside one QEMU `microvm` Linux Guest with VirtIO-MMIO.
-Targets: Linux x86-64/KVM and native Windows 11 Home x86-64/WHPX, from 21H2.
-Windows runtime does not use WSL, Docker Desktop or Hyper-V Manager.
-[Implementation progress](openspec/changes/support-windows-and-disk-only-storage/tasks.md)
-tracks current support; unchecked acceptance tasks have not passed yet.
+Run original Piwork inside one QEMU `microvm` Linux Guest with VirtIO-MMIO, delivered as one
+self-contained executable per platform: Linux x86-64/KVM and native Windows 11 Home
+x86-64/WHPX, from 21H2. The Windows runtime uses no WSL, Docker Desktop or Hyper-V Manager.
 
-Build on Linux with Docker Engine, Go 1.25.5, Git, Python 3, Make, Bash, curl,
-qemu-img and internet access. Containers supply kernel/QEMU/MinGW tools, Node 24
-and Guest Docker 28.5.2. Inputs are pinned in `build.lock.json`.
+Support status is tracked by
+[tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) for the active
+change. That file, not this README, is the source of truth for current support.
 
-```sh
-make source-refresh         # explicitly resolve latest official default HEAD
-make source-check           # verify the independent clean, locked checkout
-make piwork-microvm-all      # both platform artifacts
-# Or: make piwork-microvm / make piwork-microvm-windows
-```
+## Contents / 目录
 
-Normal builds use the full locked commit at `dist/source/<commit>/piwork`.
-No Piwork patches are applied; modified inputs are rejected. Server, WebUI and
-production Agent/Helpers share the upstream release identity. package-helper
-follows upstream's Agent reference. `make source PIWORK_SOURCE=/path/to/piwork`
-can obtain committed objects from a local clone; it never resets that clone or
-copies dirty files. Builds do not push or publish. Filesystem UUIDs/timestamps
-can vary; whole-artifact byte reproducibility is not promised.
+- [What this is](#what-this-is--这是什么)
+- [Quick start](#quick-start--快速开始)
+- [Command-line reference](#command-line-reference--命令行参考)
+- [Networking and access](#networking-and-access--网络与访问)
+- [Installation data and persistence](#installation-data-and-persistence--安装数据与持久化)
+- [Lifecycle, shutdown and disk safety](#lifecycle-shutdown-and-disk-safety--生命周期停止与磁盘安全)
+- [Logs and diagnostics](#logs-and-diagnostics--日志与诊断)
+- [Resource cache](#resource-cache--资源缓存)
+- [Build from source](#build-from-source--从源码构建)
+- [Acceptance and evidence](#acceptance-and-evidence--验收与证据)
+- [Scope and limitations](#scope-and-limitations--范围与限制)
+- [License](#license--许可证)
+- [Related documents](#related-documents--相关文档)
 
-Copy only the matching completed artifact to the Host:
+## What this is / 这是什么
+
+Piwork MicroVM boots unmodified upstream Piwork inside a single QEMU `microvm` Guest using
+VirtIO-MMIO. Each platform gets one self-contained executable, a Linux ELF or a Windows PE,
+carrying the kernel, QEMU, Guest rootfs and container images with it. On launch the executable
+extracts those bundled resources into a user cache and boots the Guest; launching never builds
+or downloads the Guest. No Piwork patches are applied, and Server, WebUI and the production
+Agent/Helpers share the upstream release identity.
+
+## Quick start / 快速开始
+
+### Requirements / 运行要求
+
+- Copy the artifact matching your platform, together with its `.sha256` sidecar.
+- **Linux**: the current user needs read/write access to `/dev/kvm`.
+- **Windows**: firmware virtualization and **Windows Hypervisor Platform** must be enabled,
+  including any restart the system requires.
+- No additional driver, host QEMU, Docker or language toolchain is needed.
+- Hardware acceleration is mandatory. A missing accelerator is an error, with no machine/TCG
+  fallback.
+- At least **4 GiB free** is required in the installation root, plus **1 GiB** reserved for
+  resource extraction. Leaving more room for Work growth is a recommendation, not a
+  requirement.
+- Defaults are 2 vCPU / 4096 MiB; adjust with `--cpus` / `--memory`.
+
+### Run / 运行
 
 ```sh
 ./piwork-microvm
@@ -43,110 +69,275 @@ Copy only the matching completed artifact to the Host:
 .\piwork-microvm.exe --help
 ```
 
-Linux needs current-user read/write access to `/dev/kvm`. Windows needs firmware
-virtualization and **Windows Hypervisor Platform** enabled, including any required
-restart. No additional driver, host QEMU, Docker or language toolchain is needed.
-Missing hardware acceleration is an error, with no machine/TCG fallback.
-Reserve at least 8 GiB for extracted resources and initial data, then allow for
-Work growth. Defaults: 2 vCPU/4096 MiB; adjust with `--cpus`/`--memory`.
+### First launch / 首次启动
 
-The launcher prints the access address, persistent disk and filtered diagnostic
-log paths, including actual QEMU argv. Only two Host ports are forwarded, both
-bound to `127.0.0.1`:
+The launcher reports the installation root, persistent disk and log path, then reports Guest
+progress until Piwork is reachable:
+
+```
+Installation: /home/user/.local/share/piwork-microvm
+Persistent state: /home/user/.local/share/piwork-microvm/disks/state.qcow2
+Log: /home/user/.local/share/piwork-microvm/logs/20261021T074600.123456789.log
+Piwork is available: http://127.0.0.1:17891
+Core API: http://127.0.0.1:17871
+```
+
+The access address is opened in a browser unless `--no-open` is given; on Linux this only
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.9 creates the first
+administrator directly in the browser, after which normal login and QuickStart apply.
+
+## Command-line reference / 命令行参考
+
+| Option | Default | Valid values | Purpose |
+| --- | --- | --- | --- |
+| `--data-dir DIR` | OS default root | any path | Complete installation root (metadata, disks, logs) |
+| `--port PORT` | `17891` | 1-65535 | Host browser UI/ControlPlane port |
+| `--core-port PORT` | `17871` | 1-65535 | Host Core API port for CLI/backend clients |
+| `--cpus N` | `2` | 1-64 | Virtual CPUs |
+| `--memory MiB` | `4096` | 1024-262144 | Guest memory in MiB |
+| `--no-open` | off | - | Do not open the access address in a browser |
+| `--startup-timeout D` | `15m` | > 0 | How long to wait for the Guest to become ready |
+| `--help`, `-h` | - | - | Show help without touching virtualization or data |
+
+- `--port` and `--core-port` must differ, and both must be in 1-65535.
+- Positional arguments are rejected.
+- Exit code is `0` on success and for `--help`; any failure exits `1` and prints
+  `piwork-microvm: <error>` on stderr.
+- Development only: `--assets DIR` and `--qemu PATH` must be given together to use an
+  explicitly selected external QEMU. This is not part of the normal user flow.
+
+## Networking and access / 网络与访问
+
+Only two Host ports are forwarded, and every Host listener is bound to `127.0.0.1`:
 
 | Option | Host default | Guest port | Purpose |
 | --- | --- | --- | --- |
 | `--port` | 17891 | 17891 | Browser UI, login, administration, QuickStart and Service Proxy |
 | `--core-port` | 17871 | 17871 | Core API for CLI/backend clients |
 
-Both Host ports accept 1–65535 and must differ. Services use the UI's same-origin
-`/services/<workId>/<serviceId>/<port>/` path; the old 64-port pool is neither
-reserved nor forwarded. Browser origin follows `--port`; HTTP 80 omits `:80`.
-Conflicts fail explicitly without stopping other programs. After changing the
-port on the same stopped installation, sign in again and reopen Services.
-To run Windows and Linux instances concurrently, use independent installations
-and different UI/Core ports. A single data disk always has only one VM writer.
+The browser origin follows `--port`, and HTTP port 80 omits `:80`. A port conflict fails with
+an explicit error naming the occupied address, without stopping other programs. Services are
+reached through the upstream UI's same-origin `/services/` path; the launcher itself only
+forwards the two ports above. The old 64-port pool is neither reserved nor forwarded.
 
-The launcher opens the access address. Original Piwork 0.0.9 creates the first
-administrator directly in the browser, then uses normal login and QuickStart.
-`--no-open` disables browser launch. API keys, passwords and tokens must not
-appear in ordinary logs.
+To run Windows and Linux instances concurrently, use independent installations and different
+UI/Core ports. A single data disk always has only one VM writer. After changing the port of
+the same stopped installation, sign in again and reopen Services.
 
-`--data-dir` is the **complete installation root**, defaulting to
-`${XDG_DATA_HOME:-~/.local/share}/piwork-microvm` on Linux and
-`%LOCALAPPDATA%\PiworkMicroVM` on Windows:
+## Installation data and persistence / 安装数据与持久化
 
-| Installation path | Contents |
+`--data-dir` is the **complete installation root**:
+
+| OS | Default root |
 | --- | --- |
+| Linux | `${XDG_DATA_HOME:-~/.local/share}/piwork-microvm` |
+| Windows | `%LOCALAPPDATA%\PiworkMicroVM` |
+
+| Path | Contents |
+| --- | --- |
+| `.lock` | Installation lock, so two processes never share one root |
 | `installation.json` | Installation identity and initialization state |
 | `disks/state.qcow2` | Guest ext4: all business and persistent container data |
-| `logs/` | Filtered startup/Guest diagnostics |
+| `logs/` | Filtered startup and Guest diagnostics |
+| `unclean.json` | Present only while the previous shutdown is unconfirmed |
+| `runtime.json` | Transient runtime details for the running instance |
 
-The qcow2 has 64 GiB logical capacity, grows with allocation and has no external
-backing file. `/mnt/state/core` backs `/var/lib/piwork/core`. Docker uses
-`/mnt/state/docker`, including managed containerd and local named volumes;
-`/var/lib/containerd` is also bound to the disk. Accounts, model configuration,
-Work private/workspace/history/Memory and declared persistent Service data are
-there. RootFS is read-only with a temporary overlay. Other temporary container
-paths retain upstream semantics.
+The qcow2 has 64 GiB logical capacity, grows with allocation and has no external backing file.
+`/mnt/state/core` backs `/var/lib/piwork/core`. Docker uses `/mnt/state/docker`, including
+managed containerd and local named volumes; `/var/lib/containerd` is also bound to the disk.
+Accounts, model configuration, Work private/workspace/history/Memory and declared persistent
+Service data live there. RootFS is read-only with a temporary overlay.
 
-Use existing **Piwork Files upload/download**. Files stay in the ordinary Work
-workspace volume, inside the disk. No Host directory sharing, mapped drive or
-file synchronization is included.
+Use the existing **Piwork Files** upload/download. Files stay in the ordinary Work workspace
+volume, inside the disk. No Host directory sharing, mapped drive, SMB, FUSE or file
+synchronization is included.
 
-Keep the launcher in the foreground. Press **Ctrl+C**, wait for confirmed clean
-Guest shutdown, then back up `installation.json` and `disks/state.qcow2` together.
-Never mount a running disk or treat a live copy as a consistent backup. Window
-closure/OS deadlines/force termination may prevent confirmed shutdown; an unclean
-marker remains for the next launch. Missing/corrupt disks are not replaced with
-blank ones, and unknown nonempty installation roots are not overwritten.
+## Lifecycle, shutdown and disk safety / 生命周期、停止与磁盘安全
 
-Verified resources live separately in user cache `piwork-microvm/bundles/<hash>/`.
-Delete cache only after stopping; the executable extracts it again and retains
-the original installation. Launch never builds/downloads the Guest. Component
-builds: `make guest`, `make qemu`, `make qemu-windows`. `make boot-dev` explicitly
-uses external QEMU for development.
+Keep the launcher in the foreground. Press **Ctrl+C** and wait for confirmed clean Guest
+shutdown, which prints `Guest stopped cleanly. All user data retained.` Shutdown has a
+120-second budget; if it expires, the launcher forces QEMU to exit and reports an unclean
+shutdown. Closing the window, OS shutdown deadlines or force termination can prevent confirmed
+shutdown; the `unclean.json` marker (containing `{"shutdown":"unconfirmed"}`) is then left in
+the installation root and re-reported on the next launch.
 
-Acceptance uses the current final artifacts, separate fresh `--data-dir` installations,
-and the available Linux/KVM and native Windows Home/WHPX hosts. A fresh data
-directory resets installation state; it does not clear Host dependencies or the
-verified resource cache. The Windows version matrix and a second clean computer
-are outside this release's agreed acceptance scope.
+To back up:
 
-Current builds use original Piwork **0.0.9** at commit `a6c36da16ebc`.
-See [completion acceptance](openspec/changes/support-windows-and-disk-only-storage/evidence/completion-acceptance.md)
-for real-provider calls, restart history and final-artifact fault recovery results.
-The [two-port report](openspec/changes/support-windows-and-disk-only-storage/evidence/two-port-acceptance.md)
-and [earlier 0.0.8 report](openspec/changes/support-windows-and-disk-only-storage/evidence/acceptance.md)
-retain their original test scope and results.
+1. Stop the launcher cleanly and wait for the confirmation message.
+2. Back up `installation.json` and `disks/state.qcow2` together.
+3. Never mount a running disk, and never treat a live copy as a consistent backup.
 
-A separate synthetic OpenAI Responses fixture reproduced history HTTP 503 for
-tool IDs such as `call-1|fc-1`. Its Run and raw history/Memory persisted, but history
-reading failed. This remains a scoped known failure, not evidence that all tool
-sessions fail. Real-provider results identify the tested model/protocol and are
-recorded separately. Piwork business source remains unchanged. Windows testing
-uses native Windows 11 Home build 26200; it does not establish every Windows
-version's compatibility.
+The launcher refuses to destroy data:
 
-Linux acceptance: `make acceptance-microvm` (real `/dev/kvm`, Docker for the
-external isolation harness, and Playwright/Chromium for tests). The empty runtime
-root contains only the final executable and its extracted resources. The harness
-stays outside that root. `make acceptance-ports` tests alternate ports in isolated
-network namespaces and preserves the existing Host 7171 service.
+- A missing or inaccessible existing disk is never replaced with an empty one.
+- Invalid `installation.json` is refused rather than overwritten.
+- An unknown nonempty installation root is not claimed:
+  `installation root contains unknown data; choose an empty directory (nothing was overwritten)`.
+
+## Logs and diagnostics / 日志与诊断
+
+Each run writes `<data-dir>/logs/<UTC timestamp>.log` with mode 0600. Only lines containing
+`qemu-system-x86_64` are echoed to the console; the full QEMU argv JSON goes to the log file
+only.
+
+"Filtered" is an enforced mechanism, not an aspiration. The launcher replaces any line matching
+`#setup=`, `authorization:`, `bearer `, `api_key`, `apikey`, `password`, `token` or `credential`
+with `sensitive diagnostic omitted`, on both the QEMU and the Guest Piwork output paths. API
+keys, passwords and tokens are therefore kept out of ordinary logs.
+
+## Resource cache / 资源缓存
+
+Bundled resources are extracted lazily on launch into
+`<UserCacheDir>/piwork-microvm/bundles/<sha256-of-manifest>/`, and a valid cache is reused
+instead of being re-extracted. Concurrent extraction is serialized, and extraction needs the
+payload size plus a 1 GiB reserve to be free.
+
+Deleting the cache after a clean stop is safe: the executable extracts it again, and the
+installation is untouched.
+
+## Build from source / 从源码构建
+
+### Host prerequisites / 主机前置
+
+Docker Engine, **exactly Go 1.25.5** (the build hard-fails on any other `go env GOVERSION`),
+Git, Python 3, Make, Bash, curl, qemu-img and internet access. Node is **not** a host
+prerequisite; it is supplied by a container. Only Go has an enforced version check.
+
+### Container-supplied components / 容器提供组件
+
+| Component | Version |
+| --- | --- |
+| Linux kernel | 6.6.159 |
+| QEMU | 10.0.8, with two Windows patches |
+| Windows QEMU toolchain | MinGW on Fedora 43 |
+| Node | 24 |
+| Guest Docker | 28.5.2 |
+
+### Make targets / 构建目标
+
+| Target | What it does | Needs |
+| --- | --- | --- |
+| `source` | Clone and pin the locked upstream checkout | network, git |
+| `source-refresh` | Re-resolve the latest official default-branch HEAD and rewrite `build.lock.json` | network, git |
+| `source-check` | Verify the existing clean, locked checkout without fetching | - |
+| `kernel` | Build the Guest kernel | Docker |
+| `piwork` | Build upstream Piwork and its container images | Docker, Go 1.25.5 |
+| `guest` | Assemble the Guest rootfs, initramfs and state disk | `piwork`, `kernel` |
+| `qemu` | Build and bundle the Linux QEMU | Docker |
+| `qemu-windows` | Build and bundle the Windows QEMU | Docker |
+| `piwork-microvm` | Produce the Linux artifact | `guest`, `qemu` |
+| `piwork-microvm-windows` | Produce the Windows artifact | `guest`, `qemu-windows` |
+| `piwork-microvm-all` | Produce both platform artifacts | both of the above |
+| `test` | `go test ./...` | Go 1.25.5 |
+| `boot-dev` | Development only: run against a host QEMU | host `/usr/bin/qemu-system-x86_64`, built `dist/guest` |
+
+```sh
+make source-refresh         # explicitly resolve latest official default HEAD
+make source-check           # verify the independent clean, locked checkout
+make piwork-microvm-all     # both platform artifacts
+# Or: make piwork-microvm / make piwork-microvm-windows
+```
+
+### Outputs / 构建产物
+
+- `dist/piwork-microvm` and `dist/piwork-microvm.exe`, each with a `.sha256` sidecar.
+- Intermediates: `dist/source/<commit>/piwork`, `dist/piwork/images.json`,
+  `dist/piwork/metadata.json`, `dist/guest/`, `dist/qemu/`, `dist/qemu-windows/`.
+
+### Upstream pinning / 上游固定
+
+[`build.lock.json`](build.lock.json) is the source of truth. It pins
+`https://github.com/pphboy/piwork.git`, branch `main`, commit
+`a6c36da16ebcc0e96f0e34ef820d857f2bea4877`, resolved 2026-10-20. Normal builds use the full
+locked commit at `dist/source/<commit>/piwork`, and modified inputs are rejected. The version
+string `0.0.9` comes from upstream's own `package.json`, not from the lock file.
+
+### Local source and reproducibility / 本地源码与可重现性
+
+`make source PIWORK_SOURCE=/path/to/piwork` uses a local clone only as the clone source on first
+checkout. It never resets that clone, never copies dirty or untracked files, and verification
+hard-fails on a modified input. No Piwork patches are applied.
+
+The payload tarball is built deterministically (sorted entries, `mtime` 0, fixed modes, gzip
+`mtime` 0), but the Guest ext4 rootfs uses freshly generated UUIDs, so whole-artifact byte
+reproducibility is not promised. Builds do not push or publish; the container registry
+namespace is local only (`docker.io/piwork-microvm-local`).
+
+## Acceptance and evidence / 验收与证据
+
+The active change's
+[tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) currently records
+**43 of 43 tasks complete, none unchecked**; treat that file as the living source of truth. See
+[proposal.md](openspec/changes/support-windows-and-disk-only-storage/proposal.md),
+[design.md](openspec/changes/support-windows-and-disk-only-storage/design.md) and the synced
+main specs under [`openspec/specs/`](openspec/specs/). The prior change is archived at
+[2026-10-21-make-piwork-microvm](openspec/changes/archive/2026-10-21-make-piwork-microvm/) with
+46 of 46 tasks complete.
+
+| Evidence | Date | Scope |
+| --- | --- | --- |
+| [completion-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/completion-acceptance.md) | 2026-10-21 | Real provider `deepseek-flash` over `anthropic-messages` on Linux/KVM and native Windows 11 Home build 26200/WHPX; six final-artifact fault-recovery cases; real-model tool calls with cross-restart session continuation; database `integrity_check=ok` |
+| [two-port-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
+| [acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
+| [windows-gate.md](openspec/changes/support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+
+### Linux acceptance / Linux 验收
+
+`make acceptance-microvm` needs a prebuilt `dist/piwork-microvm`, a real `/dev/kvm`, Docker for
+the outer isolation harness, and Playwright/Chromium for the browser tests. The launcher runs
+inside a minimal clean root that holds only the final executable; the harness itself stays
+outside that root.
+
+### Port acceptance / 端口验收
+
+`make acceptance-ports` boots the final artifact at alternate Host ports (8080, 8081, 17891 and
+80) one VM at a time, inside an isolated container network namespace, without touching an
+existing Host installation. It checks that a controlled listener on port 7171 is left untouched,
+that exactly the two selected loopback ports are forwarded, and that invalid or occupied ports
+fail safely before any KVM or data work.
+
+### Windows acceptance / Windows 验收
 
 Windows acceptance runs native Edge and native Node as **test tools**. Compile
 `cmd/acceptance-windows` and `cmd/acceptance-guest-windows` with
-`GOOS=windows GOARCH=amd64 go build`, copy them and the test scripts/fixtures,
+`GOOS=windows GOARCH=amd64 go build`, then copy them and the test scripts/fixtures,
 `dist/piwork/images.json`, native Node and Playwright to a Windows-local test tree.
-`scripts/acceptance-windows.ps1 -Root <tree> -Port 8080 -Phase first` runs the browser
-checks against a running final PE; add `-CorePort <port>` for a custom Core port.
-`-Phase recovery` checks the existing baseline,
-and `-Phase failures` requires a stopped test installation. The supplementary
-Guest controller prepares the synthetic provider and inspects backing mounts
-while holding exclusive disk locks; it is separate from final-PE launch tests and
-is never included in a product artifact.
+`scripts/acceptance-windows.ps1 -Root <tree> -Port 8080 -Phase first` runs the browser checks
+against a running final PE; add `-CorePort <port>` for a custom Core port. `-Phase recovery`
+checks the existing baseline, and `-Phase failures` requires a stopped test installation.
 
-The original code of Piwork MicroVM is licensed under [Apache-2.0](LICENSE).
-See [NOTICE](NOTICE). Third-party components, including Piwork, Linux and QEMU,
-and patches to upstream components retain their respective licenses and notices.
-Bundled third-party license files are included in the extracted resources.
+### Not shipped in product artifacts / 不随产品发布
+
+`cmd/acceptance-windows`, `cmd/acceptance-guest-windows`, `cmd/acceptance-chroot` and
+`cmd/microvm-probe` are test and development tooling only. The product commands are
+`cmd/piwork-microvm` and `cmd/piwork-guest`.
+
+A separate synthetic OpenAI Responses fixture reproduced history HTTP 503 for tool IDs such as
+`call-1|fc-1`. Its Run and raw history/Memory persisted, but history reading failed. This
+remains a scoped known failure, not evidence that all tool sessions fail. Real-provider results
+identify the tested model and protocol and are recorded separately. Piwork business source
+remains unchanged.
+
+## Scope and limitations / 范围与限制
+
+- No Host directory sharing, mapped drive, SMB, FUSE or file synchronization.
+- No TCG or alternate-machine fallback; hardware acceleration is required.
+- Windows testing used native Windows 11 Home build 26200, which does not establish every
+  Windows version's compatibility. The version matrix and a second clean computer are outside
+  this release's agreed acceptance scope.
+- A single data disk always has only one VM writer, and builds run on Linux only without
+  pushing or publishing.
+
+## License / 许可证
+
+The original code of Piwork MicroVM is licensed under [Apache-2.0](LICENSE). See
+[NOTICE](NOTICE). Third-party components, including Piwork, Linux and QEMU, and patches to
+upstream components retain their respective licenses and notices. Bundled third-party license
+files are included in the extracted resources.
+
+## Related documents / 相关文档
+
+- [AGENTS.md](AGENTS.md) - repository commit and documentation conventions
+- [build.lock.json](build.lock.json) - pinned upstream commit and build inputs
+- [openspec/specs/](openspec/specs/) - synced main specifications
+- [LICENSE](LICENSE) and [NOTICE](NOTICE) - licensing
