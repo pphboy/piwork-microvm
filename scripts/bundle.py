@@ -15,8 +15,13 @@ def release_version():
     if not name or git('cat-file','-t',name)!='tag':return None
     return name[1:] if name.startswith('v') else name
 def build_identity(out,manifest_version):
-    """Own version, upstream pin and bundle manifest version reported by --version."""
-    return {'version':release_version() or '0.0.0-dev.'+(git('rev-parse','--short=12','HEAD') or 'unknown'),
+    """Own version, upstream pin and bundle manifest version reported by --version.
+
+    PIWORK_RELEASE_VERSION lets a release build state its version before the tag
+    exists, so the artifact never ships a development version under a release tag.
+    """
+    explicit=os.environ.get('PIWORK_RELEASE_VERSION','').strip()
+    return {'version':explicit or release_version() or '0.0.0-dev.'+(git('rev-parse','--short=12','HEAD') or 'unknown'),
             'upstream':json.loads((out/'piwork/metadata.json').read_text())['releaseVersion'],
             'commit':json.loads((ROOT/'build.lock.json').read_text())['piwork']['commit'],
             'manifest':'v'+str(manifest_version)}

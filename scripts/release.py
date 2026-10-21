@@ -4,7 +4,7 @@
 Nothing here publishes unless an explicit publish command is given; the build
 flow itself never pushes or releases. See design.md D1-D7.
 """
-import argparse, datetime, gzip, hashlib, json, pathlib, shutil, subprocess, sys, tarfile
+import argparse, datetime, gzip, hashlib, json, os, pathlib, shutil, subprocess, sys, tarfile
 from source import source_path
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 CHANGE=ROOT/'openspec/changes/support-windows-and-disk-only-storage'
@@ -137,13 +137,22 @@ def preflight(version,require_gh):
 
 def run_tests():
     if subprocess.run(['go','test','./...'],cwd=ROOT).returncode!=0:fail('go test ./... failed')
-def run_build(reuse):
-    """Step 3. Reuse is explicit and non-default: it skips the build, not the gate's other checks."""
-    if reuse:
-        missing=[name for _,name in PLATFORMS if not (ROOT/'dist'/name).exists()]
-        if missing:fail('--reuse-artifacts but missing: '+', '.join(missing))
-        return
-    if subprocess.run(['make','piwork-microvm-all'],cwd=ROOT).returncode!=0:fail('artifact build failed')
+def verify_artifact_version(version):
+    """A silent -X no-op, or artifacts left from another version, would ship a wrong --version."""
+    r=subprocess.run([str(ROOT/'dist'/'piwork-microvm'),'--version'],capture_output=True,text=True)
+    if r.returncode!=0:fail('artifact --version failed: '+(r.stderr.strip() or str(r.returncode)))
+    if 'piwork-microvm '+version not in r.stdout:fail('artifact reports "'+r.stdout.splitlines()[0]+'", expected version '+version)
+def run_build(reuse,version):
+    """Step 3. The version is an explicit build input, since the release tag does not exist yet.
+
+    Reuse is explicit and non-default: it skips the build, not the gate's other checks.
+    """
+    if not reuse:
+        env=os.environ.copy();env['PIWORK_RELEASE_VERSION']=version
+        if subprocess.run(['make','piwork-microvm-all'],cwd=ROOT,env=env).returncode!=0:fail('artifact build failed')
+    missing=[name for _,name in PLATFORMS if not (ROOT/'dist'/name).exists()]
+    if missing:fail('missing artifacts, build before releasing: '+', '.join(missing))
+    verify_artifact_version(version)
 
 def cmd_preflight(args):
     preflight(args.version,args.require_gh)
@@ -153,7 +162,7 @@ def cmd_release(args):
     preflight(args.version,False)
     print('Preflight passed for v'+args.version)
     run_tests();print('Tests passed')
-    run_build(args.reuse_artifacts);print('Artifacts ready')
+    run_build(args.reuse_artifacts,args.version);print('Artifacts ready and report '+args.version)
     evidence=pathlib.Path(args.evidence_dir)
     manifest_out=pathlib.Path(args.out) if args.out else ROOT/'dist/release-manifest.json'
     write_json(manifest_out,manifest(args.version,evidence));print('Wrote',manifest_out)
@@ -180,8 +189,7 @@ def cmd_publish(args):
     """Steps 6-7: tag and GitHub Release. The only command here that writes remotely."""
     version=args.version;tag='v'+version
     preflight(version,True);print('Preflight passed for '+tag)
-    missing=[name for _,name in PLATFORMS if not (ROOT/'dist'/name).exists()]
-    if missing:fail('missing artifacts, build before publishing: '+', '.join(missing))
+    run_build(True,version);print('Artifacts report '+version)
     evidence=pathlib.Path(args.evidence_dir)
     manifest_out=pathlib.Path(args.manifest_out) if args.manifest_out else ROOT/'dist/release-manifest.json'
     notes_out=pathlib.Path(args.notes_out) if args.notes_out else ROOT/'dist/release-notes.md'
