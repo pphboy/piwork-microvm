@@ -2,3 +2,5 @@
 *.test
 __pycache__/
 .venv/
+# Generated per-agent instruction files; regenerate with `openspec update`.
+/.claude/
