@@ -16,6 +16,7 @@ change. That file, not this README, is the source of truth for current support.
 
 - [What this is](#what-this-is)
 - [Quick start](#quick-start)
+- [Desktop launcher (GUI)](#desktop-launcher-gui)
 - [Command-line reference](#command-line-reference)
 - [Networking and access](#networking-and-access)
 - [Installation data and persistence](#installation-data-and-persistence)
@@ -86,6 +87,56 @@ Core API: http://127.0.0.1:17871
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
 happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.9 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
+
+## Desktop launcher (GUI)
+
+The optional desktop entry is a separate Wails v2.17.0 application. It is built and shipped
+locally as its own single file; it does not replace, rename or add desktop dependencies to the
+CLI artifacts.
+
+### Requirements
+
+- **Windows 11**: the Microsoft Edge WebView2 Runtime (present by default on current Windows
+  11) and WHPX, with the same firmware-virtualization prerequisites as the CLI.
+- **Linux**: GTK 3 and WebKitGTK 4.1 runtime libraries (for example `libgtk-3-0` and
+  `libwebkit2gtk-4.1-0`), plus a system browser launcher: `xdg-open`, `gio open`,
+  `gnome-open`, `kde-open` or `sensible-browser`. If none exists, the launcher reports an
+  error instead of silently doing nothing.
+- The same `/dev/kvm` or WHPX, free-space, port and data-lock rules as the CLI. No host QEMU,
+  Docker, Node, NPM or Vite is used at run time or to build the static frontend.
+- These desktop libraries and runtimes apply **only** to the GUI. The CLI remains a
+  `CGO_ENABLED=0` binary with no desktop dependency.
+
+### Run
+
+Double-click `piwork-microvm-gui` (`piwork-microvm-gui.exe` on Windows). The first window uses
+English regardless of the OS language, uses the platform default data root and offers an
+optional native "Change" directory action. Click
+"Start Piwork" once; the launcher shows the real phase, and "Open Piwork" becomes available
+only after this VM's `/healthz` returns HTTP 200. The original Piwork page still owns first-run
+administrator creation, model/API key and Runtime configuration.
+
+- The data root is the complete installation root (metadata, `disks/state.qcow2`, logs). The
+  default is `%LOCALAPPDATA%\PiworkMicroVM` on Windows and
+  `$XDG_DATA_HOME/piwork-microvm` (or `~/.local/share/piwork-microvm`) on Linux.
+- **Language:** More → English / 简体中文 switches immediately and saves the choice. No
+  language prompt or separate settings page is required; older preferences without a
+  language field also default to English. Changing language does not restart the VM or
+  alter its data directory. The Guide link opens the matching English or Chinese README.
+- Preferences are stored separately in `%APPDATA%\piwork-microvm\launcher.json` on Windows and
+  `$XDG_CONFIG_HOME/piwork-microvm/launcher.json` (or `~/.config/...`) on Linux. WebView data
+  stays in its own per-user location, never inside the installation root.
+- The success marker is written only after a real health check and a matching installation
+  identity. Copying the disk template alone, or a failed start, does not mark setup complete.
+- Clicking stop or closing a running window asks for native confirmation, then performs the
+  same ordered Guest stop and disk sync as the CLI. Repeated clicks reuse the existing stop.
+  An unconfirmed shutdown stays visible as an error instead of being hidden by an automatic
+  close.
+- The bottom log panel shows the current session; reopening shows the most recent historical
+  log when no new one exists. "Export current log" writes a sanitized `.log`, and "Export all
+  logs" writes a sanitized `.zip` of the selected installation only, through the native save
+  dialog. These contain original technical text; application labels and dialog titles use
+  your chosen language. OS-owned buttons and file lists follow the OS language.
 
 ## Command-line reference
 
@@ -186,6 +237,24 @@ only.
 with `sensitive diagnostic omitted`, on both the QEMU and the Guest Piwork output paths. API
 keys, passwords and tokens are therefore kept out of ordinary logs.
 
+For GUI failures, choose **View logs**, then **Export current log**. When a real VM
+session file exists, this exports its complete sanitized contents at export start, including
+lines outside the bounded display. Before a session file exists, a displayed startup error
+can be saved through the same action. **Export all logs** includes only real log files from
+the selected installation. Without matching real content, the corresponding action is disabled.
+
+Exports accept an ordinary writable Downloads/Desktop directory without changing that
+directory's permissions. Cancelling writes nothing. Write, sync or replacement errors are
+reported; incomplete output does not replace an existing file. Current limits are 64 MiB per
+source file and 256 MiB total for all logs; an oversized export fails rather than silently
+truncating it. Save the file and send it to the maintainer yourself: there is no upload service.
+
+If no window opens, use the system error to check WebView2 (Windows) or GTK/WebKitGTK and the
+desktop session (Linux). On Linux, starting `./piwork-microvm-gui` from a terminal exposes
+loader/Wails errors; on Windows check the OS error dialog and the installed WebView2 Runtime.
+Failures before OS loading/Wails initialization do not promise an application diagnostic
+file. The launcher has no separate early-diagnostics directory or export package.
+
 ## Resource cache
 
 Bundled resources are extracted lazily on launch into
@@ -203,6 +272,19 @@ installation is untouched.
 Docker Engine, **exactly Go 1.25.5** (the build hard-fails on any other `go env GOVERSION`),
 Git, Python 3, Make, Bash, curl, qemu-img and internet access. Node is **not** a host
 prerequisite; it is supplied by a container. Only Go has an enforced version check.
+
+### GUI build prerequisites
+
+GUI builds are separate from the CLI build and must use the pinned Wails CLI:
+
+- Go 1.25.5 and the Wails CLI pinned in this module (`go tool wails version` must print
+  `v2.17.0`).
+- **Linux**: GCC, pkg-config, `libgtk-3-dev` and `libwebkit2gtk-4.1-dev`; build the Linux GUI
+  on Linux.
+- **Windows**: native Windows 11, Go 1.25.5, MinGW-w64 GCC on `PATH`, and the WebView2 runtime.
+  Build the Windows GUI on native Windows; WSL, cross-compiled Linux results or a Linux GUI
+  are not accepted as Windows evidence.
+- Node/NPM is **not** required: the frontend is static and embedded with `go:embed`.
 
 ### Container-supplied components
 
@@ -229,7 +311,10 @@ prerequisite; it is supplied by a container. Only Go has an enforced version che
 | `piwork-microvm` | Produce the Linux artifact | `guest`, `qemu` |
 | `piwork-microvm-windows` | Produce the Windows artifact | `guest`, `qemu-windows` |
 | `piwork-microvm-all` | Produce both platform artifacts | both of the above |
-| `test` | `go test ./...` | Go 1.25.5 |
+| `piwork-microvm-gui` | Produce the Linux GUI artifact | `guest`, `qemu`, GUI build prerequisites |
+| `piwork-microvm-gui-windows` | Produce the Windows GUI artifact | `guest`, `qemu-windows`, native Windows GUI prerequisites |
+| `piwork-microvm-gui-all` | Produce both GUI artifacts | both GUI targets |
+| `test` | Go tests and Python script tests | Go 1.25.5, Python 3 |
 | `boot-dev` | Development only: run against a host QEMU | host `/usr/bin/qemu-system-x86_64`, built `dist/guest` |
 
 ```sh
@@ -239,9 +324,31 @@ make piwork-microvm-all     # both platform artifacts
 # Or: make piwork-microvm / make piwork-microvm-windows
 ```
 
+With the locked Guest and QEMU resources already built, rebuild only the GUI bodies and
+append the existing resources (no upstream refresh):
+
+```sh
+python3 scripts/gui-build.py --platform linux
+# On native Windows, with the same checkout, lock and dist/piwork/metadata.json:
+# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version>
+# Then, on the resource-build host:
+python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
+```
+
+Linux uses `CGO_ENABLED=1` and tags `desktop production webkit2_41`; native Windows uses
+`CGO_ENABLED=1`, tags `desktop production`, and `-H windowsgui`. CLI builds keep CGO disabled.
+The native body script is the Windows half when the common resource-build host is Linux;
+all Guest/QEMU resources remain embedded in the final EXE. Node is only needed to run the
+optional frontend regression command `node --test scripts/frontend_test.mjs`, not to build
+or run the GUI. No build command tags, pushes or publishes.
+
 ### Outputs
 
 - `dist/piwork-microvm` and `dist/piwork-microvm.exe`, each with a `.sha256` sidecar.
+- `dist/piwork-microvm-gui` and `dist/piwork-microvm-gui.exe`, each with a `.sha256` sidecar.
+- GUI intermediates use independent names: `dist/launcher-gui-<platform>[.exe]`,
+  `dist/payload-gui-<platform>.tar.gz` and `dist/bundle-manifest-gui-<platform>.json`. They
+  never overwrite CLI intermediates or the CLI artifacts.
 - Intermediates: `dist/source/<commit>/piwork`, `dist/piwork/images.json`,
   `dist/piwork/metadata.json`, `dist/guest/`, `dist/qemu/`, `dist/qemu-windows/`.
 
@@ -312,6 +419,16 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+| [GUI acceptance](openspec/changes/add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |
+
+### GUI acceptance
+
+The existing record separates the historical full business/fault checks from this GUI
+follow-up. Current native Linux/KVM and Windows/WebView2/WHPX checks cover the scoped
+C1/W1–W5 regressions, English default and saved English/Chinese switching, normal/error log
+export, safe stop and reuse of the original disk. Only the platforms and artifact identities
+listed there are claimed. The original Piwork/Guest pin remains unchanged; no real AI
+inference or subsequent upstream integration is claimed. GUI builds never tag, push or publish.
 
 ### Linux acceptance
 
@@ -359,6 +476,9 @@ remains unchanged.
   this release's agreed acceptance scope.
 - A single data disk always has only one VM writer, and builds run on Linux only without
   pushing or publishing.
+- The GUI adds the system WebView/GTK runtime prerequisites listed above. Those prerequisites
+  do not apply to the CLI. The GUI does not embed the Piwork WebUI, add account/model/Runtime
+  forms, run in the tray or manage a second installation.
 
 ## License
 

@@ -16,6 +16,7 @@ README，是当前支持范围的唯一事实来源。
 
 - [这是什么](#这是什么)
 - [快速开始](#快速开始)
+- [桌面入口（GUI）](#桌面入口gui)
 - [命令行参考](#命令行参考)
 - [网络与访问](#网络与访问)
 - [安装数据与持久化](#安装数据与持久化)
@@ -80,6 +81,45 @@ Core API: http://127.0.0.1:17871
 
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
 时才会打开。原版 Piwork 0.0.9 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
+
+## 桌面入口（GUI）
+
+可选的桌面入口是独立的 Wails v2.17.0 应用，本地构建为单独的单文件；它不替换、不改名，也不给 CLI
+产物增加桌面依赖。
+
+### 运行要求
+
+- **Windows 11**：Microsoft Edge WebView2 Runtime（当前 Windows 11 默认存在）和 WHPX，固件虚拟化
+  前提与 CLI 相同。
+- **Linux**：GTK 3 与 WebKitGTK 4.1 运行库（例如 `libgtk-3-0`、`libwebkit2gtk-4.1-0`），以及可用的
+  系统浏览器启动器：`xdg-open`、`gio open`、`gnome-open`、`kde-open` 或 `sensible-browser`。若均
+  不存在，启动器会明确报错，而不是静默无反应。
+- KVM/WHPX、磁盘空间、端口与数据锁规则与 CLI 相同。运行和构建静态前端都不需要宿主 QEMU、Docker、
+  Node、NPM 或 Vite。
+- 这些桌面库与运行库**只**适用于 GUI；CLI 仍是 `CGO_ENABLED=0` 且不依赖桌面组件的二进制。
+
+### 运行
+
+双击 `piwork-microvm-gui`（Windows 为 `piwork-microvm-gui.exe`）。首次界面固定英文，
+不随系统语言自动变中文，使用平台默认数据根，可通过原生「Change」选择目录。更多菜单选择
+「简体中文」后，以下操作名按中文显示。点击一次「启动 Piwork」，界面显示真实阶段；只有本次 VM 的 `/healthz`
+返回 HTTP 200 后，「打开 Piwork」才可用。管理员创建、模型/API Key 与 Runtime 配置仍由原版 Piwork
+页面负责。
+
+- 数据根是完整安装根（元数据、`disks/state.qcow2`、日志）。Windows 默认
+  `%LOCALAPPDATA%\PiworkMicroVM`，Linux 默认 `$XDG_DATA_HOME/piwork-microvm`（或
+  `~/.local/share/piwork-microvm`）。
+- **语言：** 更多 → English / 简体中文立即切换并保存，不增加设置页或首启必选步骤。旧偏好
+  没有语言字段时也默认英文；切换不重启 VM、不改数据根，引导文档按语言打开对应 README。
+- 偏好单独保存在 Windows `%APPDATA%\piwork-microvm\launcher.json`、Linux
+  `$XDG_CONFIG_HOME/piwork-microvm/launcher.json`（或 `~/.config/...`）。WebView 数据留在各自的
+  用户目录，绝不进入安装根。
+- 成功标记只在真实健康检查成功且安装身份匹配后写入。仅复制磁盘模板或一次失败启动都不算完成。
+- 点击停止或关闭运行中的窗口会弹出原生确认，然后执行与 CLI 相同的有序 Guest 停止和磁盘同步；重复
+  操作复用同一次停止。未确认的关机保留为错误，不会被自动关窗掩盖。
+- 底部日志面板显示本次会话；重开时若本次尚无日志，会显示最近的历史日志。「导出本次日志」通过原生
+  保存对话框写出脱敏 `.log`，「导出全部日志」只归档所选安装的脱敏 `.zip`。技术日志保留原文；
+  应用文案及原生对话框自有标题使用所选语言，系统按钮和文件列表使用系统语言。
 
 ## 命令行参考
 
@@ -172,6 +212,18 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 `api_key`、`apikey`、`password`、`token` 或 `credential` 的行替换为 `sensitive diagnostic omitted`，
 在 QEMU 与 Guest Piwork 两条输出路径上都生效。因此 API Key、密码和 Token 不会出现在普通日志中。
 
+GUI 启动失败时，选择「查看日志」→「导出本次日志」。存在真实 VM 会话文件时，导出开始时已写入的
+完整脱敏内容（包括界面有界缓冲未显示的部分）；会话文件尚未创建时，同一操作可保存已经显示的
+真实启动错误。「导出全部日志」只包含所选安装的真实日志文件。没有相应真实内容时禁用对应项。
+
+保存到普通可写的下载/桌面目录即可，不会修改目录权限。取消不写入；写入、同步或替换失败会明确
+报错，未完成的输出不替换原文件。当前上限为单个源文件 64 MiB、全部源日志合计 256 MiB，超限明确
+失败，不静默截断。保存后自行将文件发送给维护者，应用没有上传服务。
+
+窗口没有打开时，按系统错误检查 Windows 的 WebView2，或 Linux 的 GTK/WebKitGTK 和桌面会话。
+Linux 可从终端执行 `./piwork-microvm-gui` 查看加载器/Wails 错误；Windows 查看系统错误弹窗并检查
+WebView2 Runtime。OS 加载/Wails 初始化前失败不承诺生成应用诊断文件，也没有独立早期诊断目录或包。
+
 ## 资源缓存
 
 内置资源在启动时懒解压到 `<UserCacheDir>/piwork-microvm/bundles/<manifest 的 sha256>/`，有效的缓存
@@ -185,6 +237,17 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 
 Docker Engine、**恰好 Go 1.25.5**（其他 `go env GOVERSION` 会直接导致构建失败）、Git、Python 3、
 Make、Bash、curl、qemu-img 和网络访问。Node **不是**主机前置，由容器提供。只有 Go 有强制版本校验。
+
+### 桌面 GUI 构建前置
+
+GUI 构建与 CLI 分离，并使用固定的 Wails CLI：
+
+- Go 1.25.5，以及本模块固定的 Wails CLI（`go tool wails version` 必须输出 `v2.17.0`）。
+- **Linux**：GCC、pkg-config、`libgtk-3-dev` 与 `libwebkit2gtk-4.1-dev`；Linux GUI 必须在 Linux 上
+  构建。
+- **Windows**：原生 Windows 11、Go 1.25.5、`PATH` 中的 MinGW-w64 GCC 和 WebView2 运行库。Windows
+  GUI 必须在原生 Windows 上构建；WSL、交叉编译或 Linux GUI 结果不能作为 Windows 证明。
+- 不需要 Node/NPM：前端是静态资源，通过 `go:embed` 内置。
 
 ### 容器提供组件
 
@@ -211,7 +274,10 @@ Make、Bash、curl、qemu-img 和网络访问。Node **不是**主机前置，�
 | `piwork-microvm` | 产出 Linux 产物 | `guest`、`qemu` |
 | `piwork-microvm-windows` | 产出 Windows 产物 | `guest`、`qemu-windows` |
 | `piwork-microvm-all` | 产出两个平台产物 | 上述两者 |
-| `test` | `go test ./...` | Go 1.25.5 |
+| `piwork-microvm-gui` | 产出 Linux GUI 产物 | `guest`、`qemu`、GUI 构建前置 |
+| `piwork-microvm-gui-windows` | 产出 Windows GUI 产物 | `guest`、`qemu-windows`、原生 Windows GUI 前置 |
+| `piwork-microvm-gui-all` | 产出两个 GUI 产物 | 上述两个 GUI 目标 |
+| `test` | Go 测试与 Python 脚本测试 | Go 1.25.5、Python 3 |
 | `boot-dev` | 仅开发使用：对宿主 QEMU 运行 | 宿主 `/usr/bin/qemu-system-x86_64`、已构建的 `dist/guest` |
 
 ```sh
@@ -221,9 +287,28 @@ make piwork-microvm-all     # both platform artifacts
 # Or: make piwork-microvm / make piwork-microvm-windows
 ```
 
+锁定的 Guest/QEMU 资源已构建时，可只重建 GUI 主体并追加现有资源，不刷新上游：
+
+```sh
+python3 scripts/gui-build.py --platform linux
+# 在原生 Windows，用同一源码、锁与 dist/piwork/metadata.json：
+# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version>
+# 随后在资源构建主机封装：
+python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
+```
+
+Linux GUI 使用 `CGO_ENABLED=1` 和 `desktop production webkit2_41` tag；原生 Windows GUI 使用
+`CGO_ENABLED=1`、`desktop production` 和 `-H windowsgui`；CLI 保持禁用 CGO。当公共资源构建主机是
+Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部 Guest/QEMU 资源。只有可选前端回归
+`node --test scripts/frontend_test.mjs` 需要 Node，构建和运行 GUI 不需要。构建不打 tag、不推送、不发布。
+
 ### 构建产物
 
 - `dist/piwork-microvm` 与 `dist/piwork-microvm.exe`，各带 `.sha256` 校验文件。
+- `dist/piwork-microvm-gui` 与 `dist/piwork-microvm-gui.exe`，各带 `.sha256` 校验文件。
+- GUI 中间产物使用独立名称：`dist/launcher-gui-<platform>[.exe]`、
+  `dist/payload-gui-<platform>.tar.gz` 与 `dist/bundle-manifest-gui-<platform>.json`，不会覆盖
+  CLI 中间产物或 CLI 产物。
 - 中间产物：`dist/source/<commit>/piwork`、`dist/piwork/images.json`、
   `dist/piwork/metadata.json`、`dist/guest/`、`dist/qemu/`、`dist/qemu-windows/`。
 
@@ -286,6 +371,14 @@ GPL 组件的对应源码、其锁定校验和与书面提供承诺，并列出�
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
+| [GUI 验收](openspec/changes/add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Linux/KVM 与原生 Windows/WebView2/WHPX CoreLoop、目录/日志对话框、Work/Files/Services、数据库持久化与异常恢复；未验证真实模型调用 |
+
+### GUI 验收
+
+既有记录将历史完整业务/故障检查与本轮 GUI 收尾分开。本轮 Linux/KVM 与原生 Windows/WebView2/WHPX
+聚焦 C1/W1–W5 针对性回归、默认英文及英/简中切换保存、正常/错误日志导出、安全停止与原盘复用。
+仅声明记录中列明的平台和产物身份；Piwork/Guest 锁不变，不宣称真实 AI 推理或后续上游整合已验证。
+GUI 构建不打 tag、不推送、不发布。
 
 ### Linux 验收
 
@@ -325,6 +418,8 @@ Playwright 复制到 Windows 本地测试目录。
 - Windows 实测使用原生 Windows 11 Home build 26200，不据此声称所有 Windows 版本均已验证。多版本
   矩阵和第二台干净电脑在本版约定的验收范围之外。
 - 同一数据盘始终只允许一个 VM 写入，且构建只在 Linux 上运行、不推送不发布。
+- GUI 增加了上述系统 WebView/GTK 运行前提，这些前提不适用于 CLI。GUI 不内嵌 Piwork WebUI，不增加
+  账户/模型/Runtime 表单，不驻留托盘，也不管理第二个安装。
 
 ## 许可证
 
