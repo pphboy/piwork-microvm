@@ -1,0 +1,15 @@
+{
+    "artifactSha256":  "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+    "dataRoot":  "C:\\Users\\p\\piwork-gui-accept-win5\\local\\PiworkMicroVM",
+    "installationId":  "ccecc61e930111584c584d42750fa73a",
+    "healthz":  200,
+    "defaultDirectorySelectedWithoutPicker":  true,
+    "nativeQemuPid":  16044,
+    "microvm":  true,
+    "whpx":  true,
+    "noReparseCache":  true,
+    "clean":  true,
+    "guiExited":  true,
+    "qemuExited":  true,
+    "browserSetupVerified":  true
+}

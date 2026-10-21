@@ -1,0 +1,12 @@
+== bad disk ==
+Checking virtualization acceleration
+Loading bundled resources
+Verifying the embedded bundle
+Bundled resources are ready
+Preparing the installation directory
+Preparing the persistent disk
+persistent qcow2 header/size is invalid or unsupported; refusing to reset it
+piwork-microvm: persistent qcow2 header/size is invalid or unsupported; refusing to reset it
+exit=1
+disk bytes:
+user bytes

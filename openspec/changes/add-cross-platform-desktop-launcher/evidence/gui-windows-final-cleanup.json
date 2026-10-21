@@ -1,0 +1,16 @@
+{
+    "ownedTestProcessCount":  0,
+    "userDefaultMetadataUnchanged":  true,
+    "installations":  [
+                          {
+                              "clean":  true,
+                              "locksAvailable":  true,
+                              "dataRoot":  "C:\\Users\\p\\piwork-gui-accept-win4\\数据 目录"
+                          },
+                          {
+                              "clean":  true,
+                              "locksAvailable":  true,
+                              "dataRoot":  "C:\\Users\\p\\piwork-gui-accept-win5\\local\\PiworkMicroVM"
+                          }
+                      ]
+}

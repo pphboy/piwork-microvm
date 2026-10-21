@@ -1,0 +1,11 @@
+=== RUN   TestDiskLockFollowsHardLinkIdentity
+--- PASS: TestDiskLockFollowsHardLinkIdentity (0.01s)
+=== RUN   TestInheritedLockSurvivesParentHandleClose
+--- PASS: TestInheritedLockSurvivesParentHandleClose (0.06s)
+=== RUN   TestInheritedLockChild
+--- PASS: TestInheritedLockChild (0.00s)
+=== RUN   TestLocalUnicodePathAndPrivateACL
+--- PASS: TestLocalUnicodePathAndPrivateACL (0.01s)
+=== RUN   TestRejectNetworkAndReparseManagedPaths
+--- PASS: TestRejectNetworkAndReparseManagedPaths (0.05s)
+PASS

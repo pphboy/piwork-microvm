@@ -1,0 +1,8 @@
+{
+  "guiExited": true,
+  "metadataUnchanged": true,
+  "runtimePresent": true,
+  "case": "forced-gui-termination",
+  "qemuExited": true,
+  "unclean": true
+}

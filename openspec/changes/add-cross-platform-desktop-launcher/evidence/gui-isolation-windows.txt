@@ -1,0 +1,7 @@
+root=C:\Users\p\piwork-gui-acceptance
+exe=C:\Users\p\piwork-gui-accept-win\piwork-microvm-gui.exe
+default-installation-sha=ab168fb8907701bca1106dacc0ece5704e43b8860248c82345ac2b27e76bf6a8
+marker=owner=p
+created=2026-10-21T10:56:29.0132327Z
+
+check-only: no process was started and no default path was modified

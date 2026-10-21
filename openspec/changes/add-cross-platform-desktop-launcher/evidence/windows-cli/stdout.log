@@ -1,0 +1,20 @@
+Checking virtualization acceleration
+Loading bundled resources
+Verifying the embedded bundle
+Bundled resources are ready
+Preparing the installation directory
+Preparing the persistent disk
+Installation: C:\Users\p\piwork-cli-accept-win\data
+Persistent state: C:\Users\p\piwork-cli-accept-win\data\disks\state.qcow2
+Log: C:\Users\p\piwork-cli-accept-win\data\logs\20261021T083926.414971700.log
+Starting the MicroVM
+MicroVM process created
+Guest stage: storage
+Guest stage: loading-images
+Guest stage: images
+Guest stage: web-available
+Piwork is available: http://127.0.0.1:17991
+Core API: http://127.0.0.1:17971
+Open Piwork to sign in or complete first-time setup.
+Stopping Piwork and Guest; waiting for persistent disks to sync...
+Guest stopped cleanly. All user data retained.

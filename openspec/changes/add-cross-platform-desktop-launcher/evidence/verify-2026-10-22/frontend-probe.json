@@ -1,0 +1,7 @@
+{
+  "expectedSession": "new-session",
+  "expectedState": "starting",
+  "actualSession": "old-session",
+  "actualState": "running",
+  "openButtonEnabled": true
+}

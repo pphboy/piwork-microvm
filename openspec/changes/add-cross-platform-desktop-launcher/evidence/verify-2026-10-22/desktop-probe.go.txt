@@ -1,0 +1,60 @@
+//go:build linux && amd64
+
+package desktop
+
+import (
+ "bytes"
+ "context"
+ "errors"
+ "os"
+ "os/exec"
+ "os/signal"
+ "path/filepath"
+ "strings"
+ "sync"
+ "syscall"
+ "testing"
+
+ "piwork-microvm/internal/launcher"
+)
+
+func TestVerifyExportAllToNormalDownloads(t *testing.T) {
+ root:=privateTemp(t); writeInstallation(t,root,testID)
+ os.WriteFile(filepath.Join(root,"logs","20260101T000000.000000000.log"),[]byte("real log\n"),0600)
+ downloads:=filepath.Join(privateTemp(t),"Downloads"); if err:=os.Mkdir(downloads,0755);err!=nil{t.Fatal(err)};os.Chmod(downloads,0755)
+ a:=&fakeAdapter{save:filepath.Join(downloads,"logs.zip")};c:=testController(t,a,nil,root)
+ if _,err:=c.ExportAll(context.Background());err!=nil{t.Fatalf("export to user-owned writable 0755 directory failed: %v",err)}
+}
+func TestVerifyCurrentExportIncludesCompleteFile(t *testing.T) {
+ root:=privateTemp(t);writeInstallation(t,root,testID)
+ a:=&fakeAdapter{save:filepath.Join(privateTemp(t),"current.log")};c:=testController(t,a,nil,root)
+ var full strings.Builder
+ for i:=0;i<5001;i++ { line:="real current diagnostic line";if i==0{line="FIRST LINE MUST SURVIVE EXPORT"};full.WriteString(line+"\n");c.logs.add(launcher.LogLine{Text:line}) }
+ path:=filepath.Join(root,"logs","20260101T000000.000000000.log");os.WriteFile(path,[]byte(full.String()),0600);c.status.LogPath=path
+ target,err:=c.ExportCurrent(context.Background());if err!=nil{t.Fatal(err)};got,err:=os.ReadFile(target);if err!=nil{t.Fatal(err)}
+ if !bytes.Equal(got,[]byte(full.String())){t.Fatalf("full session log=%d bytes, export=%d bytes, first line present=%v",full.Len(),len(got),bytes.Contains(got,[]byte("FIRST LINE")))}
+}
+func TestVerifyAtomicWriteFailure(t *testing.T) {
+ if os.Getenv("PIWORK_VERIFY_FSIZE_CHILD")=="1" {
+  dir:=privateTemp(t);target:=filepath.Join(dir,"current.log")
+  var old syscall.Rlimit;if err:=syscall.Getrlimit(syscall.RLIMIT_FSIZE,&old);err!=nil{t.Fatal(err)}
+  signal.Ignore(syscall.SIGXFSZ);limit:=old;limit.Cur=1024
+  if err:=syscall.Setrlimit(syscall.RLIMIT_FSIZE,&limit);err!=nil{t.Fatal(err)}
+  err:=writeAtomic(target,bytes.Repeat([]byte("x"),16384),0600)
+  syscall.Setrlimit(syscall.RLIMIT_FSIZE,&old)
+  st,statErr:=os.Stat(target)
+  if err==nil {if statErr==nil{t.Fatalf("write error was lost: requested=16384 actual=%d, reported success",st.Size())};t.Fatal("write error was lost")};return
+ }
+ cmd:=exec.Command(os.Args[0],"-test.run=^TestVerifyAtomicWriteFailure$","-test.v");cmd.Env=append(os.Environ(),"PIWORK_VERIFY_FSIZE_CHILD=1")
+ output,err:=cmd.CombinedOutput();if err!=nil{t.Fatalf("isolated size-limited writer:\n%s",output)}
+}
+func TestVerifyFinishStopRace(t *testing.T) {
+ c:=testController(t,&fakeAdapter{},nil,privateTemp(t))
+ for i:=0;i<2000;i++ {
+  s:=&session{id:"probe",cancel:func(){},done:make(chan struct{})};c.mu.Lock();c.session=s;c.mu.Unlock()
+  start:=make(chan struct{});var wg sync.WaitGroup;wg.Add(2)
+  go func(){defer wg.Done();<-start;c.Stop()}()
+  go func(){defer wg.Done();<-start;c.finish(s,errors.New("Guest exited unexpectedly"))}()
+  close(start);wg.Wait()
+ }
+}

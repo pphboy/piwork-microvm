@@ -1,0 +1,26 @@
+{
+  "scope": "local delivery checksums; locked inputs and real native run reports define acceptance, not byte reproducibility",
+  "buildLockSha256": "ae4befa52bc73b7b3082bdeb93131b66c0a0164fe8dc0fd1bcf3396bd41c446f",
+  "artifacts": [
+    {
+      "platform": "linux",
+      "file": "dist/piwork-microvm-gui",
+      "bytes": 396825485,
+      "sha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+      "manifestVersion": 2,
+      "files": 312,
+      "payloadChecksumVerified": true,
+      "nativeWindowAndOwnTrailerVerified": true
+    },
+    {
+      "platform": "windows",
+      "file": "dist/piwork-microvm-gui.exe",
+      "bytes": 414510262,
+      "sha256": "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+      "manifestVersion": 2,
+      "files": 337,
+      "payloadChecksumVerified": true,
+      "nativeWindowAndOwnTrailerVerified": true
+    }
+  ]
+}

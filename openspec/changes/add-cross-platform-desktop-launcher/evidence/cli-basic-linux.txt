@@ -1,0 +1,19 @@
+== help ==
+Usage: piwork-microvm [OPTIONS]
+Run Piwork in one QEMU microvm: Linux x86-64/KVM or native Windows 11/WHPX.
+
+  --data-dir DIR   complete installation root (metadata, disks, logs)
+  --port PORT      host browser UI/ControlPlane port (default 17891)
+exit=0
+== version ==
+piwork-microvm 0.1.1
+upstream Piwork 0.0.9 (a6c36da16ebcc0e96f0e34ef820d857f2bea4877)
+bundle manifest v2
+exit=0
+== invalid port ==
+exit=1
+piwork-microvm: --port: port must be an integer from 1 to 65535
+== equal ports ==
+exit=1
+== unknown arg ==
+exit=1

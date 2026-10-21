@@ -1,0 +1,17 @@
+{
+  "artifactSha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+  "dataRoot": "/home/p/piwork-gui-complete/data/piwork-microvm",
+  "installationId": "25a12249a5bb853883e6dc7358ba0ec3",
+  "healthz": 200,
+  "nativeWindow": true,
+  "acceleration": "KVM",
+  "machine": "microvm",
+  "serviceCounterBefore": 2,
+  "serviceCounterAfter": 3,
+  "clean": true,
+  "guiExited": true,
+  "networkRetryEvidence": "gui-linux-final-network-recheck.json",
+  "locksAvailable": true,
+  "userDefaultMetadataUnchanged": true,
+  "userCLI8080Health": 200
+}

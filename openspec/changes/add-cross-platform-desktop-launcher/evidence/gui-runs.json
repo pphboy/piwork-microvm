@@ -1,0 +1,101 @@
+{
+  "linux": {
+    "artifactSha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+    "executable": "/home/p/piwork 验收/程序 目录/piwork-microvm-gui",
+    "workingDirectory": "/home/p/piwork-gui-final/tmp",
+    "dataRoot": "/home/p/piwork-gui-final/data/piwork-microvm",
+    "cacheRoot": "/home/p/piwork-gui-final/cache/piwork-microvm",
+    "installationId": "74ca71cd26e2194efc90e3b8a3ef2499",
+    "healthz": 200,
+    "acceleration": "KVM",
+    "close": "WM_DELETE_WINDOW + native GTK confirmation via AT-SPI Yes",
+    "clean": true,
+    "screenshot": "screenshots/linux-final-running.png",
+    "completionRun": {
+      "dataRoot": "/home/p/piwork-gui-complete/data/piwork-microvm",
+      "installationId": "25a12249a5bb853883e6dc7358ba0ec3",
+      "healthz": 200,
+      "clean": true,
+      "businessEvidence": "gui-linux-business-after-restart.json",
+      "serviceCounterAfter": 2
+    },
+    "priorAcceptanceArtifactSha256": "562063245df0b0ffe1a63c19b9ce20b0e5eb026f8e50ff03b90b1db2afb0b70e",
+    "finalDeliveryRun": {
+      "artifactSha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+      "dataRoot": "/home/p/piwork-gui-complete/data/piwork-microvm",
+      "installationId": "25a12249a5bb853883e6dc7358ba0ec3",
+      "healthz": 200,
+      "nativeWindow": true,
+      "acceleration": "KVM",
+      "machine": "microvm",
+      "serviceCounterBefore": 2,
+      "serviceCounterAfter": 3,
+      "clean": true,
+      "guiExited": true,
+      "networkRetryEvidence": "gui-linux-final-network-recheck.json",
+      "locksAvailable": true,
+      "userDefaultMetadataUnchanged": true,
+      "userCLI8080Health": 200
+    }
+  },
+  "windows": {
+    "artifactSha256": "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+    "defaultRun": {
+      "executable": "C:\\Users\\p\\piwork-gui-accept-win\\piwork-microvm-gui.exe",
+      "dataRoot": "C:\\Users\\p\\piwork-gui-accept-win\\local\\PiworkMicroVM",
+      "installationId": "1f51032efe405511ef1b5fdecfa379d6",
+      "healthz": 200,
+      "acceleration": "WHPX",
+      "qemu": "bundled qemu-system-x86_64.exe with -accel whpx",
+      "consoleWindow": "conhost created with no window handle (CREATE_NO_WINDOW)",
+      "admin": "acceptance-admin created; restart returned to /login",
+      "clean": true,
+      "screenshots": [
+        "screenshots/windows-idle.png",
+        "screenshots/windows-starting.png",
+        "screenshots/windows-running.png",
+        "screenshots/windows-stopping.png",
+        "screenshots/windows-reopen.png",
+        "screenshots/windows-setup-page.png",
+        "screenshots/windows-login-page.png"
+      ],
+      "artifactSha256": "1a98e488c74c9a21a184e5f0af4658ae39cc664b614efe7462fe895dc041384b",
+      "scope": "historical first default-directory CoreLoop gate before native picker/save corrections"
+    },
+    "chinesePathRun": {
+      "executable": "C:\\Users\\p\\piwork-gui-accept-win4\\程序 目录\\piwork-microvm-gui.exe",
+      "workingDirectory": "C:\\Users\\p\\piwork-gui-accept-win4\\temp",
+      "dataRoot": "C:\\Users\\p\\piwork-gui-accept-win4\\数据 目录",
+      "installationId": "3d7c8bbeca64f3ea428b322cbf5ae1c7",
+      "healthz": 200,
+      "clean": true,
+      "screenshots": [
+        "screenshots/windows-chinese-path-idle.png",
+        "screenshots/windows-chinese-path-running.png"
+      ],
+      "completionEvidence": "gui-windows-complete.md",
+      "businessEvidence": "gui-windows-business-after-faults.json",
+      "faultRecovery": true,
+      "serviceCounterAfter": 3
+    },
+    "finalDefaultRun": {
+      "artifactSha256": "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+      "dataRoot": "C:\\Users\\p\\piwork-gui-accept-win5\\local\\PiworkMicroVM",
+      "installationId": "ccecc61e930111584c584d42750fa73a",
+      "healthz": 200,
+      "defaultDirectorySelectedWithoutPicker": true,
+      "nativeQemuPid": 16044,
+      "microvm": true,
+      "whpx": true,
+      "noReparseCache": true,
+      "clean": true,
+      "guiExited": true,
+      "qemuExited": true,
+      "browserSetupVerified": true,
+      "screenshots": [
+        "screenshots/windows-final-default-idle.png",
+        "screenshots/windows-final-default-running.png"
+      ]
+    }
+  }
+}

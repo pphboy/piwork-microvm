@@ -1,0 +1,6 @@
+ports free
+root=/home/p/piwork-gui-acceptance
+exe=/home/p/Projects/piwork-microvm/dist/piwork-microvm-gui
+default-installation-sha=f0feacbcf69b24bb7067aa3efb1185090e62de78db5989606defe9d2d20f4ce4
+marker=owner=p created=2026-10-21T10:56:03Z
+check-only: no process was started and no default path was modified

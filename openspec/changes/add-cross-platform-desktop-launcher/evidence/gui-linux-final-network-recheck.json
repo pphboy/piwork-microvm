@@ -1,0 +1,16 @@
+{
+  "scope": "Final delivered Linux GUI; existing real Service outbound networking recheck",
+  "previousAttempt": "HTTP/WS/SSE and persistent counter passed; outbound endpoint returned 503 once",
+  "attempts": [
+    {
+      "status": 200,
+      "network": {
+        "dns": true,
+        "https": 200,
+        "aiApiReachable": true,
+        "aiHttpStatus": 401,
+        "modelCalled": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "environment": "native Windows WHPX, GUI restart after real timeout and forced GUI termination",
+  "origin": "http://127.0.0.1:17891",
+  "realModelCall": "not verified: no provider credential supplied",
+  "checks": [
+    "Existing QuickStart saved configuration and all production runtime dependencies became Ready",
+    "Real production Agent Work created and ready",
+    "Real browser Files edit persisted in the Work volume",
+    "Original Files UI uploaded/downloaded Chinese text and binary bytes, edited text and deleted a file",
+    "Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent",
+    "Anonymous Service access rejected",
+    "Real Service WebSocket round trip and SSE passed through QEMU forwarding",
+    "Real Work network DNS/HTTPS and AI API reachability verified; no model invocation"
+  ],
+  "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+  "files": [
+    {
+      "name": "中文资料.txt",
+      "suggestedFilename": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "suggestedFilename": "二进制.bin",
+      "sha256": "05c0dd305663192d523a78cf9f6631e99e4148f5b016160968a8581b4ef45f7a"
+    }
+  ],
+  "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+  "serviceOrigin": "http://127.0.0.1:17891",
+  "serviceURL": "http://127.0.0.1:17891/services/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/service-362b65dc-a986-4c34-94ed-16a3bb20df1e/8099/",
+  "counterBefore": {
+    "value": 2
+  },
+  "counterAfter": {
+    "value": 3
+  },
+  "workNetwork": {
+    "dns": true,
+    "https": 200,
+    "aiApiReachable": true,
+    "aiHttpStatus": 401,
+    "modelCalled": false
+  }
+}

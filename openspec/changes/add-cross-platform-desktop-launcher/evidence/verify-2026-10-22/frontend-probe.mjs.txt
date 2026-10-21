@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+const nodes=new Map();
+function node(){return {classList:{toggle(){},add(){},remove(){},contains(){return false}},setAttribute(){},querySelector(){return node()},textContent:'',hidden:false,disabled:false,scrollHeight:0,scrollTop:0,clientHeight:0};}
+const document={getElementById(id){if(!nodes.has(id))nodes.set(id,node());return nodes.get(id)},querySelectorAll(){return []}};
+const sandbox={document,window:{},setTimeout,clearTimeout};
+let source=fs.readFileSync('cmd/piwork-launcher/frontend/app.js','utf8');
+source=source.replace('  boot();','  globalThis.verifyUI = {onStatus, ui};');
+vm.runInNewContext(source,sandbox);
+const {onStatus,ui}=sandbox.verifyUI;
+onStatus({session:'old-session',seq:20,state:'idle',webAvailable:false});
+onStatus({session:'new-session',seq:5,state:'starting',webAvailable:false});
+onStatus({session:'old-session',seq:19,state:'running',webAvailable:true,webURL:'http://127.0.0.1:17891'});
+const result={expectedSession:'new-session',expectedState:'starting',actualSession:ui.status.session,actualState:ui.status.state,openButtonEnabled:!nodes.get('openButton').disabled};
+fs.writeFileSync('dist/verify-desktop/frontend-probe-results.json',JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify(result,null,2));
+if(ui.status.session!=='new-session'||ui.status.state!=='starting')process.exitCode=1;

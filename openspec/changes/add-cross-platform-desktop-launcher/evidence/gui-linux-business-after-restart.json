@@ -1,0 +1,44 @@
+{
+  "environment": "real Linux KVM Guest",
+  "origin": "http://127.0.0.1:17891",
+  "realModelCall": "not verified: no provider credential supplied",
+  "checks": [
+    "Existing QuickStart saved configuration and all production runtime dependencies became Ready",
+    "Real production Agent Work created and ready",
+    "Real browser Files edit persisted in the Work volume",
+    "Original Files UI uploaded/downloaded Chinese text and binary bytes, edited text and deleted a file",
+    "Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent",
+    "Anonymous Service access rejected",
+    "Real Service WebSocket round trip and SSE passed through QEMU forwarding",
+    "Real Work network DNS/HTTPS and AI API reachability verified; no model invocation"
+  ],
+  "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+  "files": [
+    {
+      "name": "中文资料.txt",
+      "suggestedFilename": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "suggestedFilename": "二进制.bin",
+      "sha256": "52f984f7e388a166e046afcaabae04e2ee4d7137865c7ea46a5cd4b3b44353f4"
+    }
+  ],
+  "serviceId": "service-36d0d350-bb87-46ca-a8c0-ba1443722eae",
+  "serviceOrigin": "http://127.0.0.1:17891",
+  "serviceURL": "http://127.0.0.1:17891/services/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/service-36d0d350-bb87-46ca-a8c0-ba1443722eae/8099/",
+  "counterBefore": {
+    "value": 1
+  },
+  "counterAfter": {
+    "value": 2
+  },
+  "workNetwork": {
+    "dns": true,
+    "https": 200,
+    "aiApiReachable": true,
+    "aiHttpStatus": 401,
+    "modelCalled": false
+  }
+}

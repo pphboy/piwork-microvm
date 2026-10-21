@@ -1,0 +1,15 @@
+Linux final GUI native directory selection (AT-SPI driven)
+
+Picker:
+  GTK folder chooser opened from the "更改" button.
+  Selected "数据 目录" via AT-SPI activate action.
+  Cancel on a second opening kept the saved path unchanged.
+
+Result:
+  preferences: /home/p/piwork-gui-final2/config/piwork-microvm/launcher.json
+    dataRoot=/home/p/piwork-gui-final2/data/piwork-microvm/数据 目录
+  selected directory mode changed from 0755 to 0700 (only the user-selected empty directory)
+  start from that path: healthz=200, installation id 75be751e97f8da82488fe62f33ea21c6
+  clean stop: no unclean.json, log "Guest stopped cleanly"
+  success marker written with the same installation id
+  reopen: directory section hidden, historical log shown

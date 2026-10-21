@@ -1,0 +1,38 @@
+# Unit and script tests (final artifacts)
+
+2026-10-21T09:02:02Z
+
+$ go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+
+$ go test -race ./internal/launcher/ ./internal/desktop/
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+
+$ python3 -m unittest discover -s scripts -p "*_test.py"
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+$ Windows platform.test.exe -test.v=true -test.run=Test
+=== RUN   TestDiskLockFollowsHardLinkIdentity
+--- PASS: TestDiskLockFollowsHardLinkIdentity (0.01s)
+=== RUN   TestInheritedLockSurvivesParentHandleClose
+--- PASS: TestInheritedLockSurvivesParentHandleClose (0.06s)
+=== RUN   TestInheritedLockChild
+--- PASS: TestInheritedLockChild (0.00s)
+=== RUN   TestLocalUnicodePathAndPrivateACL
+--- PASS: TestLocalUnicodePathAndPrivateACL (0.01s)
+=== RUN   TestRejectNetworkAndReparseManagedPaths
+--- PASS: TestRejectNetworkAndReparseManagedPaths (0.05s)
+PASS

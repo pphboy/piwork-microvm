@@ -1,0 +1,11 @@
+{
+  "configuredBudgetSeconds": 120,
+  "guiStayedOpen": true,
+  "metadataUnchanged": true,
+  "case": "real-shutdown-timeout",
+  "elapsedSeconds": 126.36,
+  "qemuExited": true,
+  "repeatedCloseRequests": 2,
+  "runtimeRemoved": true,
+  "unclean": true
+}

@@ -1,0 +1,17 @@
+Linux final GUI export acceptance (AT-SPI driven, no global pointer input)
+
+Current log:
+  /home/p/piwork-gui-final/tmp/piwork-current-20261021T114514Z.log
+  425 lines; no password/api_key/token/authorization/credential/secret match
+  tail: Piwork is available ... / Core API ... / Open Piwork ...
+
+All logs:
+  /home/p/piwork-gui-final/tmp/piwork-logs-20261021T114227Z.zip
+  entries:
+    20261021T104447.371040074.log 39479 bytes
+    20261021T110059.909166382.log 39557 bytes
+    20261021T110220.552998427.log 39678 bytes
+  no sensitive markers in any entry
+
+Cancel:
+  reopened Export All and pressed Cancel; zip count stayed 1, no new file

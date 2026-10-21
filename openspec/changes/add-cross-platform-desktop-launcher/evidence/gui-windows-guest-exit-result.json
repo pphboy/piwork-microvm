@@ -1,0 +1,9 @@
+{
+  "case": "guest-early-exit",
+  "guiPid": 91792,
+  "qemuExited": true,
+  "runtimeRemoved": true,
+  "unclean": true,
+  "installationId": "3d7c8bbeca64f3ea428b322cbf5ae1c7",
+  "identityEvidence": "installation.json id; metadata checksum remained unchanged"
+}

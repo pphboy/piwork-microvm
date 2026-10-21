@@ -1,0 +1,4 @@
+== occupied port (final Linux CLI) ==
+Checking virtualization acceleration
+piwork-microvm: required TCP port 127.0.0.1:17991 is occupied or unavailable: listen tcp4 127.0.0.1:17991: bind: address already in use
+exit=1

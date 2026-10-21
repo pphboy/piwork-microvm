@@ -1,0 +1,29 @@
+{
+  "artifact": {
+    "path": "dist/piwork-microvm-gui",
+    "sha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+    "bytes": 396825485
+  },
+  "body": {
+    "path": "dist/launcher-gui-linux",
+    "sha256": "d052ca266b57e0a757109f572f41ba48cf6faa14631142d4cb9f3e3f893abfdc",
+    "bytes": 10646192
+  },
+  "trailer": {
+    "payloadBytes": 386129613,
+    "manifestBytes": 49616,
+    "manifestVersion": 2,
+    "os": "linux",
+    "arch": "amd64",
+    "files": 312,
+    "guiLicenseFiles": 102
+  },
+  "wails": "v2.17.0",
+  "go": "go1.25.5",
+  "desktopLibraries": [
+    "libwebkit2gtk-4.1.so.0 => /lib/x86_64-linux-gnu/libwebkit2gtk-4.1.so.0 (0x000073be80a00000)",
+    "libgtk-3.so.0 => /lib/x86_64-linux-gnu/libgtk-3.so.0 (0x000073be80200000)",
+    "libjavascriptcoregtk-4.1.so.0 => /lib/x86_64-linux-gnu/libjavascriptcoregtk-4.1.so.0 (0x000073be7e000000)"
+  ],
+  "priorAcceptanceArtifactSha256": "562063245df0b0ffe1a63c19b9ce20b0e5eb026f8e50ff03b90b1db2afb0b70e"
+}

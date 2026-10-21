@@ -1,0 +1,19 @@
+{
+  "artifacts": [
+    {
+      "artifact": "dist/piwork-microvm-gui",
+      "sha256": "c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3",
+      "manifestVersion": 2,
+      "manifestFiles": 312,
+      "payloadVerified": true
+    },
+    {
+      "artifact": "dist/piwork-microvm-gui.exe",
+      "sha256": "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+      "manifestVersion": 2,
+      "manifestFiles": 337,
+      "payloadVerified": true
+    }
+  ],
+  "uiSourceHashesVerified": true
+}

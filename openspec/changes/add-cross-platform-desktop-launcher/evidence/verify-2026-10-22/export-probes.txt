@@ -1,0 +1,16 @@
+=== RUN   TestVerifyExportAllToNormalDownloads
+    verification_probe_test.go:26: export to user-owned writable 0755 directory failed: directory must be private and owned by the current user: /tmp/TestVerifyExportAllToNormalDownloads743645762/002/Downloads
+--- FAIL: TestVerifyExportAllToNormalDownloads (0.00s)
+=== RUN   TestVerifyCurrentExportIncludesCompleteFile
+    verification_probe_test.go:35: full session log=145031 bytes, export=116000 bytes, first line present=false
+--- FAIL: TestVerifyCurrentExportIncludesCompleteFile (0.00s)
+=== RUN   TestVerifyAtomicWriteFailure
+    verification_probe_test.go:49: isolated size-limited writer:
+        === RUN   TestVerifyAtomicWriteFailure
+            verification_probe_test.go:46: write error was lost: requested=16384 actual=1024, reported success
+        --- FAIL: TestVerifyAtomicWriteFailure (0.00s)
+        FAIL
+--- FAIL: TestVerifyAtomicWriteFailure (0.00s)
+FAIL
+FAIL	piwork-microvm/internal/desktop	0.014s
+FAIL

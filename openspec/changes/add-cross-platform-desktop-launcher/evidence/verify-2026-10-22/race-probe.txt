@@ -1,0 +1,35 @@
+==================
+WARNING: DATA RACE
+Read at 0x00c00022e630 by goroutine 12:
+  piwork-microvm/internal/desktop.(*Controller).finish()
+      /home/p/Projects/piwork-microvm/internal/desktop/controller.go:314 +0x70
+  piwork-microvm/internal/desktop.TestVerifyFinishStopRace.func3()
+      /home/p/Projects/piwork-microvm/internal/desktop/verification_probe_test.go:57 +0xfb
+
+Previous write at 0x00c00022e630 by goroutine 11:
+  piwork-microvm/internal/desktop.(*Controller).Stop()
+      /home/p/Projects/piwork-microvm/internal/desktop/controller.go:502 +0xd4
+  piwork-microvm/internal/desktop.TestVerifyFinishStopRace.func2()
+      /home/p/Projects/piwork-microvm/internal/desktop/verification_probe_test.go:56 +0xd1
+
+Goroutine 12 (running) created at:
+  piwork-microvm/internal/desktop.TestVerifyFinishStopRace()
+      /home/p/Projects/piwork-microvm/internal/desktop/verification_probe_test.go:57 +0xc4
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1934 +0x21c
+  testing.(*T).Run.gowrap1()
+      /usr/local/go/src/testing/testing.go:1997 +0x44
+
+Goroutine 11 (finished) created at:
+  piwork-microvm/internal/desktop.TestVerifyFinishStopRace()
+      /home/p/Projects/piwork-microvm/internal/desktop/verification_probe_test.go:56 +0x3a4
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:1934 +0x21c
+  testing.(*T).Run.gowrap1()
+      /usr/local/go/src/testing/testing.go:1997 +0x44
+==================
+--- FAIL: TestVerifyFinishStopRace (0.08s)
+    testing.go:1617: race detected during execution of test
+FAIL
+FAIL	piwork-microvm/internal/desktop	0.096s
+FAIL

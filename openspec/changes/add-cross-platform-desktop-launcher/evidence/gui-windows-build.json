@@ -1,0 +1,36 @@
+{
+  "artifact": {
+    "path": "dist/piwork-microvm-gui.exe",
+    "sha256": "07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81",
+    "bytes": 414510262
+  },
+  "body": {
+    "path": "/mnt/c/Users/p/piwork-gui-build/launcher-gui-windows.exe",
+    "sha256": "03be1d0d874c9b8479c380d8f0baff005791a2b68aa240bde0bf961739e43ff2",
+    "bytes": 11895808
+  },
+  "trailer": {
+    "payloadBytes": 402560973,
+    "manifestBytes": 53417,
+    "manifestVersion": 2,
+    "os": "windows",
+    "arch": "amd64",
+    "files": 337,
+    "guiLicenseFiles": 102
+  },
+  "wails": "v2.17.0",
+  "go": "go1.25.5",
+  "subsystem": "Windows GUI",
+  "cliArtifact": {
+    "path": "dist/piwork-microvm.exe",
+    "sha256": "16de438c1703cf21299e7df54b77bf028f495a9b018fa2577371248052724c1c",
+    "bytes": 409333362
+  },
+  "qemu": {
+    "path": "dist/qemu-windows/qemu-system-x86_64.exe",
+    "subsystem": "console (CREATE_NO_WINDOW at launch)"
+  },
+  "platformTests": "windows-platform-tests.txt (Job/ACL/inherited lock: PASS)",
+  "cliLifecycle": "windows-cli/final-stdout.log: health 200, Ctrl+C, Guest stopped cleanly, unclean=false",
+  "nativeDialogTests": "go test -tags \"desktop production\" ./cmd/piwork-launcher: PASS; native picker/save/cancel exercised in final window"
+}

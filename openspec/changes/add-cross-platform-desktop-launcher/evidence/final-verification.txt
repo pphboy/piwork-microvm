@@ -1,0 +1,149 @@
+# Final verification
+2026-10-21T10:57:00Z
+
+$ go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+
+$ go test -race ./internal/launcher/ ./internal/desktop/
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+
+$ python3 -m unittest discover -s scripts -p "*_test.py"
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change 'add-cross-platform-desktop-launcher' is valid
+
+$ git diff --check
+
+# Final re-check after documentation/task updates
+2026-10-21T11:06:44Z
+
+$ go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change 'add-cross-platform-desktop-launcher' is valid
+
+$ git diff --check
+
+progress: 34/39 complete
+
+# Closing verification
+2026-10-21T11:08:23Z
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change 'add-cross-platform-desktop-launcher' is valid
+
+$ git diff --check
+
+34/39 tasks complete
+
+Final artifacts:
+562063245df0b0ffe1a63c19b9ce20b0e5eb026f8e50ff03b90b1db2afb0b70e  piwork-microvm-gui
+1a98e488c74c9a21a184e5f0af4658ae39cc664b614efe7462fe895dc041384b  piwork-microvm-gui.exe
+
+# Closing verification after final acceptance updates
+2026-10-21T11:53:48Z
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change 'add-cross-platform-desktop-launcher' is valid
+
+$ git diff --check
+
+progress: 35/39 complete
+
+# Final cleanup verification
+2026-10-21T11:54:52Z
+
+$ go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change 'add-cross-platform-desktop-launcher' is valid
+
+$ git diff --check
+
+progress: 35/39 complete
+562063245df0b0ffe1a63c19b9ce20b0e5eb026f8e50ff03b90b1db2afb0b70e  piwork-microvm-gui
+1a98e488c74c9a21a184e5f0af4658ae39cc664b614efe7462fe895dc041384b  piwork-microvm-gui.exe
+
+# Completion verification (supersedes preceding 35/39 snapshot)
+2026-10-21T17:08:36.809800+00:00
+
+$ go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+
+$ go test -race ./internal/launcher ./internal/desktop
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+
+$ python3 -m unittest discover -s scripts -p '*_test.py'
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+OK
+
+$ go test -tags "desktop production webkit2_41" ./cmd/piwork-launcher
+? piwork-microvm/cmd/piwork-launcher [no test files]
+
+$ native Windows: go test -tags "desktop production" ./cmd/piwork-launcher
+ok piwork-microvm/cmd/piwork-launcher (cached)
+
+Both final delivery artifacts: trailer/manifest/payload SHA256 verified (gui-final-bundles.json).
+Linux final delivered ELF: native window, own trailer, KVM health 200, original business data, HTTP/WS/SSE, counter 2 -> 3, safe Close PASS.
+Linux outbound endpoint returned 503 once; separate authenticated recheck passed DNS, HTTPS 200, AI API 401; modelCalled=false.
+Windows final delivered EXE: native window, own trailer, WHPX health 200; Chinese/space and fresh default roots PASS.
+Windows native picker, Cancel, clipboard, drag/minimize, external links, current/all logs export PASS.
+Both platforms: actual Guest early exit, full shutdown timeout budget, forced GUI termination and disk recovery PASS (completion reports).
+Cleanup: test GUI/QEMU gone, runtime/unclean cleared, locks available; user default installation metadata unchanged, user Linux CLI 8080 health 200.
+Scope: one native Windows 11 Home host and one Linux WSLg/KVM host; real model invocation/history not verified.
+
+Final local transfer checksums (not byte-reproducibility claims):
+c35509372bf95dd3b5436c1fd7d4eb199a0daa27c7ed8a51691420641a9f4cc3  piwork-microvm-gui
+07fac85ea893f6003d2d4b4fa687a508f0aea8dc8e72de8c3c331af235ea1e81  piwork-microvm-gui.exe
+
+$ openspec validate add-cross-platform-desktop-launcher --strict
+Change is valid
+
+$ git diff --check
+PASS
+
+OpenSpec: spec-driven, all_done, 39/39 tasks complete.
