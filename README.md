@@ -23,6 +23,7 @@ change. That file, not this README, is the source of truth for current support.
 - [Logs and diagnostics](#logs-and-diagnostics)
 - [Resource cache](#resource-cache)
 - [Build from source](#build-from-source)
+- [Releases](#releases)
 - [Acceptance and evidence](#acceptance-and-evidence)
 - [Scope and limitations](#scope-and-limitations)
 - [License](#license)
@@ -262,6 +263,32 @@ The payload tarball is built deterministically (sorted entries, `mtime` 0, fixed
 `mtime` 0), but the Guest ext4 rootfs uses freshly generated UUIDs, so whole-artifact byte
 reproducibility is not promised. Builds do not push or publish; the container registry
 namespace is local only (`docker.io/piwork-microvm-local`).
+
+## Releases
+
+Releases are published on GitHub and cut from a tagged commit. Piwork MicroVM has its own
+version, independent of the upstream Piwork version it bundles; the annotated git tag is the
+source of truth, and `--version` reports both.
+
+| Asset | Contents |
+| --- | --- |
+| `piwork-microvm-v<version>-linux-amd64` | Linux x86-64 ELF |
+| `piwork-microvm-v<version>-windows-amd64.exe` | Native Windows x86-64 PE |
+| `*.sha256` | Checksum for the matching binary |
+| `release-manifest.json` | Locked inputs, artifact hashes and verification status |
+| `qemu-patches.tar.gz` | Corresponding source for the modified GPL component |
+
+`make release VERSION=<v>` runs the gate, tests, build, manifest and notes, and stops there.
+`make release-publish VERSION=<v>` tags and publishes. Builds never push or publish, and
+container images stay in the local registry.
+
+Verification is recorded against the **locked inputs**, not against the downloaded bytes: the
+Guest ext4 rootfs is regenerated with fresh UUIDs on every build, so two builds of the same
+inputs still differ. Verify a download with the checksum from its release, and read the
+manifest's `verification` field for which platforms were actually run — a platform that was not
+run is recorded as `not-verified`. Release notes carry the corresponding source for the GPL
+components, with their locked checksums and a written offer, and state the known limitations of
+the current distribution.
 
 ## Acceptance and evidence
 

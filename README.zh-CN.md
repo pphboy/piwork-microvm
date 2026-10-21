@@ -23,6 +23,7 @@ README，是当前支持范围的唯一事实来源。
 - [日志与诊断](#日志与诊断)
 - [资源缓存](#资源缓存)
 - [从源码构建](#从源码构建)
+- [发布](#发布)
 - [验收与证据](#验收与证据)
 - [范围与限制](#范围与限制)
 - [许可证](#许可证)
@@ -242,6 +243,28 @@ clone，不会复制未提交文件，且校验对修改过的输入硬失败。
 payload tarball 是确定性构建的（条目排序、`mtime` 为 0、固定权限、gzip `mtime` 为 0），但 Guest
 ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现。构建不推送、不发布；容器 registry
 命名空间仅本地（`docker.io/piwork-microvm-local`）。
+
+## 发布
+
+发布在 GitHub 上进行，且只从打过 tag 的提交切出。Piwork MicroVM 有自己的版本号，独立于它
+打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。
+
+| 资产 | 内容 |
+| --- | --- |
+| `piwork-microvm-v<version>-linux-amd64` | Linux x86-64 ELF |
+| `piwork-microvm-v<version>-windows-amd64.exe` | 原生 Windows x86-64 PE |
+| `*.sha256` | 对应二进制的校验和 |
+| `release-manifest.json` | 锁定输入、产物 hash 与验收状态 |
+| `qemu-patches.tar.gz` | 被修改的 GPL 组件的对应源码 |
+
+`make release VERSION=<v>` 执行门槛、测试、构建、清单与说明后即停止；
+`make release-publish VERSION=<v>` 负责打 tag 并发布。构建流程从不推送或发布，容器镜像
+始终只在本地 registry。
+
+验收记录以**锁定输入**为基准，而不是下载到的字节：Guest ext4 rootfs 每次构建都重新生成
+UUID，因此同一组输入构建两次，产物仍然不同。请用所属发布中的校验和验证下载，并查看清单的
+`verification` 字段确认哪些平台真的跑过 —— 未运行的平台记录为 `not-verified`。发布说明包含
+GPL 组件的对应源码、其锁定校验和与书面提供承诺，并列出当前分发的已知限制。
 
 ## 验收与证据
 

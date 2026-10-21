@@ -8,3 +8,10 @@
 - Commit acceptance reports and recorded evidence separately from the code that produces them. Keep user documentation separate when it spans multiple features.
 - For an initial import, describe the current implementation honestly; do not fabricate a sequence of historical changes.
 - Keep build artifacts, VM disks, runtime state and credentials out of Git. Commit locally unless the user explicitly requests a push.
+
+## Releases
+
+- An annotated git tag is the source of truth for a release version. The wrapper's own version is independent of the upstream Piwork version it bundles; never reuse the upstream version as the release version.
+- `make release` stops at local artifacts and never tags, pushes or publishes. `make release-publish` is the separate step that tags and publishes, and container images are never pushed to a remote registry.
+- Record verification against the locked inputs, never against artifact bytes: the Guest ext4 rootfs is generated with fresh UUIDs on every build, so artifacts are not byte-reproducible and acceptance evidence never binds to a released hash.
+- Release notes must state the corresponding source for the GPL components and the known limitations of the current distribution.
