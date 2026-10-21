@@ -69,11 +69,14 @@
 - 备选：单一命令加 `--publish` 开关 —— 边界只存在于参数里，不如两个目标在 Makefile 中可见、可审计。
 - 该切分让"构建流程不发布"成为结构性事实，而不是约定。
 
-### D6：GPL 对应源码用"补丁资产 + 书面提供"
+### D6：GPL 对应源码用"逐类列举 + 书面提供"
 
-发布说明的"对应源码"一节写明：Linux 6.6.159 未修改，对应源码为上游 tarball，其 sha256 已锁在 `build.lock.json`；QEMU 10.0.8 由 2 个补丁修改，补丁源码以 `qemu-patches.tar.gz` 随发布提供，上游 tarball 同样按锁定 sha256 指明；并给出 GPL §3(b) 的书面提供承诺。
+产物实际分发的 GPL/LGPL 面比内核与 QEMU 更宽。核对后，"对应源码"一节 SHALL 逐个列举每一类：Linux 6.6.159（GPL-2.0，未修改，上游 tarball + 锁定 sha256）、QEMU 10.0.8（GPL-2.0，2 个补丁，补丁以 `qemu-patches.tar.gz` 随发布提供）、qboot ROM（GPL-2.0，源码在 QEMU 归档的 `roms/qboot`）、libfdt/dtc（GPL-2+，链接进 QEMU）、BusyBox（GPL-2.0，Guest initramfs 与 rootfs 中的 `busybox-static`）、Guest rootfs 内的 Debian 包（GPL/LGPL 混合）、Windows 构建的 MinGW-w64 运行时（GPL-3.0 + GCC 运行时例外，或 LGPL），以及随 QEMU 以共享库形式提供的 LGPL 组件。书面提供承诺覆盖以上全部。
 
-- 备选：把完整源码 tarball 一并作为资产（约 280 MB）—— 在仅有两个小补丁的前提下不必要；若将来需要更保守的分发姿态，可单独追加，不影响本设计。
+`build.lock.json` 锁定了 Debian snapshot `20261018T000000Z`，因此 Guest 各包与 BusyBox 的对应源码可以精确定位，书面提供可以真正兑现。许可证文本方面：内核与 QEMU 的文本随产物在 `provenance/` 与 `qemu/licenses/`；Guest 各包的 copyright 文件存在于 `rootfs.ext4` 内，但需启动 VM 才能阅读 —— 这一点如实写进已知限制，不表述为"未随附"。
+
+- 备选：把完整源码 tarball 一并作为资产（约 280 MB）—— 书面提供已覆盖全部组件时不必要；若将来需要更保守的分发姿态，可单独追加。
+- 备选：构建时把 Debian copyright 文件提取到产物顶层 —— 可读性更好，但需要额外构建步骤，留作后续独立变更。
 
 ### D7：`--version` 与 `--help` 同级，不触碰虚拟化与数据
 
