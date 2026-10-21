@@ -12,32 +12,32 @@ WSL、Docker Desktop 或 Hyper-V Manager。
 [tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) 为准。该文件而非本
 README，是当前支持范围的唯一事实来源。
 
-## Contents / 目录
+## 目录
 
-- [这是什么](#what-this-is--这是什么)
-- [快速开始](#quick-start--快速开始)
-- [命令行参考](#command-line-reference--命令行参考)
-- [网络与访问](#networking-and-access--网络与访问)
-- [安装数据与持久化](#installation-data-and-persistence--安装数据与持久化)
-- [生命周期、停止与磁盘安全](#lifecycle-shutdown-and-disk-safety--生命周期停止与磁盘安全)
-- [日志与诊断](#logs-and-diagnostics--日志与诊断)
-- [资源缓存](#resource-cache--资源缓存)
-- [从源码构建](#build-from-source--从源码构建)
-- [验收与证据](#acceptance-and-evidence--验收与证据)
-- [范围与限制](#scope-and-limitations--范围与限制)
-- [许可证](#license--许可证)
-- [相关文档](#related-documents--相关文档)
+- [这是什么](#这是什么)
+- [快速开始](#快速开始)
+- [命令行参考](#命令行参考)
+- [网络与访问](#网络与访问)
+- [安装数据与持久化](#安装数据与持久化)
+- [生命周期、停止与磁盘安全](#生命周期停止与磁盘安全)
+- [日志与诊断](#日志与诊断)
+- [资源缓存](#资源缓存)
+- [从源码构建](#从源码构建)
+- [验收与证据](#验收与证据)
+- [范围与限制](#范围与限制)
+- [许可证](#许可证)
+- [相关文档](#相关文档)
 
-## What this is / 这是什么
+## 这是什么
 
 Piwork MicroVM 在单个 QEMU `microvm` Guest 中启动未修改的上游 Piwork，使用 VirtIO-MMIO。每个平台
 得到一个自包含可执行文件（Linux ELF 或 Windows PE），其中携带内核、QEMU、Guest rootfs 与容器镜像。
 启动时程序把这些内置资源解压到用户缓存并引导 Guest；启动过程不构建、不下载 Guest。不应用任何 Piwork
 补丁，Server、WebUI 与生产 Agent/Helper 使用同一上游发行身份。
 
-## Quick start / 快速开始
+## 快速开始
 
-### Requirements / 运行要求
+### 运行要求
 
 - 复制与你的平台匹配的产物，并同时保留其 `.sha256` 校验文件。
 - **Linux**：当前用户须能读写 `/dev/kvm`。
@@ -49,7 +49,7 @@ Piwork MicroVM 在单个 QEMU `microvm` Guest 中启动未修改的上游 Piwork
   建议，不是要求。
 - 默认为 2 vCPU / 4096 MiB，可通过 `--cpus`、`--memory` 调整。
 
-### Run / 运行
+### 运行
 
 ```sh
 ./piwork-microvm
@@ -65,7 +65,7 @@ Piwork MicroVM 在单个 QEMU `microvm` Guest 中启动未修改的上游 Piwork
 .\piwork-microvm.exe --help
 ```
 
-### First launch / 首次启动
+### 首次启动
 
 启动器输出安装根、持久盘和日志路径，随后持续报告 Guest 进度直到 Piwork 可访问：
 
@@ -80,7 +80,7 @@ Core API: http://127.0.0.1:17871
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
 时才会打开。原版 Piwork 0.0.9 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
 
-## Command-line reference / 命令行参考
+## 命令行参考
 
 | 参数 | 默认值 | 有效值 | 用途 |
 | --- | --- | --- | --- |
@@ -100,7 +100,7 @@ Core API: http://127.0.0.1:17871
 - 仅开发使用：`--assets DIR` 与 `--qemu PATH` 必须成对给出，用于显式选用外部 QEMU。这不属于普通
   用户流程。
 
-## Networking and access / 网络与访问
+## 网络与访问
 
 只转发两个 Host 端口，且所有 Host 监听都绑定到 `127.0.0.1`：
 
@@ -116,7 +116,7 @@ Core API: http://127.0.0.1:17871
 同时运行 Windows 与 Linux 版时，各自使用独立安装目录和不同的 UI/Core 端口。同一数据盘始终只允许
 一个 VM 写入。对同一个已停止的安装换端口后，请重新登录并打开 Service。
 
-## Installation data and persistence / 安装数据与持久化
+## 安装数据与持久化
 
 `--data-dir` 是**完整安装根目录**：
 
@@ -142,7 +142,7 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 使用现有 **Piwork Files** 上传/下载。文件保存在盘内的普通 Work workspace 卷。不提供 Host 目录共享、
 映射盘、SMB、FUSE 或文件同步。
 
-## Lifecycle, shutdown and disk safety / 生命周期、停止与磁盘安全
+## 生命周期、停止与磁盘安全
 
 保持启动器前台运行。按 **Ctrl+C** 并等待确认 Guest 正常停止，此时会打印
 `Guest stopped cleanly. All user data retained.` 关闭过程有 120 秒预算；超时后启动器强制 QEMU 退出
@@ -162,7 +162,7 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 - 不明非空安装根不会被接管：
   `installation root contains unknown data; choose an empty directory (nothing was overwritten)`。
 
-## Logs and diagnostics / 日志与诊断
+## 日志与诊断
 
 每次运行写入 `<data-dir>/logs/<UTC 时间戳>.log`，权限 0600。只有包含 `qemu-system-x86_64` 的行会
 回显到控制台；完整 QEMU argv JSON 只写入日志文件。
@@ -171,21 +171,21 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 `api_key`、`apikey`、`password`、`token` 或 `credential` 的行替换为 `sensitive diagnostic omitted`，
 在 QEMU 与 Guest Piwork 两条输出路径上都生效。因此 API Key、密码和 Token 不会出现在普通日志中。
 
-## Resource cache / 资源缓存
+## 资源缓存
 
 内置资源在启动时懒解压到 `<UserCacheDir>/piwork-microvm/bundles/<manifest 的 sha256>/`，有效的缓存
 会被复用而不再解压。并发解压会被串行化，解压需要 payload 大小外加 1 GiB 预留空间可用。
 
 正常停止后删除缓存是安全的：可执行文件会重新解压，安装目录不受影响。
 
-## Build from source / 从源码构建
+## 从源码构建
 
-### Host prerequisites / 主机前置
+### 主机前置
 
 Docker Engine、**恰好 Go 1.25.5**（其他 `go env GOVERSION` 会直接导致构建失败）、Git、Python 3、
 Make、Bash、curl、qemu-img 和网络访问。Node **不是**主机前置，由容器提供。只有 Go 有强制版本校验。
 
-### Container-supplied components / 容器提供组件
+### 容器提供组件
 
 | 组件 | 版本 |
 | --- | --- |
@@ -195,7 +195,7 @@ Make、Bash、curl、qemu-img 和网络访问。Node **不是**主机前置，�
 | Node | 24 |
 | Guest Docker | 28.5.2 |
 
-### Make targets / 构建目标
+### 构建目标
 
 | 目标 | 作用 | 依赖 |
 | --- | --- | --- |
@@ -220,13 +220,13 @@ make piwork-microvm-all     # both platform artifacts
 # Or: make piwork-microvm / make piwork-microvm-windows
 ```
 
-### Outputs / 构建产物
+### 构建产物
 
 - `dist/piwork-microvm` 与 `dist/piwork-microvm.exe`，各带 `.sha256` 校验文件。
 - 中间产物：`dist/source/<commit>/piwork`、`dist/piwork/images.json`、
   `dist/piwork/metadata.json`、`dist/guest/`、`dist/qemu/`、`dist/qemu-windows/`。
 
-### Upstream pinning / 上游固定
+### 上游固定
 
 [`build.lock.json`](build.lock.json) 是唯一事实来源。它固定
 `https://github.com/pphboy/piwork.git`、分支 `main`、commit
@@ -234,7 +234,7 @@ make piwork-microvm-all     # both platform artifacts
 `dist/source/<commit>/piwork` 中固定的完整 commit，修改过的输入会被拒绝。版本号 `0.0.9` 来自上游
 自己的 `package.json`，不来自锁文件。
 
-### Local source and reproducibility / 本地源码与可重现性
+### 本地源码与可重现性
 
 `make source PIWORK_SOURCE=/path/to/piwork` 仅在首次检出时把本地 clone 作为来源。它不会重置该
 clone，不会复制未提交文件，且校验对修改过的输入硬失败。不应用任何 Piwork 补丁。
@@ -243,7 +243,7 @@ payload tarball 是确定性构建的（条目排序、`mtime` 为 0、固定权
 ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现。构建不推送、不发布；容器 registry
 命名空间仅本地（`docker.io/piwork-microvm-local`）。
 
-## Acceptance and evidence / 验收与证据
+## 验收与证据
 
 活动变更的 [tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) 当前记录为
 **43/43 项完成，0 项未勾选**；请以该文件作为活的事实来源。另见
@@ -260,19 +260,19 @@ ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现
 | [acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
 
-### Linux acceptance / Linux 验收
+### Linux 验收
 
 `make acceptance-microvm` 需要已构建的 `dist/piwork-microvm`、真实 `/dev/kvm`、用于外围隔离的
 Docker，以及测试用 Playwright/Chromium。启动器运行在一个只含最终可执行文件的最小干净根目录中；测试
 装置本身在该根目录之外。
 
-### Port acceptance / 端口验收
+### 端口验收
 
 `make acceptance-ports` 在隔离的容器网络命名空间中，一次一个 VM，把最终产物启动在备选 Host 端口
 （8080、8081、17891 和 80）上，且不触碰既有 Host 安装。它检查 7171 端口上的受控监听者保持不被影响、
 只转发所选的两个回环端口，以及非法或已被占用的端口在任何 KVM 或数据操作之前安全失败。
 
-### Windows acceptance / Windows 验收
+### Windows 验收
 
 Windows 验收使用原生 Edge 和原生 Node 作为**测试工具**。用
 `GOOS=windows GOARCH=amd64 go build` 编译 `cmd/acceptance-windows` 和
@@ -282,7 +282,7 @@ Playwright 复制到 Windows 本地测试目录。
 检查；Core 使用自定义端口时增加 `-CorePort <端口>`。`-Phase recovery` 检查已有基线，
 `-Phase failures` 要求测试安装已停止。
 
-### Not shipped in product artifacts / 不随产品发布
+### 不随产品发布
 
 `cmd/acceptance-windows`、`cmd/acceptance-guest-windows`、`cmd/acceptance-chroot` 和
 `cmd/microvm-probe` 只是测试与开发工具。产品命令只有 `cmd/piwork-microvm` 与 `cmd/piwork-guest`。
@@ -291,7 +291,7 @@ Playwright 复制到 Windows 本地测试目录。
 原始历史/Memory 已持久化，但历史读取失败。此项保留为特定样本的已知异常，不能作为所有工具会话都会
 失败的证据。真实供应商结果单独记录实际测试的模型和协议。Piwork 业务源码保持未修改。
 
-## Scope and limitations / 范围与限制
+## 范围与限制
 
 - 不提供 Host 目录共享、映射盘、SMB、FUSE 或文件同步。
 - 不回退 TCG 或替代机型；硬件加速是必需的。
@@ -299,13 +299,13 @@ Playwright 复制到 Windows 本地测试目录。
   矩阵和第二台干净电脑在本版约定的验收范围之外。
 - 同一数据盘始终只允许一个 VM 写入，且构建只在 Linux 上运行、不推送不发布。
 
-## License / 许可证
+## 许可证
 
 Piwork MicroVM 的原创代码使用 [Apache-2.0](LICENSE) 许可，另见 [NOTICE](NOTICE)。Piwork、Linux、
 QEMU 等第三方组件及上游组件补丁保留各自的许可证和声明。内置第三方组件的许可证文件随运行资源一起
 解压。
 
-## Related documents / 相关文档
+## 相关文档
 
 - [AGENTS.md](AGENTS.md) - 仓库提交与文档约定
 - [build.lock.json](build.lock.json) - 固定的上游 commit 与构建输入
