@@ -10,7 +10,7 @@
 
 ## 2. 统一重建和单文件产物
 
-- [ ] 2.1 通过现有 MicroVM 构建链路统一重建 Piwork/UI、生产 Agent/Helper、镜像归档与 Guest（main 不重复构建）；核对声明版本 0.0.10、完整 SHA、实际 dirty 状态、镜像身份、Core 日志位于既有 ext4 挂载，Kernel/QEMU 锁不变，并同步现有双语构建说明。
+- [x] 2.1 通过现有 MicroVM 构建链路统一重建 Piwork/UI、生产 Agent/Helper、镜像归档与 Guest（main 不重复构建）；核对声明版本 0.0.10、完整 SHA、实际 dirty 状态、镜像身份、Core 日志位于既有 ext4 挂载，Kernel/QEMU 锁不变，并同步现有双语构建说明。
 - [ ] 2.2 复用已构建 Guest 和原封装机制，原生构建 Windows/Linux GUI 并生成最终单文件；核对自身 Trailer/manifest/许可证及新 Guest 缓存身份，记录真实 wrapper 开发身份；CLI 只补两平台受影响的构建与 help/version、7172 拒绝冒烟，不改发布体系或伪造 0.0.11。
 
 ## 3. 新 Guest 的真实 GUI、日志和恢复
