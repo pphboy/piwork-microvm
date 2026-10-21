@@ -5,7 +5,7 @@ root=pathlib.Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--linux',type=pathlib.Path,default=root/'dist/runs/dual-ports-linux/evidence')
 parser.add_argument('--windows',type=pathlib.Path,default=pathlib.Path('/mnt/c/Users/p/AppData/Local/PiworkMicroVM-0.0.9-dual-ports/evidence'))
-parser.add_argument('--output',type=pathlib.Path,default=root/'openspec/changes/support-windows-and-disk-only-storage/evidence/two-port')
+parser.add_argument('--output',type=pathlib.Path,default=root/'openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port')
 parser.add_argument('--real-model-input',type=pathlib.Path,help='Private model input used only to scan evidence for credential leaks')
 parser.add_argument('--require-completion',action='store_true',help='Require both real-provider restart flows and all six final-artifact fault recoveries')
 args=parser.parse_args()

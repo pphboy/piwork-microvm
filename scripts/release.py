@@ -7,7 +7,7 @@ flow itself never pushes or releases. See design.md D1-D7.
 import argparse, datetime, gzip, hashlib, json, os, pathlib, shutil, subprocess, sys, tarfile
 from source import source_path
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-CHANGE=ROOT/'openspec/changes/support-windows-and-disk-only-storage'
+CHANGE=ROOT/'openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage'
 EVIDENCE=CHANGE/'evidence/completion'
 PLATFORMS=[('linux','piwork-microvm'),('windows','piwork-microvm.exe')]
 def sha(p):

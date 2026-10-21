@@ -8,8 +8,8 @@
 可执行文件：Linux x86-64/KVM 与原生 Windows 11 Home x86-64/WHPX（从 21H2 起）。Windows 运行不依赖
 WSL、Docker Desktop 或 Hyper-V Manager。
 
-当前支持状态以活动变更的
-[tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) 为准。该文件而非本
+当前支持状态以已完成变更的
+[tasks.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/tasks.md) 为准。该文件而非本
 README，是当前支持范围的唯一事实来源。
 
 ## 目录
@@ -268,20 +268,20 @@ GPL 组件的对应源码、其锁定校验和与书面提供承诺，并列出�
 
 ## 验收与证据
 
-活动变更的 [tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) 当前记录为
+已完成变更的 [tasks.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/tasks.md) 当前记录为
 **43/43 项完成，0 项未勾选**；请以该文件作为活的事实来源。另见
-[proposal.md](openspec/changes/support-windows-and-disk-only-storage/proposal.md)、
-[design.md](openspec/changes/support-windows-and-disk-only-storage/design.md) 以及
+[proposal.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/proposal.md)、
+[design.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/design.md) 以及
 [`openspec/specs/`](openspec/specs/) 下同步后的主规格。此前变更归档在
 [2026-10-21-make-piwork-microvm](openspec/changes/archive/2026-10-21-make-piwork-microvm/)，
 46/46 项完成。
 
 | 证据 | 日期 | 范围 |
 | --- | --- | --- |
-| [completion-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/completion-acceptance.md) | 2026-10-21 | 在 Linux/KVM 与原生 Windows 11 Home build 26200/WHPX 上使用真实供应商 `deepseek-flash`、协议 `anthropic-messages`；六项最终产物异常恢复；真实模型工具调用跨重启续接；数据库 `integrity_check=ok` |
-| [two-port-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
-| [acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
-| [windows-gate.md](openspec/changes/support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
+| [completion-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/completion-acceptance.md) | 2026-10-21 | 在 Linux/KVM 与原生 Windows 11 Home build 26200/WHPX 上使用真实供应商 `deepseek-flash`、协议 `anthropic-messages`；六项最终产物异常恢复；真实模型工具调用跨重启续接；数据库 `integrity_check=ok` |
+| [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
+| [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
+| [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
 
 ### Linux 验收
 

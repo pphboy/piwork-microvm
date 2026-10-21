@@ -9,7 +9,7 @@ self-contained executable per platform: Linux x86-64/KVM and native Windows 11 H
 x86-64/WHPX, from 21H2. The Windows runtime uses no WSL, Docker Desktop or Hyper-V Manager.
 
 Support status is tracked by
-[tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) for the active
+[tasks.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/tasks.md) for the completed
 change. That file, not this README, is the source of truth for current support.
 
 ## Contents
@@ -292,21 +292,21 @@ the current distribution.
 
 ## Acceptance and evidence
 
-The active change's
-[tasks.md](openspec/changes/support-windows-and-disk-only-storage/tasks.md) currently records
+The completed change's
+[tasks.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/tasks.md) currently records
 **43 of 43 tasks complete, none unchecked**; treat that file as the living source of truth. See
-[proposal.md](openspec/changes/support-windows-and-disk-only-storage/proposal.md),
-[design.md](openspec/changes/support-windows-and-disk-only-storage/design.md) and the synced
+[proposal.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/proposal.md),
+[design.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/design.md) and the synced
 main specs under [`openspec/specs/`](openspec/specs/). The prior change is archived at
 [2026-10-21-make-piwork-microvm](openspec/changes/archive/2026-10-21-make-piwork-microvm/) with
 46 of 46 tasks complete.
 
 | Evidence | Date | Scope |
 | --- | --- | --- |
-| [completion-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/completion-acceptance.md) | 2026-10-21 | Real provider `deepseek-flash` over `anthropic-messages` on Linux/KVM and native Windows 11 Home build 26200/WHPX; six final-artifact fault-recovery cases; real-model tool calls with cross-restart session continuation; database `integrity_check=ok` |
-| [two-port-acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
-| [acceptance.md](openspec/changes/support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
-| [windows-gate.md](openspec/changes/support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+| [completion-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/completion-acceptance.md) | 2026-10-21 | Real provider `deepseek-flash` over `anthropic-messages` on Linux/KVM and native Windows 11 Home build 26200/WHPX; six final-artifact fault-recovery cases; real-model tool calls with cross-restart session continuation; database `integrity_check=ok` |
+| [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
+| [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
+| [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
 
 ### Linux acceptance
 
