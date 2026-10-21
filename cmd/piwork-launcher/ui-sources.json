@@ -1,0 +1,40 @@
+{
+  "format": 1,
+  "source": {
+    "repository": "https://github.com/pphboy/piwork.git",
+    "commit": "a6c36da16ebcc0e96f0e34ef820d857f2bea4877",
+    "lockedBy": "build.lock.json"
+  },
+  "license": {
+    "path": "dist/source/piwork/LICENSE",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  "copied": [
+    {
+      "bundlePath": "tokens.css",
+      "sourcePath": "apps/ui-shared/tokens.css",
+      "sha256": "ff0aa5edc0adc7220454d2cd8eb78350b03738801d56f2d8260701f7fda3606f"
+    },
+    {
+      "bundlePath": "controls.css",
+      "sourcePath": "apps/ui-shared/controls.css",
+      "sha256": "48cc06514a0f1c9e3a71e1bf207371e434aa6c6bd14e2fb38c7d441ad83ca73d"
+    },
+    {
+      "bundlePath": "assets/piwork-logo.png",
+      "sourcePath": "apps/ui-shared/assets/piwork-logo.png",
+      "sha256": "bed999510609e8e24b96a4f4f0aaa7c3572384248fd2bc37cce943190abd95ab"
+    }
+  ],
+  "referenceOnly": [
+    {
+      "sourcePath": "apps/desktop-webui/public/style.css",
+      "sha256": "a6b4ac4ee0b89e35bd6490034b7613f0384baf7bd20f03886675bc51d2b3e54f",
+      "note": "Read for layout conventions; launcher-specific layout is app.css."
+    }
+  ],
+  "prototype": {
+    "path": "/mnt/c/Users/p/Downloads/piwork-launcher-800x600.html",
+    "sha256": "500642859f688d3ea0a51e8c8afb1ca3c0a0018dd12cc2f8c06ef1d21d783b09"
+  }
+}

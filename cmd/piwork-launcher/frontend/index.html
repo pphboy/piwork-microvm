@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Piwork MicroVM</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="controls.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<!-- All icons are local SVG symbols; there is no icon font or remote asset. -->
+<svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <symbol id="ic-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+    <symbol id="ic-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="ic-open" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></symbol>
+    <symbol id="ic-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+    <symbol id="ic-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.4 9a3 3 0 1 1 4.1 2.8c-1.1.6-1.5 1.2-1.5 2.3M12 17.5h.01"/></symbol>
+    <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="ic-github" viewBox="0 0 24 24"><path d="M9 19c-4.4 1.5-4.4-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-1-2.6c3.4-.4 7-1.7 7-7.7A6 6 0 0 0 19.4 3 5.6 5.6 0 0 0 19.3 0s-1.3-.4-4.3 1.6a14 14 0 0 0-8 0C4 .1 2.7.5 2.7.5A5.6 5.6 0 0 0 2.6 3 6 6 0 0 0 1 7.8c0 6 3.6 7.3 7 7.7a3.4 3.4 0 0 0-1 2.6V22" transform="translate(1 1) scale(.92)"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-8 8 9 9 0 0 1-3.5-.7L4 21l1.3-4A8 8 0 1 1 20 12Z"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="ic-retry" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.7 6M20 4v7h-7"/></symbol>
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></symbol>
+    <symbol id="ic-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="ic-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <span class="brand-logo-holder">
+        <div class="logo-fallback" id="logoFallback" aria-hidden="true"><svg class="icon lg" viewBox="0 0 24 24"><path d="M7 19V5h7a4 4 0 0 1 0 8H7"/></svg></div>
+        <img class="brand-logo" id="brandLogo" src="assets/piwork-logo.png" alt="" onload="this.style.opacity='1';document.getElementById('logoFallback').hidden=true" onerror="this.remove()">
+      </span>
+      <span class="brand-name">Piwork</span>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-product">MicroVM Launcher</span>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="menu-anchor">
+      <button class="menu-button" id="moreTrigger" aria-expanded="false" aria-haspopup="menu" aria-controls="moreMenu">
+        <svg class="icon sm" aria-hidden="true"><use href="#ic-more"/></svg><span data-i18n="more">More</span><svg class="icon sm" aria-hidden="true"><use href="#ic-chevron"/></svg>
+      </button>
+      <nav class="more-menu" id="moreMenu" role="menu" aria-label="More options" data-i18n-aria-label="more.options">
+        <button class="menu-item" role="menuitem" data-external="guide"><svg class="icon"><use href="#ic-file"/></svg><span data-i18n="guide">Guide</span><svg class="icon sm end"><use href="#ic-open"/></svg></button>
+        <button class="menu-item" role="menuitem" id="helpMenu"><svg class="icon"><use href="#ic-help"/></svg><span data-i18n="help">Help</span></button>
+        <button class="menu-item" role="menuitem" id="aboutMenu"><svg class="icon"><use href="#ic-info"/></svg><span data-i18n="about">About</span></button>
+        <div class="menu-separator" role="separator"></div>
+        <button class="menu-item" role="menuitemradio" aria-checked="true" data-language="en">English</button>
+        <button class="menu-item" role="menuitemradio" aria-checked="false" data-language="zh-CN">简体中文</button>
+        <div class="menu-separator" role="separator"></div>
+        <button class="menu-item" role="menuitem" data-external="github"><svg class="icon"><use href="#ic-github"/></svg>GitHub<svg class="icon sm end"><use href="#ic-open"/></svg></button>
+        <button class="menu-item" role="menuitem" data-external="discuss"><svg class="icon"><use href="#ic-chat"/></svg><span data-i18n="discuss">Discuss</span><svg class="icon sm end"><use href="#ic-open"/></svg></button>
+      </nav>
+    </div>
+    <div class="window-controls">
+      <button class="window-control" id="minimizeWindow" title="Minimize" data-i18n-title="minimize" aria-label="Minimize" data-i18n-aria-label="minimize"><svg class="icon"><use href="#ic-min"/></svg></button>
+      <button class="window-control close" id="closeWindow" title="Close" data-i18n-title="close" aria-label="Close" data-i18n-aria-label="close"><svg class="icon"><use href="#ic-close"/></svg></button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <main class="main">
+    <section class="screen active" data-screen="idle" aria-labelledby="idleTitle">
+      <div class="center">
+        <div class="status"><span class="point"></span><span data-i18n="state.idle">Not running</span></div>
+        <h1 id="idleTitle"><span data-i18n="start">Start Piwork</span></h1>
+        <p class="description"><span data-i18n="idle.description">Start your local AI workspace.</span></p>
+        <div class="cta-row">
+          <button class="button primary" id="startButton" disabled><svg class="icon"><use href="#ic-play"/></svg><span data-i18n="start">Start Piwork</span></button>
+        </div>
+        <div class="storage storage-section">
+          <div class="storage-head"><span class="storage-title"><span data-i18n="storage">Data directory</span></span><span class="storage-optional"><span data-i18n="storage.reuse">Reused on next launch</span></span></div>
+          <div class="path-field"><span class="path-value storage-path" title=""></span><button class="path-change choose-path"><svg class="icon sm"><use href="#ic-folder"/></svg><span data-i18n="change">Change</span></button></div>
+          <p class="storage-note"><span data-i18n="storage.default">Keep the default, or choose a directory. It will be reused.</span></p>
+          <p class="storage-warning" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="starting" aria-labelledby="startingTitle">
+      <div class="center starting-layout">
+        <div class="status starting"><span class="spinner" aria-hidden="true"></span><span data-i18n="state.starting">Starting</span></div>
+        <h1 id="startingTitle"><span data-i18n="starting.title">Starting Piwork</span></h1>
+        <p class="description" id="startupMessage"><span data-i18n="phase.acceleration">Checking virtualization support…</span></p>
+        <div class="steps" aria-label="Startup stages" data-i18n-aria-label="starting.process">
+          <div class="step current" data-step="0"><span class="step-icon"><span class="point"></span></span><span><span data-i18n="step.environment">Check environment</span></span></div>
+          <div class="step" data-step="1"><span class="step-icon"><span class="point"></span></span><span><span data-i18n="step.vm">Start MicroVM</span></span></div>
+          <div class="step" data-step="2"><span class="step-icon"><span class="point"></span></span><span><span data-i18n="step.web">Wait for Piwork WebUI</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="running" aria-labelledby="runningTitle">
+      <div class="center running-layout">
+        <div class="status running"><span class="point"></span><span data-i18n="state.running">Running</span></div>
+        <h1 id="runningTitle"><span data-i18n="running.title">Piwork is ready</span></h1>
+        <p class="description"><span data-i18n="running.description">Open the workbench. On first use, follow its account and AI setup.</span></p>
+        <p class="runtime-note" id="runtimeNote" hidden><span data-i18n="runtime.note">The runtime is still preparing. Complete first-time setup in Piwork.</span></p>
+        <div class="cta-row">
+          <button class="button primary" id="openButton"><svg class="icon"><use href="#ic-open"/></svg><span data-i18n="open">Open Piwork</span></button>
+          <button class="button quiet" id="stopButton"><svg class="icon sm"><use href="#ic-stop"/></svg><span data-i18n="stop">Stop Piwork</span></button>
+        </div>
+        <div class="info-table">
+          <div class="info-row"><span class="info-label">WebUI</span><span class="info-value" id="webUiValue"></span><button class="copy-btn" id="copyWeb" title="Copy WebUI address" data-i18n-title="copy.web" aria-label="Copy WebUI address" data-i18n-aria-label="copy.web"><svg class="icon"><use href="#ic-copy"/></svg></button></div>
+          <div class="info-row"><span class="info-label"><span data-i18n="image">Data image</span></span><span class="info-value" id="imageValue"></span><button class="copy-btn" id="copyImage" title="Copy data image path" data-i18n-title="copy.image" aria-label="Copy data image path" data-i18n-aria-label="copy.image"><svg class="icon"><use href="#ic-copy"/></svg></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="error" aria-labelledby="errorTitle">
+      <div class="center">
+        <div class="status error"><span class="point"></span><span data-i18n="state.error">Start failed</span></div>
+        <h1 id="errorTitle"><span data-i18n="error.title">Could not start Piwork</span></h1>
+        <p class="description"><span data-i18n="error.description">The operation did not complete. Review the cause and try again.</span></p>
+        <div class="danger-note" id="errorMessage" role="alert"></div>
+        <div class="cta-row">
+          <button class="button primary" id="retryButton"><svg class="icon"><use href="#ic-retry"/></svg><span data-i18n="retry">Retry startup</span></button>
+          <button class="button quiet" id="seeLogButton"><svg class="icon sm"><use href="#ic-file"/></svg><span data-i18n="view.logs">View logs</span></button>
+        </div>
+        <div class="storage storage-section">
+          <div class="storage-head"><span class="storage-title"><span data-i18n="storage">Data directory</span></span><span class="storage-optional"><span data-i18n="storage.after">Change after this session ends</span></span></div>
+          <div class="path-field"><span class="path-value storage-path" title=""></span><button class="path-change choose-path"><svg class="icon sm"><use href="#ic-folder"/></svg><span data-i18n="change">Change</span></button></div>
+          <p class="storage-note"><span data-i18n="storage.retained">Existing directories and disks are retained.</span></p>
+          <p class="storage-warning" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="stopping" aria-labelledby="stoppingTitle">
+      <div class="center">
+        <div class="status starting"><span class="spinner" aria-hidden="true"></span><span data-i18n="state.stopping">Stopping</span></div>
+        <h1 id="stoppingTitle"><span data-i18n="stopping.title">Safely stopping Piwork</span></h1>
+        <p class="description" id="stoppingMessage"><span data-i18n="stopping.description">Waiting for services to stop and persistent disks to sync.</span></p>
+      </div>
+    </section>
+  </main>
+
+  <div class="logs-wrapper" id="logsWrapper">
+    <div class="log-header">
+      <button class="log-toggle" id="logToggle" aria-expanded="false" aria-controls="logBody">
+        <svg class="icon"><use href="#ic-file"/></svg><span data-i18n="logs">Run logs</span><span class="log-count" id="logCount">—</span>
+        <svg class="icon sm chevron"><use href="#ic-chevron"/></svg>
+      </button>
+      <div class="log-export-wrap">
+        <button class="log-export-btn" id="exportTrigger" aria-haspopup="menu" aria-expanded="false" disabled>
+          <svg class="icon sm"><use href="#ic-download"/></svg><span data-i18n="logs.export">Export logs</span><svg class="icon sm"><use href="#ic-chevron"/></svg>
+        </button>
+        <div class="log-export-menu" id="exportMenu" role="menu">
+          <button id="exportCurrent" role="menuitem" disabled><span data-i18n="logs.current">Export current log</span></button>
+          <button id="exportAll" role="menuitem" disabled><span data-i18n="logs.all">Export all logs</span></button>
+        </div>
+      </div>
+    </div>
+    <pre class="log-body" id="logBody" tabindex="0"><span data-i18n="logs.none">No run logs yet</span></pre>
+  </div>
+
+  <footer class="footer"><span>Piwork MicroVM</span><span id="footerStatus">Local · Not running</span></footer>
+
+  <div class="modal-scrim" id="modalScrim">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle"></h2>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-actions"><button class="button small" id="modalClose"><span data-i18n="close">Close</span></button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="icon sm"><use href="#ic-check"/></svg><span id="toastText"></span>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
