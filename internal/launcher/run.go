@@ -4,10 +4,8 @@
 package launcher
 
 import (
-	"bufio"
 	"context"
 	"crypto/rand"
-	"crypto/sha256"
 	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
@@ -16,7 +14,6 @@ import (
 	"fmt"
 	"io"
 	"net"
-	"net/http"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -24,7 +21,6 @@ import (
 	goruntime "runtime"
 	"strconv"
 	"strings"
-	"sync"
 	"syscall"
 	"time"
 
@@ -78,45 +74,19 @@ func versionText() string {
 		buildVersion, buildUpstreamVersion, buildUpstreamCommit, buildManifestVersion)
 }
 
-type options struct {
-	data, assets, qemu           string
-	cpus, memory, port, corePort int
-	noOpen, showVersion          bool
-	timeout                      time.Duration
-}
 type installation struct {
 	Version int    `json:"version"`
 	ID      string `json:"id"`
 	Disk    string `json:"disk"`
 	Stage   string `json:"stage"`
 }
-type writer struct {
-	mu  sync.Mutex
-	out io.Writer
-	log io.Writer
-}
-
-func (w *writer) print(s string) {
-	w.mu.Lock()
-	defer w.mu.Unlock()
-	fmt.Fprintln(w.out, s)
-	if w.log != nil {
-		fmt.Fprintln(w.log, s)
-	}
-}
-
-func (w *writer) record(s string) {
-	w.mu.Lock()
-	defer w.mu.Unlock()
-	if w.log != nil {
-		fmt.Fprintln(w.log, s)
-	}
-}
 
 // LocateBundle is supplied by the single-file bundle layer. Development builds
 // deliberately refuse implicit host QEMU fallback.
 var LocateBundle func(context.Context) (string, string, []string, error)
 
+// Run is the CLI entry point. It parses flags, installs the signal handler and
+// delegates the actual lifecycle to the shared Service.
 func Run(args []string, stdout, stderr io.Writer) int {
 	if err := run(args, stdout, stderr); err != nil {
 		fmt.Fprintln(stderr, "piwork-microvm:", err)
@@ -124,28 +94,44 @@ func Run(args []string, stdout, stderr io.Writer) int {
 	}
 	return 0
 }
+
+type cliObserver struct{ out io.Writer }
+
+func (o cliObserver) Event(ev Event) {
+	if ev.Message != "" {
+		fmt.Fprintln(o.out, ev.Message)
+	}
+}
+
+func (o cliObserver) Log(line LogLine) {
+	if !line.RecordOnly {
+		fmt.Fprintln(o.out, line.Text)
+	}
+}
+
 func run(args []string, stdout, stderr io.Writer) error {
-	var o options
+	var o Options
 	var portValue, corePortValue string
+	var showVersion bool
 	flags := flag.NewFlagSet("piwork-microvm", flag.ContinueOnError)
 	flags.SetOutput(stderr)
-	flags.StringVar(&o.data, "data-dir", "", "")
+	flags.StringVar(&o.DataDir, "data-dir", "", "")
 	flags.StringVar(&portValue, "port", strconv.Itoa(network.DefaultPort), "")
 	flags.StringVar(&corePortValue, "core-port", strconv.Itoa(network.DefaultCorePort), "")
-	flags.IntVar(&o.cpus, "cpus", 2, "")
-	flags.IntVar(&o.memory, "memory", 4096, "")
-	flags.BoolVar(&o.noOpen, "no-open", false, "")
-	flags.BoolVar(&o.showVersion, "version", false, "")
-	flags.StringVar(&o.assets, "assets", "", "")
-	flags.StringVar(&o.qemu, "qemu", "", "")
-	flags.DurationVar(&o.timeout, "startup-timeout", 15*time.Minute, "")
+	flags.IntVar(&o.CPUs, "cpus", 2, "")
+	flags.IntVar(&o.MemoryMiB, "memory", 4096, "")
+	flags.BoolVar(&o.NoOpen, "no-open", false, "")
+	flags.BoolVar(&showVersion, "version", false, "")
+	flags.StringVar(&o.Assets, "assets", "", "")
+	flags.StringVar(&o.QEMU, "qemu", "", "")
+	flags.DurationVar(&o.Timeout, "startup-timeout", 15*time.Minute, "")
 	flags.Usage = func() { fmt.Fprint(stdout, help) }
 	if err := flags.Parse(args); errors.Is(err, flag.ErrHelp) {
 		return nil
 	} else if err != nil {
 		return errors.New("invalid options; use --help")
 	}
-	if o.showVersion {
+	if showVersion {
 		fmt.Fprint(stdout, versionText())
 		return nil
 	}
@@ -153,369 +139,22 @@ func run(args []string, stdout, stderr io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("--port: %w", err)
 	}
-	o.port = port
-	o.corePort, err = network.ParsePort(corePortValue)
+	o.Port = port
+	o.CorePort, err = network.ParsePort(corePortValue)
 	if err != nil {
 		return fmt.Errorf("--core-port: %w", err)
 	}
-	if o.port == o.corePort {
+	if o.Port == o.CorePort {
 		return errors.New("--port and --core-port must use different host ports")
 	}
-	origin := network.Origin(o.port)
-	coreOrigin := network.Origin(o.corePort)
-	if flags.NArg() != 0 || o.cpus < 1 || o.cpus > 64 || o.memory < 1024 || o.memory > 262144 || o.timeout <= 0 {
+	if flags.NArg() != 0 || o.CPUs < 1 || o.CPUs > 64 || o.MemoryMiB < 1024 || o.MemoryMiB > 262144 || o.Timeout <= 0 {
 		return errors.New("invalid CPU, memory or arguments; use --help")
-	}
-	if err := platform.CheckAcceleration(); err != nil {
-		return err
-	}
-	if err := checkPorts(o.port, o.corePort); err != nil {
-		return err
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
-	var prefix []string
-	if o.assets == "" {
-		if o.qemu != "" {
-			return errors.New("--qemu requires --assets for explicit development mode")
-		}
-		if LocateBundle == nil {
-			return errors.New("no bundled resources; build the distributable or use explicit --assets and --qemu development options")
-		}
-		var err error
-		o.assets, o.qemu, prefix, err = LocateBundle(ctx)
-		if err != nil {
-			return err
-		}
-	} else {
-		if o.qemu == "" {
-			return errors.New("--assets requires --qemu; external QEMU is development mode only")
-		}
-		fmt.Fprintln(stdout, "Development mode: using explicitly selected external QEMU.")
-	}
-	o.assets, err = filepath.Abs(o.assets)
-	if err != nil {
-		return err
-	}
-	for _, name := range []string{"kernel", "initramfs", "rootfs.ext4", "state.qcow2", "qemu-data/qboot.rom"} {
-		if st, e := os.Stat(filepath.Join(o.assets, name)); e != nil || !st.Mode().IsRegular() {
-			return fmt.Errorf("required bundle resource missing: %s", name)
-		}
-	}
-	if o.data == "" {
-		o.data, err = platform.DefaultData()
-		if err != nil {
-			return err
-		}
-	}
-	if err = privateDir(o.data); err != nil {
-		return err
-	}
-	o.data, err = filepath.EvalSymlinks(o.data)
-	if err != nil {
-		return err
-	}
-	o.data, err = filepath.Abs(o.data)
-	if err != nil {
-		return err
-	}
-	hash := sha256.Sum256([]byte(o.data))
-	key := hex.EncodeToString(hash[:8])
-	state := o.data
-	stateLock, err := lock(filepath.Join(state, ".lock"))
-	if err != nil {
-		return err
-	}
-	defer stateLock.Close()
-	disk := filepath.Join(state, "disks/state.qcow2")
-	if err = prepareDisk(state, o.assets, disk); err != nil {
-		return err
-	}
-	diskLock, err := platform.DiskLock(disk)
-	if err != nil {
-		return err
-	}
-	defer diskLock.Close()
-	runtime := filepath.Join(platform.RuntimeRoot(), key)
-	if err = privateDir(runtime); err != nil {
-		return err
-	}
-	for _, name := range []string{"qga.sock", "qmp.sock"} {
-		if err = os.Remove(filepath.Join(runtime, name)); err != nil && !errors.Is(err, os.ErrNotExist) {
-			return err
-		}
-	}
-	logfile, err := os.OpenFile(filepath.Join(state, "logs", time.Now().UTC().Format("20060102T150405.000000000")+".log"), os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0600)
-	if err != nil {
-		return err
-	}
-	defer logfile.Close()
-	w := &writer{out: stdout, log: logfile}
-	w.print("Installation: " + o.data)
-	w.print("Persistent state: " + disk)
-	w.print("Log: " + logfile.Name())
-	if _, e := os.Stat(filepath.Join(state, "unclean.json")); e == nil {
-		w.print("Previous shutdown was not confirmed clean; Guest ext4 recovery checks will run. Data retained.")
-	}
-	if err = os.WriteFile(filepath.Join(state, "unclean.json"), []byte(`{"shutdown":"unconfirmed"}`), 0600); err != nil {
-		return err
-	}
-	config := qemu.Config{Assets: o.assets, Disk: disk, Runtime: runtime, CPUs: o.cpus, Memory: o.memory, Port: o.port, CorePort: o.corePort}
-	config.TSCKHz, err = platform.TSCKHz()
-	if err != nil {
-		return err
-	}
-	argv := append(prefix, qemu.Args(config)...)
-	b, _ := json.Marshal(append([]string{o.qemu}, argv...))
-	w.record("QEMU argv: " + string(b))
-	cmd := exec.Command(o.qemu, argv...)
-	cmd.Dir = filepath.Dir(o.qemu)
-	pipe, err := cmd.StdoutPipe()
-	if err != nil {
-		return err
-	}
-	cmd.Stderr = cmd.Stdout
-	release, err := platform.Start(cmd, []*os.File{stateLock, diskLock})
-	if err != nil {
-		return fmt.Errorf("QEMU could not start: %w", err)
-	}
-	defer release()
-	var scanWG sync.WaitGroup
-	scanWG.Add(1)
-	go func() {
-		defer scanWG.Done()
-		sc := bufio.NewScanner(pipe)
-		sc.Buffer(make([]byte, 4096), 1<<20)
-		for sc.Scan() {
-			line := sc.Text()
-			lower := strings.ToLower(line)
-			if sensitiveLine(lower) {
-				w.print("Guest: sensitive diagnostic omitted")
-			} else {
-				if strings.Contains(line, "qemu-system-x86_64") {
-					w.print(line)
-				} else {
-					w.record(line)
-				}
-			}
-		}
-	}()
-	exited := make(chan error, 1)
-	go func() { e := cmd.Wait(); scanWG.Wait(); exited <- e }()
-	qgaPath, qmpPath := qemu.ControlPaths(runtime, goruntime.GOOS)
-	info := map[string]any{"pid": cmd.Process.Pid, "data": o.data, "disk": disk, "qga": qgaPath, "qmp": qmpPath, "uiOrigin": origin, "coreOrigin": coreOrigin}
-	b, _ = json.MarshalIndent(info, "", "  ")
-	if err = os.WriteFile(filepath.Join(state, "runtime.json"), b, 0600); err != nil {
-		cmd.Process.Kill()
-		<-exited
-		return err
-	}
-	defer os.Remove(filepath.Join(state, "runtime.json"))
-	guest := qemu.Client{Path: qgaPath}
-	monitor := qemu.Client{Path: qmpPath, QMP: true}
-	defer guest.Close()
-	defer monitor.Close()
-	if goruntime.GOOS == "windows" {
-		// Both QEMU pipe backends wait for their first client during creation.
-		connectCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
-		connections := make(chan error, 2)
-		go func() { connections <- guest.Connect(connectCtx) }()
-		go func() { connections <- monitor.Connect(connectCtx) }()
-		for range 2 {
-			if ce := <-connections; ce != nil {
-				err = ce
-				cancel()
-			}
-		}
-		cancel()
-		if err != nil {
-			cmd.Process.Kill()
-			<-exited
-			return fmt.Errorf("private QEMU pipes unavailable: %w", err)
-		}
-	}
-	stopVM := func() error {
-		e := shutdown(cmd, guest, monitor, exited, w)
-		if e == nil {
-			e = os.Remove(filepath.Join(state, "unclean.json"))
-		}
-		return e
-	}
-	web, ready := false, false
-	lastPhase := ""
-	deadline := time.Now().Add(o.timeout)
-	client := http.Client{Timeout: 2 * time.Second}
-	ticker := time.NewTicker(time.Second)
-	defer ticker.Stop()
-	var failure error
-	for failure == nil {
-		select {
-		case e := <-exited:
-			if e == nil {
-				return errors.New("Guest exited unexpectedly; inspect the log")
-			}
-			return fmt.Errorf("QEMU exited: %w (see %s)", e, logfile.Name())
-		case <-ctx.Done():
-			return stopVM()
-		case <-ticker.C:
-			if ctx.Err() != nil {
-				return stopVM()
-			}
-			var stage struct {
-				Phase string `json:"phase"`
-				OK    bool   `json:"ok"`
-				Error string `json:"error"`
-			}
-			if data, e := guest.ReadFile(ctx, "/run/piwork/boot.json"); e == nil && json.Unmarshal(data, &stage) == nil {
-				if !stage.OK {
-					failure = fmt.Errorf("Guest %s failed: %s", stage.Phase, stage.Error)
-					break
-				}
-				if stage.Phase != lastPhase {
-					lastPhase = stage.Phase
-					w.print("Guest stage: " + stage.Phase)
-				}
-			}
-			if ctx.Err() != nil {
-				return stopVM()
-			}
-			if !web {
-				request, _ := http.NewRequestWithContext(ctx, http.MethodGet, origin+"/healthz", nil)
-				resp, e := client.Do(request)
-				if e == nil {
-					io.Copy(io.Discard, resp.Body)
-					resp.Body.Close()
-					if resp.StatusCode == 200 {
-						web = true
-						w.print("Piwork is available: " + origin)
-						w.print("Core API: " + coreOrigin)
-						w.print("Open Piwork to sign in or complete first-time setup.")
-						if !o.noOpen {
-							platform.OpenBrowser(origin)
-						}
-					}
-				}
-			}
-			if web && !ready {
-				request, _ := http.NewRequestWithContext(ctx, http.MethodGet, coreOrigin+"/readyz?profile=docker-delivery", nil)
-				resp, e := client.Do(request)
-				if e == nil {
-					var status struct {
-						Ready  bool `json:"ready"`
-						Checks struct {
-							RuntimeConfigured bool `json:"runtimeConfigured"`
-						} `json:"checks"`
-					}
-					json.NewDecoder(io.LimitReader(resp.Body, 65536)).Decode(&status)
-					resp.Body.Close()
-					if resp.StatusCode == 200 && status.Ready {
-						ready = true
-						w.print("Piwork runtime is ready.")
-					} else if !status.Checks.RuntimeConfigured {
-						deadline = time.Now().Add(o.timeout)
-					}
-				}
-			}
-			if !ready && time.Now().After(deadline) {
-				failure = fmt.Errorf("startup timed out at Guest stage %s; see %s", lastPhase, logfile.Name())
-			}
-		}
-	}
-	w.print(failure.Error())
-	if e := stopVM(); e != nil {
-		return errors.Join(failure, e)
-	}
-	return failure
+	return NewService().RunContext(ctx, o, cliObserver{out: stdout})
 }
-func sensitiveLine(lower string) bool {
-	for _, s := range []string{"#setup=", "authorization:", "bearer ", "api_key", "apikey", "password", "token", "credential"} {
-		if strings.Contains(lower, s) {
-			return true
-		}
-	}
-	return false
-}
-func shutdown(cmd *exec.Cmd, guest, monitor qemu.Client, exited <-chan error, w *writer) error {
-	w.print("Stopping Piwork and Guest; waiting for persistent disks to sync...")
-	ctx, cancel := context.WithTimeout(context.Background(), 120*time.Second)
-	defer cancel()
-	clean := true
-	// A signal may arrive before the Guest agent has started. Keep trying
-	// within the same shutdown budget instead of missing the only chance to
-	// stop a Guest that becomes controllable a moment later.
-	agentReady := false
-	for ctx.Err() == nil {
-		if _, e := guest.Call(ctx, "guest-ping", nil); e == nil {
-			agentReady = true
-			break
-		}
-		select {
-		case e := <-exited:
-			return fmt.Errorf("Guest exited before coordinated shutdown was confirmed (%v); disks retained", e)
-		case <-ctx.Done():
-		case <-time.After(300 * time.Millisecond):
-		}
-	}
-	if !agentReady {
-		clean = false
-		w.print("Guest control channel was unavailable within the shutdown budget.")
-	}
-	for _, name := range []string{"piwork.service", "docker.service"} {
-		if !agentReady {
-			break
-		}
-		if _, e := guest.Exec(ctx, "/bin/systemctl", "stop", name); e != nil {
-			w.print("Guest could not confirm stopping " + name + ": " + e.Error())
-			clean = false
-			break
-		}
-		result, e := guest.Exec(ctx, "/bin/systemctl", "show", name, "--property=Result", "--value")
-		if e != nil || strings.TrimSpace(string(result)) != "success" {
-			if e != nil {
-				w.print("Guest could not read stop result for " + name + ": " + e.Error())
-			} else {
-				w.print("Guest stop result for " + name + ": " + strings.TrimSpace(string(result)))
-			}
-			clean = false
-			break
-		}
-	}
-	if clean {
-		if _, e := guest.Exec(ctx, "/bin/sh", "-c", "set -e; sync; umount /var/lib/piwork/core; umount /var/lib/containerd; umount /mnt/state"); e != nil {
-			w.print("Guest persistent disk sync/unmount was not confirmed: " + e.Error())
-			clean = false
-		}
-	}
-	if goruntime.GOOS == "windows" && clean {
-		// WHPX reports a triple-fault reboot as a Guest panic. At this point
-		// all persistent filesystems are unmounted, so QMP can finish safely.
-		_, _ = monitor.Call(ctx, "quit", nil)
-	} else if e := guest.Shutdown(ctx); e != nil {
-		w.print("Guest reboot/shutdown request was not confirmed: " + e.Error())
-		clean = false
-	}
-	select {
-	case e := <-exited:
-		if e == nil && clean {
-			w.print("Guest stopped cleanly. All user data retained.")
-			return nil
-		}
-		if e != nil {
-			w.print("QEMU exit during shutdown: " + e.Error())
-		}
-		return errors.New("Guest stopped, but clean shutdown was not confirmed; disks retained")
-	case <-ctx.Done():
-		w.print("Guest shutdown timed out; forcing QEMU to exit. This is an unclean shutdown.")
-		cmd.Process.Signal(syscall.SIGTERM)
-		select {
-		case <-exited:
-		case <-time.After(5 * time.Second):
-			cmd.Process.Kill()
-			<-exited
-		}
-		return errors.New("unclean shutdown; inspect logs and persistent disk on next start")
-	}
-}
+
 func checkPorts(port, corePort int) error {
 	return checkPortList([]int{port, corePort})
 }
@@ -542,6 +181,91 @@ func privateDir(path string) error {
 func lock(path string) (*os.File, error) {
 	return platform.Lock(path)
 }
+
+// shutdown performs the existing ordered Guest stop within an independent
+// 120-second budget. It is never bound to the caller's Context, so cancelling a
+// GUI session cannot turn into an immediate QEMU kill.
+func shutdown(cmd *exec.Cmd, guest, monitor qemu.Client, exited <-chan error, report func(string)) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 120*time.Second)
+	defer cancel()
+	clean := true
+	// A signal may arrive before the Guest agent has started. Keep trying
+	// within the same shutdown budget instead of missing the only chance to
+	// stop a Guest that becomes controllable a moment later.
+	agentReady := false
+	for ctx.Err() == nil {
+		if _, e := guest.Call(ctx, "guest-ping", nil); e == nil {
+			agentReady = true
+			break
+		}
+		select {
+		case e := <-exited:
+			return fmt.Errorf("Guest exited before coordinated shutdown was confirmed (%v); disks retained", e)
+		case <-ctx.Done():
+		case <-time.After(300 * time.Millisecond):
+		}
+	}
+	if !agentReady {
+		clean = false
+		report("Guest control channel was unavailable within the shutdown budget.")
+	}
+	for _, name := range []string{"piwork.service", "docker.service"} {
+		if !agentReady {
+			break
+		}
+		if _, e := guest.Exec(ctx, "/bin/systemctl", "stop", name); e != nil {
+			report("Guest could not confirm stopping " + name + ": " + e.Error())
+			clean = false
+			break
+		}
+		result, e := guest.Exec(ctx, "/bin/systemctl", "show", name, "--property=Result", "--value")
+		if e != nil || strings.TrimSpace(string(result)) != "success" {
+			if e != nil {
+				report("Guest could not read stop result for " + name + ": " + e.Error())
+			} else {
+				report("Guest stop result for " + name + ": " + strings.TrimSpace(string(result)))
+			}
+			clean = false
+			break
+		}
+	}
+	if clean {
+		if _, e := guest.Exec(ctx, "/bin/sh", "-c", "set -e; sync; umount /var/lib/piwork/core; umount /var/lib/containerd; umount /mnt/state"); e != nil {
+			report("Guest persistent disk sync/unmount was not confirmed: " + e.Error())
+			clean = false
+		}
+	}
+	if goruntime.GOOS == "windows" && clean {
+		// WHPX reports a triple-fault reboot as a Guest panic. At this point
+		// all persistent filesystems are unmounted, so QMP can finish safely.
+		_, _ = monitor.Call(ctx, "quit", nil)
+	} else if e := guest.Shutdown(ctx); e != nil {
+		report("Guest reboot/shutdown request was not confirmed: " + e.Error())
+		clean = false
+	}
+	select {
+	case e := <-exited:
+		if e == nil && clean {
+			report("Guest stopped cleanly. All user data retained.")
+			return nil
+		}
+		if e != nil {
+			report("QEMU exit during shutdown: " + e.Error())
+		}
+		return errors.New("Guest stopped, but clean shutdown was not confirmed; disks retained")
+	case <-ctx.Done():
+		report("Guest shutdown timed out; forcing QEMU to exit. This is an unclean shutdown.")
+		cmd.Process.Signal(syscall.SIGTERM)
+		select {
+		case <-exited:
+		case <-time.After(5 * time.Second):
+			cmd.Process.Kill()
+			<-exited
+		}
+		return errors.New("unclean shutdown; inspect logs and persistent disk on next start")
+	}
+}
+
 func prepareDisk(state, assets, disk string) error {
 	meta := filepath.Join(state, "installation.json")
 	var v installation

@@ -135,7 +135,16 @@ func validPath(s string) bool {
 	return true
 }
 
+// Locate validates the running executable's trailer, verifies and extracts its
+// embedded resources into the per-user bundle cache.
 func Locate(ctx context.Context) (string, string, []string, error) {
+	return LocateObserved(ctx, nil)
+}
+
+// LocateObserved is Locate with progress callbacks at the real boundaries:
+// "validate" once the trailer and manifest are accepted, "extract" before the
+// archive is unpacked, and "ready" once the cache is verified.
+func LocateObserved(ctx context.Context, progress func(string)) (string, string, []string, error) {
 	executable, err := os.Executable()
 	if err != nil {
 		return "", "", nil, err
@@ -145,6 +154,9 @@ func Locate(ctx context.Context) (string, string, []string, error) {
 		return "", "", nil, err
 	}
 	defer a.File.Close()
+	if progress != nil {
+		progress("validate")
+	}
 	base, err := os.UserCacheDir()
 	if err != nil {
 		return "", "", nil, err
@@ -152,6 +164,9 @@ func Locate(ctx context.Context) (string, string, []string, error) {
 	root, err := a.Extract(ctx, filepath.Join(base, "piwork-microvm", "bundles"))
 	if err != nil {
 		return "", "", nil, err
+	}
+	if progress != nil {
+		progress("ready")
 	}
 	q := filepath.Join(root, "qemu")
 	if runtime.GOOS == "windows" {
