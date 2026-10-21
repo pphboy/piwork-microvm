@@ -436,16 +436,18 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+| [Frozen Core log-export acceptance](openspec/changes/update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10 at `29e3471`; both native GUIs, real Desktop fault/gap ZIP downloads, stopped-copy persistence and one custom UI/Core port pair; no real model call |
 | [GUI acceptance](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |
 
 ### GUI acceptance
 
-The existing record separates the historical full business/fault checks from this GUI
-follow-up. Current native Linux/KVM and Windows/WebView2/WHPX checks cover the scoped
-C1/W1–W5 regressions, English default and saved English/Chinese switching, normal/error log
-export, safe stop and reuse of the original disk. Only the platforms and artifact identities
-listed there are claimed. The original Piwork/Guest pin remains unchanged; no real AI
-inference or subsequent upstream integration is claimed. GUI builds never tag, push or publish.
+The archived GUI record covers C1/W1–W5, English default, saved English/Chinese switching,
+Launcher normal/error exports and safe stop with its original Piwork input. The
+[current frozen Core integration](openspec/changes/update-guest-piwork-log-export/acceptance.md)
+uses the newly built 0.0.10 Guest on Linux/KVM and native Windows/WebView2/WHPX. It covers
+Desktop fault/gap ZIPs saved on Host, stopped-installation copies, language persistence,
+safe shutdown and the custom 19190/19191 path. Neither record claims a new real-model call
+or an untested Windows version. GUI builds never tag, push or publish.
 
 ### Linux acceptance
 
@@ -478,11 +480,11 @@ checks the existing baseline, and `-Phase failures` requires a stopped test inst
 `cmd/microvm-probe` are test and development tooling only. The product commands are
 `cmd/piwork-microvm` and `cmd/piwork-guest`.
 
-A separate synthetic OpenAI Responses fixture reproduced history HTTP 503 for tool IDs such as
-`call-1|fc-1`. Its Run and raw history/Memory persisted, but history reading failed. This
-remains a scoped known failure, not evidence that all tool sessions fail. Real-provider results
-identify the tested model and protocol and are recorded separately. Piwork business source
-remains unchanged.
+A historical 0.0.9 synthetic OpenAI Responses fixture reproduced history HTTP 503 for tool IDs
+such as `call-1|fc-1`. Its Run and raw history/Memory persisted, but history reading failed. That
+fixture was not rerun for the frozen 0.0.10 input; this is historical evidence, not a claim about
+current tool sessions. Real-provider records identify their tested model and protocol. Piwork
+business source remains unchanged.
 
 ## Scope and limitations
 
