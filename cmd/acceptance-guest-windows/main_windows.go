@@ -139,11 +139,9 @@ func run() error {
 		case <-time.After(time.Second):
 		}
 	}
-	var agent string
+	// An inspection needs mounted persistent storage, not a running Work/model.
 	for {
-		ids, err := guest.Exec(ctx, "/usr/local/bin/docker", "ps", "--filter", "label=piwork.work_id="+c.WorkID, "--filter", "name=piwork-agent-", "--format", "{{.ID}}")
-		if err == nil && strings.TrimSpace(string(ids)) != "" {
-			agent = strings.TrimSpace(string(ids))
+		if _, e = guest.Exec(ctx, "/bin/systemctl", "is-active", "--quiet", "piwork.service"); e == nil {
 			break
 		}
 		select {
@@ -153,6 +151,19 @@ func run() error {
 		}
 	}
 	if c.FixtureSource != "" {
+		var agent string
+		for {
+			ids, err := guest.Exec(ctx, "/usr/local/bin/docker", "ps", "--filter", "label=piwork.work_id="+c.WorkID, "--filter", "name=piwork-agent-", "--format", "{{.ID}}")
+			if err == nil && strings.TrimSpace(string(ids)) != "" {
+				agent = strings.TrimSpace(string(ids))
+				break
+			}
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-time.After(time.Second):
+			}
+		}
 		source, err := os.ReadFile(c.FixtureSource)
 		if err != nil {
 			return err
