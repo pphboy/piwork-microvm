@@ -232,7 +232,14 @@ func Start(cmd *exec.Cmd, locks []*os.File) (func(), error) {
 		}
 		inherited = append(inherited, syscall.Handle(h))
 	}
-	cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: windows.CREATE_NEW_PROCESS_GROUP, Token: syscall.Token(token), AdditionalInheritedHandles: inherited}
+	// The GUI parent has no console, but the bundled QEMU is a console-subsystem
+	// PE. CREATE_NO_WINDOW suppresses any console window while keeping the
+	// existing process group, restricted token, inherited lock handles and Job.
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		CreationFlags:              windows.CREATE_NEW_PROCESS_GROUP | windows.CREATE_NO_WINDOW,
+		Token:                      syscall.Token(token),
+		AdditionalInheritedHandles: inherited,
+	}
 	if e = cmd.Start(); e != nil {
 		cleanup()
 		return nil, fmt.Errorf("create native QEMU process: %w", e)
@@ -295,4 +302,30 @@ func TSCKHz() (uint64, error) {
 		return 0, fmt.Errorf("WHPX processor clock frequency is unavailable (HRESULT 0x%08x)", uint32(hr))
 	}
 	return hz / 1000, nil
+}
+
+// ValidateSelectedRoot checks a directory the user chose in the native picker.
+// Permissions are applied by PrivateDir at startup; this only verifies that the
+// path is a local, non-reparse directory.
+func ValidateSelectedRoot(p string) error {
+	if e := noReparse(p); e != nil {
+		return e
+	}
+	st, e := os.Stat(p)
+	if e != nil {
+		return e
+	}
+	if !st.IsDir() {
+		return errors.New("selected path must be a directory")
+	}
+	return nil
+}
+
+// SelectedRootIsEmpty reports whether the directory has no entries at all.
+func SelectedRootIsEmpty(p string) (bool, error) {
+	entries, e := os.ReadDir(p)
+	if e != nil {
+		return false, e
+	}
+	return len(entries) == 0, nil
 }

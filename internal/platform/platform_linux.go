@@ -101,4 +101,43 @@ func CheckAcceleration() error {
 	}
 	return nil
 }
+
+// ValidateSelectedRoot checks a directory the user chose in the native picker.
+// It only tightens an empty, current-user-owned directory to 0700; non-empty
+// and unknown directories are never modified. The caller decides whether an
+// existing installation is acceptable.
+func ValidateSelectedRoot(p string) error {
+	abs, e := filepath.Abs(p)
+	if e != nil {
+		return e
+	}
+	st, e := os.Lstat(abs)
+	if e != nil {
+		return e
+	}
+	if !st.IsDir() || st.Mode()&os.ModeSymlink != 0 {
+		return errors.New("selected path must be a real directory, not a link")
+	}
+	sys, ok := st.Sys().(*syscall.Stat_t)
+	if !ok || sys.Uid != uint32(os.Getuid()) {
+		return errors.New("selected directory must be owned by the current user")
+	}
+	entries, e := os.ReadDir(abs)
+	if e != nil {
+		return e
+	}
+	if len(entries) == 0 {
+		return os.Chmod(abs, 0700)
+	}
+	return nil
+}
+
+// SelectedRootIsEmpty reports whether the directory has no entries at all.
+func SelectedRootIsEmpty(p string) (bool, error) {
+	entries, e := os.ReadDir(p)
+	if e != nil {
+		return false, e
+	}
+	return len(entries) == 0, nil
+}
 func TSCKHz() (uint64, error) { return 0, nil }
