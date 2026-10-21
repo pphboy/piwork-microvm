@@ -256,6 +256,10 @@ ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现
 | `*.sha256` | 对应二进制的校验和 |
 | `release-manifest.json` | 锁定输入、产物 hash 与验收状态 |
 | `qemu-patches.tar.gz` | 被修改的 GPL 组件的对应源码 |
+| `guest-licenses.tar.gz` | Guest 镜像内每个包的许可证文本 |
+
+Guest 许可证同时内嵌在产物的 `provenance/guest-licenses/` 下，因此无需启动 VM 即可从下载物中阅读；
+`index.json` 列出每个包，并标注没有可提取文本的包。
 
 `make release VERSION=<v>` 执行门槛、测试、构建、清单与说明后即停止；
 `make release-publish VERSION=<v>` 负责打 tag 并发布。构建流程从不推送或发布，容器镜像

@@ -19,6 +19,7 @@ def main():
     finally: run('docker','rm',container)
     run('docker','run','--rm','-v',f'{ROOT}:/project','-w','/project',
         'piwork-microvm-rootfs:local','bash','scripts/rootfs-assemble.sh',str(os.getuid()),str(os.getgid()))
+    run('python3','scripts/guest-licenses.py')
     run('qemu-img','convert','-f','raw','-O','qcow2',out/'guest/state.raw',out/'guest/state.qcow2')
     (out/'guest/state.raw').unlink()
     run('qemu-img','check',out/'guest/state.qcow2')

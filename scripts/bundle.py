@@ -50,6 +50,10 @@ def main():
         for p in sorted((ROOT/'guest/qemu').glob('*.patch')):provenance['qemu-'+p.name]=p
         provenance['windows-toolchain.lock.json']=ROOT/'guest/qemu/windows-toolchain.lock.json'
     for name,p in provenance.items():inputs['provenance/'+name]=p
+    guest_licenses=out/'guest/guest-licenses'
+    if not guest_licenses.is_dir():raise SystemExit('missing guest license tree; run make guest first')
+    for p in guest_licenses.rglob('*'):
+        if p.is_file():inputs['provenance/guest-licenses/'+p.relative_to(guest_licenses).as_posix()]=p
     goroot=pathlib.Path(subprocess.check_output(['go','env','GOROOT'],text=True).strip())
     inputs['provenance/licenses/Go-LICENSE']=goroot/'LICENSE'
     modules=json.loads(subprocess.check_output(['go','list','-m','-json','golang.org/x/sys'],text=True))

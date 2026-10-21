@@ -88,6 +88,22 @@ def guest_package_count():
     except (OSError,subprocess.SubprocessError):return None
     return len([line for line in r.stdout.splitlines() if line.strip()]) or None
 
+def guest_licenses_archive(out):
+    """Readable license texts, so readers need not download the ~400 MB artifact."""
+    tree=ROOT/'dist/guest/guest-licenses'
+    if not tree.is_dir():fail('guest license tree missing; run make guest before releasing')
+    out.parent.mkdir(parents=True,exist_ok=True)
+    with out.open('wb') as raw,gzip.GzipFile(fileobj=raw,mode='wb',filename='',mtime=0) as gz,tarfile.open(fileobj=gz,mode='w|',format=tarfile.PAX_FORMAT) as tar:
+        for p in sorted(tree.rglob('*')):
+            if not p.is_file():continue
+            info=tarfile.TarInfo('guest-licenses/'+p.relative_to(tree).as_posix())
+            info.size=p.stat().st_size;info.mode=0o444;info.mtime=0;info.uid=info.gid=0
+            with p.open('rb') as f:tar.addfile(info,f)
+    return out
+def guest_license_summary():
+    p=ROOT/'dist/guest/guest-licenses/index.json'
+    return read_json(p) if p.exists() else None
+
 def notes(version,evidence):
     m=manifest(version,evidence);inputs=m['inputs'];kernel=inputs['kernel'];qemu=inputs['qemu']
     lines=['# piwork-microvm v'+version,'',
@@ -102,7 +118,13 @@ def notes(version,evidence):
     snapshot=inputs['toolchain']['debianSnapshot']
     count=guest_package_count()
     packages=(str(count)+' Debian packages') if count else 'Debian packages'
-    copyrights=(str(count)+' Debian copyright files') if count else 'Debian copyright files'
+    licenses=guest_license_summary()
+    if licenses and licenses.get('absent')==0:
+        license_gap='all '+str(licenses.get('packages'))+' Guest packages have a text.'
+    elif licenses:
+        license_gap=str(licenses.get('absent'))+' of '+str(licenses.get('packages'))+' Guest packages have no extractable text; `index.json` lists them.'
+    else:
+        license_gap='the license index was not available when this manifest was generated.'
     lines+=['','## Corresponding source','',
             'This release distributes binaries and a Guest image that include GPL and LGPL components. The written offer below covers every component listed here.','',
             '| Component | License | Source |','| --- | --- | --- |',
@@ -116,7 +138,7 @@ def notes(version,evidence):
             '| Shared libraries shipped beside QEMU (`qemu/lib/*.so`, `*.dll`) | LGPL-2.1+, BSD or GPL-2+ | shipped with the artifact; source as listed above |','',
             'Written offer: the complete corresponding source for every GPL and LGPL component listed above is available on request for three years from this release date (GPL-2.0 section 3(b)).','',
             '## Known limitations','',
-            '- License texts for the Guest rootfs packages and BusyBox exist only inside `rootfs.ext4` ('+copyrights+'), so they cannot be read without booting the VM. Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
+            '- License texts for the Guest rootfs packages and BusyBox ship at `provenance/guest-licenses/` inside the artifact and in `guest-licenses.tar.gz`, so they can be read without booting the VM; '+license_gap+' Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
             '- Windows artifacts are unsigned, so SmartScreen may warn on first run.',
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
     return '\n'.join(lines)
@@ -129,6 +151,9 @@ def cmd_manifest(args):
 def cmd_patches(args):
     files=patches(pathlib.Path(args.out))
     print('Wrote',args.out,'('+str(len(files))+' patches)')
+def cmd_licenses(args):
+    out=guest_licenses_archive(pathlib.Path(args.out))
+    print('Wrote',out)
 def cmd_notes(args):
     pathlib.Path(args.out).write_text(notes(args.version,pathlib.Path(args.evidence_dir)),encoding='utf-8')
     print('Wrote',args.out)
@@ -195,12 +220,14 @@ def cmd_release(args):
     notes_out.write_text(notes(args.version,evidence),encoding='utf-8');print('Wrote',notes_out)
     patches_out=pathlib.Path(args.patches_out) if args.patches_out else ROOT/'dist/qemu-patches.tar.gz'
     patches(patches_out);print('Wrote',patches_out)
+    licenses_out=ROOT/'dist/guest-licenses.tar.gz'
+    guest_licenses_archive(licenses_out);print('Wrote',licenses_out)
 
 def repo_slug():
     return git_out('remote','get-url','origin') or 'unknown'
 def asset_label(version,platform,name):
     return 'piwork-microvm-v'+version+'-'+platform+'-amd64'+('.exe' if name.endswith('.exe') else '')
-def release_assets(version,manifest_path,patches_path):
+def release_assets(version,manifest_path,patches_path,licenses_path):
     """D4: asset names carry the version, so downloads stay distinguishable across releases.
 
     gh uses the file name as the asset name and a `#label` only sets the display
@@ -218,7 +245,7 @@ def release_assets(version,manifest_path,patches_path):
         except OSError:shutil.copyfile(binary,staged)
         sums=stage/(label+'.sha256');sums.write_text(sha(binary)+'  '+label+'\n',encoding='utf-8')
         assets+=[(staged,label),(sums,label+'.sha256')]
-    return assets+[(manifest_path,'release-manifest.json'),(patches_path,'qemu-patches.tar.gz')]
+    return assets+[(manifest_path,'release-manifest.json'),(patches_path,'qemu-patches.tar.gz'),(licenses_path,'guest-licenses.tar.gz')]
 
 def cmd_publish(args):
     """Steps 6-7: tag and GitHub Release. The only command here that writes remotely."""
@@ -232,7 +259,9 @@ def cmd_publish(args):
     write_json(manifest_out,manifest(version,evidence));print('Wrote',manifest_out)
     notes_out.write_text(notes(version,evidence),encoding='utf-8');print('Wrote',notes_out)
     patches(patches_out);print('Wrote',patches_out)
-    assets=release_assets(version,manifest_out,patches_out)
+    licenses_out=ROOT/'dist/guest-licenses.tar.gz'
+    guest_licenses_archive(licenses_out);print('Wrote',licenses_out)
+    assets=release_assets(version,manifest_out,patches_out,licenses_out)
     if args.dry_run:
         print('Dry run: no tag created, nothing pushed and no release published.')
         print('  repository: '+repo_slug())
@@ -255,6 +284,9 @@ def main():
     pa=sub.add_parser('patches',help='write qemu-patches.tar.gz, the corresponding source for the modified GPL component')
     pa.add_argument('--out',default=str(ROOT/'dist/qemu-patches.tar.gz'))
     pa.set_defaults(func=cmd_patches)
+    li=sub.add_parser('licenses',help='write guest-licenses.tar.gz, the readable license texts')
+    li.add_argument('--out',default=str(ROOT/'dist/guest-licenses.tar.gz'))
+    li.set_defaults(func=cmd_licenses)
     n=sub.add_parser('notes',help='write the release notes')
     n.add_argument('--version',required=True);n.add_argument('--out',default=str(ROOT/'dist/release-notes.md'))
     n.add_argument('--evidence-dir',default=str(EVIDENCE))

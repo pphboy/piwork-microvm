@@ -15,3 +15,4 @@
 - `make release` stops at local artifacts and never tags, pushes or publishes. `make release-publish` is the separate step that tags and publishes, and container images are never pushed to a remote registry.
 - Record verification against the locked inputs, never against artifact bytes: the Guest ext4 rootfs is generated with fresh UUIDs on every build, so artifacts are not byte-reproducible and acceptance evidence never binds to a released hash.
 - Release notes must state the corresponding source for the GPL components and the known limitations of the current distribution.
+- Artifacts must carry readable license texts for every third-party component they ship, including the Guest rootfs packages and BusyBox. Never require booting the VM to read them, and record a missing text in the index instead of dropping the package.

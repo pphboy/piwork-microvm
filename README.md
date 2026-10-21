@@ -277,6 +277,11 @@ source of truth, and `--version` reports both.
 | `*.sha256` | Checksum for the matching binary |
 | `release-manifest.json` | Locked inputs, artifact hashes and verification status |
 | `qemu-patches.tar.gz` | Corresponding source for the modified GPL component |
+| `guest-licenses.tar.gz` | License texts for every package in the Guest image |
+
+The Guest licenses are also embedded in the artifact under `provenance/guest-licenses/`, so
+they can be read from the download without booting the VM; `index.json` lists every package and
+flags any that has no extractable text.
 
 `make release VERSION=<v>` runs the gate, tests, build, manifest and notes, and stops there.
 `make release-publish VERSION=<v>` tags and publishes. Builds never push or publish, and
