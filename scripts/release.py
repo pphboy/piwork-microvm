@@ -149,10 +149,16 @@ def check_tag_absent(version):
 def check_gh():
     if not shutil.which('gh'):fail('gh CLI is required to publish a release')
     if subprocess.run(['gh','auth','status'],capture_output=True).returncode!=0:fail('gh is not authenticated')
+def check_head_pushed():
+    """A tag must point at a commit the remote branch already contains."""
+    head=git_out('rev-parse','HEAD');upstream=git_out('rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}')
+    if not head or not upstream:fail('current branch has no upstream; push it before publishing')
+    if subprocess.run(['git','merge-base','--is-ancestor',head,upstream],cwd=ROOT).returncode!=0:
+        fail('HEAD is not contained in '+upstream+'; push the branch before publishing')
 def preflight(version,require_gh):
     """Gate steps 1-3. Everything here runs before any test, build or publish."""
     check_tree_clean();check_source_locked();check_tag_absent(version)
-    if require_gh:check_gh()
+    if require_gh:check_head_pushed();check_gh()
 
 def run_tests():
     if subprocess.run(['go','test','./...'],cwd=ROOT).returncode!=0:fail('go test ./... failed')
