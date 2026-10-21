@@ -82,5 +82,5 @@ record={'piwork':json.loads((root/'build.lock.json').read_text())['piwork'],'rel
 if args.require_completion:
  record['acceptanceScope']={'freshInstallations':True,'hosts':'current Linux/KVM and native Windows 11 Home build 26200/WHPX','windowsVersionMatrixRequired':False,'secondCleanComputerRequired':False,'freshDataDirDoesNotClearHostDependenciesOrCache':True}
  record['finalFaultRecovery']={name:{mode:{'verified':True,'evidence':name+'/fault-'+mode+'.json','recoveryHistoryHTTP':200,'databaseIntegrity':'ok','databaseFilesystem':'ext4'} for mode in ['early-exit','shutdown-timeout','launcher-kill']} for name in ['linux','windows']}
-(change/'artifacts.json').write_text(json.dumps(record,indent=2)+'\n');(root/'dist/delivery.json').write_text(json.dumps(record,indent=2)+'\n')
+(change/'artifacts.json').write_text(json.dumps(record,indent=2)+'\n')
 print('Collected allowlisted evidence and final binary/source identities; no credentials copied')
