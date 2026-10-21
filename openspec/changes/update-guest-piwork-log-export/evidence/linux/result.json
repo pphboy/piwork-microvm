@@ -1,0 +1,59 @@
+{
+  "platform": "linux",
+  "origin": "http://127.0.0.1:17891",
+  "core": "http://127.0.0.1:17871",
+  "realModelCall": "not attempted; controlled Service only",
+  "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+  "files": [
+    {
+      "name": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "sha256": "e48f4d2bf3aa13f065575508a5d03dccfd9da908801afd77d3eb888ce4ce02e8"
+    }
+  ],
+  "exports": [
+    {
+      "tag": "fault",
+      "filename": "piwork-logs-log-export-5f0b71c18ab3931fb1bdde7ccfac6e33.zip",
+      "bytes": 11136,
+      "sha256": "5784012d4d8b3fed0b492cc196cc2c32002984e3f01dad0043f86c4402e956d8",
+      "exportId": "log-export-5f0b71c18ab3931fb1bdde7ccfac6e33",
+      "complete": true,
+      "sources": [
+        {
+          "sourceId": "log-source-955eb06249f2e943358a8a9ad7d4a489",
+          "state": "available"
+        },
+        {
+          "sourceId": "log-source-713dc9ac75f80608186cae9b14e4667a",
+          "state": "available"
+        }
+      ],
+      "coreFiles": 1
+    },
+    {
+      "tag": "gap",
+      "filename": "piwork-logs-log-export-e8bc83c6db208adbcb7857026d1c7ba9.zip",
+      "bytes": 17256,
+      "sha256": "a3f73ac352478dc40be3115e95585a3fedb0418cb47105606e0d21c5b27b6dfb",
+      "exportId": "log-export-e8bc83c6db208adbcb7857026d1c7ba9",
+      "complete": false,
+      "sources": [
+        {
+          "sourceId": "log-source-955eb06249f2e943358a8a9ad7d4a489",
+          "state": "available"
+        },
+        {
+          "sourceId": "log-source-713dc9ac75f80608186cae9b14e4667a",
+          "state": "partial",
+          "reason": "source archive was already incomplete"
+        }
+      ],
+      "coreFiles": 1
+    }
+  ],
+  "serviceId": "service-ad76623c-80e0-4c2e-9c3f-efd3b6c32eb4"
+}

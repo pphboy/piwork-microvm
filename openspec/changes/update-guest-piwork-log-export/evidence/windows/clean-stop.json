@@ -1,0 +1,11 @@
+{
+  "runtimeAbsent": true,
+  "diskRetained": true,
+  "uncleanAbsent": true,
+  "installation": {
+    "version": 1,
+    "id": "3d7c8bbeca64f3ea428b322cbf5ae1c7",
+    "disk": "disks/state.qcow2",
+    "stage": "ready"
+  }
+}

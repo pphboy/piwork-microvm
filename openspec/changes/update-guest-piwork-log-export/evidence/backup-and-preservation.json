@@ -1,0 +1,33 @@
+{
+  "linux": {
+    "source": "/home/p/piwork-gui-complete/data/piwork-microvm",
+    "sourceDiskUnchanged": true,
+    "sourceDiskSha256": "7f45cdf5de23259a28d460b4aeb3e0abd28c7dcfb08e9db26aa5314f16396241",
+    "copy": "/home/p/piwork-log-export-upgrade/data/piwork-microvm",
+    "installation": {
+      "version": 1,
+      "id": "25a12249a5bb853883e6dc7358ba0ec3",
+      "disk": "disks/state.qcow2",
+      "stage": "ready"
+    },
+    "sourceStopped": true
+  },
+  "windows": {
+    "source": "/mnt/c/Users/p/piwork-gui-accept-win4/数据 目录",
+    "sourceDiskUnchanged": true,
+    "sourceDiskSha256": "aa6a6b855751e5b92230e4aed93e0f18456954cfb5dd55024032ac76ee4269a0",
+    "copy": "/mnt/c/Users/p/piwork-log-export-upgrade/local/PiworkMicroVM",
+    "installation": {
+      "version": 1,
+      "id": "3d7c8bbeca64f3ea428b322cbf5ae1c7",
+      "disk": "disks/state.qcow2",
+      "stage": "ready"
+    },
+    "sourceStopped": true
+  },
+  "unrelatedUserInstallation": {
+    "metadataUnchanged": true,
+    "originalQEMUStillRunning": true,
+    "mutations": "none"
+  }
+}

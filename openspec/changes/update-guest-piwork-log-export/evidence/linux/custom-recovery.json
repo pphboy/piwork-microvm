@@ -1,0 +1,43 @@
+{
+  "platform": "linux-custom",
+  "origin": "http://127.0.0.1:19190",
+  "core": "http://127.0.0.1:19191",
+  "realModelCall": "not attempted; controlled Service only",
+  "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+  "files": [],
+  "exports": [],
+  "desktopRequests": [
+    {
+      "path": "/_desktop/api/session",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/session",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/status",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/works",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/skills",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/packages",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/known-operations",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/works",
+      "status": 200
+    }
+  ]
+}

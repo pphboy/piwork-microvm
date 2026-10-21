@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "exportId": "log-export-e8bc83c6db208adbcb7857026d1c7ba9",
+  "cutoffTime": "2026-10-21T19:11:50.567360374Z",
+  "generatedAt": "2026-10-21T19:11:51.096880418Z",
+  "scope": {
+    "includeCoreLogs": true,
+    "ownedWorkCount": 1,
+    "sourceCount": 5
+  },
+  "retention": {
+    "coreMaxSegmentBytes": 16777216,
+    "coreMaxTotalBytes": 268435456,
+    "coreMaxAgeHours": 168,
+    "archiveMaxAgeHours": 168,
+    "archivePerWorkBytes": 536870912,
+    "archiveInstallBytes": 2147483648,
+    "exportReadyHours": 24,
+    "perSourceByteMaximum": 536870912,
+    "totalByteMaximum": 1073741824
+  },
+  "complete": false,
+  "warningCount": 1,
+  "core": {
+    "includeCoreLogs": true,
+    "coverageStart": "2026-10-21T19:08:43.843457029Z",
+    "coverageEnd": "2026-10-21T19:11:13.394518618Z",
+    "partial": false,
+    "files": [
+      {
+        "name": "core-91b25c816aa1f33e2c16aaded874f6a5-00000000.jsonl",
+        "size": 37354,
+        "digest": "642e38acc4c03a0e3e2259bdd7bcd7041fc014ff7f9e167ee1596eb903bab2dd",
+        "startTime": "2026-10-21T19:08:43.843457029Z",
+        "endTime": "2026-10-21T19:11:13.394518618Z"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "sourceId": "log-source-955eb06249f2e943358a8a9ad7d4a489",
+      "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+      "kind": "service",
+      "serviceId": "service-ad76623c-80e0-4c2e-9c3f-efd3b6c32eb4",
+      "state": "available",
+      "startTime": "2026-10-21T19:10:46.08589368Z",
+      "endTime": "2026-10-21T19:11:13.202130922Z",
+      "bytes": 49432,
+      "entries": [
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-955eb06249f2e943358a8a9ad7d4a489/stdout.log",
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-955eb06249f2e943358a8a9ad7d4a489/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-713dc9ac75f80608186cae9b14e4667a",
+      "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+      "kind": "service",
+      "serviceId": "service-ad76623c-80e0-4c2e-9c3f-efd3b6c32eb4",
+      "state": "partial",
+      "startTime": "2026-10-21T19:10:44.666003241Z",
+      "endTime": "2026-10-21T19:10:44.668447744Z",
+      "bytes": 12358,
+      "entries": [
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-713dc9ac75f80608186cae9b14e4667a/stdout.log",
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-713dc9ac75f80608186cae9b14e4667a/stderr.log"
+      ],
+      "reason": "source archive was already incomplete"
+    },
+    {
+      "sourceId": "log-source-427572edcb2660a00974b0941254bd6d",
+      "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+      "kind": "service",
+      "serviceId": "service-36d0d350-bb87-46ca-a8c0-ba1443722eae",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-427572edcb2660a00974b0941254bd6d/stdout.log",
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-427572edcb2660a00974b0941254bd6d/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-1bc961a22b44399aaf552104d7bf6eaf",
+      "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+      "kind": "agent",
+      "state": "available",
+      "startTime": "2026-10-21T16:27:51.669144122Z",
+      "endTime": "2026-10-21T19:09:29.426985562Z",
+      "bytes": 11888,
+      "entries": [
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-1bc961a22b44399aaf552104d7bf6eaf/stdout.log",
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-1bc961a22b44399aaf552104d7bf6eaf/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-8760169362106f9a7c67f17f70f5c9f7",
+      "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+      "kind": "service",
+      "serviceId": "service-36d0d350-bb87-46ca-a8c0-ba1443722eae",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-8760169362106f9a7c67f17f70f5c9f7/stdout.log",
+        "works/work-b7b73a99-441d-4d2e-bb2b-e70c826411b8/log-source-8760169362106f9a7c67f17f70f5c9f7/stderr.log"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "reserved": [
+    {
+      "error": "piwork-microvm: --port: port 7172 is reserved for internal Agent RPC",
+      "dataAbsent": true,
+      "option": "--port",
+      "exit": 1
+    },
+    {
+      "error": "piwork-microvm: --core-port: port 7172 is reserved for internal Agent RPC",
+      "dataAbsent": true,
+      "option": "--core-port",
+      "exit": 1
+    }
+  ],
+  "version": "piwork-microvm 0.0.0-dev.0338e5203a00\nupstream Piwork 0.0.10 (29e3471e02e53094c1e1f427a88de6a2a24fb963)\nbundle manifest v2",
+  "help": true,
+  "nativeArgumentTestsPassed": true
+}

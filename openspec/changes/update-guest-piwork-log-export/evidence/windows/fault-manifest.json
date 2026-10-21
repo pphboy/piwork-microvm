@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "exportId": "log-export-03e1b3e4fc4a19bab03a32cf66d98998",
+  "cutoffTime": "2026-10-21T19:24:08.29027614Z",
+  "generatedAt": "2026-10-21T19:24:08.544862188Z",
+  "scope": {
+    "includeCoreLogs": true,
+    "ownedWorkCount": 1,
+    "sourceCount": 5
+  },
+  "retention": {
+    "coreMaxSegmentBytes": 16777216,
+    "coreMaxTotalBytes": 268435456,
+    "coreMaxAgeHours": 168,
+    "archiveMaxAgeHours": 168,
+    "archivePerWorkBytes": 536870912,
+    "archiveInstallBytes": 2147483648,
+    "exportReadyHours": 24,
+    "perSourceByteMaximum": 536870912,
+    "totalByteMaximum": 1073741824
+  },
+  "complete": true,
+  "warningCount": 0,
+  "core": {
+    "includeCoreLogs": true,
+    "coverageStart": "2026-10-21T19:22:15.129427701Z",
+    "coverageEnd": "2026-10-21T19:24:07.994448922Z",
+    "partial": false,
+    "files": [
+      {
+        "name": "core-cb422498fbfe06b6d74fd4b355299ef2-00000000.jsonl",
+        "size": 20591,
+        "digest": "cafe8397546ef46f4f9482eed4737ad1306594fc9afc74a4a23f2399ef8c2853",
+        "startTime": "2026-10-21T19:22:15.129427701Z",
+        "endTime": "2026-10-21T19:24:07.994448922Z"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "sourceId": "log-source-e483431ebb3dbe75905c09ef8fbd3d31",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8",
+      "state": "available",
+      "startTime": "2026-10-21T19:24:07.857970659Z",
+      "endTime": "2026-10-21T19:24:07.859334287Z",
+      "bytes": 12358,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-e483431ebb3dbe75905c09ef8fbd3d31/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-e483431ebb3dbe75905c09ef8fbd3d31/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-3caaf080a946d748ba60bec6e1d0ff80",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8",
+      "state": "available",
+      "startTime": "2026-10-21T19:24:07.00713674Z",
+      "endTime": "2026-10-21T19:24:07.009118275Z",
+      "bytes": 12358,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-3caaf080a946d748ba60bec6e1d0ff80/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-3caaf080a946d748ba60bec6e1d0ff80/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-5f549691fdf037d8787e4d5df99ffea9",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-5f549691fdf037d8787e4d5df99ffea9/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-5f549691fdf037d8787e4d5df99ffea9/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-f5940d9336c110fd8d64718936d2e464",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "agent",
+      "state": "available",
+      "startTime": "2026-10-21T16:04:59.541580293Z",
+      "endTime": "2026-10-21T16:23:32.303447823Z",
+      "bytes": 11888,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-f5940d9336c110fd8d64718936d2e464/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-f5940d9336c110fd8d64718936d2e464/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-2e09cba53c49aada5217a477d5e76475",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-2e09cba53c49aada5217a477d5e76475/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-2e09cba53c49aada5217a477d5e76475/stderr.log"
+      ]
+    }
+  ]
+}

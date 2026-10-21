@@ -1,0 +1,40 @@
+{
+  "platform": "windows",
+  "origin": "http://127.0.0.1:17891",
+  "core": "http://127.0.0.1:17871",
+  "realModelCall": "not attempted; controlled Service only",
+  "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+  "files": [
+    {
+      "name": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "sha256": "05c0dd305663192d523a78cf9f6631e99e4148f5b016160968a8581b4ef45f7a"
+    }
+  ],
+  "exports": [
+    {
+      "tag": "fault",
+      "filename": "piwork-logs-log-export-03e1b3e4fc4a19bab03a32cf66d98998.zip",
+      "bytes": 10872,
+      "sha256": "71c176349939aa61abc5b6259aff8fedce464687a044e40ff6fc1f6d8416cd2a",
+      "exportId": "log-export-03e1b3e4fc4a19bab03a32cf66d98998",
+      "complete": true,
+      "sources": [
+        {
+          "sourceId": "log-source-e483431ebb3dbe75905c09ef8fbd3d31",
+          "state": "available"
+        },
+        {
+          "sourceId": "log-source-3caaf080a946d748ba60bec6e1d0ff80",
+          "state": "available"
+        }
+      ],
+      "coreFiles": 1
+    }
+  ],
+  "observedState": "ready",
+  "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8"
+}

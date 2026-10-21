@@ -1,0 +1,77 @@
+{
+  "platform": "windows",
+  "origin": "http://127.0.0.1:17891",
+  "core": "http://127.0.0.1:17871",
+  "realModelCall": "not attempted; controlled Service only",
+  "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+  "files": [],
+  "exports": [
+    {
+      "tag": "gap",
+      "filename": "piwork-logs-log-export-ee9f0a6c00d8629b2f9feb04fbcbecba.zip",
+      "bytes": 19943,
+      "sha256": "9ed3166d6138fab675180cccf4fa07b2ce1bfda2a93122dd148eefdb8a00d4ea",
+      "exportId": "log-export-ee9f0a6c00d8629b2f9feb04fbcbecba",
+      "complete": false,
+      "sources": [
+        {
+          "sourceId": "log-source-e483431ebb3dbe75905c09ef8fbd3d31",
+          "state": "available"
+        },
+        {
+          "sourceId": "log-source-3caaf080a946d748ba60bec6e1d0ff80",
+          "state": "partial",
+          "reason": "source archive was already incomplete"
+        }
+      ],
+      "coreFiles": 3
+    }
+  ],
+  "desktopRequests": [
+    {
+      "path": "/_desktop/api/session",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/session",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/status",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/works",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/packages",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/skills",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/known-operations",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/works",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/log-exports",
+      "status": 202
+    },
+    {
+      "path": "/_desktop/api/log-exports/log-export-ee9f0a6c00d8629b2f9feb04fbcbecba",
+      "status": 200
+    },
+    {
+      "path": "/_desktop/api/log-exports/log-export-ee9f0a6c00d8629b2f9feb04fbcbecba",
+      "status": 200
+    }
+  ],
+  "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8"
+}

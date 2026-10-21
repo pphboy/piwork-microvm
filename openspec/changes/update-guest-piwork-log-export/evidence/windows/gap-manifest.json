@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "exportId": "log-export-ee9f0a6c00d8629b2f9feb04fbcbecba",
+  "cutoffTime": "2026-10-21T19:29:29.182460785Z",
+  "generatedAt": "2026-10-21T19:29:29.532302638Z",
+  "scope": {
+    "includeCoreLogs": true,
+    "ownedWorkCount": 1,
+    "sourceCount": 6
+  },
+  "retention": {
+    "coreMaxSegmentBytes": 16777216,
+    "coreMaxTotalBytes": 268435456,
+    "coreMaxAgeHours": 168,
+    "archiveMaxAgeHours": 168,
+    "archivePerWorkBytes": 536870912,
+    "archiveInstallBytes": 2147483648,
+    "exportReadyHours": 24,
+    "perSourceByteMaximum": 536870912,
+    "totalByteMaximum": 1073741824
+  },
+  "complete": false,
+  "warningCount": 1,
+  "core": {
+    "includeCoreLogs": true,
+    "coverageStart": "2026-10-21T19:22:15.129427701Z",
+    "coverageEnd": "2026-10-21T19:28:34.6869406Z",
+    "partial": false,
+    "files": [
+      {
+        "name": "core-00aec634e92fb148a4318c33aac9c33d-00000000.jsonl",
+        "size": 2736,
+        "digest": "59ab1618cfdcad60fc0c6e4e72a94903599c0961872a44a9f7a79180ddfc08f7",
+        "startTime": "2026-10-21T19:25:50.471079369Z",
+        "endTime": "2026-10-21T19:25:51.25265661Z"
+      },
+      {
+        "name": "core-b97a592aab8bac24dd97467e1b4e6d85-00000000.jsonl",
+        "size": 7279,
+        "digest": "27f8afefb371987c7a308dfb518df81ff166003c8a1f33b9a6e7b214cef4a68f",
+        "startTime": "2026-10-21T19:27:42.459430931Z",
+        "endTime": "2026-10-21T19:28:34.6869406Z"
+      },
+      {
+        "name": "core-cb422498fbfe06b6d74fd4b355299ef2-00000000.jsonl",
+        "size": 39799,
+        "digest": "c506f682516802d1ea033f48621b165aa79b48700faf5adf5e62d988886c5b72",
+        "startTime": "2026-10-21T19:22:15.129427701Z",
+        "endTime": "2026-10-21T19:25:16.336178272Z"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "sourceId": "log-source-565f484a9acbbf6e206e360786031c50",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-565f484a9acbbf6e206e360786031c50/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-565f484a9acbbf6e206e360786031c50/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-e483431ebb3dbe75905c09ef8fbd3d31",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8",
+      "state": "available",
+      "startTime": "2026-10-21T19:24:07.857970659Z",
+      "endTime": "2026-10-21T19:24:36.213910505Z",
+      "bytes": 49432,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-e483431ebb3dbe75905c09ef8fbd3d31/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-e483431ebb3dbe75905c09ef8fbd3d31/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-3caaf080a946d748ba60bec6e1d0ff80",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-355db17c-385d-4b6d-a85b-b6ba70d283e8",
+      "state": "partial",
+      "startTime": "2026-10-21T19:24:07.00713674Z",
+      "endTime": "2026-10-21T19:24:07.009118275Z",
+      "bytes": 12358,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-3caaf080a946d748ba60bec6e1d0ff80/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-3caaf080a946d748ba60bec6e1d0ff80/stderr.log"
+      ],
+      "reason": "source archive was already incomplete"
+    },
+    {
+      "sourceId": "log-source-5f549691fdf037d8787e4d5df99ffea9",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-5f549691fdf037d8787e4d5df99ffea9/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-5f549691fdf037d8787e4d5df99ffea9/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-f5940d9336c110fd8d64718936d2e464",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "agent",
+      "state": "available",
+      "startTime": "2026-10-21T16:04:59.541580293Z",
+      "endTime": "2026-10-21T16:23:32.303447823Z",
+      "bytes": 11888,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-f5940d9336c110fd8d64718936d2e464/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-f5940d9336c110fd8d64718936d2e464/stderr.log"
+      ]
+    },
+    {
+      "sourceId": "log-source-2e09cba53c49aada5217a477d5e76475",
+      "workId": "work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff",
+      "kind": "service",
+      "serviceId": "service-362b65dc-a986-4c34-94ed-16a3bb20df1e",
+      "state": "empty",
+      "bytes": 0,
+      "entries": [
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-2e09cba53c49aada5217a477d5e76475/stdout.log",
+        "works/work-38060a62-0f2c-473d-a6f0-8dc850e5d3ff/log-source-2e09cba53c49aada5217a477d5e76475/stderr.log"
+      ]
+    }
+  ]
+}

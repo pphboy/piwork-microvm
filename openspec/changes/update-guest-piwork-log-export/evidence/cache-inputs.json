@@ -1,0 +1,48 @@
+{
+  "linux": {
+    "cacheID": "7d6c54d9409e518ea9da8657f9ac4958160d4c020c6c2ee1b9367ee8d01308ef",
+    "os": "linux",
+    "files": 312,
+    "guest": {
+      "guest/initramfs": {
+        "sha256": "5383096e247302f998c5ba5647afb2e43aa7ce5c5e1cdad02644b8646f0f3e6d",
+        "bytes": 1028400
+      },
+      "guest/kernel": {
+        "sha256": "e774c55b76f2e6e2cae9bd85c98a51b7e820466fbd359bb4894ebc446cf85c90",
+        "bytes": 9851904
+      },
+      "guest/rootfs.ext4": {
+        "sha256": "4da853361f4f4a709c1e147edba4afe5ef96e915c1a0b98141490b1ecf8884a9",
+        "bytes": 2147483648
+      },
+      "guest/state.qcow2": {
+        "sha256": "c8b8f8d1727f4f9f39fab3fffdcba7758ac2b54bef14adc24a062d86fca45538",
+        "bytes": 10027008
+      }
+    }
+  },
+  "windows": {
+    "cacheID": "54a6ab3e3ff8c6daa09f590a5e2c118a12f7590f2fc33530135926eddc694b29",
+    "os": "windows",
+    "files": 337,
+    "guest": {
+      "guest/initramfs": {
+        "sha256": "5383096e247302f998c5ba5647afb2e43aa7ce5c5e1cdad02644b8646f0f3e6d",
+        "bytes": 1028400
+      },
+      "guest/kernel": {
+        "sha256": "e774c55b76f2e6e2cae9bd85c98a51b7e820466fbd359bb4894ebc446cf85c90",
+        "bytes": 9851904
+      },
+      "guest/rootfs.ext4": {
+        "sha256": "4da853361f4f4a709c1e147edba4afe5ef96e915c1a0b98141490b1ecf8884a9",
+        "bytes": 2147483648
+      },
+      "guest/state.qcow2": {
+        "sha256": "c8b8f8d1727f4f9f39fab3fffdcba7758ac2b54bef14adc24a062d86fca45538",
+        "bytes": 10027008
+      }
+    }
+  }
+}

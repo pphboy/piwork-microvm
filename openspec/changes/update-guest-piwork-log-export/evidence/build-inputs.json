@@ -1,0 +1,78 @@
+{
+  "source": {
+    "repository": "https://github.com/pphboy/piwork.git",
+    "commit": "29e3471e02e53094c1e1f427a88de6a2a24fb963",
+    "tree": "3dc3eeef7e09c91f95ff949fa4709e279ae3176c",
+    "resolvedAt": "2026-10-21T19:01:56.956270+00:00",
+    "branch": "main",
+    "modified": false,
+    "patches": []
+  },
+  "upstream": {
+    "manifestVersion": 2,
+    "application": "unified-linux",
+    "controlPlanePort": 17891,
+    "corePort": 17871,
+    "serviceEntryMode": "path",
+    "releaseVersion": "0.0.10",
+    "sourceCommit": "29e3471e02e53094c1e1f427a88de6a2a24fb963",
+    "sourceModified": false,
+    "sourceInputHash": "1c1eba086ca1c69ceb99ce39883f546d79e8417c17a6c976ba81175825d13181",
+    "desktopUIHash": "d1240241393cde63436ddaa899752f0f4983364b0f35ef944304c58bcade8d20",
+    "consoleUIHash": "9448e0dd1f75db727a2ce0f605764c7f60e9656a2b0ce0ec9ee5e2a6850bcc75",
+    "registry": "docker.io/piwork-microvm-local",
+    "platform": "linux/amd64",
+    "runtimeImage": "alpine:3.22@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8",
+    "core": {
+      "format": "piwork-go-core",
+      "schemaVersion": 1
+    },
+    "clientCredentialVersion": 1,
+    "releaseId": "0.0.10-29e3471e02e5-1c1eba086ca1",
+    "images": {
+      "core": "docker.io/piwork-microvm-local/piwork-core:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "agent": "docker.io/piwork-microvm-local/piwork-agentd:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "fileHelper": "docker.io/piwork-microvm-local/piwork-file-helper:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "snapshotHelper": "docker.io/piwork-microvm-local/piwork-snapshot-helper:0.0.10-29e3471e02e5-1c1eba086ca1"
+    }
+  },
+  "images": {
+    "agent": {
+      "reference": "docker.io/piwork-microvm-local/piwork-agentd:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "id": "sha256:73be88b72ab2c1e60d0493e74f9aaab3f65f0a827ebadc316a76a8ee4dc89394"
+    },
+    "fileHelper": {
+      "reference": "docker.io/piwork-microvm-local/piwork-file-helper:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "id": "sha256:26338f36abb965cbf5078a4248f2ee1e8d4e0b69349551ee1c7bd80f8b77e363"
+    },
+    "snapshotHelper": {
+      "reference": "docker.io/piwork-microvm-local/piwork-snapshot-helper:0.0.10-29e3471e02e5-1c1eba086ca1",
+      "id": "sha256:6ab6725e6649183c3680012c542cf7eb71b8e609d91c2cd689d951102cad752c"
+    }
+  },
+  "wrapperBuildCommit": "0338e5203a00d0de7e88d274e8d3eda970e3daab",
+  "wrapperVersion": "0.0.0-dev.0338e5203a00",
+  "artifacts": [
+    {
+      "path": "dist/piwork-microvm-gui",
+      "bytes": 397127309
+    },
+    {
+      "path": "dist/piwork-microvm-gui.exe",
+      "bytes": 414813324
+    },
+    {
+      "path": "dist/piwork-microvm",
+      "bytes": 392789727
+    },
+    {
+      "path": "dist/piwork-microvm.exe",
+      "bytes": 409597985
+    }
+  ],
+  "guestLicenses": {
+    "packages": 167,
+    "present": 167,
+    "absent": 0
+  }
+}

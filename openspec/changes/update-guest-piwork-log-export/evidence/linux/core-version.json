@@ -1,0 +1,11 @@
+{
+  "program": "piwork-core",
+  "version": "0.0.10",
+  "commit": "29e3471e02e53094c1e1f427a88de6a2a24fb963",
+  "modified": false,
+  "goVersion": "go1.25.5",
+  "os": "linux",
+  "architecture": "amd64",
+  "desktopUIHash": "d1240241393cde63436ddaa899752f0f4983364b0f35ef944304c58bcade8d20",
+  "consoleUIHash": "9448e0dd1f75db727a2ce0f605764c7f60e9656a2b0ce0ec9ee5e2a6850bcc75"
+}
