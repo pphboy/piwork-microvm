@@ -385,13 +385,13 @@ GPL 组件的对应源码、其锁定校验和与书面提供承诺，并列出�
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
-| [冻结 Core 日志导出验收](openspec/changes/update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10、`29e3471`；两平台原生 GUI、Desktop 故障/缺口 ZIP 实际下载、停机副本持久化及一对自定义 UI/Core 端口；未调用真实模型 |
+| [冻结 Core 日志导出验收](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10、`29e3471`；两平台原生 GUI、Desktop 故障/缺口 ZIP 实际下载、停机副本持久化及一对自定义 UI/Core 端口；未调用真实模型 |
 | [GUI 验收](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Linux/KVM 与原生 Windows/WebView2/WHPX CoreLoop、目录/日志对话框、Work/Files/Services、数据库持久化与异常恢复；未验证真实模型调用 |
 
 ### GUI 验收
 
 已归档的 GUI 记录基于其原 Piwork 输入，覆盖 C1/W1–W5、默认英文、英/简中切换保存、Launcher
-正常/错误导出与安全停止。[本轮冻结 Core 整合](openspec/changes/update-guest-piwork-log-export/acceptance.md)
+正常/错误导出与安全停止。[本轮冻结 Core 整合](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 在 Linux/KVM 与原生 Windows/WebView2/WHPX 上使用新构建的 0.0.10 Guest，覆盖保存到 Host 的 Desktop
 故障/缺口 ZIP、旧安装停机副本、语言保存、安全关机及自定义 19190/19191 路径。两份记录均不声称新增
 真实模型调用或未测试的 Windows 版本已通过。GUI 构建不打 tag、不推送、不发布。
