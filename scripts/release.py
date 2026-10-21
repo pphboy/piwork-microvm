@@ -94,7 +94,7 @@ def notes(version,evidence):
            'Bundles original Piwork '+inputs['upstreamPiworkVersion']+' at commit '+inputs['piwork']['commit']+', unmodified.','',
            '## Artifacts','','| File | Platform | Bytes | SHA256 |','| --- | --- | --- | --- |']
     for a in m['artifacts']:
-        lines.append('| `'+pathlib.Path(a['path']).name+'` | '+a['os']+'/'+a['arch']+' | '+str(a['size'])+' | `'+a['sha256']+'` |')
+        lines.append('| `'+asset_label(version,a['os'],a['path'])+'` | '+a['os']+'/'+a['arch']+' | '+str(a['size'])+' | `'+a['sha256']+'` |')
     lines+=['','Verify downloads with these checksums.','',
             '## Verification','',m['verification']['note'],'','| Platform | Status | Evidence |','| --- | --- | --- |']
     for platform,status in m['verification']['platforms'].items():
@@ -192,16 +192,26 @@ def cmd_release(args):
 
 def repo_slug():
     return git_out('remote','get-url','origin') or 'unknown'
+def asset_label(version,platform,name):
+    return 'piwork-microvm-v'+version+'-'+platform+'-amd64'+('.exe' if name.endswith('.exe') else '')
 def release_assets(version,manifest_path,patches_path):
-    """D4: asset names carry the version, so downloads stay distinguishable across releases."""
+    """D4: asset names carry the version, so downloads stay distinguishable across releases.
+
+    gh uses the file name as the asset name and a `#label` only sets the display
+    label, so the binaries are staged under their release names instead.
+    """
     stage=ROOT/'dist/release-assets';stage.mkdir(parents=True,exist_ok=True)
     assets=[]
     for platform,name in PLATFORMS:
         binary=ROOT/'dist'/name
         if not binary.exists():fail('missing artifact '+name)
-        label='piwork-microvm-v'+version+'-'+platform+'-amd64'+('.exe' if name.endswith('.exe') else '')
+        label=asset_label(version,platform,name)
+        staged=stage/label
+        if staged.exists() or staged.is_symlink():staged.unlink()
+        try:os.link(binary,staged)
+        except OSError:shutil.copyfile(binary,staged)
         sums=stage/(label+'.sha256');sums.write_text(sha(binary)+'  '+label+'\n',encoding='utf-8')
-        assets+=[(binary,label),(sums,label+'.sha256')]
+        assets+=[(staged,label),(sums,label+'.sha256')]
     return assets+[(manifest_path,'release-manifest.json'),(patches_path,'qemu-patches.tar.gz')]
 
 def cmd_publish(args):
@@ -226,7 +236,7 @@ def cmd_publish(args):
     subprocess.run(['git','tag','-a',tag,'-m','piwork-microvm '+tag],cwd=ROOT,check=True)
     subprocess.run(['git','push','origin',tag],cwd=ROOT,check=True)
     command=['gh','release','create',tag,'--verify-tag','--title','piwork-microvm '+tag,'--notes-file',str(notes_out)]
-    command+=[str(path)+'#'+label for path,label in assets]
+    command+=[str(path) for path,_ in assets]
     subprocess.run(command,cwd=ROOT,check=True)
     print('Published '+tag)
 
