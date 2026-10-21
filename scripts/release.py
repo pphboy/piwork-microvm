@@ -79,6 +79,15 @@ def patches(out):
             with p.open('rb') as f:tar.addfile(info,f)
     return files
 
+def guest_package_count():
+    """Number of Debian packages in the Guest rootfs, read without mounting the image."""
+    image=ROOT/'dist/guest/rootfs.ext4'
+    debugfs=shutil.which('debugfs') or ('/usr/sbin/debugfs' if pathlib.Path('/usr/sbin/debugfs').exists() else None)
+    if not image.exists() or not debugfs:return None
+    try:r=subprocess.run([debugfs,'-R','cat /usr/share/piwork-guest-packages.txt',str(image)],capture_output=True,text=True,timeout=60)
+    except (OSError,subprocess.SubprocessError):return None
+    return len([line for line in r.stdout.splitlines() if line.strip()]) or None
+
 def notes(version,evidence):
     m=manifest(version,evidence);inputs=m['inputs'];kernel=inputs['kernel'];qemu=inputs['qemu']
     lines=['# piwork-microvm v'+version,'',
@@ -90,14 +99,24 @@ def notes(version,evidence):
             '## Verification','',m['verification']['note'],'','| Platform | Status | Evidence |','| --- | --- | --- |']
     for platform,status in m['verification']['platforms'].items():
         lines.append('| '+platform+' | '+status['status']+' | '+status.get('evidence',status.get('reason',''))+' |')
+    snapshot=inputs['toolchain']['debianSnapshot']
+    count=guest_package_count()
+    packages=(str(count)+' Debian packages') if count else 'Debian packages'
+    copyrights=(str(count)+' Debian copyright files') if count else 'Debian copyright files'
     lines+=['','## Corresponding source','',
-            'This release distributes binaries that include GPL-2.0 components. Their corresponding source is:','',
-            '- Linux '+kernel['version']+', unmodified: '+kernel['url']+', sha256 `'+kernel['sha256']+'`.',
-            '- QEMU '+qemu['version']+', modified by '+str(len(qemu['windowsPatches']))+' patches: '+qemu['url']+', sha256 `'+qemu['sha256']+'`, plus the attached `qemu-patches.tar.gz`.',
-            '- qboot ROM, '+inputs['qboot']['file']+', sha256 `'+inputs['qboot']['sha256']+'`.','',
-            'Written offer: the corresponding source for the GPL components above is available on request for three years from this release date (GPL-2.0 section 3(b)).','',
+            'This release distributes binaries and a Guest image that include GPL and LGPL components. The written offer below covers every component listed here.','',
+            '| Component | License | Source |','| --- | --- | --- |',
+            '| Linux '+kernel['version']+', unmodified | GPL-2.0 | '+kernel['url']+', sha256 `'+kernel['sha256']+'` |',
+            '| QEMU '+qemu['version']+', modified by '+str(len(qemu['windowsPatches']))+' patches | GPL-2.0 | '+qemu['url']+', sha256 `'+qemu['sha256']+'`, plus the attached `qemu-patches.tar.gz` |',
+            '| qboot ROM | GPL-2.0 | `roms/qboot` in the QEMU source archive above, sha256 `'+inputs['qboot']['sha256']+'` |',
+            '| libfdt / dtc, linked into QEMU | GPL-2+ | `dtc/` in the QEMU source archive above |',
+            '| BusyBox, in the Guest initramfs and rootfs | GPL-2.0 | the `busybox-static` source package at Debian snapshot `'+snapshot+'` |',
+            '| '+packages+' in the Guest rootfs | GPL and LGPL mix | source packages at Debian snapshot `'+snapshot+'`; the installed list is `usr/share/piwork-guest-packages.txt` inside `rootfs.ext4` |',
+            '| MinGW-w64 runtime libraries in the Windows QEMU | GPL-3.0 with the GCC runtime exception, or LGPL | the source packages recorded in `provenance/windows-toolchain.lock.json` |',
+            '| Shared libraries shipped beside QEMU (`qemu/lib/*.so`, `*.dll`) | LGPL-2.1+, BSD or GPL-2+ | shipped with the artifact; source as listed above |','',
+            'Written offer: the complete corresponding source for every GPL and LGPL component listed above is available on request for three years from this release date (GPL-2.0 section 3(b)).','',
             '## Known limitations','',
-            '- Guest rootfs distribution-package licenses are not bundled; the artifact carries the package manifest only. This is a known gap for public redistribution.',
+            '- License texts for the Guest rootfs packages and BusyBox exist only inside `rootfs.ext4` ('+copyrights+'), so they cannot be read without booting the VM. Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
             '- Windows artifacts are unsigned, so SmartScreen may warn on first run.',
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
     return '\n'.join(lines)
