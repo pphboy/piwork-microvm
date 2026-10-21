@@ -4,9 +4,9 @@
 
 ## 1. 精确输入、入口和端口适配
 
-- [ ] 1.1 仅更新 Piwork 锁定输入到冻结 SHA，沿既有 source 流程取得干净 detached 副本；核对包含 `19f3e0f78deabbdf67f7db997c6d276b6dfda145`、commit/tree/modified=false/无补丁，保留官方 origin，确认后续 main 归档不影响输入，不重置相邻工作区。
-- [ ] 1.2 将现有上游构建、RootFS 拷贝和 Guest 启动适配为原版 `piwork-core --ui-port/--core-port/--data-dir`；移除旧入口参数，保留信号、真实阶段、数据路径和日志过滤，补必要入口/参数回归并确认新 Core help/version 与构建身份一致。
-- [ ] 1.3 将两个选定端口贯穿 Host 配置、Guest 参数/实际监听、QEMU 两个 IPv4 回环转发及相关内部 Core 客户端；补默认/自定义参数和两选项各自 7172 提前拒绝回归，证明无加速器/数据访问，保留相同/越界/占用校验；同步 CLI help 和现有双语 README 的端口说明，不新增 GUI 设置或代理。
+- [x] 1.1 仅更新 Piwork 锁定输入到冻结 SHA，沿既有 source 流程取得干净 detached 副本；核对包含 `19f3e0f78deabbdf67f7db997c6d276b6dfda145`、commit/tree/modified=false/无补丁，保留官方 origin，确认后续 main 归档不影响输入，不重置相邻工作区。
+- [x] 1.2 将现有上游构建、RootFS 拷贝和 Guest 启动适配为原版 `piwork-core --ui-port/--core-port/--data-dir`；移除旧入口参数，保留信号、真实阶段、数据路径和日志过滤，补必要入口/参数回归并确认新 Core help/version 与构建身份一致。
+- [x] 1.3 将两个选定端口贯穿 Host 配置、Guest 参数/实际监听、QEMU 两个 IPv4 回环转发及相关内部 Core 客户端；补默认/自定义参数和两选项各自 7172 提前拒绝回归，证明无加速器/数据访问，保留相同/越界/占用校验；同步 CLI help 和现有双语 README 的端口说明，不新增 GUI 设置或代理。
 
 ## 2. 统一重建和单文件产物
 
@@ -15,7 +15,7 @@
 
 ## 3. 新 Guest 的真实 GUI、日志和恢复
 
-- [ ] 3.1 准备已归属测试的旧安装，确认安全停机后成组备份 metadata/qcow2 到两平台专属验收根；记录原安装 ID、管理员/配置、Work 文件哈希及 Service 持久值，确认无原写者且只启动副本，不修改用户原盘。
+- [x] 3.1 准备已归属测试的旧安装，确认安全停机后成组备份 metadata/qcow2 到两平台专属验收根；记录原安装 ID、管理员/配置、Work 文件哈希及 Service 持久值，确认无原写者且只启动副本，不修改用户原盘。
 - [ ] 3.2 Linux/KVM 实际打开新 GUI 并启动新 Guest 到 health 200/系统浏览器 Desktop；检查英文默认及切换/恢复，使用受控 Work/Service 故障从唯一管理员入口下载 ZIP 到 Host 并解包核对 Core/应用来源、故障标记、敏感值及可控缺口；真实安全停止后重开同一副本核对原身份和持久值，保留原生窗口/浏览器下载证据。
 - [ ] 3.3 原生 Windows/WebView2/WHPX 用最终 EXE 执行同范围的真实 GUI 启动、Desktop 故障 ZIP 下载/解包、语言和安全停止/原副本恢复验收；记录实际进程、输入/缓存身份与窗口证据，不以 Linux、HTTP 或静态检查替代。
 - [ ] 3.4 在一个具备条件的平台以最终 CLI 和专属安装执行一对常规自定义 UI/Core 端口的真实路径；核对两个回环转发、Guest 对应监听、内部 Core、浏览器 origin/登录及 Desktop 请求正常，结束后安全停止；不扩展完整端口或并行部署矩阵。
