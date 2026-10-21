@@ -20,19 +20,19 @@
 
 ## 4. 发布说明与对应源码
 
-- [ ] 4.1 实现发布说明模板，包含"对应源码"一节与"已知限制"一节；验证：渲染一次，断言含 Linux 6.6.159 与 QEMU 10.0.8 的上游版本与锁定 sha256、GPL §3(b) 书面提供承诺、以及 Guest rootfs 分发包许可证未随附的已知限制
-- [ ] 4.2 生成 `qemu-patches.tar.gz` 打包 `guest/qemu/*.patch`；验证：解包后与源文件逐字节一致，且补丁数量与 `build.lock.json` 中记录的 Windows 补丁数一致
+- [x] 4.1 实现发布说明模板，包含"对应源码"一节与"已知限制"一节；验证：渲染一次，断言含 Linux 6.6.159 与 QEMU 10.0.8 的上游版本与锁定 sha256、GPL §3(b) 书面提供承诺、以及 Guest rootfs 分发包许可证未随附的已知限制
+- [x] 4.2 生成 `qemu-patches.tar.gz` 打包 `guest/qemu/*.patch`；验证：解包后与源文件逐字节一致，且补丁数量与 `build.lock.json` 中记录的 Windows 补丁数一致
 
 ## 5. 发布步骤与 Make 目标
 
-- [ ] 5.1 实现 `make release VERSION=<v>`，执行 preflight、测试、构建、清单、说明五步，全部产物落在本地；验证：运行后断言未创建 tag、未产生任何远程发布，且清单与说明已生成
-- [ ] 5.2 实现 `make release-publish VERSION=<v>`，打 annotated tag 并上传两个产物、各自 `.sha256`、发布清单与 `qemu-patches.tar.gz`，并提供 dry-run 模式；验证：dry-run 输出目标仓库、tag 名与完整资产清单，且断言未创建 tag、未调用远程发布
-- [ ] 5.3 在 preflight 中检查 `gh` 存在且已认证；验证：在 `gh` 不可用或未认证的环境下断言提前失败，且失败发生在任何构建之前
+- [x] 5.1 实现 `make release VERSION=<v>`，执行 preflight、测试、构建、清单、说明五步，全部产物落在本地；验证：运行后断言未创建 tag、未产生任何远程发布，且清单与说明已生成
+- [x] 5.2 实现 `make release-publish VERSION=<v>`，打 annotated tag 并上传两个产物、各自 `.sha256`、发布清单与 `qemu-patches.tar.gz`，并提供 dry-run 模式；验证：dry-run 输出目标仓库、tag 名与完整资产清单，且断言未创建 tag、未调用远程发布
+- [x] 5.3 在 preflight 中检查 `gh` 存在且已认证；验证：在 `gh` 不可用或未认证的环境下断言提前失败，且失败发生在任何构建之前
 
 ## 6. 文档
 
-- [ ] 6.1 在 `README.md` 与 `README.zh-CN.md` 新增发布一节，说明版本号约定、资产命名、验收声称基准与对应源码；验证：两版 README 的标题数、表格行数与代码围栏数一致，且新增相对链接目标均存在
-- [ ] 6.2 在 `AGENTS.md` 记录发布约定（构建不发布、发布为独立步骤、tag 为版本事实来源）；验证：条目存在且与 `design.md` 的 D1/D5 一致
+- [x] 6.1 在 `README.md` 与 `README.zh-CN.md` 新增发布一节，说明版本号约定、资产命名、验收声称基准与对应源码；验证：两版 README 的标题数、表格行数与代码围栏数一致，且新增相对链接目标均存在
+- [x] 6.2 在 `AGENTS.md` 记录发布约定（构建不发布、发布为独立步骤、tag 为版本事实来源）；验证：条目存在且与 `design.md` 的 D1/D5 一致
 
 ## 7. 集成校验
 
