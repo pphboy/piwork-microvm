@@ -42,6 +42,7 @@ Run Piwork in one QEMU microvm: Linux x86-64/KVM or native Windows 11/WHPX.
   --cpus N         virtual CPUs (default 2)
   --memory MiB     guest memory in MiB (default 4096)
   --no-open        do not open the Piwork access address in a browser
+  --version        show version information without virtualization or data changes
   --help           show this help without virtualization or data changes
 
 Host UI: http://127.0.0.1:<PORT> (default 17891); Core API default 17871.
@@ -61,10 +62,26 @@ Never mount/copy a running disk as a consistent backup. Cache is disposable.
 Build/development only: --assets DIR --qemu PATH use an external QEMU explicitly.
 `
 
+// Build identity. The single-file bundle build injects real values with
+// `go build -ldflags -X`; a plain `go build` keeps these development defaults,
+// which never resemble a release version. See design.md D1 and D7.
+var (
+	buildVersion         = "0.0.0-dev.unknown"
+	buildUpstreamVersion = "unknown"
+	buildUpstreamCommit  = "unknown"
+	buildManifestVersion = "unknown"
+)
+
+// versionText is reported by --version before any virtualization or data work.
+func versionText() string {
+	return fmt.Sprintf("piwork-microvm %s\nupstream Piwork %s (%s)\nbundle manifest %s\n",
+		buildVersion, buildUpstreamVersion, buildUpstreamCommit, buildManifestVersion)
+}
+
 type options struct {
 	data, assets, qemu           string
 	cpus, memory, port, corePort int
-	noOpen                       bool
+	noOpen, showVersion          bool
 	timeout                      time.Duration
 }
 type installation struct {
@@ -118,6 +135,7 @@ func run(args []string, stdout, stderr io.Writer) error {
 	flags.IntVar(&o.cpus, "cpus", 2, "")
 	flags.IntVar(&o.memory, "memory", 4096, "")
 	flags.BoolVar(&o.noOpen, "no-open", false, "")
+	flags.BoolVar(&o.showVersion, "version", false, "")
 	flags.StringVar(&o.assets, "assets", "", "")
 	flags.StringVar(&o.qemu, "qemu", "", "")
 	flags.DurationVar(&o.timeout, "startup-timeout", 15*time.Minute, "")
@@ -126,6 +144,10 @@ func run(args []string, stdout, stderr io.Writer) error {
 		return nil
 	} else if err != nil {
 		return errors.New("invalid options; use --help")
+	}
+	if o.showVersion {
+		fmt.Fprint(stdout, versionText())
+		return nil
 	}
 	port, err := network.ParsePort(portValue)
 	if err != nil {

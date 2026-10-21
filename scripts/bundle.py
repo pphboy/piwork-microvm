@@ -5,6 +5,26 @@ from source import source_path,verify
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def sha(p):
     with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+def git(*args):
+    """Run git read-only; return stripped stdout, or None when unavailable."""
+    try:return subprocess.run(['git',*args],capture_output=True,text=True,check=True).stdout.strip()
+    except (OSError,subprocess.CalledProcessError):return None
+def release_version():
+    """Version of the annotated tag exactly at HEAD, or None when HEAD is untagged."""
+    name=git('describe','--tags','--exact-match','HEAD')
+    if not name or git('cat-file','-t',name)!='tag':return None
+    return name[1:] if name.startswith('v') else name
+def build_identity(out,manifest_version):
+    """Own version, upstream pin and bundle manifest version reported by --version."""
+    return {'version':release_version() or '0.0.0-dev.'+(git('rev-parse','--short=12','HEAD') or 'unknown'),
+            'upstream':json.loads((out/'piwork/metadata.json').read_text())['releaseVersion'],
+            'commit':json.loads((ROOT/'build.lock.json').read_text())['piwork']['commit'],
+            'manifest':'v'+str(manifest_version)}
+def version_ldflags(identity):
+    prefix='piwork-microvm/internal/launcher.'
+    fields=[('buildVersion',identity['version']),('buildUpstreamVersion',identity['upstream']),
+            ('buildUpstreamCommit',identity['commit']),('buildManifestVersion',identity['manifest'])]
+    return ' '.join('-X '+prefix+name+'='+value for name,value in fields)
 def main():
     p=argparse.ArgumentParser();p.add_argument('--platform',choices=['linux','windows'],default='linux');a=p.parse_args()
     os.chdir(ROOT);out=ROOT/'dist';verify(source_path())
@@ -46,7 +66,8 @@ def main():
     (out/('bundle-manifest-'+a.platform+'.json')).write_bytes(raw+b'\n')
     env=os.environ.copy();env.update(CGO_ENABLED='0',GOTOOLCHAIN='local',GOOS=a.platform,GOARCH='amd64')
     launcher=out/('launcher-'+a.platform+suffix)
-    subprocess.run(['go','build','-trimpath','-ldflags=-s -w','-o',launcher,'./cmd/piwork-microvm'],check=True,env=env)
+    identity=build_identity(out,manifest['version'])
+    subprocess.run(['go','build','-trimpath','-ldflags=-s -w '+version_ldflags(identity),'-o',launcher,'./cmd/piwork-microvm'],check=True,env=env)
     artifact=out/(artifact_name+'.part')
     with artifact.open('wb') as f:
         for p in [launcher,payload]:
@@ -54,5 +75,5 @@ def main():
         f.write(raw);f.write(b'PIWORK-BUNDLE-v1');f.write(struct.pack('<QQ',payload.stat().st_size,len(raw)));f.write(hashlib.sha256(raw).digest());f.flush();os.fsync(f.fileno())
     artifact.chmod(0o755);os.replace(artifact,out/artifact_name)
     digest=sha(out/artifact_name);(out/(artifact_name+'.sha256')).write_text(digest+'  '+artifact_name+'\n')
-    print(a.platform+':',out/artifact_name,'bytes:',(out/artifact_name).stat().st_size,'SHA256:',digest)
+    print(a.platform+':',out/artifact_name,'bytes:',(out/artifact_name).stat().st_size,'SHA256:',digest,'version:',identity['version'])
 if __name__=='__main__':main()

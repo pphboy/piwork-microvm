@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -24,6 +25,47 @@ func TestHelpDoesNotTouchData(t *testing.T) {
 	}
 	if _, e := os.Lstat(root); !os.IsNotExist(e) {
 		t.Fatal("help created state")
+	}
+}
+func TestVersionReportsDevelopmentBuildByDefault(t *testing.T) {
+	if !regexp.MustCompile(`^0\.0\.0-dev\..+$`).MatchString(buildVersion) {
+		t.Fatalf("uninjected build version is not a development version: %q", buildVersion)
+	}
+	if regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+$`).MatchString(buildVersion) {
+		t.Fatalf("uninjected build version looks like a release: %q", buildVersion)
+	}
+}
+func TestVersionDoesNotTouchData(t *testing.T) {
+	root := filepath.Join(t.TempDir(), "absent")
+	t.Setenv("XDG_DATA_HOME", root)
+	t.Setenv("XDG_CACHE_HOME", root)
+	var out, stderr bytes.Buffer
+	if code := Run([]string{"--version"}, &out, &stderr); code != 0 {
+		t.Fatal(code, stderr.String())
+	}
+	if got, want := out.String(), versionText(); got != want {
+		t.Fatalf("version output = %q, want %q", got, want)
+	}
+	for _, line := range []string{
+		"piwork-microvm " + buildVersion,
+		"upstream Piwork " + buildUpstreamVersion + " (" + buildUpstreamCommit + ")",
+		"bundle manifest " + buildManifestVersion,
+	} {
+		if !strings.Contains(out.String(), line) {
+			t.Fatalf("missing %q in %q", line, out.String())
+		}
+	}
+	if _, err := os.Lstat(root); !os.IsNotExist(err) {
+		t.Fatal("version created state")
+	}
+}
+func TestVersionIsDocumented(t *testing.T) {
+	var out, stderr bytes.Buffer
+	if code := Run([]string{"--help"}, &out, &stderr); code != 0 {
+		t.Fatal(code, stderr.String())
+	}
+	if !strings.Contains(out.String(), "--version") {
+		t.Fatal("help does not document --version")
 	}
 }
 func TestInvalidPortsFailBeforePreparingResources(t *testing.T) {
