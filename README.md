@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.9-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.10-informational)](build.lock.json)
 
 [简体中文](README.zh-CN.md)
 
@@ -85,7 +85,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
-happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.9 creates the first
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.10 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
 
 ## Desktop launcher (GUI)
@@ -143,15 +143,16 @@ administrator creation, model/API key and Runtime configuration.
 | Option | Default | Valid values | Purpose |
 | --- | --- | --- | --- |
 | `--data-dir DIR` | OS default root | any path | Complete installation root (metadata, disks, logs) |
-| `--port PORT` | `17891` | 1-65535 | Host browser UI/ControlPlane port |
-| `--core-port PORT` | `17871` | 1-65535 | Host Core API port for CLI/backend clients |
+| `--port PORT` | `17891` | 1-65535, except 7172 | Host browser UI/ControlPlane port |
+| `--core-port PORT` | `17871` | 1-65535, except 7172 | Host Core API port for CLI/backend clients |
 | `--cpus N` | `2` | 1-64 | Virtual CPUs |
 | `--memory MiB` | `4096` | 1024-262144 | Guest memory in MiB |
 | `--no-open` | off | - | Do not open the access address in a browser |
 | `--startup-timeout D` | `15m` | > 0 | How long to wait for the Guest to become ready |
 | `--help`, `-h` | - | - | Show help without touching virtualization or data |
 
-- `--port` and `--core-port` must differ, and both must be in 1-65535.
+- `--port` and `--core-port` must differ, and both must be in 1-65535 except 7172 (internal Agent RPC).
+  The reserved port is rejected before virtualization or data access.
 - Positional arguments are rejected.
 - Exit code is `0` on success and for `--help`; any failure exits `1` and prints
   `piwork-microvm: <error>` on stderr.
@@ -164,10 +165,11 @@ Only two Host ports are forwarded, and every Host listener is bound to `127.0.0.
 
 | Option | Host default | Guest port | Purpose |
 | --- | --- | --- | --- |
-| `--port` | 17891 | 17891 | Browser UI, login, administration, QuickStart and Service Proxy |
-| `--core-port` | 17871 | 17871 | Core API for CLI/backend clients |
+| `--port` | 17891 | selected `--port` | Browser UI, login, administration, QuickStart and Service Proxy |
+| `--core-port` | 17871 | selected `--core-port` | Core API for CLI/backend clients |
 
-The browser origin follows `--port`, and HTTP port 80 omits `:80`. A port conflict fails with
+Guest listeners, QEMU targets and internal Core clients follow the selected UI/Core ports;
+no reverse proxy or relaxed Host/Origin/CSRF check is added. The browser origin follows `--port`, and HTTP port 80 omits `:80`. A port conflict fails with
 an explicit error naming the occupied address, without stopping other programs. Services are
 reached through the upstream UI's same-origin `/services/` path; the launcher itself only
 forwards the two ports above. The old 64-port pool is neither reserved nor forwarded.
@@ -206,6 +208,12 @@ synchronization is included.
 
 ## Lifecycle, shutdown and disk safety
 
+For an upgrade rehearsal, first confirm a dedicated old test installation is stopped, then
+copy its `installation.json` and `disks/state.qcow2` together to a separate installation root.
+Start only the copy, verify its identity and data, stop safely and reopen that same copy.
+Do not test on a user disk or initialize a replacement if compatibility checks fail. Rollback
+uses the untouched stopped backup; reading an upgraded copy with an older Core is not promised.
+
 Keep the launcher in the foreground. Press **Ctrl+C** and wait for confirmed clean Guest
 shutdown, which prints `Guest stopped cleanly. All user data retained.` Shutdown has a
 120-second budget; if it expires, the launcher forces QEMU to exit and reports an unclean
@@ -236,6 +244,12 @@ only.
 `#setup=`, `authorization:`, `bearer `, `api_key`, `apikey`, `password`, `token` or `credential`
 with `sensitive diagnostic omitted`, on both the QEMU and the Guest Piwork output paths. API
 keys, passwords and tokens are therefore kept out of ordinary logs.
+
+For a running Guest, open Piwork and sign in as administrator. In the Desktop account menu,
+choose its single **Export logs** action. Wait for collection/packing, then save the browser ZIP
+download on Host. Open `manifest.json` to check Core and your Work/Service sources and any gaps;
+a partial archive does not prove all history was retained. Download started does not prove it
+was saved. These business logs are separate from Launcher runtime logs.
 
 For GUI failures, choose **View logs**, then **Export current log**. When a real VM
 session file exists, this exports its complete sanitized contents at export start, including
@@ -318,10 +332,9 @@ GUI builds are separate from the CLI build and must use the pinned Wails CLI:
 | `boot-dev` | Development only: run against a host QEMU | host `/usr/bin/qemu-system-x86_64`, built `dist/guest` |
 
 ```sh
-make source-refresh         # explicitly resolve latest official default HEAD
-make source-check           # verify the independent clean, locked checkout
-make piwork-microvm-all     # both platform artifacts
-# Or: make piwork-microvm / make piwork-microvm-windows
+make guest PIWORK_SOURCE=/home/p/Projects/piwork  # build the frozen upstream and Guest once
+make source-check                              # verify the clean, locked checkout
+# Reuse that Guest for the two GUI builds below; do not refresh the frozen lock.
 ```
 
 With the locked Guest and QEMU resources already built, rebuild only the GUI bodies and
@@ -356,9 +369,13 @@ or run the GUI. No build command tags, pushes or publishes.
 
 [`build.lock.json`](build.lock.json) is the source of truth. It pins
 `https://github.com/pphboy/piwork.git`, branch `main`, commit
-`a6c36da16ebcc0e96f0e34ef820d857f2bea4877`, resolved 2026-10-20. Normal builds use the full
+`29e3471e02e53094c1e1f427a88de6a2a24fb963`, frozen from local main on 2026-10-22. Normal builds use the full
 locked commit at `dist/source/<commit>/piwork`, and modified inputs are rejected. The version
-string `0.0.9` comes from upstream's own `package.json`, not from the lock file.
+string `0.0.10` comes from upstream's own `package.json`, not from the lock file.
+
+The frozen commit contains verified log export (`19f3e0f`). Later upstream spec/archive commits
+do not change it. This is a local development build: record the declared version, full commit
+and actual dirty status; do not relabel it 0.0.11 or change official release records.
 
 ### Local source and reproducibility
 

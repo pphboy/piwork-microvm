@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.9-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.10-informational)](build.lock.json)
 
 [English](README.md)
 
@@ -80,7 +80,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
-时才会打开。原版 Piwork 0.0.9 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
+时才会打开。原版 Piwork 0.0.10 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
 
 ## 桌面入口（GUI）
 
@@ -126,15 +126,16 @@ Core API: http://127.0.0.1:17871
 | 参数 | 默认值 | 有效值 | 用途 |
 | --- | --- | --- | --- |
 | `--data-dir DIR` | 平台默认根目录 | 任意路径 | 完整安装根目录（元数据、磁盘、日志） |
-| `--port PORT` | `17891` | 1-65535 | Host 浏览器 UI/ControlPlane 端口 |
-| `--core-port PORT` | `17871` | 1-65535 | 供 CLI/backend 使用的 Host Core API 端口 |
+| `--port PORT` | `17891` | 1-65535，排除 7172 | Host 浏览器 UI/ControlPlane 端口 |
+| `--core-port PORT` | `17871` | 1-65535，排除 7172 | 供 CLI/backend 使用的 Host Core API 端口 |
 | `--cpus N` | `2` | 1-64 | 虚拟 CPU 数 |
 | `--memory MiB` | `4096` | 1024-262144 | Guest 内存（MiB） |
 | `--no-open` | 关闭 | - | 不自动打开访问地址 |
 | `--startup-timeout D` | `15m` | > 0 | 等待 Guest 就绪的最长时间 |
 | `--help`、`-h` | - | - | 显示帮助，不触碰虚拟化与数据 |
 
-- `--port` 与 `--core-port` 必须不同，且都须在 1-65535 范围内。
+- `--port` 与 `--core-port` 必须不同，且都须在 1-65535 范围内，排除内部 Agent RPC 保留端口 7172。
+  保留端口会在访问虚拟化和数据前明确报错。
 - 不接受位置参数。
 - 成功和 `--help` 的退出码为 `0`；任何失败都以退出码 `1` 结束，并向 stderr 打印
   `piwork-microvm: <error>`。
@@ -147,10 +148,11 @@ Core API: http://127.0.0.1:17871
 
 | 参数 | Host 默认端口 | Guest 端口 | 用途 |
 | --- | --- | --- | --- |
-| `--port` | 17891 | 17891 | UI、登录、管理、QuickStart 和 Service Proxy |
-| `--core-port` | 17871 | 17871 | 供 CLI/backend 使用的 Core API |
+| `--port` | 17891 | 所选 `--port` | UI、登录、管理、QuickStart 和 Service Proxy |
+| `--core-port` | 17871 | 所选 `--core-port` | 供 CLI/backend 使用的 Core API |
 
-浏览器 origin 跟随 `--port`，HTTP 80 端口的 origin 不带 `:80`。端口冲突会明确报错并指明被占用的
+Guest 监听、QEMU 目标和内部 Core 客户端随所选 UI/Core 端口联动；
+不增加反向代理，不放宽 Host/Origin/CSRF。浏览器 origin 跟随 `--port`，HTTP 80 端口的 origin 不带 `:80`。端口冲突会明确报错并指明被占用的
 地址，且不结束其他程序。Service 通过上游 UI 同源 `/services/` 路径访问；启动器本身只转发上表两个
 端口。旧的 64 端口池既不预占也不转发。
 
@@ -203,6 +205,11 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 - 不明非空安装根不会被接管：
   `installation root contains unknown data; choose an empty directory (nothing was overwritten)`。
 
+升级验收先确认专属旧测试安装已安全停止，再将 `installation.json` 与 `disks/state.qcow2`
+成组复制到另一安装根；只启动副本，核对原身份与数据后安全停止并重开同一副本。
+不要使用用户原盘；兼容检查失败时不初始化替代磁盘。回退使用未升级的停机备份，
+不承诺旧 Core 能读取已经升级的副本。
+
 ## 日志与诊断
 
 每次运行写入 `<data-dir>/logs/<UTC 时间戳>.log`，权限 0600。只有包含 `qemu-system-x86_64` 的行会
@@ -211,6 +218,11 @@ Service 声明的持久数据都在这里。RootFS 只读并使用临时 overlay
 “过滤”是已强制执行的机制，而非期望。启动器会把匹配 `#setup=`、`authorization:`、`bearer `、
 `api_key`、`apikey`、`password`、`token` 或 `credential` 的行替换为 `sensitive diagnostic omitted`，
 在 QEMU 与 Guest Piwork 两条输出路径上都生效。因此 API Key、密码和 Token 不会出现在普通日志中。
+
+Guest 正常运行时，打开 Piwork 并以管理员登录，从 Desktop 账户菜单唯一的 `Export logs`
+入口收集并打包日志，再把浏览器下载的 ZIP 保存到 Host。打开 `manifest.json` 核对 Core、自己的
+Work/Service 来源和缺口；部分结果不代表保留了全部历史，开始下载也不代表已经保存。
+这类业务故障包与 Launcher 运行日志不同。
 
 GUI 启动失败时，选择「查看日志」→「导出本次日志」。存在真实 VM 会话文件时，导出开始时已写入的
 完整脱敏内容（包括界面有界缓冲未显示的部分）；会话文件尚未创建时，同一操作可保存已经显示的
@@ -281,10 +293,9 @@ GUI 构建与 CLI 分离，并使用固定的 Wails CLI：
 | `boot-dev` | 仅开发使用：对宿主 QEMU 运行 | 宿主 `/usr/bin/qemu-system-x86_64`、已构建的 `dist/guest` |
 
 ```sh
-make source-refresh         # explicitly resolve latest official default HEAD
-make source-check           # verify the independent clean, locked checkout
-make piwork-microvm-all     # both platform artifacts
-# Or: make piwork-microvm / make piwork-microvm-windows
+make guest PIWORK_SOURCE=/home/p/Projects/piwork  # 统一构建冻结上游和 Guest 一次
+make source-check                              # 检查独立干净锁定副本
+# 下方两个 GUI 构建复用同一 Guest，不刷新冻结锁。
 ```
 
 锁定的 Guest/QEMU 资源已构建时，可只重建 GUI 主体并追加现有资源，不刷新上游：
@@ -316,9 +327,12 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
 
 [`build.lock.json`](build.lock.json) 是唯一事实来源。它固定
 `https://github.com/pphboy/piwork.git`、分支 `main`、commit
-`a6c36da16ebcc0e96f0e34ef820d857f2bea4877`，解析时间为 2026-10-20。普通构建使用
-`dist/source/<commit>/piwork` 中固定的完整 commit，修改过的输入会被拒绝。版本号 `0.0.9` 来自上游
+`29e3471e02e53094c1e1f427a88de6a2a24fb963`，于 2026-10-22 从本地 main 冻结。普通构建使用
+`dist/source/<commit>/piwork` 中固定的完整 commit，修改过的输入会被拒绝。版本号 `0.0.10` 来自上游
 自己的 `package.json`，不来自锁文件。
+
+冻结提交包含已核验的日志导出 `19f3e0f`；后续上游规格归档不改变本次输入。
+这是本地开发构建，记录声明版本、完整 commit 和实际 dirty 状态，不改标为 0.0.11，不修改官方发行记录。
 
 ### 本地源码与可重现性
 
