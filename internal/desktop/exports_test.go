@@ -48,14 +48,11 @@ func TestExportWriteFailureIsReported(t *testing.T) {
 		t.Fatal(err)
 	}
 	dir := privateTemp(t)
-	if err := os.Chmod(dir, 0500); err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { os.Chmod(dir, 0700) })
-	a := &fakeAdapter{save: filepath.Join(dir, "all.zip")}
+	// A nonexistent parent reliably fails on Unix and Windows (chmod is not an ACL).
+	a := &fakeAdapter{save: filepath.Join(dir, "missing", "all.zip")}
 	c := testController(t, a, nil, root)
 	if _, err := c.ExportAll(context.Background()); err == nil {
-		t.Fatal("write into a read-only directory was accepted")
+		t.Fatal("write into a nonexistent directory was accepted")
 	}
 }
 

@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -310,7 +311,7 @@ func TestCorruptPreferencesBlockStartUntilDirectoryChosen(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if info.Mode().Perm() != 0700 {
+	if runtime.GOOS == "linux" && info.Mode().Perm() != 0700 {
 		t.Fatalf("empty selected directory mode = %o", info.Mode().Perm())
 	}
 	if _, err := c.Start(); err != nil {
@@ -343,10 +344,10 @@ func TestChooseDirectorySaveFailureKeepsPath(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Cleanup(c.Close)
-	if err := os.Chmod(cfg, 0500); err != nil {
+	// A directory at the target makes atomic replacement fail on both hosts.
+	if err := os.Mkdir(filepath.Join(cfg, "launcher.json"), 0700); err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { os.Chmod(cfg, 0700) })
 	before := c.GetStatus().InstallationRoot
 	if _, err := c.ChooseDataDir(context.Background()); err == nil {
 		t.Fatal("save failure was accepted")
@@ -889,15 +890,15 @@ func TestChooseChineseAndSpacePathPersists(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if info.Mode().Perm() != 0700 {
+	if runtime.GOOS == "linux" && info.Mode().Perm() != 0700 {
 		t.Fatalf("selected empty directory mode = %o", info.Mode().Perm())
 	}
-	b, err := os.ReadFile(filepath.Join(cfg, "launcher.json"))
+	saved, _, err := loadPreferences(filepath.Join(cfg, "launcher.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(b), chosen) {
-		t.Fatalf("preferences did not persist the Chinese path: %s", b)
+	if saved.DataRoot != chosen {
+		t.Fatalf("preferences did not persist Chinese path: %q", saved.DataRoot)
 	}
 }
 

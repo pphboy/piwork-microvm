@@ -3,6 +3,7 @@ package desktop
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -41,9 +42,14 @@ func TestListLogFilesRejectsLinksAndOtherNames(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(logs, "other.txt"), []byte("no"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Symlink(valid, filepath.Join(logs, "20260102T000000.000000000.log")); err != nil {
-		t.Fatal(err)
-	}
+	t.Run("symlink", func(t *testing.T) {
+		if err := os.Symlink(valid, filepath.Join(logs, "20260102T000000.000000000.log")); err != nil {
+			if runtime.GOOS == "windows" {
+				t.Skipf("native user cannot create symlinks: %v", err)
+			}
+			t.Fatal(err)
+		}
+	})
 	files := listLogFiles(root)
 	if len(files) != 1 || files[0] != valid {
 		t.Fatalf("files = %v", files)
