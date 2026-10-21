@@ -43,8 +43,9 @@ Run Piwork in one QEMU microvm: Linux x86-64/KVM or native Windows 11/WHPX.
 
 Host UI: http://127.0.0.1:<PORT> (default 17891); Core API default 17871.
 Only these two ports are forwarded, both on 127.0.0.1. Work Services use the UI
-/services/ path. Guest UI/Core ports are fixed at 17891/17871 respectively.
-Both host ports accept 1-65535 and must differ. Separate installations can run
+/services/ path. Guest UI/Core listeners use the same selected ports as Host.
+Both host ports accept 1-65535 except internal Agent RPC port 7172, and must differ.
+Separate installations can run
 concurrently with different --port and --core-port values and data directories.
 Changing --port reuses the same installation; log in again at the new address.
 The process stays in the foreground. Ctrl+C requests a clean Guest shutdown.

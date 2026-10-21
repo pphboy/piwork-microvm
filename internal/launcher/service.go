@@ -414,6 +414,9 @@ func validateOptions(o *Options) error {
 	if o.Port < 1 || o.Port > 65535 || o.CorePort < 1 || o.CorePort > 65535 || o.Port == o.CorePort {
 		return errors.New("invalid host port; use --help")
 	}
+	if o.Port == network.AgentRPCPort || o.CorePort == network.AgentRPCPort {
+		return errors.New("port 7172 is reserved for internal Agent RPC")
+	}
 	return nil
 }
 

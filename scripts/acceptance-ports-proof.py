@@ -18,9 +18,9 @@ assert g.rpc(info['qmp'],'qom-get',{'path':'/machine','property':'type'},qmp=Tru
 assert g.rpc(info['qmp'],'query-pci',qmp=True)==[]
 argv=pathlib.Path(f'/proc/{pid}/cmdline').read_bytes().rstrip(b'\0').decode().split('\0')
 netdev=argv[argv.index('-netdev')+1];append=argv[argv.index('-append')+1]
-assert f'hostfwd=tcp:127.0.0.1:{port}-:17891' in netdev
+assert f'hostfwd=tcp:127.0.0.1:{port}-:{port}' in netdev
 assert netdev.count('hostfwd=tcp:')==2
-assert f'hostfwd=tcp:127.0.0.1:{core_port}-:17871' in netdev
+assert f'hostfwd=tcp:127.0.0.1:{core_port}-:{core_port}' in netdev
 assert f'piwork.host_port={port}' in append.split()
 if port!=7171:assert 'hostfwd=tcp:127.0.0.1:7171-' not in netdev
 inodes=set()
@@ -42,17 +42,18 @@ commands=[]
 for p in pathlib.Path('/proc').glob('[0-9]*/cmdline'):
  try:a=p.read_bytes().rstrip(b'\\0').decode().split('\\0')
  except (OSError,UnicodeError):continue
- if a and a[0]=='/usr/local/bin/piwork-serve':commands.append(a)
+ if a and a[0]=='/usr/local/bin/piwork-core':commands.append(a)
 print(json.dumps({'kernelCmdline':pathlib.Path('/proc/cmdline').read_text().strip(),'commands':commands}))
 '''
 guest=json.loads(g.execute(info,['/usr/bin/python3','-c',program]))
 assert f'piwork.host_port={port}' in guest['kernelCmdline'].split()
 assert len(guest['commands'])==1
 command=guest['commands'][0]
-assert command[command.index('--listen')+1]=='0.0.0.0:17891'
-assert command[command.index('--core-listen')+1]=='0.0.0.0:17871'
+assert command[command.index('--ui-port')+1]==str(port)
+assert command[command.index('--core-port')+1]==str(core_port)
 assert '--service-ports' not in command
-assert command[command.index('--public-origin')+1]==origin
+assert '--public-origin' not in command
+assert f'piwork.host_core_port={core_port}' in guest['kernelCmdline'].split()
 inspection=json.loads(g.execute(info,['/usr/bin/python3','-c',(root/'fixtures/inspect.py').read_text(),browser['workId']]))
 assert inspection['docker']['version']=='28.5.2' and inspection['docker']['driver']=='overlay2'
 assert inspection['docker']['cgroupVersion']=='2'

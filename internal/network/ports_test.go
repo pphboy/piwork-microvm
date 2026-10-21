@@ -16,7 +16,7 @@ func TestPortsAcceptFormerServiceRange(t *testing.T) {
 			t.Fatal(value, err)
 		}
 	}
-	for _, value := range []string{"", "abc", "0", "-1", "65536", "999999999999999999999999999999"} {
+	for _, value := range []string{"", "abc", "0", "-1", "65536", "7172", "999999999999999999999999999999"} {
 		if _, err := ParsePort(value); err == nil {
 			t.Fatal("invalid port accepted:", value)
 		}

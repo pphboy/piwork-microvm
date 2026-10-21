@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestKernelHostPort(t *testing.T) {
 	for _, test := range []struct {
@@ -27,6 +30,34 @@ func TestKernelHostPort(t *testing.T) {
 	} {
 		if _, err := hostPort(cmdline); err == nil {
 			t.Fatalf("invalid explicit kernel port silently accepted: %q", cmdline)
+		}
+	}
+}
+
+func TestCoreArgumentsUseBothConfiguredEndpoints(t *testing.T) {
+	for _, test := range []struct {
+		cmdline  string
+		ui, core string
+	}{
+		{"console=ttyS0", "17891", "17871"},
+		{"piwork.host_port=8010 piwork.host_core_port=8011", "8010", "8011"},
+		{"piwork.host_port=17871 piwork.host_core_port=17891", "17871", "17891"},
+	} {
+		args, err := coreArgs(test.cmdline)
+		want := []string{"--ui-port", test.ui, "--core-port", test.core, "--data-dir", "/var/lib/piwork/core"}
+		if err != nil || !reflect.DeepEqual(args, want) {
+			t.Fatalf("%s: %v %v", test.cmdline, args, err)
+		}
+	}
+	for _, cmdline := range []string{
+		"piwork.host_port=7172", "piwork.host_core_port=7172",
+		"piwork.host_port=8010 piwork.host_core_port=8010",
+		"piwork.host_core_port=0", "piwork.host_core_port=65536",
+		"piwork.host_core_port=8011 piwork.host_core_port=8012",
+		"piwork.host_core_port", "piwork.host_core_port=abc",
+	} {
+		if _, err := coreArgs(cmdline); err == nil {
+			t.Fatalf("invalid endpoint accepted: %s", cmdline)
 		}
 	}
 }

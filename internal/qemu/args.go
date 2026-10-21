@@ -29,7 +29,7 @@ func Args(c Config) []string {
 	if osname == "windows" {
 		accel, cpu, block = "whpx,kernel-irqchip=on", "qemu64", ",cache=writeback"
 	}
-	kernel := "console=ttyS0 earlycon=uart8250,io,0x3f8,115200 panic=1 reboot=t root=/dev/vda ro net.ifnames=0 systemd.unified_cgroup_hierarchy=1 piwork.host_port=" + strconv.Itoa(c.Port)
+	kernel := "console=ttyS0 earlycon=uart8250,io,0x3f8,115200 panic=1 reboot=t root=/dev/vda ro net.ifnames=0 systemd.unified_cgroup_hierarchy=1 piwork.host_port=" + strconv.Itoa(c.Port) + " piwork.host_core_port=" + strconv.Itoa(c.CorePort)
 	if osname == "windows" && c.TSCKHz != 0 {
 		kernel += " tsc_early_khz=" + strconv.FormatUint(c.TSCKHz, 10) + " tsc=reliable clocksource=tsc"
 	}
@@ -44,7 +44,7 @@ func Args(c Config) []string {
 		"-drive", "if=none,id=state,file=" + kv(c.Disk) + ",format=qcow2" + block,
 		"-device", "virtio-blk-device,drive=state"}
 	netdev := fmt.Sprintf("user,id=net0,hostfwd=tcp:127.0.0.1:%d-:%d,hostfwd=tcp:127.0.0.1:%d-:%d",
-		c.Port, network.GuestPort, c.CorePort, network.GuestCorePort)
+		c.Port, c.Port, c.CorePort, c.CorePort)
 	qga, qmp := ControlPaths(c.Runtime, osname)
 	channel, monitor := "socket,id=qga,path="+kv(qga)+",server=on,wait=off", "unix:"+kv(qmp)+",server=on,wait=off"
 	if osname == "windows" {

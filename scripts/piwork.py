@@ -67,8 +67,8 @@ def main():
     (OUT/'bin').mkdir(exist_ok=True)
     env=os.environ.copy();env.update(CGO_ENABLED='0',GOTOOLCHAIN='local',GOMAXPROCS='4',GOOS='linux',GOARCH='amd64')
     call(['go','build','-mod=readonly','-trimpath','-buildvcs=true','-ldflags',flags,
-          '-o',OUT/'bin','./cmd/piwork-serve','./cmd/piwork-cli'],cwd=SRC,env=env)
-    call([OUT/'bin/piwork-serve','--help'])
+          '-o',OUT/'bin','./cmd/piwork-core','./cmd/piwork-cli'],cwd=SRC,env=env)
+    call([OUT/'bin/piwork-core','--help'])
     call(['docker','save','-o',ROOT/'dist/guest/images.tar',*[v['reference'] for v in image_records.values()]])
     (OUT/'images.json').write_text(json.dumps(image_records,indent=2)+'\n')
     (OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')

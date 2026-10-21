@@ -50,7 +50,7 @@ func TestWindowsUsesNativeControlsAndSupportedDiskOptions(t *testing.T) {
 	}
 }
 
-func TestCustomPortMapsToFixedGuestAndReachesKernel(t *testing.T) {
+func TestCustomPortsReachGuestListenersAndKernel(t *testing.T) {
 	for _, hostOS := range []string{"linux", "windows"} {
 		args := Args(Config{CPUs: 2, Memory: 4096, Port: 8010, CorePort: 8011, HostOS: hostOS})
 		var netdev, cmdline string
@@ -62,8 +62,8 @@ func TestCustomPortMapsToFixedGuestAndReachesKernel(t *testing.T) {
 				cmdline = args[i+1]
 			}
 		}
-		if !strings.Contains(cmdline, " piwork.host_port=8010") || !strings.Contains(netdev, "hostfwd=tcp:127.0.0.1:8010-:17891") || !strings.Contains(netdev, "hostfwd=tcp:127.0.0.1:8011-:17871") {
-			t.Fatal("custom public port lost or Guest port changed")
+		if !strings.Contains(cmdline, " piwork.host_port=8010") || !strings.Contains(cmdline, " piwork.host_core_port=8011") || !strings.Contains(netdev, "hostfwd=tcp:127.0.0.1:8010-:8010") || !strings.Contains(netdev, "hostfwd=tcp:127.0.0.1:8011-:8011") {
+			t.Fatal("custom UI/Core endpoint configuration lost")
 		}
 		if strings.Contains(netdev, ":17891-") || strings.Contains(netdev, ":17871-") || strings.Contains(netdev, ":17954-") || strings.Count(netdev, "hostfwd=tcp:") != 2 {
 			t.Fatal("unexpected forwarding or original Host port still used")

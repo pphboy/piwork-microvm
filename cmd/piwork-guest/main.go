@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -119,14 +120,13 @@ func serve() error {
 	if err != nil {
 		return errors.New("reading Guest kernel command line failed")
 	}
-	port, err := hostPort(string(cmdline))
+	args, err := coreArgs(string(cmdline))
 	if err != nil {
 		return err
 	}
 	// SLIRP reaches the Guest NIC rather than Guest loopback. Only QEMU's two
 	// explicit Host loopback forwards expose these listeners outside the VM.
-	args := []string{"serve", "--listen", fmt.Sprintf("0.0.0.0:%d", network.GuestPort), "--core-listen", fmt.Sprintf("0.0.0.0:%d", network.GuestCorePort), "--public-origin", network.Origin(port), "--data-dir", "/var/lib/piwork/core", "--no-open"}
-	cmd := exec.Command("/usr/local/bin/piwork-serve", args...)
+	cmd := exec.Command("/usr/local/bin/piwork-core", args...)
 	pipe, err := cmd.StdoutPipe()
 	if err != nil {
 		return err
@@ -170,20 +170,39 @@ func serve() error {
 }
 
 func hostPort(cmdline string) (int, error) {
-	port := network.DefaultPort
+	return kernelPort(cmdline, "piwork.host_port", network.DefaultPort)
+}
+
+func coreArgs(cmdline string) ([]string, error) {
+	ui, err := hostPort(cmdline)
+	if err != nil {
+		return nil, err
+	}
+	core, err := kernelPort(cmdline, "piwork.host_core_port", network.DefaultCorePort)
+	if err != nil {
+		return nil, err
+	}
+	if ui == core {
+		return nil, errors.New("UI and Core ports must differ")
+	}
+	return []string{"--ui-port", strconv.Itoa(ui), "--core-port", strconv.Itoa(core), "--data-dir", "/var/lib/piwork/core"}, nil
+}
+
+func kernelPort(cmdline, parameter string, fallback int) (int, error) {
+	port := fallback
 	found := false
 	for _, field := range strings.Fields(cmdline) {
 		key, value, _ := strings.Cut(field, "=")
-		if key != "piwork.host_port" {
+		if key != parameter {
 			continue
 		}
 		if found {
-			return 0, errors.New("duplicate piwork.host_port kernel parameter")
+			return 0, fmt.Errorf("duplicate %s kernel parameter", parameter)
 		}
 		var err error
 		port, err = network.ParsePort(value)
 		if err != nil {
-			return 0, fmt.Errorf("piwork.host_port: %w", err)
+			return 0, fmt.Errorf("%s: %w", parameter, err)
 		}
 		found = true
 	}

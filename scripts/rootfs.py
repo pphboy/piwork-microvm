@@ -10,7 +10,7 @@ def main():
     run('docker','build','-f','guest/rootfs/Dockerfile','-t','piwork-microvm-rootfs:local','.')
     container=subprocess.check_output(['docker','create','piwork-microvm-rootfs:local'],text=True).strip()
     try:
-        for f in ['piwork-serve','piwork-cli']:
+        for f in ['piwork-core','piwork-cli']:
             run('docker','cp',out/'piwork/bin'/f,f'{container}:/usr/local/bin/{f}')
         run('docker','cp',out/'piwork-guest',f'{container}:/usr/local/bin/piwork-guest')
         run('docker','cp',out/'piwork/images.json',f'{container}:/opt/piwork/images.json')

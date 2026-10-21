@@ -81,7 +81,7 @@ func TestInvalidPortsFailBeforePreparingResources(t *testing.T) {
 	cases := [][]string{{"--port", "8080", "--core-port", "8080"}, {"--port", "17871"}, {"--core-port", "17891"}}
 	for _, name := range []string{"--port", "--core-port"} {
 		cases = append(cases, []string{name})
-		for _, value := range []string{"", "abc", "0", "-1", "65536"} {
+		for _, value := range []string{"", "abc", "0", "-1", "65536", "7172"} {
 			cases = append(cases, []string{name, value})
 		}
 	}

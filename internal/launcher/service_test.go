@@ -172,6 +172,27 @@ func phaseSeen(events []Event, phase Phase) bool {
 	return false
 }
 
+func TestReservedPortsFailBeforeEnvironmentOrData(t *testing.T) {
+	for _, core := range []bool{false, true} {
+		svc := NewService()
+		svc.CheckAcceleration = func() error { t.Fatal("reserved port reached acceleration"); return nil }
+		svc.CheckPorts = func(int, int) error { t.Fatal("reserved port reached binding"); return nil }
+		opts := DefaultOptions()
+		opts.DataDir = filepath.Join(t.TempDir(), "absent")
+		if core {
+			opts.CorePort = 7172
+		} else {
+			opts.Port = 7172
+		}
+		if err := svc.RunContext(context.Background(), opts, nil); err == nil || !strings.Contains(err.Error(), "reserved") {
+			t.Fatalf("wrong reserved port result: %v", err)
+		}
+		if _, err := os.Stat(opts.DataDir); !os.IsNotExist(err) {
+			t.Fatal("created data")
+		}
+	}
+}
+
 func TestRunContextReportsRealPhaseOrderUntilRunning(t *testing.T) {
 	env := newTestEnv(t, func(r *http.Request) (*http.Response, error) {
 		if strings.HasSuffix(r.URL.Path, "/healthz") {
