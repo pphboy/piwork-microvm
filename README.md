@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.11-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.12-informational)](build.lock.json)
 
 [简体中文](README.zh-CN.md)
 
@@ -85,7 +85,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
-happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.11 creates the first
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.12 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
 
 ## Desktop launcher (GUI)
@@ -328,7 +328,7 @@ offline; users do not need Host Docker or network access.
 | `source-refresh` | Source mode only: re-resolve the official default-branch HEAD and rewrite `build.lock.json` | network, git |
 | `source-check` | Verify the existing clean, locked checkout without fetching | - |
 | `piwork` | Prepare the locked input (official import by default) | Docker, Go 1.25.5, network |
-| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.11` | network, git |
+| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.12` | network, git |
 | `piwork-check` | Verify the prepared official input and its output digests without writing or fetching | Python 3 |
 | `piwork-source` | Explicitly compile the locked commit instead of importing the official release | Docker, Go 1.25.5 |
 | `kernel` | Build the Guest kernel | Docker |
@@ -355,7 +355,7 @@ payload/trailer format is unchanged.
 ```sh
 make piwork                                    # import the locked official release
 make piwork-check                              # read-only verification of that import
-make piwork-lock TAG=v0.0.11                   # explicit release-input update (network)
+make piwork-lock TAG=v0.0.12                   # explicit release-input update (network)
 make piwork-source                             # explicit source compile of the locked commit
 make guest PIWORK_SOURCE=/home/p/Projects/piwork  # assemble the Guest once
 make source-check                              # verify the clean, locked checkout (source mode)
@@ -400,15 +400,18 @@ or run the GUI. No build command tags, pushes or publishes.
 
 [`build.lock.json`](build.lock.json) is the source of truth. `piwork.inputMode` selects
 `official-release` (current) or `source`; a lock without the field is a source lock. The
-current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.11`, the actual
-build commit `a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c` and the separate publication commit
-`2142491f5103b58731de4872d153bd1b876860de`. It also records the four asset sizes/SHA256,
+current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.12`, the actual
+build commit `4f127751fc4805e504a1af0d7b48c02739f72489` and the separate publication commit
+`c4ce9bbd8fea9d990979332e57b61876cda20da2`. It also records the four asset sizes/SHA256,
 program and UI identity, and the three production image digests. `piwork.commit` is always
-the actual build commit, never the publication commit.
+the actual build commit, never the publication commit. In the 0.0.12 native-v2 metadata,
+program identities/digests come from `nativePrograms`, full image identities come from the
+release manifest, and the publication commit is independently resolved from the official Git tag.
+The original downloaded metadata and executable bytes remain unchanged.
 
 Normal builds consume the lock and never follow `main`, a moving tag or `latest`. In source
 mode they use the full locked commit at `dist/source/<commit>/piwork` and reject modified
-inputs. The bundled upstream version is `0.0.11` (an upstream Preview), independent of the
+inputs. The bundled upstream version is `0.0.12` (an upstream Preview), independent of the
 wrapper version.
 
 ### Local source and reproducibility
@@ -434,8 +437,11 @@ requires booting the VM.
 
 Releases are published on GitHub and cut from a tagged commit. Piwork MicroVM has its own
 version, independent of the upstream Piwork version it bundles; the annotated git tag is the
-source of truth, and `--version` reports both. The current target is wrapper v0.2.1 bundling
-Piwork 0.0.11, which is an upstream **Preview**, not a stable upstream release.
+source of truth, and `--version` reports both. The current lock uses Piwork 0.0.12 **Preview**.
+The earlier wrapper v0.2.1 / Piwork 0.0.11
+plan remains an unpublished draft. The current Linux retry uses local `0.2.2-dev` builds;
+no new release has been published. Use a new wrapper version for a future release, rather
+than replacing the existing v0.2.1 tag or frozen plan.
 
 | Asset | Contents |
 | --- | --- |
@@ -453,10 +459,10 @@ The GUI needs a native body: build it on native Windows with
 for the Windows one. The Windows body writes its build record, and packaging refuses a body
 whose version, platform, entry or locked inputs do not match.
 
-`make release VERSION=0.2.1` runs the gate, tests, Linux builds, the four-artifact checks,
-manifest and notes, then freezes a version plan under `dist/release-plans/v0.2.1/` and stops.
+`make release VERSION=0.2.2` runs the gate, tests, Linux builds, the four-artifact checks,
+manifest and notes, then freezes a version plan under `dist/release-plans/v0.2.2/` and stops.
 It never tags, pushes or publishes, and no container image is pushed to a registry.
-`make release-publish VERSION=0.2.1` is the separate remote step: it verifies the frozen plan
+`make release-publish VERSION=0.2.2` is the separate remote step: it verifies the frozen plan
 and local bytes, creates or reuses the annotated tag, creates a draft, uploads missing assets,
 checks every remote size and SHA256, and only then makes the release public.
 
@@ -467,7 +473,7 @@ asset with different content, or an already public release with different conten
 rather than overwritten. Upload retries are per file; GitHub offers no in-file resume. The four
 full artifacts still dominate transfer time.
 
-`make release-publish-dry-run VERSION=0.2.1` prints the frozen tag and asset list without
+`make release-publish-dry-run VERSION=0.2.2` prints the frozen tag and asset list without
 creating a tag or touching the remote.
 
 Verification is recorded against the **locked inputs**, not against the downloaded bytes: the
@@ -479,10 +485,10 @@ with the checksum from its release.
 
 ### Upgrading an existing 0.2.0 installation
 
-**Known input-level issue:** one retained Linux 0.0.11 test installation was rejected before SQLite WAL recovery, also reproducible with the original Core outside MicroVM. Empty-directory deployment/reopen and the tested 0.0.10 backup copies passed. This release does not repair that failed data case. Keep stopped backups and use a separate empty directory for a new deployment; never erase an existing installation to bypass the error. Details: [acceptance](openspec/changes/import-official-piwork-binaries/acceptance.md).
+**Historical 0.0.11 input issue:** one retained Linux test installation was rejected before SQLite WAL recovery, also reproducible with the original Core outside MicroVM. The original [0.0.11 evidence](openspec/changes/import-official-piwork-binaries/acceptance.md) retains that failure. The [0.0.12 retry](openspec/changes/import-official-piwork-binaries/acceptance-0.0.12.md) separately verifies the same data in an independent copy with the new official Core. Keep complete stopped backups, including WAL/SHM; this focused result is not a general upgrade or downgrade guarantee.
 
 Stop the old launcher normally first, then copy both `installation.json` and the state disk to
-an independent directory. Start the new 0.2.1 artifact against that copy and check the existing
+an independent directory. Start the new artifact against that copy and check the existing
 account, Work, Files and Service data plus a normal stop/restart. Keep the stopped original and
 its backup untouched. This release reports only what the tested copy does; it does not promise
 general downgrade compatibility. To roll back, use the untouched stopped installation with the
@@ -510,6 +516,7 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+| [0.0.12 retry](openspec/changes/import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | Current official input; Linux CLI/GUI builds and focused WAL/data retry; Windows and real models not reverified |
 | [Official binary integration](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview official inputs; both native GUIs, production Work/Files/Service, saved administrator ZIPs and stopped 0.0.10 copies; both empty-directory installations reopened; retained Linux 0.0.11 data has a known SQLite/WAL failure; real models not verified |
 | [Frozen Core log-export acceptance](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10 at `29e3471`; both native GUIs, real Desktop fault/gap ZIP downloads, stopped-copy persistence and one custom UI/Core port pair; no real model call |
 | [GUI acceptance](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |
@@ -521,7 +528,7 @@ Launcher normal/error exports and safe stop with its original Piwork input. The
 [prior frozen Core integration](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 uses the newly built 0.0.10 Guest on Linux/KVM and native Windows/WebView2/WHPX. It covers
 Desktop fault/gap ZIPs saved on Host, stopped-installation copies, language persistence,
-safe shutdown and the custom 19190/19191 path. The [0.0.11 official-input record](openspec/changes/import-official-piwork-binaries/acceptance.md) separately records the current build, scoped integration and stopped-copy upgrade, including both a passing empty-directory Linux deployment/reopen and the unresolved retained-data SQLite/WAL case. None of these scoped records claims a new real-model call
+safe shutdown and the custom 19190/19191 path. The [0.0.11 official-input record](openspec/changes/import-official-piwork-binaries/acceptance.md) records that earlier input’s build, scoped integration and stopped-copy upgrade, including both a passing empty-directory Linux deployment/reopen and the unresolved retained-data SQLite/WAL case. None of these scoped records claims a new real-model call
 or an untested Windows version. GUI builds never tag, push or publish.
 
 ### Linux acceptance
