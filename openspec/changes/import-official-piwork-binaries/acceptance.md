@@ -1,6 +1,6 @@
-# Official Piwork 0.0.11 integration — paused before release
+# Official Piwork 0.0.11 integration and retained WAL issue
 
-Checked on 2026-10-22. OpenSpec progress: **18/21**. Wrapper target: **v0.2.1**, not published. Task 5.2, the final acceptance/commit task 5.5 and publication task 5.6 remain incomplete.
+Checked on 2026-10-22. Wrapper target: **v0.2.1**. Binary import, cache reuse, four artifact builds and the scoped integration checks are complete; publication is the separate final step. The user explicitly requested continuing binary delivery and empty-directory deployment while retaining the existing-data WAL failure as a known issue.
 
 The build imports the original official Core/CLI bytes. Core runs natively in the Guest; Guest Docker loads the three bundled production images. No upstream npm/Go/image compilation or registry push was performed in official mode.
 
@@ -23,7 +23,8 @@ The build imports the original official Core/CLI bytes. Core runs natively in th
 | Existing browser setup, production Work/Files/Service | passed | passed in native Edge |
 | Administrator ZIP saved on Host and opened | passed | passed |
 | GUI normal stop | passed | passed |
-| Same-installation GUI reopen and original data | **blocked: Core rejects SQLite before WAL recovery** | passed |
+| Empty-directory installation: GUI normal stop/reopen and original data | passed | passed |
+| Previously retained 0.0.11 test data: GUI reopen | **failed: Core rejects SQLite before WAL recovery** | this data case not rerun |
 | Dedicated stopped 0.0.10 copy upgrade, normal stop and reopen | passed | passed |
 | Original installation/backup hashes unchanged | passed | passed |
 | CLI custom 19190/19191; 7172 refused before installation access | passed | not rerun; scoped to Linux |
@@ -33,7 +34,7 @@ Windows image/binary inspection additionally used a supplementary native control
 
 The dedicated Windows 0.0.10 seed used stopped Linux test data, was actually run and checked on native Windows with the existing v0.2.0 CLI, then stopped and copied into separate backup/upgrade directories. This is the tested migration path; it does not claim universal compatibility or downgrade support. Both original sources and untouched backups retain their recorded hashes. Reverting uses those backups and the old artifact, never an old Core on an upgraded disk.
 
-## Linux reopen blocker
+## Known issue in retained Linux test data
 
 The actual GUI performs its normal shutdown and reports clean stop. Subsequent starts of that installation exit in the Guest with:
 
@@ -45,7 +46,11 @@ The same failure was reproduced with the original official binary in an independ
 
 No database, format marker or official binary was rewritten to bypass the failure. Private disk/database copies stay outside Git. [evidence/integration-linux.json](evidence/integration-linux.json) records the bounded findings; its status is **failed**, so release verification cannot upgrade Linux integration to verified.
 
-Finishing requires a scope decision: fix the upstream recovery check and import newly published official bytes, or explicitly extend this project to design and verify safe Guest recovery. The existing plan preserves the exact v0.0.11 upstream bytes and does not authorize silently patching them or accepting this exception. No v0.2.1 tag, draft, asset upload or public release was created.
+The user subsequently directed continuing the binary replacement and release scope, using an empty data directory for deployment. That new Linux GUI installation created a new administrator and real production Work/Files/Service, saved/opened an administrator ZIP, stopped cleanly and reopened with identical account/Work/Service identities, file hashes and SQLite counter. The separate `evidence/linux-empty/` records prove that no old installation or disk was copied into it.
+
+For isolation, the original official Core also rejected the failed data copy in a container **without MicroVM**, networking or a Host Docker socket. Recovering/checkpointing the WAL in that private diagnostic copy made the same unmodified Core reach `app.listening`. The original failed installation was not repaired or rewritten. This establishes that MicroVM is not required to reproduce the storage-check failure; it does not claim the shutdown interaction has been exhaustively diagnosed.
+
+The known failure is retained and is not described as fixed. Linux integration is reported as `verified-with-known-issues`, with both the passing empty-directory case and this failed case linked. The user-approved binary delivery scope does not add an upstream patch or Guest data repairer. Retain stopped backups; do not use the new-deployment result as a general upgrade or downgrade guarantee.
 
 ## Measured preparation and packaging
 
@@ -67,9 +72,10 @@ The Guest/BusyBox index has 167/167 readable package texts. All 38 imported Go m
 
 - [evidence/build-linux.json](evidence/build-linux.json), [evidence/build-windows.json](evidence/build-windows.json): build identities and licensing.
 - [evidence/integration-windows.json](evidence/integration-windows.json): passing current-input Windows scope.
-- [evidence/integration-linux.json](evidence/integration-linux.json): current-input Linux failure and completed subchecks.
-- `evidence/linux/`, `evidence/windows/`: allowlisted real screenshots, Guest identities, ZIP summaries and session records.
+- [evidence/integration-linux-empty.json](evidence/integration-linux-empty.json): current-input empty-directory Linux GUI deployment and reopen.
+- [evidence/integration-linux.json](evidence/integration-linux.json): retained-data Linux failure; never superseded by the new-installation pass.
+- `evidence/linux-empty/`, `evidence/linux/`, `evidence/windows/`: allowlisted real screenshots, Guest identities, ZIP summaries and session records.
 - `evidence/upgrade-linux/`, `evidence/upgrade-windows/`: stopped-copy data and source/backup preservation results.
 - `evidence/import-timings.json`, `evidence/packaging-timings.json`, `evidence/timings.json`: measured stages.
 
-Repository Go tests passed; 119 Python tests passed, including input/cache/publication recovery tests and strict evidence matching. Strict OpenSpec validation passed. Evidence collection excludes credentials, raw ZIPs, disks, binaries and database contents, and checks the known test passwords/synthetic keys. The independent README/demo change is untouched.
+Repository Go tests passed; 121 Python tests passed, including input/cache/publication recovery tests and strict evidence matching. Strict OpenSpec validation passed. Evidence collection excludes credentials, raw ZIPs, disks, binaries and database contents, and checks the known test passwords/synthetic keys. The independent README/demo change is untouched.

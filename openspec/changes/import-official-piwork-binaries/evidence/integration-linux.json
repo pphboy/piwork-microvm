@@ -13,7 +13,7 @@
     "Linux CLI 19190/19191 and reserved 7172 rejection",
     "separate 0.0.10 stopped-copy upgrade/reopen and original preservation"
   ],
-  "failed": "same-installation GUI reopen after normal stop",
+  "failed": "retained 0.0.11 Linux test data: Core rejects SQLite before WAL recovery after normal stop",
   "officialCoreDiagnostic": "CORE_STORAGE_FORMAT_UNSUPPORTED: use an independent supported Go data directory",
   "isolatedCopyReproduction": true,
   "sqlite": {
@@ -28,5 +28,5 @@
   },
   "diagnosis": "Locked Core corestore.Open verifies the database with immutable=true before WAL recovery. The database and WAL together pass quick_check; validating the main file alone fails. No upstream binary or user database was changed to bypass this check.",
   "realModelCall": false,
-  "publication": "not started"
+  "publication": "continue binary delivery under user-approved scope; retain this unresolved case"
 }

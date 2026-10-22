@@ -1,0 +1,10 @@
+{
+  "microvmUsed": false,
+  "officialBinaryUnmodified": true,
+  "containerNetwork": "none",
+  "hostDockerSocketMounted": false,
+  "data": "independent copy of failed installation",
+  "exitCode": 1,
+  "error": "CORE_STORAGE_FORMAT_UNSUPPORTED",
+  "reproduced": true
+}

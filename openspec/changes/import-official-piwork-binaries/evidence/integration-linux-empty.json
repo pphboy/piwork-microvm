@@ -1,0 +1,19 @@
+{
+  "scope": "integration",
+  "platform": "linux",
+  "scenario": "empty-data-installation",
+  "status": "passed",
+  "checkedAt": "2026-10-22T13:05:26Z",
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+  "checks": [
+    "empty data directory with no prior installation or copied disk",
+    "actual GUI KVM start and About",
+    "original native Core and locked production images",
+    "new administrator and production Work/Files/Service",
+    "administrator ZIP saved and opened",
+    "normal GUI stop and original account/Work/Files/Service SQLite retained after GUI reopen",
+    "Linux CLI custom ports and reserved port checks recorded separately"
+  ],
+  "knownIssue": "retained 0.0.11 data WAL failure is recorded separately and is not fixed",
+  "realModelCall": false
+}

@@ -1,0 +1,13 @@
+{
+  "microvmUsed": false,
+  "officialBinaryUnmodified": true,
+  "data": "private extracted copy only",
+  "walCheckpoint": [
+    0,
+    0,
+    0
+  ],
+  "listeningAfterCopyOnlyWALRecovery": true,
+  "network": "none",
+  "hostDockerSocketMounted": false
+}
