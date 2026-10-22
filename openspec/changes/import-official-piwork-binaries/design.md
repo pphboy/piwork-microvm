@@ -28,22 +28,24 @@
 
 ### D1. 锁定输入模式，区分程序构建提交与发行提交
 
-在现有锁中增加 `piwork.inputMode`；缺少字段的旧锁按 `source` 处理，当前新锁明确使用 `official-release`。保留 `piwork.url` 和 `piwork.commit` 的含义：commit 永远是实际构建提交，所以本次是 `a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c`。在 `piwork.release` 下另记标签、发布提交 `2142491f5103b58731de4872d153bd1b876860de`、预发布状态、发行元数据、资产与镜像锁。字段为增量扩展，不改变现有系统/工具链锁的含义；未知模式明确失败。
+在现有锁中增加 `piwork.inputMode`；缺少字段的旧锁按 `source` 处理，当前新锁明确使用 `official-release`。保留 `piwork.url` 和 `piwork.commit` 的含义：commit 永远是实际构建提交，所以本次是 `4f127751fc4805e504a1af0d7b48c02739f72489`。在 `piwork.release` 下另记标签、发布提交 `c4ce9bbd8fea9d990979332e57b61876cda20da2`、预发布状态、发行元数据、资产与镜像锁。字段为增量扩展，不改变现有系统/工具链锁的含义；未知模式明确失败。
 
-新增 `scripts/piwork_release.py`，提供显式 `lock --tag v0.0.11`、`prepare` 与只读 `check`。只有 lock 子命令更新发行输入；正常构建使用已锁内容，不查询 latest 或自动升级。旧的 `source-refresh` 仅作用于源码模式，官方模式下应拒绝并指向显式发行锁更新，避免只改 commit 而留下旧资产记录。
+新增 `scripts/piwork_release.py`，提供显式 `lock --tag v0.0.12`、`prepare` 与只读 `check`。只有 lock 子命令更新发行输入；正常构建使用已锁内容，不查询 latest 或自动升级。旧的 `source-refresh` 仅作用于源码模式，官方模式下应拒绝并指向显式发行锁更新，避免只改 commit 而留下旧资产记录。
 
-本次官方资产地址均在 `https://github.com/pphboy/piwork/releases/download/v0.0.11/` 下：
+本次官方资产地址均在 `https://github.com/pphboy/piwork/releases/download/v0.0.12/` 下：
 
 | 资产 | SHA256 |
 | --- | --- |
-| `piwork-linux-amd64-0.0.11.tar.gz`（26362017 bytes） | `a909248c9bd9a6571eb26a0dc52773af0a28a932ce24ea3c6706025700be30a9` |
-| `release-build.json` | `edbe300808844233c64dffcf0e738338d1039b8b1de4ac3fcff9a58fc1ad97ad` |
-| `release-manifest.json` | `f2f821b7b6fca6d407dd014280045854174655cccc70d97a4ff1cf6796bc1c36` |
-| `SHA256SUMS` | `4b349242606a11b79445143f19aa35af027de442c6dfa311bd27ebfbe26699b6` |
+| `piwork-linux-amd64-0.0.12.tar.gz`（26383863 bytes） | `d85bf5b884fdc64f8f3f571b0df34a474cf36e86ed630ea5b0a3c8b947aaf957` |
+| `release-build.json` | `c6713a7262ca07a4182a2fa55645d878668096a8f2571078b5974dfb8fc2207f` |
+| `release-manifest.json` | `b5478b090808bc3baba401025632697d28cbed5c51ac73a930c892a8b8779083` |
+| `SHA256SUMS` | `9e82e1c840f1c1188bbe3216482e26cea5d2446019f88fbad8d89936bee03e1e` |
 
-同时锁定元数据中的版本 0.0.11、sourceInputHash `d60025d65577833bc6a625cbb4964c7f9d782be5d74f42ece1b65bcd74395632`、两个 UI hash、linux/amd64、Go 身份、原版状态、镜像 ID 和协议标签。锁定值来自明确官方发行及其交叉校验，不能仅从文件名推断，也不宣称有上游未提供的数字签名。
+同时锁定元数据中的版本 0.0.12、sourceInputHash `2fb10dd3192503035931250511779ccf87bec9f759eaabe07fc6d35558f4d8f8`、两个 UI hash、linux/amd64、Go 身份、原版状态、镜像 ID 和协议标签。锁定值来自明确官方发行及其交叉校验，不能仅从文件名推断，也不宣称有上游未提供的数字签名。
 
 `source.py` 仍取得并验证实际构建提交的独立干净副本，供许可、来源和源码模式使用；官方 prepare 不执行其 npm、Go 或 Dockerfile 编译。把官方发布 commit 当作编译 commit，或直接让现有 source-refresh 跟随 main，都不能准确描述这些官方字节，因此不采用。
+
+0.0.12 使用 native-v2 外部元数据：从 `nativePrograms` 读取程序身份和二进制摘要，从发行清单取得完整镜像身份；原始 build 资产未提供 `publicationCommit` 时，仅从独立解析的官方 Git 标签取得并记录 `publicationCommitBasis=official-git-tag`。兼容 0.0.11 旧格式，对其声明的 publicationCommit 仍要求与标签一致；下载字节和程序身份不改写。
 
 ### D2. 官方输入原子导入到现有制包目录
 
@@ -58,7 +60,7 @@
 - `dist/piwork/bin/piwork-core` 与 `piwork-cli`，字节保持官方原样。
 - `dist/piwork/metadata.json`，采用官方 release-inputs 中现有字段，并记录导入来源。
 - `dist/piwork/images.json` 与 `dist/guest/images.tar`，格式继续满足 Guest 的 `reference` / `id` 消费接口。
-- `dist/piwork/upstream-release/` 下的官方元数据、归档内许可和完整性记录；导入完成记录绑定所有实际输出摘要。
+- `dist/piwork/upstream-release/` 下的官方元数据、归档内许可和完整性记录；导入完成记录绑定所有实际输出摘要。只读 `check_prepared` 同时逐项匹配完整资产记录、程序/UI 元数据和完整镜像记录（包括 digest、引用、image ID、平台、协议标签），核对仓库、实际源码提交、tag/发布提交和版本；文件摘要未变化也不能让失配锁通过。既有完整记录继续使用原字段校验，不要求重写历史记录。
 
 中断或检查失败只丢弃本次暂存，不覆盖已验证输入；没有有效缓存时明确失败，不转用旧文件或源码编译。官方入口只获得制包文件，不触碰用户正在运行的 VM 或安装盘。
 
@@ -68,11 +70,11 @@
 
 | 角色 | 仓库 | Registry digest |
 | --- | --- | --- |
-| Agent / package-helper | `docker.io/pphboy/piwork-agentd` | `sha256:0a6a181f7e6e63e626350828e6b624180f241ac712f2c0e91850dbe82d0ca66e` |
-| file-helper | `docker.io/pphboy/piwork-file-helper` | `sha256:ff0ed5d519d1db0ba4c53474622a1a3e4d1391e31849fafd5e1601c464b48d73` |
-| snapshot-helper | `docker.io/pphboy/piwork-snapshot-helper` | `sha256:d1c8ef00e48529a047e8db1611e1b37d42ceab496fbbb4be883bbcfa6f44fbb6` |
+| Agent / package-helper | `docker.io/pphboy/piwork-agentd` | `sha256:f4cae23ef0219ac7aa90b291fe7bbffbcc3691a42c0e1169a173bcb1653e4fec` |
+| file-helper | `docker.io/pphboy/piwork-file-helper` | `sha256:63c6220783c817b6bacca4e90e0b493d1a61914cc696364aec82c0ed78acdd66` |
+| snapshot-helper | `docker.io/pphboy/piwork-snapshot-helper` | `sha256:ca2fa5a8e687284c1d8345f51ed8d17edee71fc79c579211e6c6f91da77d1418` |
 
-官方 tag 后缀为 `0.0.11-a19c6f595fa6-d60025d65577`。下载按 digest，保存到 Guest 归档时保留 Core 内嵌的官方 tag 引用，并再次核对其指向的 image ID；本地同名引用若冲突应拒绝，不重新标记旧镜像冒充新版本。沿用上游隔离版本探测方式核对 service-mcp、package-helper、file-helper 和 snapshot-helper 的实际 `--version`；不启动业务容器完成这些检查。
+官方 tag 后缀为 `0.0.12-4f127751fc48-2fb10dd31925`。下载按 digest，保存到 Guest 归档时保留 Core 内嵌的官方 tag 引用，并再次核对其指向的 image ID；本地同名引用若冲突应拒绝，不重新标记旧镜像冒充新版本。沿用上游隔离版本探测方式核对 service-mcp、package-helper、file-helper 和 snapshot-helper 的实际 `--version`；不启动业务容器完成这些检查。
 
 只内嵌原流程需要的三个镜像，package-helper 与 Agent 共用一份。官方 Core 容器不是本次输入，Guest 仍通过现有服务运行原生 Core。最终 Guest 从内置 archive 加载这些镜像，用户首次运行无需 Host Docker 或在线拉取；构建可下载官方镜像，始终不向 registry 推送。
 
@@ -94,15 +96,15 @@
 
 官方原生包已观察到根 LICENSE 和 Go 构建信息，不能据此假设含完整依赖许可树。保留这些原始文本，并按导入程序的实际模块版本/校验信息取得并索引相应许可；配套镜像中的分发组件沿同样的可读文本和缺失索引规则处理，不在引入新输入时丢弃原先的许可范围。成品发布另附可读许可归档，任何真实缺失在索引及说明中列明。
 
-四个包装层主体仍以本次版本 0.2.1 重新链接，上游 commit 使用实际构建提交。GUI Windows 延续原生 Windows Go/Wails/MinGW 构建；不新增 WSL 或跨平台桌面运行要求。现有构建脚本为主体生成绑定 source/input 指纹、入口、平台、版本及主体 SHA256 的构建记录；封装核对记录与实际前缀，发布核对最终 Trailer 和资源输入。CLI 再做 `--version` 检查，实际 GUI About 在专项验证中核对。
+0.0.11 阶段的四个包装层主体已以 0.2.1 重新链接。当前 0.0.12 的 Linux CLI/GUI 使用本地 `0.2.2-dev`；Windows 和新的完整四产物发行尚未准备，不复用旧 Windows 文件冒充本轮交付。上游 commit 使用实际构建提交。GUI Windows 延续原生 Windows Go/Wails/MinGW 构建；不新增 WSL 或跨平台桌面运行要求。现有构建脚本为主体生成绑定 source/input 指纹、入口、平台、版本及主体 SHA256 的构建记录；封装核对记录与实际前缀，发布核对最终 Trailer 和资源输入。CLI 再做 `--version` 检查，实际 GUI About 在专项验证中核对。
 
 发布表从同一四入口定义取 artifact/manifest 名称，避免 GUI 借用 CLI manifest。已准备四个文件时 `REUSE_ARTIFACTS=1` 只跳过重建，不跳过来源、版本、测试和完整性门槛；需要 native Windows 主体时给出既有构建步骤，不能默默用旧文件或进行不支持的 Wails 交叉编译。
 
 ### D6. 冻结本次发行计划，草稿完成后再公开
 
-`make release VERSION=0.2.1` 只执行本地门槛、准备文件与说明；测试入口覆盖仓库现有 Go/Python 与新增输入/缓存/发布测试。`make release-publish VERSION=0.2.1` 是独立远端步骤；本次按用户最新指令停在本地准备，待 Core 修复和新的更新任务后再执行远端操作。四个资产名继续沿用 CLI 规则，并为 GUI 使用 `piwork-microvm-gui-v0.2.1-<platform>-amd64[.exe]`。
+`make release VERSION=0.2.1` 只执行本地门槛、准备文件与说明；测试入口覆盖仓库现有 Go/Python 与新增输入/缓存/发布测试。`make release-publish VERSION=0.2.1` 是独立远端步骤；本次按用户最新指令停在本地准备，远端操作仍等待用户后续明确指令。四个资产名继续沿用 CLI 规则，并为 GUI 使用 `piwork-microvm-gui-v0.2.1-<platform>-amd64[.exe]`。
 
-在版本专属 dist 暂存目录冻结发行计划：目标源码提交、完整输入、四个文件及附件大小/摘要、创建时间、发布清单和最终 notes。发布重试读取冻结计划，不重新生成时间戳或改写清单。Gate 通过后创建/验证 annotated tag、确保对应源码已推送，建立草稿并上传；远端资产大小和 SHA256 与冻结计划全部相同后才公开，并最终核验公开状态及链接。
+在版本专属 dist 暂存目录以独立文件副本冻结发行计划（不与会被重写的工作文件共享硬链接）：目标源码提交、完整输入、四个文件及附件大小/摘要、创建时间、发布清单和最终 notes。发布重试读取冻结计划，不重新生成时间戳或改写清单。回归用例覆盖工作文件原地重写及另一版本生成，旧计划字节和摘要保持不变；已有 v0.2.1 计划不在本轮迁移或重写。发布说明所有上游版本及 Preview 文案均由锁定实际版本与 prerelease 状态生成。Gate 通过后创建/验证 annotated tag、确保对应源码已推送，建立草稿并上传；远端资产大小和 SHA256 与冻结计划全部相同后才公开，并最终核验公开状态及链接。
 
 同版本重试允许 tag 已存在，但必须为同一 annotated tag 目标和同一发行计划；匹配且完整上传的文件可跳过。已完成但不匹配的文件/标签、不同源码或已公开版本内容变化均报错，不强推、覆盖或自动删除。对于上传失败留下的占位，只在草稿与冻结计划归属均可核实、远端明确尚未完成且没有有效摘要时，记录占位 ID 后受控清理并重传；其他冲突停止处理。上传失败保留草稿并按文件重试，不实现文件内部续传。把四个文件改成在线小更新包才能显著降低总传输量，这不是本次范围。
 
@@ -110,9 +112,9 @@
 
 ### D7. 在旧盘副本上验证升级，记录实际提速
 
-本轮两平台以独立新安装核对启动、Core/CLI 0.0.11 实际构建身份、内嵌镜像、浏览器工作台和一次正常停止/重开；做小范围生产 Work 启动、Files/Service 和实际管理员日志 ZIP 打开检查。Linux 额外证明一组自定义 UI/Core 端口，7172 在访问安装前仍被拒绝。沿用已有专用 GUI/浏览器/日志导出工具，不引入新服务或真实模型 Key。
+已完成的 0.0.11 阶段在两平台以独立新安装核对启动、Core/CLI 0.0.11 实际构建身份、内嵌镜像、浏览器工作台和一次正常停止/重开；做小范围生产 Work 启动、Files/Service 和实际管理员日志 ZIP 打开检查。Linux 额外证明一组自定义 UI/Core 端口，7172 在访问安装前仍被拒绝。沿用已有专用 GUI/浏览器/日志导出工具，不引入新服务或真实模型 Key。
 
-旧盘验证只对已正常停止的专用 0.0.10 测试安装同时备份 `installation.json` 和 state.qcow2，启动单独副本，核对账号/Work/Files/Service 等既有数据及正常停止/重开，原副本前后摘要不变。上游记录未承诺通用兼容或直接降级，因此只报告这次实际副本结果；回退使用未触碰的停机备份与旧发行文件，不能用旧 Core 打开已升级副本来冒充可靠回退。
+该阶段旧盘验证只对已正常停止的专用 0.0.10 测试安装同时备份 `installation.json` 和 state.qcow2，启动单独副本，核对账号/Work/Files/Service 等既有数据及正常停止/重开，原副本前后摘要不变。上游记录未承诺通用兼容或直接降级，因此只报告这次实际副本结果；回退使用未触碰的停机备份与旧发行文件，不能用旧 Core 打开已升级副本来冒充可靠回退。
 
 结果保存在本变更的聚焦验收记录和允许列表证据中，独立于代码提交，不改历史证据。原始 ZIP、磁盘、二进制、运行状态及凭证不进 Git。没有实际运行的平台/步骤如实未验证，快门槛不因此伪造通过。
 
@@ -132,6 +134,12 @@
 
 在该指令前，源码已推送至 `f713c6e`，annotated `v0.2.1` 已指向 `e4347a8`，并创建了尚未公开的 GitHub 草稿。收到指令后停止上传进程，保留已有远端状态；不删除或移动标签。后续 Core 修复会改变锁定输入，必须显式更新锁、重新导入和组装 Guest、验证新输入并冻结新的计划；既有 v0.2.1 计划/tag 不可用来承载不同输入，需选择新的包装层版本。当前的通过与失败记录保留原输入身份，不能自动继承为修复后的验收。
 
+### D10. 0.0.12 后续更新与四项 WARN
+
+原 D8/D9 记录 0.0.11 失败和暂缓发布的历史决策。用户随后发布 Core 修复并要求拉取 0.0.12 重试，因此当前锁已更新到 D1/D3 的 0.0.12，原始 0.0.11 证据、v0.2.1 标签与草稿不改写。0.0.12 已完成 Linux CLI/GUI `0.2.2-dev`、真实空目录 GUI、两份 0.0.11 停机副本（包括此前失败数据）的两次启动/正常停止及数据匹配。新输入用独立指纹记录；旧失败不会被新输入通过覆盖，聚焦通过也不构成通用数据恢复保证。
+
+本次用户授权修复 verify 报告的四项 WARN：完整锁匹配、冻结资产隔离、动态版本说明及当前规划一致性。第 1–5 节 tasks 保留历史完成记录，第 6 节追踪这些收尾。新输入的 Windows、完整四产物和新发行计划未执行，不扩展本次范围或标为已通过；四入口正式发布门槛不变，未来仍须准备全部当前输入产物。当前修复只影响构建检查/发布准备和规划，不修改 Core 或 Guest 业务行为，不为这些脚本修复重跑 VM 或真实模型矩阵。
+
 ## Risks / Trade-offs
 
 - [官方包/元数据身份不同或标签后来变化] → 冻结资产 SHA256、实际构建/发布提交与程序身份，不能解析 latest 替代锁定输入。
@@ -147,6 +155,6 @@
 1. 先以独立提交完成规划、输入模式/校验、配套镜像、缓存与发布行为的实现和对应测试，保持已有源码模式可显式运行。
 2. 锁定 0.0.11 官方输入，首次证明/建立底座缓存，准备新 Guest；在原生环境构建四个 0.2.1 主体与资源。
 3. 完成专项验证，分别提交代码、双语事实说明与本变更验收证据；不混入另一 README 变更或任何运行制品。
-4. 工作树及输入/产物门槛通过后，以本地 release 计划准备并核对所有资产，记录尚未公开的实际状态；本轮至此完成。Core 修复后的输入更新、重新验证、推送及独立发布等待用户后续任务，遵守 D9 的新版本/计划边界。
+4. 工作树及输入/产物门槛通过后，以本地 release 计划准备并核对所有资产，记录尚未公开的实际状态；本轮至此完成。随后按用户指令完成 0.0.12 Linux 聚焦更新及警告修复，遵守 D10 的验证范围；后续完整发行、推送和公开发布仍须新任务，遵守 D9 的新版本/计划边界。
 
 源码模式、完整重建和旧发行文件保留为明确选项；任何官方输入失败只停止当前构建，不修改运行安装。发布前可回退实现提交并继续用旧版；公开后用新的包装层版本修正，不改写旧标签或 Release。
