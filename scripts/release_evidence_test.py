@@ -88,6 +88,46 @@ class EvidenceTest(unittest.TestCase):
         self.assertEqual(status['status'], 'not-verified')
         self.assertEqual(status['knownIssues'][0]['summary'], 'reopen failed')
 
+    def generated_notes(self):
+        with mock.patch.object(release, 'artifacts', return_value=[]), \
+             mock.patch.object(release, 'guest_package_count', return_value=None), \
+             mock.patch.object(release, 'guest_license_summary', return_value=None), \
+             mock.patch.object(release, 'official_license_gaps', return_value=None):
+            return release.notes('0.2.2', self.root)
+
+    def test_notes_follow_upstream_version_and_preview_status(self):
+        for version, preview in [('0.0.12', True), ('0.0.13', False)]:
+            with self.subTest(version=version, preview=preview):
+                self.inputs['builtInputMode'] = 'official-release'
+                self.inputs['upstreamPiworkVersion'] = version
+                self.inputs['piwork']['release']['tag'] = 'v' + version
+                self.inputs['piwork']['release']['prerelease'] = preview
+                notes = self.generated_notes()
+                kind = 'upstream Preview' if preview else 'upstream release'
+                self.assertIn('Bundles original Piwork ' + version + ' at commit', notes)
+                self.assertIn('Official release input: `v' + version + '` (' + kind + ')', notes)
+                self.assertIn('- Piwork ' + version + ' is an ' + kind + '.', notes)
+                self.assertNotIn('Piwork 0.0.11', notes)
+                if not preview:
+                    self.assertNotIn('Preview', notes)
+
+    def test_source_notes_do_not_invent_an_official_release_status(self):
+        self.inputs['builtInputMode'] = 'source'
+        self.inputs['piwork'].pop('release', None)
+        notes = self.generated_notes()
+        self.assertIn('a locked upstream source input', notes)
+        self.assertNotIn('Official release input:', notes)
+        self.assertNotIn('upstream Preview', notes)
+
+    def test_notes_retain_known_failure_source_offer_and_unverified_scopes(self):
+        self.record(status='failed', failed='retained WAL case')
+        notes = self.generated_notes()
+        for text in ['Unresolved linux integration case: retained WAL case',
+                     'Corresponding source', 'Written offer:', 'BusyBox', 'qboot',
+                     'libfdt', '| integration | windows | not-verified |',
+                     '| realModel | linux | not-verified |']:
+            self.assertIn(text, notes)
+
     def test_upstream_report_never_upgrades_microvm_integration(self):
         self.record(scope='upstream')
         self.assertEqual(release.verification(self.root)['scopes']['upstream']['status'], 'reported')

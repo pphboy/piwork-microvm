@@ -196,8 +196,11 @@ def notes(version,evidence):
     lines=['# piwork-microvm v'+version,'',
            'Bundles original Piwork '+inputs['upstreamPiworkVersion']+' at commit '+inputs['piwork']['commit']+', unmodified.']
     release_input=inputs['piwork'].get('release')
+    upstream_kind='a locked upstream source input'
     if inputs.get('builtInputMode')=='official-release' and release_input:
-        lines+=['','Official release input: `'+release_input['tag']+'` (upstream Preview), actual build commit `'
+        upstream_label='upstream Preview' if release_input.get('prerelease') else 'upstream release'
+        upstream_kind='an '+upstream_label
+        lines+=['','Official release input: `'+release_input['tag']+'` ('+upstream_label+'), actual build commit `'
                 +inputs['piwork']['commit']+'`, publication commit `'+release_input['releaseCommit']+'`. Four asset sizes/SHA256 and three production image digests are recorded in the manifest.']
     lines+=['',
            '## Artifacts','','| File | Platform | Bytes | SHA256 |','| --- | --- | --- | --- |']
@@ -248,7 +251,7 @@ def notes(version,evidence):
             '## Known limitations','',
             '- License texts for the Guest rootfs packages and BusyBox ship at `provenance/guest-licenses/` inside the artifact and in `guest-licenses.tar.gz`, so they can be read without booting the VM; '+license_gap+' Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
             '- Windows artifacts are unsigned, so SmartScreen may warn on first run. Windows requires WHPX and WebView2; Linux requires KVM and the documented GTK/WebKit runtime for the GUI.',
-            '- Piwork 0.0.11 is an upstream Preview. This scoped integration does not verify real-model calls, a full failure matrix or general downgrade compatibility. Upgrade a stopped backup copy and retain the untouched backup.',
+            '- Piwork '+inputs['upstreamPiworkVersion']+' is '+upstream_kind+'. This scoped integration does not verify real-model calls, a full failure matrix or general downgrade compatibility. Upgrade a stopped backup copy and retain the untouched backup.',
             '- Readable license texts for the imported binaries, Go modules and production images ship as `piwork-licenses.tar.gz` and under `provenance/piwork-upstream/licenses/`. '+('The index records every extraction gap.'+official_gap if official_gap else 'The index records every extraction gap.'),
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
     for platform,status in m['verification']['scopes']['integration']['platforms'].items():
