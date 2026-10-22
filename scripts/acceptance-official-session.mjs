@@ -32,7 +32,7 @@ try{
  console.log('Stage: Files identity');
  const record={platform:process.env.PIWORK_ACCEPTANCE_PLATFORM,realModelCall:false,userId:identity.user.id,workId:work.id,serviceId:service.serviceId,serviceRevision:service.desiredRevision,files:[]};
  for(const name of (previous?.files.map(f=>f.name)||['note.txt','中文资料.txt','二进制.bin'])){
-  let bytes;await wait(async()=>{const r=await fetch(core+'/api/v1/'+base+'/files/'+encodeURIComponent(name),{headers});if(!r.ok)return false;bytes=Buffer.from(await r.arrayBuffer());return true;},'File helper '+name);
+  let bytes;await wait(async()=>{try{const r=await fetch(core+'/api/v1/'+base+'/files/'+encodeURIComponent(name),{headers});if(!r.ok)return false;bytes=Buffer.from(await r.arrayBuffer());return true;}catch(error){if(error instanceof TypeError)return false;throw error;}},'File helper '+name);
   record.files.push({name,sha256:hash(bytes)});
  }
  console.log('Stage: browser login');
