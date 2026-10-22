@@ -1,0 +1,30 @@
+{
+  "cli-linux": {
+    "preparationCheckSeconds": 0.32146214495878667,
+    "compressionSeconds": 37.048089687014,
+    "bytes": 398819644,
+    "matchesFinalPayload": true,
+    "files": 856
+  },
+  "cli-windows": {
+    "preparationCheckSeconds": 0.1827925860416144,
+    "compressionSeconds": 22.058494355063885,
+    "bytes": 415271493,
+    "matchesFinalPayload": true,
+    "files": 882
+  },
+  "gui-linux": {
+    "preparationCheckSeconds": 0.18474839604459703,
+    "compressionSeconds": 20.939826630055904,
+    "bytes": 398863292,
+    "matchesFinalPayload": true,
+    "files": 960
+  },
+  "gui-windows": {
+    "preparationCheckSeconds": 0.39651038392912596,
+    "compressionSeconds": 22.104199814028107,
+    "bytes": 415310233,
+    "matchesFinalPayload": true,
+    "files": 986
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "platform": "native Windows WHPX stopped 0.0.10 backup copy upgraded to 0.0.11",
+  "realModelCall": false,
+  "userId": "user-a563ce4a-6d06-4831-97f0-e0f1c0aeb989",
+  "workId": "work-b7b73a99-441d-4d2e-bb2b-e70c826411b8",
+  "serviceId": "service-36d0d350-bb87-46ca-a8c0-ba1443722eae",
+  "serviceRevision": 1,
+  "files": [
+    {
+      "name": "note.txt",
+      "sha256": "05b65b20ff017acee15453f337719b98028d61877f49a9459391ba49d9b9a727"
+    },
+    {
+      "name": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "sha256": "e48f4d2bf3aa13f065575508a5d03dccfd9da908801afd77d3eb888ce4ce02e8"
+    }
+  ],
+  "counter": {
+    "value": 3
+  }
+}

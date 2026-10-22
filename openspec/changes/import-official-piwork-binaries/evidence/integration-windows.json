@@ -1,0 +1,17 @@
+{
+  "scope": "integration",
+  "platform": "windows",
+  "status": "passed",
+  "checkedAt": "2026-10-22T12:48:24Z",
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+  "checks": [
+    "native GUI start and About",
+    "hardware acceleration and native Core/official image identities",
+    "production Work, Files and Service",
+    "administrator ZIP saved and opened on Host",
+    "normal stop and same-installation reopen",
+    "stopped 0.0.10 backup copy upgrade and reopen"
+  ],
+  "realModelCall": false,
+  "basis": "locked inputs; artifact bytes recorded separately"
+}

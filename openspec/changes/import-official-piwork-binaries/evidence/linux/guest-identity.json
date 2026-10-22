@@ -1,0 +1,86 @@
+{
+  "core": {
+    "program": "piwork-core",
+    "version": "0.0.11",
+    "commit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+    "modified": false,
+    "goVersion": "go1.25.5",
+    "os": "linux",
+    "architecture": "amd64",
+    "desktopUIHash": "498384960e7300c59767965afc8db4a88bf0199119447067355cb00125c4393b",
+    "consoleUIHash": "b89ced29f8d86ad195788a40ff64cf49eed09c67f1371e6f97417c72aac3e37f"
+  },
+  "cli": {
+    "program": "piwork-cli",
+    "version": "0.0.11",
+    "commit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+    "modified": false,
+    "goVersion": "go1.25.5",
+    "os": "linux",
+    "architecture": "amd64",
+    "desktopUIHash": "498384960e7300c59767965afc8db4a88bf0199119447067355cb00125c4393b",
+    "consoleUIHash": "b89ced29f8d86ad195788a40ff64cf49eed09c67f1371e6f97417c72aac3e37f"
+  },
+  "images": {
+    "agent": {
+      "reference": "docker.io/pphboy/piwork-agentd:0.0.11-a19c6f595fa6-d60025d65577",
+      "id": "sha256:bd0356b2c19aa34290c3f6fd5395a262ad8020118f2f510c20267d8903308db9",
+      "os": "linux",
+      "architecture": "amd64",
+      "labels": {
+        "io.piwork.agent.protocol": "v2",
+        "io.piwork.agent.variant": "production",
+        "io.piwork.agent.version": "0.1.0",
+        "io.piwork.package-helper.contract": "2",
+        "io.piwork.run-model.contract": "1",
+        "io.piwork.service-mcp.contract": "1",
+        "io.piwork.source.input-sha256": "d60025d65577833bc6a625cbb4964c7f9d782be5d74f42ece1b65bcd74395632",
+        "io.piwork.source.modified": "false",
+        "io.piwork.work-feedback.contract": "1",
+        "io.piwork.work-history.schema": "5",
+        "org.opencontainers.image.revision": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "org.opencontainers.image.version": "0.0.11"
+      }
+    },
+    "fileHelper": {
+      "reference": "docker.io/pphboy/piwork-file-helper:0.0.11-a19c6f595fa6-d60025d65577",
+      "id": "sha256:0654bfe5e865acaea376f8a0398d3629f9de8562b313612c54d7ee924d3aa8ec",
+      "os": "linux",
+      "architecture": "amd64",
+      "labels": {
+        "io.piwork.source.input-sha256": "d60025d65577833bc6a625cbb4964c7f9d782be5d74f42ece1b65bcd74395632",
+        "io.piwork.source.modified": "false",
+        "org.opencontainers.image.revision": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "org.opencontainers.image.version": "0.0.11",
+        "piwork.file_protocol": "1"
+      }
+    },
+    "snapshotHelper": {
+      "reference": "docker.io/pphboy/piwork-snapshot-helper:0.0.11-a19c6f595fa6-d60025d65577",
+      "id": "sha256:ddf4fa51fbfda2db436d5efc73d2164a1b75faea15fdd85e8009304c308b77b5",
+      "os": "linux",
+      "architecture": "amd64",
+      "labels": {
+        "io.piwork.source.input-sha256": "d60025d65577833bc6a625cbb4964c7f9d782be5d74f42ece1b65bcd74395632",
+        "io.piwork.source.modified": "false",
+        "org.opencontainers.image.revision": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "org.opencontainers.image.version": "0.0.11",
+        "piwork.snapshot_protocol": "1"
+      }
+    }
+  },
+  "nativeCoreCommand": [
+    "/usr/local/bin/piwork-core",
+    "--ui-port",
+    "17891",
+    "--core-port",
+    "17871",
+    "--data-dir",
+    "/var/lib/piwork/core"
+  ],
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "machine": "microvm-machine"
+}

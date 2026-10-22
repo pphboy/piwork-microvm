@@ -1,0 +1,19 @@
+{
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "netdev": "user,id=net0,hostfwd=tcp:127.0.0.1:19190-:19190,hostfwd=tcp:127.0.0.1:19191-:19191",
+  "coreCommand": [
+    "/usr/local/bin/piwork-core",
+    "--ui-port",
+    "19190",
+    "--core-port",
+    "19191",
+    "--data-dir",
+    "/var/lib/piwork/core"
+  ],
+  "uiPort": 19190,
+  "corePort": 19191,
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1"
+}

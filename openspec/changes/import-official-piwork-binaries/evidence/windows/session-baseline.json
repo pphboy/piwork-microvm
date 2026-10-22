@@ -1,0 +1,33 @@
+{
+  "platform": "native Windows WHPX GUI",
+  "realModelCall": false,
+  "userId": "user-1d54ed1a-6d86-4b7d-955b-ed2cae0207b8",
+  "workId": "work-473facc4-2c2f-469c-b059-76f829b13cc3",
+  "serviceId": "service-42629489-bd3c-4c01-8591-799610c32e72",
+  "serviceRevision": 1,
+  "files": [
+    {
+      "name": "note.txt",
+      "sha256": "08c50c62f597d24d10cfeef9e58fc66fcdd164bc0f9a7478dffe2f001dab5ed4"
+    },
+    {
+      "name": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "sha256": "9ab0610595a145379fe7d2de131c08b626771dff79015ec30c10455f5df60188"
+    }
+  ],
+  "counter": {
+    "value": 1
+  },
+  "export": {
+    "filename": "piwork-logs-log-export-ee8029c7e55dc69836b76cef71233d0e.zip",
+    "size": 5332,
+    "sha256": "2bf95560c9353855fd18aa2ed72f4945fa13f2dc14a64e324a405b893c8bea83",
+    "coreFiles": 1,
+    "complete": true,
+    "sources": 2
+  }
+}

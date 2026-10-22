@@ -1,0 +1,1531 @@
+{
+  "scope": "build",
+  "status": "passed",
+  "checkedAt": "2026-10-22T12:36:00Z",
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+  "originalBinarySHA256": {
+    "piwork-core": "f34525965c79c8821fc2858264e8eee47786280b598be76e9079f9da5b1e651f",
+    "piwork-cli": "0cffae91f66a45402e4c37b85330bcdd06c602a3a8302cfb91208653c000617b"
+  },
+  "archiveSHA256": "a909248c9bd9a6571eb26a0dc52773af0a28a932ce24ea3c6706025700be30a9",
+  "inputMode": "official-release",
+  "upstreamSourceCompiled": false,
+  "buildCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+  "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de",
+  "artifacts": [
+    {
+      "entry": "cli",
+      "path": "dist/piwork-microvm",
+      "os": "linux",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "size": 405397072,
+      "sha256": "562b2e551bbc8d1420e1fe5d3f78ef55145892addb341bc9e71cb561cbf69fb2",
+      "manifestSha256": "3d3abc054886981df15923d1666e43e80397e1264ba7c976ec42bbc77f11ba5b"
+    },
+    {
+      "entry": "cli",
+      "path": "dist/piwork-microvm.exe",
+      "os": "windows",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "size": 422223884,
+      "sha256": "d5c5b1afdbbdc865e15c8bdf33947fd795089dd3eba34d2dc6ba0d56fcbc1fe3",
+      "manifestSha256": "c8805380d385466c7cf7d633c8865ec2c70123b0c9163ff8c9d02e1823f90f35"
+    },
+    {
+      "entry": "gui",
+      "path": "dist/piwork-microvm-gui",
+      "os": "linux",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "size": 409735020,
+      "sha256": "31859fce083cba891a022aa1ac91a111957bde40642644ae6d4f01d452ce8f6f",
+      "manifestSha256": "d756184df5f2f4c57b7a4f191ea7ca0cd33ea189d38ed8d469b6e6f0af8e225e"
+    },
+    {
+      "entry": "gui",
+      "path": "dist/piwork-microvm-gui.exe",
+      "os": "windows",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "size": 427436484,
+      "sha256": "ff08da00d667f7a757c437fdb5b9a9a5fababf5e3e8bf74f2239f628a945e20f",
+      "manifestSha256": "c16b94eee01371084d494a0b5906b72fdc2827bfe55206bb7c3bef7ac3dcfbb7"
+    }
+  ],
+  "bodies": {
+    "cli-linux": {
+      "recordVersion": 1,
+      "entry": "cli",
+      "platform": "linux",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "manifest": "v2",
+      "sourceCommit": "2bff3a8576432e4068543b0fae553c7f042d7155",
+      "sourceFingerprint": "80fae8adb6765596dc2063c2ac90233bad7eb411b0c889d7f3248fc620fd18b0",
+      "upstream": {
+        "mode": "official-release",
+        "version": "0.0.11",
+        "buildCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de"
+      },
+      "inputFingerprint": "058ee5c48858b4454f060ec1b4cbdc569d990fadc848f2dcd22189bcf52b3836",
+      "body": {
+        "path": "launcher-linux",
+        "size": 6406328,
+        "sha256": "203ced129b3130864d26407b61ebba6d7af452fb3511460b393d5775ff1b4b4d"
+      }
+    },
+    "cli-windows": {
+      "recordVersion": 1,
+      "entry": "cli",
+      "platform": "windows",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "manifest": "v2",
+      "sourceCommit": "2bff3a8576432e4068543b0fae553c7f042d7155",
+      "sourceFingerprint": "80fae8adb6765596dc2063c2ac90233bad7eb411b0c889d7f3248fc620fd18b0",
+      "upstream": {
+        "mode": "official-release",
+        "version": "0.0.11",
+        "buildCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de"
+      },
+      "inputFingerprint": "058ee5c48858b4454f060ec1b4cbdc569d990fadc848f2dcd22189bcf52b3836",
+      "body": {
+        "path": "launcher-windows.exe",
+        "size": 6777344,
+        "sha256": "14c5bc82b55b4d50a7ac7ca49dd989329ae27d9995dd752f8c3c313d68ce28c8"
+      }
+    },
+    "gui-linux": {
+      "recordVersion": 1,
+      "entry": "gui",
+      "platform": "linux",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "manifest": "v2",
+      "sourceCommit": "2bff3a8576432e4068543b0fae553c7f042d7155",
+      "sourceFingerprint": "80fae8adb6765596dc2063c2ac90233bad7eb411b0c889d7f3248fc620fd18b0",
+      "upstream": {
+        "mode": "official-release",
+        "version": "0.0.11",
+        "buildCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de"
+      },
+      "inputFingerprint": "058ee5c48858b4454f060ec1b4cbdc569d990fadc848f2dcd22189bcf52b3836",
+      "body": {
+        "path": "launcher-gui-linux",
+        "size": 10683120,
+        "sha256": "37291d72105ae09a761c193de0313862d535264877c30cd8f103e80776f261af"
+      }
+    },
+    "gui-windows": {
+      "recordVersion": 1,
+      "entry": "gui",
+      "platform": "windows",
+      "arch": "amd64",
+      "version": "0.2.1",
+      "manifest": "v2",
+      "sourceCommit": "a6807cbcf4b03046da278282faff9fa8b447b809",
+      "sourceFingerprint": "80fae8adb6765596dc2063c2ac90233bad7eb411b0c889d7f3248fc620fd18b0",
+      "upstream": {
+        "mode": "official-release",
+        "version": "0.0.11",
+        "buildCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+        "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de"
+      },
+      "inputFingerprint": "058ee5c48858b4454f060ec1b4cbdc569d990fadc848f2dcd22189bcf52b3836",
+      "body": {
+        "path": "launcher-gui-windows.exe",
+        "size": 11933696,
+        "sha256": "928dcc2b56d07f4367dab3523cdbb5f17bbb1debfeabf38267d752ba4fa9fa99"
+      }
+    }
+  },
+  "licenseIndexes": {
+    "guest": {
+      "packages": 167,
+      "present": 167,
+      "absent": 0,
+      "entries": [
+        {
+          "component": "adduser",
+          "package": "adduser",
+          "path": "guest-licenses/adduser/copyright",
+          "present": true,
+          "size": 12432,
+          "sha256": "b143053a4862ab354831487b5f8bd31dc9ffdc589d15de9d9c764332a0209796"
+        },
+        {
+          "component": "apt",
+          "package": "apt",
+          "path": "guest-licenses/apt/copyright",
+          "present": true,
+          "size": 7668,
+          "sha256": "b4701305243d8d746f4acaafe15d94f946251b05691bd6917fef41dd15e9ee12"
+        },
+        {
+          "component": "attr",
+          "package": "attr",
+          "path": "guest-licenses/attr/copyright",
+          "present": true,
+          "size": 1947,
+          "sha256": "0cbec745d85ea775450b2d54fac55277197f429e52d611f72852ed420450620e"
+        },
+        {
+          "component": "base-files",
+          "package": "base-files",
+          "path": "guest-licenses/base-files/copyright",
+          "present": true,
+          "size": 1208,
+          "sha256": "fd7e4aae7e7b05f217bcf2d02322825c360e66c52c4c2f1b28d784d6297a1c23"
+        },
+        {
+          "component": "base-passwd",
+          "package": "base-passwd",
+          "path": "guest-licenses/base-passwd/copyright",
+          "present": true,
+          "size": 798,
+          "sha256": "0f1cde79bd80a75f9029ae9a8c252b642223027ef36f6989c63a8230aae576a7"
+        },
+        {
+          "component": "bash",
+          "package": "bash",
+          "path": "guest-licenses/bash/copyright",
+          "present": true,
+          "size": 9764,
+          "sha256": "06319d84c3e5ed096036f6a9310a030c7e84e50dff2b8a6792285c83ec0ada73"
+        },
+        {
+          "component": "bsdutils",
+          "package": "bsdutils",
+          "path": "guest-licenses/bsdutils/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "busybox-static",
+          "package": "busybox-static",
+          "path": "guest-licenses/busybox-static/copyright",
+          "present": true,
+          "size": 1110,
+          "sha256": "336d995e819d3a7a3fdbf3f5041c07094f75ee849acb3bb742b7503d45786329"
+        },
+        {
+          "component": "ca-certificates",
+          "package": "ca-certificates",
+          "path": "guest-licenses/ca-certificates/copyright",
+          "present": true,
+          "size": 18940,
+          "sha256": "e85e1bcad3a915dc7e6f41412bc5bdeba275cadd817896ea0451f2140a93967c"
+        },
+        {
+          "component": "coreutils",
+          "package": "coreutils",
+          "path": "guest-licenses/coreutils/copyright",
+          "present": true,
+          "size": 5552,
+          "sha256": "24e86c5ca53d6bfd8e0c47988160daa62d10a74997fe11f651e1d9533c78bff6"
+        },
+        {
+          "component": "cpio",
+          "package": "cpio",
+          "path": "guest-licenses/cpio/copyright",
+          "present": true,
+          "size": 1627,
+          "sha256": "c6a43a1599ea98a98293f4aead057c5e37cabdb623c8c804902ac7d25e060297"
+        },
+        {
+          "component": "curl",
+          "package": "curl",
+          "path": "guest-licenses/curl/copyright",
+          "present": true,
+          "size": 21749,
+          "sha256": "a7c131b21e6e73b3b085a7d9f1637b68f5f92b832cc6f462e0c978fbe7841ccb"
+        },
+        {
+          "component": "dash",
+          "package": "dash",
+          "path": "guest-licenses/dash/copyright",
+          "present": true,
+          "size": 3878,
+          "sha256": "d98c53f281321baad38164aa9ae6e368a9253be6ec51bd26a759b5e72b326f4a"
+        },
+        {
+          "component": "dbus",
+          "package": "dbus",
+          "path": "guest-licenses/dbus/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "dbus-bin",
+          "package": "dbus-bin",
+          "path": "guest-licenses/dbus-bin/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "dbus-daemon",
+          "package": "dbus-daemon",
+          "path": "guest-licenses/dbus-daemon/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "dbus-session-bus-common",
+          "package": "dbus-session-bus-common",
+          "path": "guest-licenses/dbus-session-bus-common/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "dbus-system-bus-common",
+          "package": "dbus-system-bus-common",
+          "path": "guest-licenses/dbus-system-bus-common/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "debconf",
+          "package": "debconf",
+          "path": "guest-licenses/debconf/copyright",
+          "present": true,
+          "size": 2764,
+          "sha256": "57163c71bd8a5289660892827dd0dfaa7fef47f89deedc9dc6711ced7d0a28d7"
+        },
+        {
+          "component": "debian-archive-keyring",
+          "package": "debian-archive-keyring",
+          "path": "guest-licenses/debian-archive-keyring/copyright",
+          "present": true,
+          "size": 1243,
+          "sha256": "b32aecaae84643700a33bc9ee83fa9b36938d35aa7b61b5042092eca77ddb732"
+        },
+        {
+          "component": "debianutils",
+          "package": "debianutils",
+          "path": "guest-licenses/debianutils/copyright",
+          "present": true,
+          "size": 9055,
+          "sha256": "fd2d797e208bcfb713510e47a89867191180943e1167d44c2acd8ff1b88e5c10"
+        },
+        {
+          "component": "diffutils",
+          "package": "diffutils",
+          "path": "guest-licenses/diffutils/copyright",
+          "present": true,
+          "size": 16112,
+          "sha256": "8654d7cc7cdae1f31bb67a3ce5bf35d512c0bdfffd071df757edc54153cc7930"
+        },
+        {
+          "component": "dmsetup",
+          "package": "dmsetup",
+          "path": "guest-licenses/dmsetup/copyright",
+          "present": true,
+          "size": 4650,
+          "sha256": "85275778bfeeb4461375e42feb6a52343e521286ef7ba073e98a37a8c6f5143c"
+        },
+        {
+          "component": "dpkg",
+          "package": "dpkg",
+          "path": "guest-licenses/dpkg/copyright",
+          "present": true,
+          "size": 7943,
+          "sha256": "7442bdadcd44e818fddd786057db07639cc68225c389c7c240d3bb3984b05173"
+        },
+        {
+          "component": "e2fsprogs",
+          "package": "e2fsprogs",
+          "path": "guest-licenses/e2fsprogs/copyright",
+          "present": true,
+          "size": 15209,
+          "sha256": "1ca415a294c0e56958c4f795b3f1f69ea3479bca53d7811f5cdd020a258949db"
+        },
+        {
+          "component": "findutils",
+          "package": "findutils",
+          "path": "guest-licenses/findutils/copyright",
+          "present": true,
+          "size": 24782,
+          "sha256": "8fbcc77ed31f480a85654e9b6d1d25cbb95b62e9dc5159ae1565bca684c3e1dc"
+        },
+        {
+          "component": "gcc-12-base",
+          "package": "gcc-12-base",
+          "path": "guest-licenses/gcc-12-base/copyright",
+          "present": true,
+          "size": 68194,
+          "sha256": "da8191658b3452ce9caf31638ba61dab31a38c619fa39df119812e050f592fd3"
+        },
+        {
+          "component": "gpgv",
+          "package": "gpgv",
+          "path": "guest-licenses/gpgv/copyright",
+          "present": true,
+          "size": 10555,
+          "sha256": "84dab06b5c1baf3a7a45c3cdc5f98fb121234e98fdd6266c3f773d54fcdc4f54"
+        },
+        {
+          "component": "grep",
+          "package": "grep",
+          "path": "guest-licenses/grep/copyright",
+          "present": true,
+          "size": 1807,
+          "sha256": "42d9b4d610396b1e8d1303dcb9487af3f5a2d2709623cf03a04cf76acdf6c5e3"
+        },
+        {
+          "component": "gzip",
+          "package": "gzip",
+          "path": "guest-licenses/gzip/copyright",
+          "present": true,
+          "size": 2895,
+          "sha256": "1ca5dd5098fe2e1c0f0d05196f5b3da8b414a807702e6ca8b536eb5fd3059130"
+        },
+        {
+          "component": "hostname",
+          "package": "hostname",
+          "path": "guest-licenses/hostname/copyright",
+          "present": true,
+          "size": 1273,
+          "sha256": "94189fc5a9a7b7224d96e1a0cfdfe9be0df2018b04bf21d591627ab96b30cad1"
+        },
+        {
+          "component": "init-system-helpers",
+          "package": "init-system-helpers",
+          "path": "guest-licenses/init-system-helpers/copyright",
+          "present": true,
+          "size": 3133,
+          "sha256": "7534601cc4fa513804d16490359f5831e7b6a1212da3bbf948bebdd4c8799783"
+        },
+        {
+          "component": "iproute2",
+          "package": "iproute2",
+          "path": "guest-licenses/iproute2/copyright",
+          "present": true,
+          "size": 2691,
+          "sha256": "64dd431de658b1c6b7f32e4e8ad63270adb3b2b325e45db48f6f313ee6a0fe1b"
+        },
+        {
+          "component": "iptables",
+          "package": "iptables",
+          "path": "guest-licenses/iptables/copyright",
+          "present": true,
+          "size": 14495,
+          "sha256": "0ee8d65c982acb051d709d3128e8413bf1a15194fddbde3ece711d2f8f295a95"
+        },
+        {
+          "component": "libacl1",
+          "package": "libacl1",
+          "path": "guest-licenses/libacl1/copyright",
+          "present": true,
+          "size": 2048,
+          "sha256": "9a2dfb4a5abc7e84be2cc41f1089be665519c9409549296f6c19de57ab1d37c2"
+        },
+        {
+          "component": "libapparmor1",
+          "package": "libapparmor1",
+          "path": "guest-licenses/libapparmor1/copyright",
+          "present": true,
+          "size": 6065,
+          "sha256": "52b7cf37d674ca47296cf6270a95ecda0ecbef976cc090d702acbd741e36b3b4"
+        },
+        {
+          "component": "libapt-pkg6.0",
+          "package": "libapt-pkg6.0",
+          "path": "guest-licenses/libapt-pkg6.0/copyright",
+          "present": true,
+          "size": 7668,
+          "sha256": "b4701305243d8d746f4acaafe15d94f946251b05691bd6917fef41dd15e9ee12"
+        },
+        {
+          "component": "libargon2-1",
+          "package": "libargon2-1",
+          "path": "guest-licenses/libargon2-1/copyright",
+          "present": true,
+          "size": 8048,
+          "sha256": "9482894dde0cdc3eea4abff3a9c54495d2a1ae4c6c87f4f647908ee0078b5b80"
+        },
+        {
+          "component": "libattr1",
+          "package": "libattr1",
+          "path": "guest-licenses/libattr1/copyright",
+          "present": true,
+          "size": 1947,
+          "sha256": "0cbec745d85ea775450b2d54fac55277197f429e52d611f72852ed420450620e"
+        },
+        {
+          "component": "libaudit-common",
+          "package": "libaudit-common",
+          "path": "guest-licenses/libaudit-common/copyright",
+          "present": true,
+          "size": 1596,
+          "sha256": "6c7011e93f643b112c4cc3622131e28a30477afad6c4f5efe466b13aa7f603cc"
+        },
+        {
+          "component": "libaudit1",
+          "package": "libaudit1",
+          "path": "guest-licenses/libaudit1/copyright",
+          "present": true,
+          "size": 1596,
+          "sha256": "6c7011e93f643b112c4cc3622131e28a30477afad6c4f5efe466b13aa7f603cc"
+        },
+        {
+          "component": "libblkid1",
+          "package": "libblkid1",
+          "path": "guest-licenses/libblkid1/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "libbpf1",
+          "package": "libbpf1",
+          "path": "guest-licenses/libbpf1/copyright",
+          "present": true,
+          "size": 6475,
+          "sha256": "3ea54ea6d9464e208a8011e5cdebbb2ddcd8cf3f8954606f60ff2b168d9a4c22"
+        },
+        {
+          "component": "libbrotli1",
+          "package": "libbrotli1",
+          "path": "guest-licenses/libbrotli1/copyright",
+          "present": true,
+          "size": 1354,
+          "sha256": "24a64e5bb83d0960d1835696a1e23c0896ad6055b0ca47c66ab0eb9a766324b1"
+        },
+        {
+          "component": "libbsd0",
+          "package": "libbsd0",
+          "path": "guest-licenses/libbsd0/copyright",
+          "present": true,
+          "size": 23960,
+          "sha256": "00fd7be5d907a6bcc409a80f2d565f508673db4761d54623691f89ae3aa20fc7"
+        },
+        {
+          "component": "libbz2-1.0",
+          "package": "libbz2-1.0",
+          "path": "guest-licenses/libbz2-1.0/copyright",
+          "present": true,
+          "size": 2228,
+          "sha256": "832ed535ff3c3d025a8d2348eb1b697b89addcf2eaadbc17650262040b9145e2"
+        },
+        {
+          "component": "libc-bin",
+          "package": "libc-bin",
+          "path": "guest-licenses/libc-bin/copyright",
+          "present": true,
+          "size": 25467,
+          "sha256": "40c7e1f2118531f038ca22999bd976901254e1bc5cd1b0f0211bdd064c599987"
+        },
+        {
+          "component": "libc6",
+          "package": "libc6",
+          "path": "guest-licenses/libc6/copyright",
+          "present": true,
+          "size": 25467,
+          "sha256": "40c7e1f2118531f038ca22999bd976901254e1bc5cd1b0f0211bdd064c599987"
+        },
+        {
+          "component": "libcap-ng0",
+          "package": "libcap-ng0",
+          "path": "guest-licenses/libcap-ng0/copyright",
+          "present": true,
+          "size": 2035,
+          "sha256": "49b5db19990a3e3cc1a9ed716aed231f6f3c1c217e58f62ae4dc2818c6d3e9cc"
+        },
+        {
+          "component": "libcap2",
+          "package": "libcap2",
+          "path": "guest-licenses/libcap2/copyright",
+          "present": true,
+          "size": 4631,
+          "sha256": "e60a5642e12e340060e4e519a65b2eb0330be2917854841c644e36268f607d54"
+        },
+        {
+          "component": "libcap2-bin",
+          "package": "libcap2-bin",
+          "path": "guest-licenses/libcap2-bin/copyright",
+          "present": true,
+          "size": 4631,
+          "sha256": "e60a5642e12e340060e4e519a65b2eb0330be2917854841c644e36268f607d54"
+        },
+        {
+          "component": "libcom-err2",
+          "package": "libcom-err2",
+          "path": "guest-licenses/libcom-err2/copyright",
+          "present": true,
+          "size": 15209,
+          "sha256": "1ca415a294c0e56958c4f795b3f1f69ea3479bca53d7811f5cdd020a258949db"
+        },
+        {
+          "component": "libcrypt1",
+          "package": "libcrypt1",
+          "path": "guest-licenses/libcrypt1/copyright",
+          "present": true,
+          "size": 6010,
+          "sha256": "5a5e7ca0e9f3f9679977e3a3e9ede45ad92885a3297ea78e766979f9866c5a16"
+        },
+        {
+          "component": "libcryptsetup12",
+          "package": "libcryptsetup12",
+          "path": "guest-licenses/libcryptsetup12/copyright",
+          "present": true,
+          "size": 11375,
+          "sha256": "41650d7a87bcbc5ba394f581876ccdcf3f4cbf31f01168f1584db6b3db532691"
+        },
+        {
+          "component": "libcurl4",
+          "package": "libcurl4",
+          "path": "guest-licenses/libcurl4/copyright",
+          "present": true,
+          "size": 21749,
+          "sha256": "a7c131b21e6e73b3b085a7d9f1637b68f5f92b832cc6f462e0c978fbe7841ccb"
+        },
+        {
+          "component": "libdb5.3",
+          "package": "libdb5.3",
+          "path": "guest-licenses/libdb5.3/copyright",
+          "present": true,
+          "size": 17177,
+          "sha256": "8b53da37d73289d9df7317b3a2dbe16491f1fa9fec8b77b86d69704b40ce2c26"
+        },
+        {
+          "component": "libdbus-1-3",
+          "package": "libdbus-1-3",
+          "path": "guest-licenses/libdbus-1-3/copyright",
+          "present": true,
+          "size": 22102,
+          "sha256": "4cfc9f33368f3b95429992704c96fa598818ec796046426a9979ce4d9b8b1900"
+        },
+        {
+          "component": "libdebconfclient0",
+          "package": "libdebconfclient0",
+          "path": "guest-licenses/libdebconfclient0/copyright",
+          "present": true,
+          "size": 5856,
+          "sha256": "cf63099896d1c0f6529c41b8d95738e6fea342ffba609187d339c4f38ce36ecc"
+        },
+        {
+          "component": "libdevmapper1.02.1",
+          "package": "libdevmapper1.02.1",
+          "path": "guest-licenses/libdevmapper1.02.1/copyright",
+          "present": true,
+          "size": 4650,
+          "sha256": "85275778bfeeb4461375e42feb6a52343e521286ef7ba073e98a37a8c6f5143c"
+        },
+        {
+          "component": "libedit2",
+          "package": "libedit2",
+          "path": "guest-licenses/libedit2/copyright",
+          "present": true,
+          "size": 1840,
+          "sha256": "2b53671050f6319be6fcdcafa434e8ccb8af629359b4afc83185867204f3927d"
+        },
+        {
+          "component": "libelf1",
+          "package": "libelf1",
+          "path": "guest-licenses/libelf1/copyright",
+          "present": true,
+          "size": 8709,
+          "sha256": "d754a0edec1a510561aa643040456266536e3ec26bdb22e69a11c3f7b5de2339"
+        },
+        {
+          "component": "libexpat1",
+          "package": "libexpat1",
+          "path": "guest-licenses/libexpat1/copyright",
+          "present": true,
+          "size": 1756,
+          "sha256": "60919fe1a156395ff14511bb6ff79756c50ade2fff59ac60c9bae1d8a7fe6292"
+        },
+        {
+          "component": "libext2fs2",
+          "package": "libext2fs2",
+          "path": "guest-licenses/libext2fs2/copyright",
+          "present": true,
+          "size": 15209,
+          "sha256": "1ca415a294c0e56958c4f795b3f1f69ea3479bca53d7811f5cdd020a258949db"
+        },
+        {
+          "component": "libfdisk1",
+          "package": "libfdisk1",
+          "path": "guest-licenses/libfdisk1/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "libffi8",
+          "package": "libffi8",
+          "path": "guest-licenses/libffi8/copyright",
+          "present": true,
+          "size": 10165,
+          "sha256": "f83d2ecba1ea4d99957e81c50bebbd076a128194288a3ec22cc8ccdb77c43087"
+        },
+        {
+          "component": "libgcc-s1",
+          "package": "libgcc-s1",
+          "path": "guest-licenses/libgcc-s1/copyright",
+          "present": true,
+          "size": 68194,
+          "sha256": "da8191658b3452ce9caf31638ba61dab31a38c619fa39df119812e050f592fd3"
+        },
+        {
+          "component": "libgcrypt20",
+          "package": "libgcrypt20",
+          "path": "guest-licenses/libgcrypt20/copyright",
+          "present": true,
+          "size": 24896,
+          "sha256": "95db2f9da663f2bfe2aabe9c72fce9d6c9ae767b912f397d7823f50bd55a1a7d"
+        },
+        {
+          "component": "libglib2.0-0",
+          "package": "libglib2.0-0",
+          "path": "guest-licenses/libglib2.0-0/copyright",
+          "present": true,
+          "size": 51488,
+          "sha256": "03cbcd6142c92bb14c997af557b8c73b1534710c34fe7f69788f8e8fc5fd941d"
+        },
+        {
+          "component": "libgmp10",
+          "package": "libgmp10",
+          "path": "guest-licenses/libgmp10/copyright",
+          "present": true,
+          "size": 4153,
+          "sha256": "7d366aef5ba325150246de1d7820c4c9926cd27ca61a69948492b26cd3b61601"
+        },
+        {
+          "component": "libgnutls30",
+          "package": "libgnutls30",
+          "path": "guest-licenses/libgnutls30/copyright",
+          "present": true,
+          "size": 51588,
+          "sha256": "bb7e5c24b3e27bbba5671dd710d159a0066833bda4caa1d55d8027ffed539337"
+        },
+        {
+          "component": "libgpg-error0",
+          "package": "libgpg-error0",
+          "path": "guest-licenses/libgpg-error0/copyright",
+          "present": true,
+          "size": 4903,
+          "sha256": "8760fd36efa1d7186f8769d4e76a3e678045b94d54465bf6f2db5eb871c7c27f"
+        },
+        {
+          "component": "libgssapi-krb5-2",
+          "package": "libgssapi-krb5-2",
+          "path": "guest-licenses/libgssapi-krb5-2/copyright",
+          "present": true,
+          "size": 63047,
+          "sha256": "936728f4181718f42951b881c1e8f1386bf6b2723c4fbc533c374d6f42c71816"
+        },
+        {
+          "component": "libhogweed6",
+          "package": "libhogweed6",
+          "path": "guest-licenses/libhogweed6/copyright",
+          "present": true,
+          "size": 24923,
+          "sha256": "ca2ca597320220c00ef6dc0fe5d0d82025548d6d4ba80e85615eb691f9021f93"
+        },
+        {
+          "component": "libidn2-0",
+          "package": "libidn2-0",
+          "path": "guest-licenses/libidn2-0/copyright",
+          "present": true,
+          "size": 5348,
+          "sha256": "41702469f28e8ff406345e3d1dd0c741f11bdfca319264f67036efd6aaa79e4b"
+        },
+        {
+          "component": "libip4tc2",
+          "package": "libip4tc2",
+          "path": "guest-licenses/libip4tc2/copyright",
+          "present": true,
+          "size": 14495,
+          "sha256": "0ee8d65c982acb051d709d3128e8413bf1a15194fddbde3ece711d2f8f295a95"
+        },
+        {
+          "component": "libip6tc2",
+          "package": "libip6tc2",
+          "path": "guest-licenses/libip6tc2/copyright",
+          "present": true,
+          "size": 14495,
+          "sha256": "0ee8d65c982acb051d709d3128e8413bf1a15194fddbde3ece711d2f8f295a95"
+        },
+        {
+          "component": "libjansson4",
+          "package": "libjansson4",
+          "path": "guest-licenses/libjansson4/copyright",
+          "present": true,
+          "size": 1805,
+          "sha256": "29347e2528ab31d20e8582b09aa89cd878d306c59a273541141c9aede1903cb8"
+        },
+        {
+          "component": "libjson-c5",
+          "package": "libjson-c5",
+          "path": "guest-licenses/libjson-c5/copyright",
+          "present": true,
+          "size": 2055,
+          "sha256": "17c4a26a5995911064bdfb8af6a5dacd2c29b2648da47045fe25c746dee23b2d"
+        },
+        {
+          "component": "libk5crypto3",
+          "package": "libk5crypto3",
+          "path": "guest-licenses/libk5crypto3/copyright",
+          "present": true,
+          "size": 63047,
+          "sha256": "936728f4181718f42951b881c1e8f1386bf6b2723c4fbc533c374d6f42c71816"
+        },
+        {
+          "component": "libkeyutils1",
+          "package": "libkeyutils1",
+          "path": "guest-licenses/libkeyutils1/copyright",
+          "present": true,
+          "size": 2104,
+          "sha256": "c62fe37d22203046611112bc10a9e03a39a7f73bec1b061e7c615326166d9ff5"
+        },
+        {
+          "component": "libkmod2",
+          "package": "libkmod2",
+          "path": "guest-licenses/libkmod2/copyright",
+          "present": true,
+          "size": 2544,
+          "sha256": "e8b534ea455c397714900d701cbdaf20154f02e970607c5bb4d71c4b3d499055"
+        },
+        {
+          "component": "libkrb5-3",
+          "package": "libkrb5-3",
+          "path": "guest-licenses/libkrb5-3/copyright",
+          "present": true,
+          "size": 63047,
+          "sha256": "936728f4181718f42951b881c1e8f1386bf6b2723c4fbc533c374d6f42c71816"
+        },
+        {
+          "component": "libkrb5support0",
+          "package": "libkrb5support0",
+          "path": "guest-licenses/libkrb5support0/copyright",
+          "present": true,
+          "size": 63047,
+          "sha256": "936728f4181718f42951b881c1e8f1386bf6b2723c4fbc533c374d6f42c71816"
+        },
+        {
+          "component": "libldap-2.5-0",
+          "package": "libldap-2.5-0",
+          "path": "guest-licenses/libldap-2.5-0/copyright",
+          "present": true,
+          "size": 62837,
+          "sha256": "b4081907f0d9a4110736fa6540dc8ca9d7d60a20878b5d78f84916cc04907bdc"
+        },
+        {
+          "component": "liblz4-1",
+          "package": "liblz4-1",
+          "path": "guest-licenses/liblz4-1/copyright",
+          "present": true,
+          "size": 3275,
+          "sha256": "d3be0f43fe14da244f97c451bbae789c0acf868612598a69f5f22a289abeca40"
+        },
+        {
+          "component": "liblzma5",
+          "package": "liblzma5",
+          "path": "guest-licenses/liblzma5/copyright",
+          "present": true,
+          "size": 15465,
+          "sha256": "a2dc8fac0f496e1c58aff67018cf0c6b88336316afa5642f9335b71642e28aa8"
+        },
+        {
+          "component": "libmd0",
+          "package": "libmd0",
+          "path": "guest-licenses/libmd0/copyright",
+          "present": true,
+          "size": 8018,
+          "sha256": "4365ef6255ad553fce69dd4bc0e093472c5d0e41b8ea493a545cc926ce171aa6"
+        },
+        {
+          "component": "libmnl0",
+          "package": "libmnl0",
+          "path": "guest-licenses/libmnl0/copyright",
+          "present": true,
+          "size": 2193,
+          "sha256": "62d24d881d6d292869b7627fec8e6403bcc83e2268d3e93ee4ad1d26c00cd3f8"
+        },
+        {
+          "component": "libmount1",
+          "package": "libmount1",
+          "path": "guest-licenses/libmount1/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "libncursesw6",
+          "package": "libncursesw6",
+          "path": "guest-licenses/libncursesw6/copyright",
+          "present": true,
+          "size": 4670,
+          "sha256": "f0974fb41778e23c94111ff90da0546de8971f8270c58877283d372e6bd7f17e"
+        },
+        {
+          "component": "libnetfilter-conntrack3",
+          "package": "libnetfilter-conntrack3",
+          "path": "guest-licenses/libnetfilter-conntrack3/copyright",
+          "present": true,
+          "size": 1087,
+          "sha256": "f066f9856df12a15d2e6eb10fd9e95a4a4af794ff6709d41a92ba767f18071d7"
+        },
+        {
+          "component": "libnettle8",
+          "package": "libnettle8",
+          "path": "guest-licenses/libnettle8/copyright",
+          "present": true,
+          "size": 24923,
+          "sha256": "ca2ca597320220c00ef6dc0fe5d0d82025548d6d4ba80e85615eb691f9021f93"
+        },
+        {
+          "component": "libnfnetlink0",
+          "package": "libnfnetlink0",
+          "path": "guest-licenses/libnfnetlink0/copyright",
+          "present": true,
+          "size": 1493,
+          "sha256": "56cdc145e86ce9faa976a6142f7780f33ddc93cec3602ea8e2f0199375fb471f"
+        },
+        {
+          "component": "libnftables1",
+          "package": "libnftables1",
+          "path": "guest-licenses/libnftables1/copyright",
+          "present": true,
+          "size": 22858,
+          "sha256": "b5498c0fcbc1365229d6b0be883e2827c3b0444577fb83ff8cae35a7808610a4"
+        },
+        {
+          "component": "libnftnl11",
+          "package": "libnftnl11",
+          "path": "guest-licenses/libnftnl11/copyright",
+          "present": true,
+          "size": 2873,
+          "sha256": "04504e56793a5499dbb92a072196d2c4f6cc70e8514747543df19774e46bcc6c"
+        },
+        {
+          "component": "libnghttp2-14",
+          "package": "libnghttp2-14",
+          "path": "guest-licenses/libnghttp2-14/copyright",
+          "present": true,
+          "size": 6535,
+          "sha256": "a34ae32a5eba61e535835a8de7c398f47e420247d339bc400a3b9c618ba29a3d"
+        },
+        {
+          "component": "libnsl2",
+          "package": "libnsl2",
+          "path": "guest-licenses/libnsl2/copyright",
+          "present": true,
+          "size": 13646,
+          "sha256": "7d9c79b73fd956319a90cd210441498b225e00960352c4c6d447436481bb0eec"
+        },
+        {
+          "component": "libnuma1",
+          "package": "libnuma1",
+          "path": "guest-licenses/libnuma1/copyright",
+          "present": true,
+          "size": 1357,
+          "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+        },
+        {
+          "component": "libp11-kit0",
+          "package": "libp11-kit0",
+          "path": "guest-licenses/libp11-kit0/copyright",
+          "present": true,
+          "size": 8646,
+          "sha256": "ed139379f7c874f0ee75f3ddcc2e01091dd828d84ee1a0bdff6a1c5673ee6e58"
+        },
+        {
+          "component": "libpam-modules",
+          "package": "libpam-modules",
+          "path": "guest-licenses/libpam-modules/copyright",
+          "present": true,
+          "size": 9477,
+          "sha256": "9596b9028339d66c285422237728d6170e1e29d0b0d9adf0e9f1bda82e2391ce"
+        },
+        {
+          "component": "libpam-modules-bin",
+          "package": "libpam-modules-bin",
+          "path": "guest-licenses/libpam-modules-bin/copyright",
+          "present": true,
+          "size": 9477,
+          "sha256": "9596b9028339d66c285422237728d6170e1e29d0b0d9adf0e9f1bda82e2391ce"
+        },
+        {
+          "component": "libpam-runtime",
+          "package": "libpam-runtime",
+          "path": "guest-licenses/libpam-runtime/copyright",
+          "present": true,
+          "size": 9477,
+          "sha256": "9596b9028339d66c285422237728d6170e1e29d0b0d9adf0e9f1bda82e2391ce"
+        },
+        {
+          "component": "libpam0g",
+          "package": "libpam0g",
+          "path": "guest-licenses/libpam0g/copyright",
+          "present": true,
+          "size": 9477,
+          "sha256": "9596b9028339d66c285422237728d6170e1e29d0b0d9adf0e9f1bda82e2391ce"
+        },
+        {
+          "component": "libpcre2-8-0",
+          "package": "libpcre2-8-0",
+          "path": "guest-licenses/libpcre2-8-0/copyright",
+          "present": true,
+          "size": 6626,
+          "sha256": "030511beb4d9d620ad09914c369c36ec0528dcf301d1923cc643c948ee7c6a38"
+        },
+        {
+          "component": "libpsl5",
+          "package": "libpsl5",
+          "path": "guest-licenses/libpsl5/copyright",
+          "present": true,
+          "size": 3310,
+          "sha256": "bbafb0cf52d34465fc69f5ffd22d724224f6a2f28402c88b045c69d88af06aaf"
+        },
+        {
+          "component": "libpython3-stdlib",
+          "package": "libpython3-stdlib",
+          "path": "guest-licenses/libpython3-stdlib/copyright",
+          "present": true,
+          "size": 16122,
+          "sha256": "5b274dbb44b28a54b795b9471c07ab045054d6b8a86273cb9feb632b6fd2760d"
+        },
+        {
+          "component": "libpython3.11-minimal",
+          "package": "libpython3.11-minimal",
+          "path": "guest-licenses/libpython3.11-minimal/copyright",
+          "present": true,
+          "size": 49855,
+          "sha256": "f1cbf908e1daa8789b389fdcf17811ed36b675d736b39a103591399861350382"
+        },
+        {
+          "component": "libpython3.11-stdlib",
+          "package": "libpython3.11-stdlib",
+          "path": "guest-licenses/libpython3.11-stdlib/copyright",
+          "present": true,
+          "size": 49855,
+          "sha256": "f1cbf908e1daa8789b389fdcf17811ed36b675d736b39a103591399861350382"
+        },
+        {
+          "component": "libreadline8",
+          "package": "libreadline8",
+          "path": "guest-licenses/libreadline8/copyright",
+          "present": true,
+          "size": 4414,
+          "sha256": "3591a8e4de849d910c5ee9045388344ef151c23b10cf8c6b1950f89f1ba1569c"
+        },
+        {
+          "component": "librtmp1",
+          "package": "librtmp1",
+          "path": "guest-licenses/librtmp1/copyright",
+          "present": true,
+          "size": 2726,
+          "sha256": "4302abcc1ea1b6cbe8d19c79b892acf78878030220210707c19006828866207c"
+        },
+        {
+          "component": "libsasl2-2",
+          "package": "libsasl2-2",
+          "path": "guest-licenses/libsasl2-2/copyright",
+          "present": true,
+          "size": 32354,
+          "sha256": "5e77ddcac7fb682d696bc4b034dc2869e5a9011e8c2ed3c570ab8db0f4506931"
+        },
+        {
+          "component": "libsasl2-modules-db",
+          "package": "libsasl2-modules-db",
+          "path": "guest-licenses/libsasl2-modules-db/copyright",
+          "present": true,
+          "size": 32354,
+          "sha256": "5e77ddcac7fb682d696bc4b034dc2869e5a9011e8c2ed3c570ab8db0f4506931"
+        },
+        {
+          "component": "libseccomp2",
+          "package": "libseccomp2",
+          "path": "guest-licenses/libseccomp2/copyright",
+          "present": true,
+          "size": 1429,
+          "sha256": "6da0653a365b80ab31478dbfe9e7c358e80d58b6d2b52b4e16b4dbb42d7d9f5c"
+        },
+        {
+          "component": "libselinux1",
+          "package": "libselinux1",
+          "path": "guest-licenses/libselinux1/copyright",
+          "present": true,
+          "size": 3131,
+          "sha256": "641806738b0c6a3d03168c2649e6b94205198bb66cd557e6bae3a20b71c9bb0b"
+        },
+        {
+          "component": "libsemanage-common",
+          "package": "libsemanage-common",
+          "path": "guest-licenses/libsemanage-common/copyright",
+          "present": true,
+          "size": 1830,
+          "sha256": "e00e6a86c598f9e24ced0180a70a5f2f2e45e133d93adf2b17ce8a06ce4b1b51"
+        },
+        {
+          "component": "libsemanage2",
+          "package": "libsemanage2",
+          "path": "guest-licenses/libsemanage2/copyright",
+          "present": true,
+          "size": 1830,
+          "sha256": "e00e6a86c598f9e24ced0180a70a5f2f2e45e133d93adf2b17ce8a06ce4b1b51"
+        },
+        {
+          "component": "libsepol2",
+          "package": "libsepol2",
+          "path": "guest-licenses/libsepol2/copyright",
+          "present": true,
+          "size": 3750,
+          "sha256": "78d2a34606a0302057ec499a3b3c07bcbc43ca334064ce4c80891a0f69c8f6c6"
+        },
+        {
+          "component": "libsmartcols1",
+          "package": "libsmartcols1",
+          "path": "guest-licenses/libsmartcols1/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "libsqlite3-0",
+          "package": "libsqlite3-0",
+          "path": "guest-licenses/libsqlite3-0/copyright",
+          "present": true,
+          "size": 1833,
+          "sha256": "78e9df8f8153c91c762ec970b82d224ac4d30f05aa7773e7e17e268141e53873"
+        },
+        {
+          "component": "libss2",
+          "package": "libss2",
+          "path": "guest-licenses/libss2/copyright",
+          "present": true,
+          "size": 15209,
+          "sha256": "1ca415a294c0e56958c4f795b3f1f69ea3479bca53d7811f5cdd020a258949db"
+        },
+        {
+          "component": "libssh2-1",
+          "package": "libssh2-1",
+          "path": "guest-licenses/libssh2-1/copyright",
+          "present": true,
+          "size": 2099,
+          "sha256": "98978241c573785aa7c8504e399bb66cfb3c40c1f20507a0d3c7580bfbf9d8d4"
+        },
+        {
+          "component": "libssl3",
+          "package": "libssl3",
+          "path": "guest-licenses/libssl3/copyright",
+          "present": true,
+          "size": 2543,
+          "sha256": "6a7da622fe0637a334d2a8fc470852d2ffb77d9a2b2f930f854e32a41ad6ef35"
+        },
+        {
+          "component": "libstdc++6",
+          "package": "libstdc++6",
+          "path": "guest-licenses/libstdc++6/copyright",
+          "present": true,
+          "size": 68194,
+          "sha256": "da8191658b3452ce9caf31638ba61dab31a38c619fa39df119812e050f592fd3"
+        },
+        {
+          "component": "libsystemd-shared",
+          "package": "libsystemd-shared",
+          "path": "guest-licenses/libsystemd-shared/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "libsystemd0",
+          "package": "libsystemd0",
+          "path": "guest-licenses/libsystemd0/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "libtasn1-6",
+          "package": "libtasn1-6",
+          "path": "guest-licenses/libtasn1-6/copyright",
+          "present": true,
+          "size": 3451,
+          "sha256": "572ad60ad184d8f52c6dc66d83a61a68f137db560b3452ce00588c9ecf128a65"
+        },
+        {
+          "component": "libtinfo6",
+          "package": "libtinfo6",
+          "path": "guest-licenses/libtinfo6/copyright",
+          "present": true,
+          "size": 4670,
+          "sha256": "f0974fb41778e23c94111ff90da0546de8971f8270c58877283d372e6bd7f17e"
+        },
+        {
+          "component": "libtirpc-common",
+          "package": "libtirpc-common",
+          "path": "guest-licenses/libtirpc-common/copyright",
+          "present": true,
+          "size": 13121,
+          "sha256": "401dcf98d8ef2b712ec6ab310dbf727fc2cdce290bfde5b6d0b609a927530217"
+        },
+        {
+          "component": "libtirpc3",
+          "package": "libtirpc3",
+          "path": "guest-licenses/libtirpc3/copyright",
+          "present": true,
+          "size": 13121,
+          "sha256": "401dcf98d8ef2b712ec6ab310dbf727fc2cdce290bfde5b6d0b609a927530217"
+        },
+        {
+          "component": "libudev1",
+          "package": "libudev1",
+          "path": "guest-licenses/libudev1/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "libunistring2",
+          "package": "libunistring2",
+          "path": "guest-licenses/libunistring2/copyright",
+          "present": true,
+          "size": 6068,
+          "sha256": "0035f89e5317f3cec389383e8727788521b0fde3e75cea881fa0e92e1d48cb57"
+        },
+        {
+          "component": "liburing2",
+          "package": "liburing2",
+          "path": "guest-licenses/liburing2/copyright",
+          "present": true,
+          "size": 4497,
+          "sha256": "af5dd91380d9965a76ff44584572ae055313f30b142e9196b970d5ac350af113"
+        },
+        {
+          "component": "libuuid1",
+          "package": "libuuid1",
+          "path": "guest-licenses/libuuid1/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "libxtables12",
+          "package": "libxtables12",
+          "path": "guest-licenses/libxtables12/copyright",
+          "present": true,
+          "size": 14495,
+          "sha256": "0ee8d65c982acb051d709d3128e8413bf1a15194fddbde3ece711d2f8f295a95"
+        },
+        {
+          "component": "libxxhash0",
+          "package": "libxxhash0",
+          "path": "guest-licenses/libxxhash0/copyright",
+          "present": true,
+          "size": 2579,
+          "sha256": "a123c93b07e781919ae996276ac02bb1c8b19dfde88176cd1240ab277c14a4ce"
+        },
+        {
+          "component": "libzstd1",
+          "package": "libzstd1",
+          "path": "guest-licenses/libzstd1/copyright",
+          "present": true,
+          "size": 5389,
+          "sha256": "35e85e8e9bbb71492c5f5dddf39ed65b68775a02ad8d710c25d097b497f06c49"
+        },
+        {
+          "component": "login",
+          "package": "login",
+          "path": "guest-licenses/login/copyright",
+          "present": true,
+          "size": 7044,
+          "sha256": "a4c3e5b19700dd3cc5961663d204bd7150f65f913314682aede5931548c436d5"
+        },
+        {
+          "component": "logsave",
+          "package": "logsave",
+          "path": "guest-licenses/logsave/copyright",
+          "present": true,
+          "size": 15209,
+          "sha256": "1ca415a294c0e56958c4f795b3f1f69ea3479bca53d7811f5cdd020a258949db"
+        },
+        {
+          "component": "mawk",
+          "package": "mawk",
+          "path": "guest-licenses/mawk/copyright",
+          "present": true,
+          "size": 22591,
+          "sha256": "167d04422f2fdf76ab565878c23be8ba0c2ebb2c57a5dac0a5a59ccd27e747a5"
+        },
+        {
+          "component": "media-types",
+          "package": "media-types",
+          "path": "guest-licenses/media-types/copyright",
+          "present": true,
+          "size": 268,
+          "sha256": "5ded7c53199b6a1d089b0b7e231d77e5c84081c7156b372b3f11ad9c1c2c5cc7"
+        },
+        {
+          "component": "mount",
+          "package": "mount",
+          "path": "guest-licenses/mount/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "ncurses-base",
+          "package": "ncurses-base",
+          "path": "guest-licenses/ncurses-base/copyright",
+          "present": true,
+          "size": 4670,
+          "sha256": "f0974fb41778e23c94111ff90da0546de8971f8270c58877283d372e6bd7f17e"
+        },
+        {
+          "component": "ncurses-bin",
+          "package": "ncurses-bin",
+          "path": "guest-licenses/ncurses-bin/copyright",
+          "present": true,
+          "size": 4670,
+          "sha256": "f0974fb41778e23c94111ff90da0546de8971f8270c58877283d372e6bd7f17e"
+        },
+        {
+          "component": "netbase",
+          "package": "netbase",
+          "path": "guest-licenses/netbase/copyright",
+          "present": true,
+          "size": 1234,
+          "sha256": "795b66147ea5ad692991caa7008ece551fb0fa88b9c53656223bd1518dc58ab2"
+        },
+        {
+          "component": "nftables",
+          "package": "nftables",
+          "path": "guest-licenses/nftables/copyright",
+          "present": true,
+          "size": 22858,
+          "sha256": "b5498c0fcbc1365229d6b0be883e2827c3b0444577fb83ff8cae35a7808610a4"
+        },
+        {
+          "component": "openssl",
+          "package": "openssl",
+          "path": "guest-licenses/openssl/copyright",
+          "present": true,
+          "size": 2543,
+          "sha256": "6a7da622fe0637a334d2a8fc470852d2ffb77d9a2b2f930f854e32a41ad6ef35"
+        },
+        {
+          "component": "passwd",
+          "package": "passwd",
+          "path": "guest-licenses/passwd/copyright",
+          "present": true,
+          "size": 7044,
+          "sha256": "a4c3e5b19700dd3cc5961663d204bd7150f65f913314682aede5931548c436d5"
+        },
+        {
+          "component": "perl-base",
+          "package": "perl-base",
+          "path": "guest-licenses/perl-base/copyright",
+          "present": true,
+          "size": 109772,
+          "sha256": "b52f3ca17b45473cb0da6ec46748949101fcf0dda1fd5d8b306e6c97fd41af4d"
+        },
+        {
+          "component": "python3",
+          "package": "python3",
+          "path": "guest-licenses/python3/copyright",
+          "present": true,
+          "size": 16122,
+          "sha256": "5b274dbb44b28a54b795b9471c07ab045054d6b8a86273cb9feb632b6fd2760d"
+        },
+        {
+          "component": "python3-minimal",
+          "package": "python3-minimal",
+          "path": "guest-licenses/python3-minimal/copyright",
+          "present": true,
+          "size": 16122,
+          "sha256": "5b274dbb44b28a54b795b9471c07ab045054d6b8a86273cb9feb632b6fd2760d"
+        },
+        {
+          "component": "python3.11",
+          "package": "python3.11",
+          "path": "guest-licenses/python3.11/copyright",
+          "present": true,
+          "size": 49855,
+          "sha256": "f1cbf908e1daa8789b389fdcf17811ed36b675d736b39a103591399861350382"
+        },
+        {
+          "component": "python3.11-minimal",
+          "package": "python3.11-minimal",
+          "path": "guest-licenses/python3.11-minimal/copyright",
+          "present": true,
+          "size": 49855,
+          "sha256": "f1cbf908e1daa8789b389fdcf17811ed36b675d736b39a103591399861350382"
+        },
+        {
+          "component": "qemu-guest-agent",
+          "package": "qemu-guest-agent",
+          "path": "guest-licenses/qemu-guest-agent/copyright",
+          "present": true,
+          "size": 31136,
+          "sha256": "0bdb9dd77149a6283f99fca200c49296349738fa9c5ad48e7f92c0816aeda8fc"
+        },
+        {
+          "component": "readline-common",
+          "package": "readline-common",
+          "path": "guest-licenses/readline-common/copyright",
+          "present": true,
+          "size": 4414,
+          "sha256": "3591a8e4de849d910c5ee9045388344ef151c23b10cf8c6b1950f89f1ba1569c"
+        },
+        {
+          "component": "sed",
+          "package": "sed",
+          "path": "guest-licenses/sed/copyright",
+          "present": true,
+          "size": 8618,
+          "sha256": "719320e425e8e6da53a55e0fcfa2f2ed9b1332cea16abd65321bd651b2a88568"
+        },
+        {
+          "component": "sqlite3",
+          "package": "sqlite3",
+          "path": "guest-licenses/sqlite3/copyright",
+          "present": true,
+          "size": 1833,
+          "sha256": "78e9df8f8153c91c762ec970b82d224ac4d30f05aa7773e7e17e268141e53873"
+        },
+        {
+          "component": "systemd",
+          "package": "systemd",
+          "path": "guest-licenses/systemd/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "systemd-resolved",
+          "package": "systemd-resolved",
+          "path": "guest-licenses/systemd-resolved/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "systemd-sysv",
+          "package": "systemd-sysv",
+          "path": "guest-licenses/systemd-sysv/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "sysvinit-utils",
+          "package": "sysvinit-utils",
+          "path": "guest-licenses/sysvinit-utils/copyright",
+          "present": true,
+          "size": 4689,
+          "sha256": "ad7cb339e58a88918a883d553ca236795191f027e158788a8b33f747ff502fb2"
+        },
+        {
+          "component": "tar",
+          "package": "tar",
+          "path": "guest-licenses/tar/copyright",
+          "present": true,
+          "size": 3798,
+          "sha256": "bea61e0c172868e07845cf50423f97f093a9a46de167dbbe333a38be610c8e00"
+        },
+        {
+          "component": "tzdata",
+          "package": "tzdata",
+          "path": "guest-licenses/tzdata/copyright",
+          "present": true,
+          "size": 375,
+          "sha256": "cb61132bc0fc7b26ef5a82ee18b2fb644a1362f4f286ed980ff22e408471f59a"
+        },
+        {
+          "component": "udev",
+          "package": "udev",
+          "path": "guest-licenses/udev/copyright",
+          "present": true,
+          "size": 12776,
+          "sha256": "a7d06854714a1ca99f6dbd1a1641dde5bcf28635be149f6554449618f8f427f3"
+        },
+        {
+          "component": "usr-is-merged",
+          "package": "usr-is-merged",
+          "path": "guest-licenses/usr-is-merged/copyright",
+          "present": true,
+          "size": 987,
+          "sha256": "9836bfe2ef94505bbf29701e8c90799ab1a5fd966d26d60d019a822cdbf3d61a"
+        },
+        {
+          "component": "util-linux",
+          "package": "util-linux",
+          "path": "guest-licenses/util-linux/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "util-linux-extra",
+          "package": "util-linux-extra",
+          "path": "guest-licenses/util-linux-extra/copyright",
+          "present": true,
+          "size": 23237,
+          "sha256": "30539a2df6a89d844f43c727505a3193a60515f8ec6cdede8cc515ed22941d1c"
+        },
+        {
+          "component": "zlib1g",
+          "package": "zlib1g",
+          "path": "guest-licenses/zlib1g/copyright",
+          "present": true,
+          "size": 2927,
+          "sha256": "9e5b96d63773a5d177ba264254390f792be07e41748ebd94730981c6cac31cc6"
+        }
+      ]
+    },
+    "official": {
+      "source": "official-release",
+      "binaries": {
+        "piwork-core": {
+          "sha256": "f34525965c79c8821fc2858264e8eee47786280b598be76e9079f9da5b1e651f",
+          "size": 37199750
+        },
+        "piwork-cli": {
+          "sha256": "0cffae91f66a45402e4c37b85330bcdd06c602a3a8302cfb91208653c000617b",
+          "size": 14640296
+        }
+      },
+      "goModules": {
+        "total": 38,
+        "absent": 0,
+        "index": "go-modules/INDEX.json"
+      },
+      "images": {
+        "agent": {
+          "reference": "docker.io/pphboy/piwork-agentd:0.0.11-a19c6f595fa6-d60025d65577",
+          "licenseFiles": 578,
+          "absentDebianLicenses": 2,
+          "index": "images/agent/INDEX.json"
+        },
+        "fileHelper": {
+          "reference": "docker.io/pphboy/piwork-file-helper:0.0.11-a19c6f595fa6-d60025d65577",
+          "licenseFiles": 0,
+          "absentDebianLicenses": 0,
+          "index": "images/fileHelper/INDEX.json"
+        },
+        "snapshotHelper": {
+          "reference": "docker.io/pphboy/piwork-snapshot-helper:0.0.11-a19c6f595fa6-d60025d65577",
+          "licenseFiles": 0,
+          "absentDebianLicenses": 0,
+          "index": "images/snapshotHelper/INDEX.json"
+        }
+      }
+    }
+  },
+  "platform": "linux"
+}

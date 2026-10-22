@@ -1,0 +1,32 @@
+{
+  "scope": "integration",
+  "platform": "linux",
+  "status": "failed",
+  "checkedAt": "2026-10-22T12:54:46Z",
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+  "completed": [
+    "GUI hardware-accelerated KVM start and About",
+    "native Core 0.0.11 and official production image identities",
+    "production Work, Files and Service",
+    "administrator ZIP saved and opened",
+    "normal GUI stop confirmed",
+    "Linux CLI 19190/19191 and reserved 7172 rejection",
+    "separate 0.0.10 stopped-copy upgrade/reopen and original preservation"
+  ],
+  "failed": "same-installation GUI reopen after normal stop",
+  "officialCoreDiagnostic": "CORE_STORAGE_FORMAT_UNSUPPORTED: use an independent supported Go data directory",
+  "isolatedCopyReproduction": true,
+  "sqlite": {
+    "schemaVersion": 1,
+    "markerAndDatabaseIdentityMatch": true,
+    "schemaObjectsMatchLockedSource": true,
+    "withWALQuickCheck": "ok",
+    "mainFileImmutableQuickCheck": [
+      "Tree 43 page 43 cell 4: Rowid 29 out of order",
+      "wrong # of entries in index sqlite_autoindex_control_metadata_1"
+    ]
+  },
+  "diagnosis": "Locked Core corestore.Open verifies the database with immutable=true before WAL recovery. The database and WAL together pass quick_check; validating the main file alone fails. No upstream binary or user database was changed to bypass this check.",
+  "realModelCall": false,
+  "publication": "not started"
+}

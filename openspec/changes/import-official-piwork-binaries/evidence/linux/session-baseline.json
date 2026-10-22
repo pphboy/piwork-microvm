@@ -1,0 +1,33 @@
+{
+  "platform": "Linux KVM GUI official 0.0.11 installation",
+  "realModelCall": false,
+  "userId": "user-3d6a50d5-51f7-4ac2-8bdc-821b8a913ab8",
+  "workId": "work-31d6792d-d943-49ea-8605-bd20cf4f5514",
+  "serviceId": "service-c317e116-9aa6-4f8e-823c-d29a5eb8af07",
+  "serviceRevision": 1,
+  "files": [
+    {
+      "name": "note.txt",
+      "sha256": "4c2ac2bb441c6ff6a42eef111502f00ac6878cb25cb521e53555ac57891a8315"
+    },
+    {
+      "name": "中文资料.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "二进制.bin",
+      "sha256": "66d1b512098869792ecfc212a74d0d9efdebd2232a1ca95f8bbf2a5408cd1f83"
+    }
+  ],
+  "counter": {
+    "value": 1
+  },
+  "export": {
+    "filename": "piwork-logs-log-export-8dc1cdd9c11efade9a8f20ebe710ee30.zip",
+    "size": 12924,
+    "sha256": "cab6714f7e5de3dbce308ae0f9f728a3b7e51528f8843671318c0e6f20eddbb5",
+    "coreFiles": 3,
+    "complete": true,
+    "sources": 5
+  }
+}

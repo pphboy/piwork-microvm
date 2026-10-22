@@ -1,0 +1,6 @@
+{
+  "port": 7172,
+  "exitCode": 1,
+  "message": "piwork-microvm: --port: port 7172 is reserved for internal Agent RPC",
+  "installationUntouched": true
+}

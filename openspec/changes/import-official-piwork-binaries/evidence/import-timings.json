@@ -1,0 +1,12 @@
+{
+  "downloadCache": "already populated; no cold network claim",
+  "stagesSeconds": {
+    "official_input_payloads": 0.10033299692440778,
+    "stage_import": 0.5817875940119848,
+    "prepare_images": 23.45415954501368,
+    "licenses": 16.40751086594537
+  },
+  "firstPreparationSeconds": 40.66787036298774,
+  "warmReadOnlyCheckSeconds": 0.5115026070270687,
+  "note": "Isolated preparation using the locked official bytes and existing download/image/module caches; does not alter final dist or user installations."
+}

@@ -1,0 +1,18 @@
+{
+  "fullRebuildWithExistingCompilerAndDockerCachesSeconds": {
+    "kernel": 17.582,
+    "qemuLinux": 14.207,
+    "qemuWindows": 13.198,
+    "guest": 33.471
+  },
+  "warmPreparation": {
+    "command": "make guest qemu qemu-windows",
+    "elapsedSeconds": 8.294,
+    "kernel": "HIT",
+    "guest": "HIT",
+    "qemuLinux": "HIT",
+    "qemuWindows": "HIT",
+    "guestOutputCount": 175
+  },
+  "note": "Full rebuild uses existing compiler/Docker caches, not a cold network build. Rootfs rebuilt for the new application; four packaging entries share that Guest. Import and packaging benchmark recorded separately."
+}

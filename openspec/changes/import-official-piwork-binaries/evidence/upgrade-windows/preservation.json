@@ -1,0 +1,42 @@
+{
+    "source":  "C:\\Users\\p\\piwork-old-win-010\\local\\PiworkMicroVM",
+    "sourcePiwork":  "0.0.10",
+    "before":  {
+                   "installation.json":  {
+                                             "sha256":  "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+                                             "size":  113
+                                         },
+                   "disks\\state.qcow2":  {
+                                              "sha256":  "e29a2baa903ca43b5da4457137bf2f0c2bbb5ecb01568319cfc2735558f20517",
+                                              "size":  3969449984
+                                          }
+               },
+    "sourceWrapper":  "0.2.0",
+    "seed":  "Stopped Linux 0.0.10 test data, actually booted and verified on native Windows with the v0.2.0 CLI",
+    "stopped":  true,
+    "after":  {
+                  "installation.json":  {
+                                            "sha256":  "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+                                            "size":  113
+                                        },
+                  "disks\\state.qcow2":  {
+                                             "sha256":  "e29a2baa903ca43b5da4457137bf2f0c2bbb5ecb01568319cfc2735558f20517",
+                                             "size":  3969449984
+                                         }
+              },
+    "backup":  {
+                   "installation.json":  {
+                                             "sha256":  "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+                                             "size":  113
+                                         },
+                   "disks\\state.qcow2":  {
+                                              "sha256":  "e29a2baa903ca43b5da4457137bf2f0c2bbb5ecb01568319cfc2735558f20517",
+                                              "size":  3969449984
+                                          }
+               },
+    "sourceUnchanged":  true,
+    "backupUnchanged":  true,
+    "upgradedInstallationMetadataUnchanged":  true,
+    "upgradeNormalStopAndReopen":  true,
+    "finalStopClean":  true
+}

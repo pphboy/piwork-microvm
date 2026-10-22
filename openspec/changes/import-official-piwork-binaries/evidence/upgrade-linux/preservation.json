@@ -1,0 +1,39 @@
+{
+  "source": "/home/p/piwork-log-export-upgrade/data/piwork-microvm",
+  "stopped": true,
+  "before": {
+    "installation.json": {
+      "sha256": "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+      "bytes": 113
+    },
+    "disks/state.qcow2": {
+      "sha256": "73c3133dddd689227a272374eefae62daa7cbe55c9944f3838404ee57f614719",
+      "bytes": 3944742912
+    }
+  },
+  "after": {
+    "installation.json": {
+      "sha256": "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+      "bytes": 113
+    },
+    "disks/state.qcow2": {
+      "sha256": "73c3133dddd689227a272374eefae62daa7cbe55c9944f3838404ee57f614719",
+      "bytes": 3944742912
+    }
+  },
+  "backup": {
+    "installation.json": {
+      "sha256": "b25290ad5fc634aaa52254101ce2b5568cda33636057b0045f5bc0971343a328",
+      "bytes": 113
+    },
+    "disks/state.qcow2": {
+      "sha256": "73c3133dddd689227a272374eefae62daa7cbe55c9944f3838404ee57f614719",
+      "bytes": 3944742912
+    }
+  },
+  "sourceUnchanged": true,
+  "backupUnchanged": true,
+  "upgradedInstallationMetadataUnchanged": true,
+  "upgradeNormalStopAndReopen": true,
+  "finalStopClean": true
+}
