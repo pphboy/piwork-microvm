@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.10-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.11-informational)](build.lock.json)
 
 [简体中文](README.zh-CN.md)
 
@@ -287,6 +287,12 @@ Docker Engine, **exactly Go 1.25.5** (the build hard-fails on any other `go env 
 Git, Python 3, Make, Bash, curl, qemu-img and internet access. Node is **not** a host
 prerequisite; it is supplied by a container. Only Go has an enforced version check.
 
+The default `official-release` input imports Piwork's published Linux binaries and pulls
+its production images by digest; it does not run upstream npm, Go or image source builds.
+It still needs Go 1.25.5 (to read module identity and module license texts), Docker and
+network access on the first preparation. The explicitly selected `source` input compiles
+the locked commit as before.
+
 ### GUI build prerequisites
 
 GUI builds are separate from the CLI build and must use the pinned Wails CLI:
@@ -310,15 +316,22 @@ GUI builds are separate from the CLI build and must use the pinned Wails CLI:
 | Node | 24 |
 | Guest Docker | 28.5.2 |
 
+Official-input builds pull the pinned Agent, file-helper and snapshot-helper images by
+registry digest and embed them into the Guest archive. The finished artifact loads them
+offline; users do not need Host Docker or network access.
+
 ### Make targets
 
 | Target | What it does | Needs |
 | --- | --- | --- |
 | `source` | Clone and pin the locked upstream checkout | network, git |
-| `source-refresh` | Re-resolve the latest official default-branch HEAD and rewrite `build.lock.json` | network, git |
+| `source-refresh` | Source mode only: re-resolve the official default-branch HEAD and rewrite `build.lock.json` | network, git |
 | `source-check` | Verify the existing clean, locked checkout without fetching | - |
+| `piwork` | Prepare the locked input (official import by default) | Docker, Go 1.25.5, network |
+| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.11` | network, git |
+| `piwork-check` | Verify the prepared official input and its output digests without writing or fetching | Python 3 |
+| `piwork-source` | Explicitly compile the locked commit instead of importing the official release | Docker, Go 1.25.5 |
 | `kernel` | Build the Guest kernel | Docker |
-| `piwork` | Build upstream Piwork and its container images | Docker, Go 1.25.5 |
 | `guest` | Assemble the Guest rootfs, initramfs and state disk | `piwork`, `kernel` |
 | `qemu` | Build and bundle the Linux QEMU | Docker |
 | `qemu-windows` | Build and bundle the Windows QEMU | Docker |
@@ -331,11 +344,27 @@ GUI builds are separate from the CLI build and must use the pinned Wails CLI:
 | `test` | Go tests and Python script tests | Go 1.25.5, Python 3 |
 | `boot-dev` | Development only: run against a host QEMU | host `/usr/bin/qemu-system-x86_64`, built `dist/guest` |
 
+Kernel, QEMU and Guest assembly write component records under `dist/build-current/`:
+the component's own inputs plus every output size and SHA256. A target is skipped only when
+the record matches the current inputs and all outputs verify; missing or corrupt output,
+an input change, or a missing record rebuilds. Use `FORCE_REBUILD=1` for a full rebuild.
+Each check prints `component <kind>: HIT|MISS` and its elapsed time. The same verified
+Guest is assembled once and reused by all four CLI/GUI entry points, and the original
+payload/trailer format is unchanged.
+
 ```sh
-make guest PIWORK_SOURCE=/home/p/Projects/piwork  # build the frozen upstream and Guest once
-make source-check                              # verify the clean, locked checkout
+make piwork                                    # import the locked official release
+make piwork-check                              # read-only verification of that import
+make piwork-lock TAG=v0.0.11                   # explicit release-input update (network)
+make piwork-source                             # explicit source compile of the locked commit
+make guest PIWORK_SOURCE=/home/p/Projects/piwork  # assemble the Guest once
+make source-check                              # verify the clean, locked checkout (source mode)
 # Reuse that Guest for the two GUI builds below; do not refresh the frozen lock.
 ```
+
+`source-refresh` is refused while the lock selects `official-release`: a release update must
+replace the assets, program identity and image digests together, so use `make piwork-lock`.
+Locks without `piwork.inputMode` remain source locks and can still use `source-refresh`.
 
 With the locked Guest and QEMU resources already built, rebuild only the GUI bodies and
 append the existing resources (no upstream refresh):
@@ -343,9 +372,9 @@ append the existing resources (no upstream refresh):
 ```sh
 python3 scripts/gui-build.py --platform linux
 # On native Windows, with the same checkout, lock and dist/piwork/metadata.json:
-# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version>
+# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version> -Commit <git-commit>
 # Then, on the resource-build host:
-python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
+PIWORK_RELEASE_VERSION=<version> python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
 ```
 
 Linux uses `CGO_ENABLED=1` and tags `desktop production webkit2_41`; native Windows uses
@@ -363,19 +392,24 @@ or run the GUI. No build command tags, pushes or publishes.
   `dist/payload-gui-<platform>.tar.gz` and `dist/bundle-manifest-gui-<platform>.json`. They
   never overwrite CLI intermediates or the CLI artifacts.
 - Intermediates: `dist/source/<commit>/piwork`, `dist/piwork/images.json`,
-  `dist/piwork/metadata.json`, `dist/guest/`, `dist/qemu/`, `dist/qemu-windows/`.
+  `dist/piwork/metadata.json`, `dist/piwork/import.json`, `dist/piwork/upstream-release/`,
+  `dist/guest/`, `dist/qemu/`, `dist/qemu-windows/`. The imported binary set and image
+  archive are published atomically: a failed verification leaves the previous input intact.
 
 ### Upstream pinning
 
-[`build.lock.json`](build.lock.json) is the source of truth. It pins
-`https://github.com/pphboy/piwork.git`, branch `main`, commit
-`29e3471e02e53094c1e1f427a88de6a2a24fb963`, frozen from local main on 2026-10-22. Normal builds use the full
-locked commit at `dist/source/<commit>/piwork`, and modified inputs are rejected. The version
-string `0.0.10` comes from upstream's own `package.json`, not from the lock file.
+[`build.lock.json`](build.lock.json) is the source of truth. `piwork.inputMode` selects
+`official-release` (current) or `source`; a lock without the field is a source lock. The
+current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.11`, the actual
+build commit `a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c` and the separate publication commit
+`2142491f5103b58731de4872d153bd1b876860de`. It also records the four asset sizes/SHA256,
+program and UI identity, and the three production image digests. `piwork.commit` is always
+the actual build commit, never the publication commit.
 
-The frozen commit contains verified log export (`19f3e0f`). Later upstream spec/archive commits
-do not change it. This is a local development build: record the declared version, full commit
-and actual dirty status; do not relabel it 0.0.11 or change official release records.
+Normal builds consume the lock and never follow `main`, a moving tag or `latest`. In source
+mode they use the full locked commit at `dist/source/<commit>/piwork` and reject modified
+inputs. The bundled upstream version is `0.0.11` (an upstream Preview), independent of the
+wrapper version.
 
 ### Local source and reproducibility
 
@@ -385,39 +419,77 @@ hard-fails on a modified input. No Piwork patches are applied.
 
 The payload tarball is built deterministically (sorted entries, `mtime` 0, fixed modes, gzip
 `mtime` 0), but the Guest ext4 rootfs uses freshly generated UUIDs, so whole-artifact byte
-reproducibility is not promised. Builds do not push or publish; the container registry
-namespace is local only (`docker.io/piwork-microvm-local`).
+reproducibility is not promised. Builds do not push or publish. Source mode uses the local
+namespace `docker.io/piwork-microvm-local`; official mode pulls images by digest and never
+pushes to any registry.
+
+Readable license texts for the imported binaries, their Go modules and the production images
+are written to `dist/piwork/upstream-release/licenses/` and embedded in every artifact under
+`provenance/piwork-upstream/licenses/`. Guest package texts stay under
+`provenance/guest-licenses/` and in `guest-licenses.tar.gz`. Each `INDEX.json` records a
+component whose text could not be extracted instead of dropping it, and none of these files
+requires booting the VM.
 
 ## Releases
 
 Releases are published on GitHub and cut from a tagged commit. Piwork MicroVM has its own
 version, independent of the upstream Piwork version it bundles; the annotated git tag is the
-source of truth, and `--version` reports both.
+source of truth, and `--version` reports both. The current target is wrapper v0.2.1 bundling
+Piwork 0.0.11, which is an upstream **Preview**, not a stable upstream release.
 
 | Asset | Contents |
 | --- | --- |
-| `piwork-microvm-v<version>-linux-amd64` | Linux x86-64 ELF |
-| `piwork-microvm-v<version>-windows-amd64.exe` | Native Windows x86-64 PE |
+| `piwork-microvm-v<version>-<platform>-amd64[.exe]` | CLI for Linux x86-64 (ELF) or native Windows x86-64 (PE) |
+| `piwork-microvm-gui-v<version>-<platform>-amd64[.exe]` | GUI for the same two platforms, with its own body and payload |
 | `*.sha256` | Checksum for the matching binary |
-| `release-manifest.json` | Locked inputs, artifact hashes and verification status |
+| `release-manifest.json` | Locked inputs, four artifact hashes and scoped verification status |
 | `qemu-patches.tar.gz` | Corresponding source for the modified GPL component |
-| `guest-licenses.tar.gz` | License texts for every package in the Guest image |
+| `guest-licenses.tar.gz` | Readable license texts for every package in the Guest image |
+| `piwork-licenses.tar.gz` | Readable texts for the imported binaries, their Go modules and the production images |
 
-The Guest licenses are also embedded in the artifact under `provenance/guest-licenses/`, so
-they can be read from the download without booting the VM; `index.json` lists every package and
-flags any that has no extractable text.
+The GUI needs a native body: build it on native Windows with
+`scripts/gui-build-windows.ps1`, then run `scripts/bundle.py --entry gui --platform windows
+--body ...` on the resource host. Wails is not cross-compiled; a Linux GUI never substitutes
+for the Windows one. The Windows body writes its build record, and packaging refuses a body
+whose version, platform, entry or locked inputs do not match.
 
-`make release VERSION=<v>` runs the gate, tests, build, manifest and notes, and stops there.
-`make release-publish VERSION=<v>` tags and publishes. Builds never push or publish, and
-container images stay in the local registry.
+`make release VERSION=0.2.1` runs the gate, tests, Linux builds, the four-artifact checks,
+manifest and notes, then freezes a version plan under `dist/release-plans/v0.2.1/` and stops.
+It never tags, pushes or publishes, and no container image is pushed to a registry.
+`make release-publish VERSION=0.2.1` is the separate remote step: it verifies the frozen plan
+and local bytes, creates or reuses the annotated tag, creates a draft, uploads missing assets,
+checks every remote size and SHA256, and only then makes the release public.
+
+If an upload is interrupted, rerun the same command. The frozen plan and notes are reused;
+matching remote assets are skipped, and an incomplete placeholder that verifiably belongs to
+the same draft plan is removed before re-upload. A tag pointing at another commit, a completed
+asset with different content, or an already public release with different content is refused
+rather than overwritten. Upload retries are per file; GitHub offers no in-file resume. The four
+full artifacts still dominate transfer time.
+
+`make release-publish-dry-run VERSION=0.2.1` prints the frozen tag and asset list without
+creating a tag or touching the remote.
 
 Verification is recorded against the **locked inputs**, not against the downloaded bytes: the
 Guest ext4 rootfs is regenerated with fresh UUIDs on every build, so two builds of the same
-inputs still differ. Verify a download with the checksum from its release, and read the
-manifest's `verification` field for which platforms were actually run — a platform that was not
-run is recorded as `not-verified`. Release notes carry the corresponding source for the GPL
-components, with their locked checksums and a written offer, and state the known limitations of
-the current distribution.
+inputs still differ. The manifest carries a full input fingerprint and separate `build`,
+`integration`, `real-model` and `upstream` scopes; only a record with the same fingerprint can
+mark a scope verified, and upstream records never upgrade a MicroVM scope. Verify a download
+with the checksum from its release.
+
+### Upgrading an existing 0.2.0 installation
+
+Stop the old launcher normally first, then copy both `installation.json` and the state disk to
+an independent directory. Start the new 0.2.1 artifact against that copy and check the existing
+account, Work, Files and Service data plus a normal stop/restart. Keep the stopped original and
+its backup untouched. This release reports only what the tested copy does; it does not promise
+general downgrade compatibility. To roll back, use the untouched stopped installation with the
+old release files, never an old Core opened against an upgraded copy.
+
+Release notes carry the corresponding source for every GPL/LGPL component (including BusyBox,
+qboot, libfdt and the Guest packages), their locked checksums, a written offer, and the known
+limitations of this distribution. Readable license texts are also embedded under `provenance/` in every artifact and in
+`guest-licenses.tar.gz`/`piwork-licenses.tar.gz`, without booting the VM.
 
 ## Acceptance and evidence
 

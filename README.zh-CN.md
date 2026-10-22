@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.10-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.11-informational)](build.lock.json)
 
 [English](README.md)
 
@@ -250,6 +250,10 @@ WebView2 Runtime。OS 加载/Wails 初始化前失败不承诺生成应用诊断
 Docker Engine、**恰好 Go 1.25.5**（其他 `go env GOVERSION` 会直接导致构建失败）、Git、Python 3、
 Make、Bash、curl、qemu-img 和网络访问。Node **不是**主机前置，由容器提供。只有 Go 有强制版本校验。
 
+默认的 `official-release` 输入导入 Piwork 已发布的 Linux 二进制，并按摘要拉取配套生产镜像；
+不执行上游 npm、Go 或镜像源码构建。首次准备仍需要 Go 1.25.5（读取模块身份与模块许可文本）、
+Docker 和网络。显式选择的 `source` 输入仍按原方式编译锁定提交。
+
 ### 桌面 GUI 构建前置
 
 GUI 构建与 CLI 分离，并使用固定的 Wails CLI：
@@ -271,15 +275,21 @@ GUI 构建与 CLI 分离，并使用固定的 Wails CLI：
 | Node | 24 |
 | Guest Docker | 28.5.2 |
 
+官方输入构建按 registry 摘要拉取固定的 Agent、file-helper 与 snapshot-helper 镜像，并内嵌到
+Guest 归档。最终产物离线加载这些镜像，用户无需 Host Docker 或网络。
+
 ### 构建目标
 
 | 目标 | 作用 | 依赖 |
 | --- | --- | --- |
 | `source` | 克隆并固定锁定的上游源码 | 网络、git |
-| `source-refresh` | 重新解析官方默认分支最新 HEAD 并重写 `build.lock.json` | 网络、git |
+| `source-refresh` | 仅源码模式：重新解析官方默认分支 HEAD 并重写 `build.lock.json` | 网络、git |
 | `source-check` | 检查既有的干净固定副本，不拉取 | - |
+| `piwork` | 准备锁定输入（默认导入官方发行制品） | Docker、Go 1.25.5、网络 |
+| `piwork-lock` | 显式替换官方发行输入；需 `TAG`，例如 `TAG=v0.0.11` | 网络、git |
+| `piwork-check` | 只读校验已准备输入及其输出摘要，不写入、不拉取 | Python 3 |
+| `piwork-source` | 显式编译锁定提交，而不是导入官方发行制品 | Docker、Go 1.25.5 |
 | `kernel` | 构建 Guest 内核 | Docker |
-| `piwork` | 构建上游 Piwork 及其容器镜像 | Docker、Go 1.25.5 |
 | `guest` | 组装 Guest rootfs、initramfs 和状态盘 | `piwork`、`kernel` |
 | `qemu` | 构建并打包 Linux QEMU | Docker |
 | `qemu-windows` | 构建并打包 Windows QEMU | Docker |
@@ -292,20 +302,34 @@ GUI 构建与 CLI 分离，并使用固定的 Wails CLI：
 | `test` | Go 测试与 Python 脚本测试 | Go 1.25.5、Python 3 |
 | `boot-dev` | 仅开发使用：对宿主 QEMU 运行 | 宿主 `/usr/bin/qemu-system-x86_64`、已构建的 `dist/guest` |
 
+Kernel、QEMU 与 Guest 组装在 `dist/build-current/` 写入组件记录：仅覆盖该组件自身输入，
+并记录全部输出的大小与 SHA256。只有记录与当前输入一致且所有输出校验通过时才跳过构建；
+输出缺失/损坏、输入变化或没有记录都会重建。需要完整重建时使用 `FORCE_REBUILD=1`。
+每次检查输出 `component <kind>: HIT|MISS` 与耗时。同一份已核验 Guest 只组装一次，
+供四个 CLI/GUI 入口复用，原 payload/Trailer 格式不变。
+
 ```sh
-make guest PIWORK_SOURCE=/home/p/Projects/piwork  # 统一构建冻结上游和 Guest 一次
-make source-check                              # 检查独立干净锁定副本
+make piwork                                    # 导入锁定官方发行制品
+make piwork-check                              # 只读校验该导入
+make piwork-lock TAG=v0.0.11                   # 显式更新发行输入（联网）
+make piwork-source                             # 显式编译锁定提交
+make guest PIWORK_SOURCE=/home/p/Projects/piwork  # 统一组装 Guest 一次
+make source-check                              # 检查独立干净锁定副本（源码模式）
 # 下方两个 GUI 构建复用同一 Guest，不刷新冻结锁。
 ```
+
+当锁选择 `official-release` 时，`source-refresh` 会被拒绝：发行更新必须同时替换资产、程序身份
+和镜像摘要，因此请使用 `make piwork-lock`。缺少 `piwork.inputMode` 的旧锁仍按源码锁处理，
+可继续使用 `source-refresh`。
 
 锁定的 Guest/QEMU 资源已构建时，可只重建 GUI 主体并追加现有资源，不刷新上游：
 
 ```sh
 python3 scripts/gui-build.py --platform linux
 # 在原生 Windows，用同一源码、锁与 dist/piwork/metadata.json：
-# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version>
+# powershell -File scripts/gui-build-windows.ps1 -Source C:\src\piwork-microvm -Output C:\src\piwork-microvm\dist\launcher-gui-windows.exe -Version <wrapper-version> -Commit <git-commit>
 # 随后在资源构建主机封装：
-python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
+PIWORK_RELEASE_VERSION=<version> python3 scripts/bundle.py --entry gui --platform windows --body /path/to/launcher-gui-windows.exe
 ```
 
 Linux GUI 使用 `CGO_ENABLED=1` 和 `desktop production webkit2_41` tag；原生 Windows GUI 使用
@@ -321,18 +345,22 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
   `dist/payload-gui-<platform>.tar.gz` 与 `dist/bundle-manifest-gui-<platform>.json`，不会覆盖
   CLI 中间产物或 CLI 产物。
 - 中间产物：`dist/source/<commit>/piwork`、`dist/piwork/images.json`、
-  `dist/piwork/metadata.json`、`dist/guest/`、`dist/qemu/`、`dist/qemu-windows/`。
+  `dist/piwork/metadata.json`、`dist/piwork/import.json`、`dist/piwork/upstream-release/`、
+  `dist/guest/`、`dist/qemu/`、`dist/qemu-windows/`。导入的二进制与镜像归档原子发布：
+  任一步校验失败都会保留上一份有效输入。
 
 ### 上游固定
 
-[`build.lock.json`](build.lock.json) 是唯一事实来源。它固定
-`https://github.com/pphboy/piwork.git`、分支 `main`、commit
-`29e3471e02e53094c1e1f427a88de6a2a24fb963`，于 2026-10-22 从本地 main 冻结。普通构建使用
-`dist/source/<commit>/piwork` 中固定的完整 commit，修改过的输入会被拒绝。版本号 `0.0.10` 来自上游
-自己的 `package.json`，不来自锁文件。
+[`build.lock.json`](build.lock.json) 是唯一事实来源。`piwork.inputMode` 选择
+`official-release`（当前）或 `source`；缺少该字段的锁按源码锁处理。当前锁固定
+`https://github.com/pphboy/piwork.git`、发行标签 `v0.0.11`、实际构建提交
+`a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c` 和独立的发布提交
+`2142491f5103b58731de4872d153bd1b876860de`，并记录四个资产的大小/SHA256、程序与 UI 身份、
+以及三个生产镜像摘要。`piwork.commit` 始终是实际构建提交，绝不是发布提交。
 
-冻结提交包含已核验的日志导出 `19f3e0f`；后续上游规格归档不改变本次输入。
-这是本地开发构建，记录声明版本、完整 commit 和实际 dirty 状态，不改标为 0.0.11，不修改官方发行记录。
+普通构建只消费锁，不跟随 `main`、可变标签或 `latest`。源码模式使用
+`dist/source/<commit>/piwork` 中固定的完整提交，修改过的输入会被拒绝。内置上游版本为
+`0.0.11`（上游 Preview），与包装层版本相互独立。
 
 ### 本地源码与可重现性
 
@@ -340,34 +368,65 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
 clone，不会复制未提交文件，且校验对修改过的输入硬失败。不应用任何 Piwork 补丁。
 
 payload tarball 是确定性构建的（条目排序、`mtime` 为 0、固定权限、gzip `mtime` 为 0），但 Guest
-ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现。构建不推送、不发布；容器 registry
-命名空间仅本地（`docker.io/piwork-microvm-local`）。
+ext4 rootfs 使用新生成的 UUID，因此不承诺整个产物逐字节重现。构建不推送、不发布。源码模式使用
+本地 registry 命名空间 `docker.io/piwork-microvm-local`；官方模式按摘要拉取镜像，且从不向任何
+registry 推送。
+
+导入二进制、其 Go 模块及生产镜像的可读许可文本写入
+`dist/piwork/upstream-release/licenses/`，并内嵌到每个产物的
+`provenance/piwork-upstream/licenses/` 下。Guest 包文本仍在 `provenance/guest-licenses/` 与
+`guest-licenses.tar.gz` 中。各 `INDEX.json` 会记录无法提取文本的组件而不是丢弃它们，且这些文件
+都无需启动 VM 即可读取。
 
 ## 发布
 
 发布在 GitHub 上进行，且只从打过 tag 的提交切出。Piwork MicroVM 有自己的版本号，独立于它
-打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。
+打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。本次目标为
+包装层 v0.2.1，内置 Piwork 0.0.11 —— 这是上游 **Preview**，不是稳定发行版。
 
 | 资产 | 内容 |
 | --- | --- |
-| `piwork-microvm-v<version>-linux-amd64` | Linux x86-64 ELF |
-| `piwork-microvm-v<version>-windows-amd64.exe` | 原生 Windows x86-64 PE |
+| `piwork-microvm-v<version>-<platform>-amd64[.exe]` | Linux x86-64（ELF）或原生 Windows x86-64（PE）CLI |
+| `piwork-microvm-gui-v<version>-<platform>-amd64[.exe]` | 同两平台 GUI，使用独立主体与 payload |
 | `*.sha256` | 对应二进制的校验和 |
-| `release-manifest.json` | 锁定输入、产物 hash 与验收状态 |
+| `release-manifest.json` | 锁定输入、四个产物 hash 与分范围验收状态 |
 | `qemu-patches.tar.gz` | 被修改的 GPL 组件的对应源码 |
-| `guest-licenses.tar.gz` | Guest 镜像内每个包的许可证文本 |
+| `guest-licenses.tar.gz` | Guest 镜像内每个包的可读许可证文本 |
+| `piwork-licenses.tar.gz` | 导入二进制、其 Go 模块及生产镜像的可读许可证文本 |
 
-Guest 许可证同时内嵌在产物的 `provenance/guest-licenses/` 下，因此无需启动 VM 即可从下载物中阅读；
-`index.json` 列出每个包，并标注没有可提取文本的包。
+GUI 主体必须在原生 Windows 上用 `scripts/gui-build-windows.ps1` 构建，再在资源构建主机执行
+`scripts/bundle.py --entry gui --platform windows --body ...`。Wails 不做交叉编译；Linux GUI
+不能替代 Windows GUI。Windows 主体会写入构建记录，封装会拒绝版本、平台、入口或锁定输入
+不匹配的主体。
 
-`make release VERSION=<v>` 执行门槛、测试、构建、清单与说明后即停止；
-`make release-publish VERSION=<v>` 负责打 tag 并发布。构建流程从不推送或发布，容器镜像
-始终只在本地 registry。
+`make release VERSION=0.2.1` 执行门槛、测试、Linux 构建、四产物检查、清单与说明，随后在
+`dist/release-plans/v0.2.1/` 冻结版本计划并停止。它绝不打 tag、不推送、不发布，也不向任何
+registry 推送容器镜像。`make release-publish VERSION=0.2.1` 是独立的远端步骤：校验冻结计划
+与本地字节，创建或复用 annotated tag，建立草稿，上传缺失资产，核对每个远端文件的大小与
+SHA256，全部完成后才公开。
+
+上传中断后重新执行同一命令即可。冻结计划与说明会被复用；已匹配的远端资产跳过，可确认属于
+同一草稿计划且尚未完成的占位资产会先受控清理再重传。tag 指向其他提交、已完成资产内容不同、
+或已公开版本内容不同时，均明确拒绝而不是覆盖。上传按文件重试；GitHub 不提供文件内断点续传。
+四个完整产物仍占主要传输时间。
+
+`make release-publish-dry-run VERSION=0.2.1` 只打印冻结的 tag 与资产列表，不创建 tag、不写远端。
 
 验收记录以**锁定输入**为基准，而不是下载到的字节：Guest ext4 rootfs 每次构建都重新生成
-UUID，因此同一组输入构建两次，产物仍然不同。请用所属发布中的校验和验证下载，并查看清单的
-`verification` 字段确认哪些平台真的跑过 —— 未运行的平台记录为 `not-verified`。发布说明包含
-GPL 组件的对应源码、其锁定校验和与书面提供承诺，并列出当前分发的已知限制。
+UUID，因此同一组输入构建两次，产物仍然不同。清单携带完整输入指纹，并分别列出 `build`、
+`integration`、`real-model` 与 `upstream` 范围；只有指纹相同的记录才能把某一范围标为
+verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中的校验和验证下载。
+
+### 升级已有的 0.2.0 安装
+
+先正常停止旧启动器，再把 `installation.json` 与状态盘一起复制到独立目录。用新的 0.2.1
+产物启动该副本，核对既有账号、Work、Files 与 Service 数据以及正常停止/重开。保留未触碰的
+停机原件及其备份。本次只报告实际测试副本的结果，不承诺通用降级兼容。需要回退时，使用未触碰的
+停机安装与旧发行文件，绝不能拿旧 Core 去打开已升级副本。
+
+发布说明逐个列出 GPL/LGPL 组件（包括 BusyBox、qboot、libfdt 与 Guest 包）的对应源码、锁定
+校验和、书面提供承诺，以及当前分发的已知限制。可读许可文本同时内嵌在每个产物的
+`provenance/` 与 `guest-licenses.tar.gz`/`piwork-licenses.tar.gz` 中，无需启动 VM。
 
 ## 验收与证据
 
