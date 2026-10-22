@@ -23,7 +23,11 @@ qemu_archive="dist/downloads/qemu-$qemu_version.tar.xz"
 printf '%s  %s\n' "${qemu_input[1]}" "$qemu_archive" | sha256sum --check --strict
 mkdir -p dist/qemu-source/windows dist/qemu-build-windows dist/qemu-windows
 qemu_source="$PWD/dist/qemu-source/windows/qemu-$qemu_version"
-if [[ ! -d "$qemu_source" ]]; then tar -xf "$qemu_archive" -C dist/qemu-source/windows; fi
+if [[ ! -f "$qemu_source/.piwork-source-complete" || ! -f "$qemu_source/configure" ]]; then
+  rm -rf "$qemu_source"
+  tar -xf "$qemu_archive" -C dist/qemu-source/windows
+  touch "$qemu_source/.piwork-source-complete"
+fi
 for patch in guest/qemu/private-pipe.patch guest/qemu/pipe-poll.patch; do
   if git -C "$qemu_source" apply --check "$PWD/$patch" 2>/dev/null; then
     git -C "$qemu_source" apply "$PWD/$patch"
@@ -47,5 +51,7 @@ cd dist/qemu-build-windows
   --disable-guest-agent --disable-werror --disable-modules --enable-strip \
   --extra-cflags=-DFD_SETSIZE=1024 --with-pkgversion=Piwork-MicroVM --prefix=/opt/piwork-qemu
 ninja -j"${PIWORK_BUILD_JOBS:-8}" qemu-system-x86_64.exe
+rm -f ../qemu-windows/qemu-system-x86_64.exe
 cp qemu-system-x86_64.exe ../qemu-windows/
+rm -f ../qemu-windows/build-packages.txt
 cp /qemu-build-packages.txt ../qemu-windows/build-packages.txt

@@ -25,6 +25,7 @@ def main():
     for f in sorted(files):
         source=pathlib.Path(f)
         dest=out/source.name if source.name=='ld-linux-x86-64.so.2' else lib/source.name
+        dest.unlink(missing_ok=True)
         shutil.copyfile(source,dest);dest.chmod(0o755 if dest.parent==out else 0o644)
         ownership=None
         for candidate in [f,str(source.resolve()),'/usr'+f if f.startswith('/lib') else f.removeprefix('/usr')]:
@@ -34,12 +35,15 @@ def main():
         package=ownership.split(':')[0];packages.add(package)
         version=subprocess.check_output(['dpkg-query','-W','-f=${Version}',ownership],text=True)
         records.append({'source':f,'file':str(dest.relative_to(ROOT/'dist')),'package':ownership,'version':version,'sha256':hashlib.sha256(dest.read_bytes()).hexdigest()})
-    licenses=out/'licenses';licenses.mkdir(exist_ok=True)
+    licenses=out/'licenses'
+    if licenses.exists():shutil.rmtree(licenses)
+    licenses.mkdir()
     source=ROOT/'dist/qemu-source/pristine'/('qemu-'+json.loads((ROOT/'build.lock.json').read_text())['qemu']['version'])
     for p in source.glob('COPYING*'):shutil.copyfile(p,licenses/p.name)
     for name in sorted(packages):
         p=pathlib.Path('/usr/share/doc')/name/'copyright'
         if p.exists():shutil.copyfile(p,licenses/(name+'.copyright'))
+    (out/'dependencies.json').unlink(missing_ok=True)
     (out/'dependencies.json').write_text(json.dumps(records,indent=2)+'\n')
     run(out/'ld-linux-x86-64.so.2','--library-path',lib,binary,'--version')
 if __name__=='__main__':main()

@@ -17,7 +17,11 @@ if [[ ! -f "$qemu_archive" ]]; then
 fi
 printf '%s  %s\n' "${qemu_input[2]}" "$qemu_archive" | sha256sum --check --strict
 qemu_source="$PWD/dist/qemu-source/pristine/qemu-$qemu_version"
-if [[ ! -d "$qemu_source" ]]; then tar -xf "$qemu_archive" -C dist/qemu-source/pristine; fi
+if [[ ! -f "$qemu_source/.piwork-source-complete" || ! -f "$qemu_source/configure" ]]; then
+  rm -rf "$qemu_source"
+  tar -xf "$qemu_archive" -C dist/qemu-source/pristine
+  touch "$qemu_source/.piwork-source-complete"
+fi
 cd dist/qemu-build-native
 "$qemu_source/configure" --target-list=x86_64-softmmu --without-default-features \
   --enable-system --enable-kvm --enable-fdt --enable-slirp --disable-tcg \
@@ -25,6 +29,8 @@ cd dist/qemu-build-native
   --disable-modules --disable-download --enable-strip --prefix=/opt/piwork-qemu \
   --with-pkgversion=Piwork-MicroVM
 ninja -j"${PIWORK_BUILD_JOBS:-8}" qemu-system-x86_64
+rm -f ../qemu/qemu-system-x86_64
 cp qemu-system-x86_64 ../qemu/qemu-system-x86_64
+rm -f ../qemu/build-packages.txt
 cp /qemu-build-packages.txt ../qemu/build-packages.txt
 ./qemu-system-x86_64 --version

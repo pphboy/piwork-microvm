@@ -20,8 +20,9 @@ def main():
     run('docker','run','--rm','-v',f'{ROOT}:/project','-w','/project',
         'piwork-microvm-rootfs:local','bash','scripts/rootfs-assemble.sh',str(os.getuid()),str(os.getgid()))
     run('python3','scripts/guest-licenses.py')
+    (out/'guest/state.qcow2').unlink(missing_ok=True)
     run('qemu-img','convert','-f','raw','-O','qcow2',out/'guest/state.raw',out/'guest/state.qcow2')
-    (out/'guest/state.raw').unlink()
+    (out/'guest/state.raw').unlink(missing_ok=True)
     run('qemu-img','check',out/'guest/state.qcow2')
     (out/'guest/qemu-data').mkdir(exist_ok=True)
     lock=json.loads((ROOT/'build.lock.json').read_text())
@@ -34,13 +35,16 @@ def main():
     with tarfile.open(archive) as t:
         firmware=t.extractfile('qemu-'+lock['qemu']['version']+'/pc-bios/qboot.rom').read()
     if hashlib.sha256(firmware).hexdigest()!=lock['qboot']['sha256']:raise SystemExit('qboot checksum mismatch')
+    (out/'guest/qemu-data/qboot.rom').unlink(missing_ok=True)
     (out/'guest/qemu-data/qboot.rom').write_bytes(firmware)
     firmware_records={'qboot.rom':hashlib.sha256(firmware).hexdigest()}
     with tarfile.open(archive) as t:
         for name in ['linuxboot.bin','linuxboot_dma.bin']:
             data=t.extractfile('qemu-'+lock['qemu']['version']+'/pc-bios/'+name).read()
+            (out/'guest/qemu-data'/name).unlink(missing_ok=True)
             (out/'guest/qemu-data'/name).write_bytes(data)
             firmware_records[name]=hashlib.sha256(data).hexdigest()
+    (out/'guest/firmware.json').unlink(missing_ok=True)
     (out/'guest/firmware.json').write_text(json.dumps(firmware_records,indent=2)+'\n')
     run('sha256sum',out/'guest/kernel',out/'guest/initramfs',out/'guest/rootfs.ext4',out/'guest/state.qcow2')
 if __name__=='__main__': main()

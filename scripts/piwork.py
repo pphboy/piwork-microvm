@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Build existing Piwork/UI and the production image set without publishing."""
-import base64, hashlib, json, os, pathlib, subprocess
-from source import source_path, verify
+"""Import the locked official release or build Piwork from source, without publishing."""
+import argparse, base64, json, os, pathlib, subprocess
+import piwork_release
+from source import source_path, verify, input_mode, LockError
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 LOCK = json.loads((ROOT/'build.lock.json').read_text())
@@ -14,8 +15,9 @@ def call(args, **kw):
 def capture(args, **kw):
     return subprocess.check_output([str(x) for x in args], text=True, **kw).strip()
 
-def main():
-    verify(SRC)
+def build_from_source():
+    """Existing source path: npm, upstream Go and production image builds."""
+    verify(SRC, lock=LOCK)
     OUT.mkdir(parents=True, exist_ok=True)
     (ROOT/'dist/guest').mkdir(parents=True, exist_ok=True)
     if capture(['go','env','GOVERSION']) != LOCK['go']:
@@ -72,6 +74,29 @@ def main():
     call(['docker','save','-o',ROOT/'dist/guest/images.tar',*[v['reference'] for v in image_records.values()]])
     (OUT/'images.json').write_text(json.dumps(image_records,indent=2)+'\n')
     (OUT/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
+    (OUT/'build-mode.json').write_text(json.dumps({'inputMode':'source',
+        'commit':LOCK['piwork']['commit']},indent=2)+'\n')
     print('Piwork production binaries and images built:',meta['releaseId'])
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--source-build',action='store_true',
+                   help='explicitly compile the locked commit instead of importing the official release')
+    a=p.parse_args()
+    try:
+        mode=input_mode(LOCK)
+    except LockError as err:
+        raise SystemExit(str(err))
+    if mode=='official-release' and not a.source_build:
+        try:
+            summary=piwork_release.check_prepared(LOCK)
+            print('Piwork official release already verified; reusing preparation for',summary['tag'])
+            return
+        except piwork_release.ReleaseError:
+            pass
+        record=piwork_release.prepare_lock(LOCK)
+        print('Piwork official release prepared:',record['version'],'build commit',record['buildCommit'])
+        return
+    build_from_source()
 
 if __name__=='__main__': main()

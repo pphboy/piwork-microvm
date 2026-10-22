@@ -18,11 +18,15 @@ def main():
             if lower in SYSTEM or lower.startswith(('api-ms-win-','ext-ms-win-')):continue
             if lower not in available:raise SystemExit('Unresolved native import: '+name)
             target=OUT/name
-            if lower not in seen:shutil.copy2(available[lower],target)
+            if lower not in seen:
+                target.unlink(missing_ok=True)
+                shutil.copy2(available[lower],target)
             queue.append(target)
         package=subprocess.run(['rpm','-qf',str(available.get(p.name.lower(),p))],capture_output=True,text=True).stdout.strip()
         records.append({'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'imports':imports,'package':package})
-    licenses=OUT/'licenses';licenses.mkdir(exist_ok=True)
+    licenses=OUT/'licenses'
+    if licenses.exists():shutil.rmtree(licenses)
+    licenses.mkdir()
     for p in OUT.glob('*.dll'):
         if p.name.lower() not in seen:p.unlink()
     for p in pathlib.Path('/usr/share/licenses').glob('mingw*'):
@@ -32,6 +36,7 @@ def main():
     shutil.copy2(source/'subprojects/slirp/COPYRIGHT',licenses/'libslirp-COPYRIGHT')
     for name in ['README.license','BSD-2-Clause','GPL']:
         shutil.copy2(source/'subprojects/dtc'/name,licenses/('dtc-'+name))
+    (OUT/'native-dependencies.json').unlink(missing_ok=True)
     (OUT/'native-dependencies.json').write_text(json.dumps(records,indent=2)+'\n')
     print(json.dumps(records,indent=2))
 if __name__=='__main__':main()

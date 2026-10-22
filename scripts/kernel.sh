@@ -15,14 +15,18 @@ if [[ ! -f "$kernel_archive" ]]; then
   mv "$kernel_archive.part" "$kernel_archive"
 fi
 printf '%s  %s\n' "${kernel_input[2]}" "$kernel_archive" | sha256sum --check --strict
-if [[ ! -d "dist/kernel/pristine/linux-$kernel_version" ]]; then
-  tar -xf "$kernel_archive" -C dist/kernel/pristine
-fi
 kernel_source="$PWD/dist/kernel/pristine/linux-$kernel_version"
+# A directory with partial contents is not a usable source tree.
+if [[ ! -f "$kernel_source/.piwork-source-complete" || ! -f "$kernel_source/Makefile" || ! -f "$kernel_source/arch/x86/configs/x86_64_defconfig" ]]; then
+  rm -rf "$kernel_source"
+  tar -xf "$kernel_archive" -C dist/kernel/pristine
+  touch "$kernel_source/.piwork-source-complete"
+fi
 make -C "$kernel_source" x86_64_defconfig
 "$kernel_source/scripts/kconfig/merge_config.sh" -m -O "$kernel_source" "$kernel_source/.config" guest/kernel/config.fragment
 make -C "$kernel_source" olddefconfig
 make -C "$kernel_source" -j"${PIWORK_BUILD_JOBS:-8}" bzImage
+rm -f dist/guest/kernel dist/guest/kernel.config
 cp "$kernel_source/arch/x86/boot/bzImage" dist/guest/kernel
 cp "$kernel_source/.config" dist/guest/kernel.config
 sha256sum dist/guest/kernel

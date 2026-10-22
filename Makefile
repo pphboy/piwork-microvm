@@ -3,7 +3,9 @@ export CGO_ENABLED := 0
 export GOTOOLCHAIN := local
 PIWORK_SOURCE ?= https://github.com/pphboy/piwork.git
 VERSION ?=
-.PHONY: source source-refresh source-check piwork kernel guest qemu qemu-windows boot-dev piwork-microvm piwork-microvm-windows piwork-microvm-all piwork-microvm-gui piwork-microvm-gui-windows piwork-microvm-gui-all acceptance-microvm acceptance-ports test test-scripts release release-publish release-publish-dry-run
+FORCE_REBUILD ?=
+COMPONENT_FLAGS = $(if $(FORCE_REBUILD),--force,)
+.PHONY: source source-refresh source-check piwork piwork-lock piwork-check piwork-source kernel guest qemu qemu-windows boot-dev piwork-microvm piwork-microvm-windows piwork-microvm-all piwork-microvm-gui piwork-microvm-gui-windows piwork-microvm-gui-all acceptance-microvm acceptance-ports test test-scripts release release-publish release-publish-dry-run
 source:
 	python3 scripts/source.py --source "$(PIWORK_SOURCE)"
 source-refresh:
@@ -11,19 +13,24 @@ source-refresh:
 source-check:
 	python3 scripts/source.py --check
 kernel:
-	bash scripts/kernel.sh
+	@python3 scripts/components.py check --kind kernel $(COMPONENT_FLAGS) || { bash scripts/kernel.sh && python3 scripts/components.py record --kind kernel; }
 piwork: source
 	python3 scripts/piwork.py
+piwork-lock:
+	@test -n "$(TAG)" || { echo 'Set TAG, for example: make piwork-lock TAG=v0.0.11'; exit 1; }
+	python3 scripts/piwork_release.py lock --tag "$(TAG)"
+piwork-check:
+	python3 scripts/piwork_release.py check
+piwork-source: source
+	python3 scripts/piwork.py --source-build
 guest: piwork kernel
-	python3 scripts/rootfs.py
+	@python3 scripts/components.py check --kind guest $(COMPONENT_FLAGS) || { python3 scripts/rootfs.py && python3 scripts/components.py record --kind guest; }
 qemu:
-	bash scripts/qemu.sh
-	python3 scripts/qemu-bundle.py
+	@python3 scripts/components.py check --kind qemu $(COMPONENT_FLAGS) || { bash scripts/qemu.sh && python3 scripts/qemu-bundle.py && python3 scripts/components.py record --kind qemu; }
 piwork-microvm: guest qemu
 	python3 scripts/bundle.py --platform linux
 qemu-windows:
-	bash scripts/qemu-windows.sh
-	docker run --rm --user "$$(id -u):$$(id -g)" -v "$(CURDIR):/project" -w /project piwork-microvm-qemu-windows-builder:local python3 scripts/qemu-windows-bundle.py
+	@python3 scripts/components.py check --kind qemu-windows $(COMPONENT_FLAGS) || { bash scripts/qemu-windows.sh && docker run --rm --user "$$(id -u):$$(id -g)" -v "$(CURDIR):/project" -w /project piwork-microvm-qemu-windows-builder:local python3 scripts/qemu-windows-bundle.py && python3 scripts/components.py record --kind qemu-windows; }
 piwork-microvm-windows: guest qemu-windows
 	python3 scripts/bundle.py --platform windows
 piwork-microvm-all: piwork-microvm piwork-microvm-windows
