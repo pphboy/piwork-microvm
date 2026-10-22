@@ -485,7 +485,7 @@ with the checksum from its release.
 
 ### Upgrading an existing 0.2.0 installation
 
-**Historical 0.0.11 input issue:** one retained Linux test installation was rejected before SQLite WAL recovery, also reproducible with the original Core outside MicroVM. The original [0.0.11 evidence](openspec/changes/import-official-piwork-binaries/acceptance.md) retains that failure. The [0.0.12 retry](openspec/changes/import-official-piwork-binaries/acceptance-0.0.12.md) separately verifies the same data in an independent copy with the new official Core. Keep complete stopped backups, including WAL/SHM; this focused result is not a general upgrade or downgrade guarantee.
+**Historical 0.0.11 input issue:** one retained Linux test installation was rejected before SQLite WAL recovery, also reproducible with the original Core outside MicroVM. The original [0.0.11 evidence](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance.md) retains that failure. The [0.0.12 retry](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) separately verifies the same data in an independent copy with the new official Core. Keep complete stopped backups, including WAL/SHM; this focused result is not a general upgrade or downgrade guarantee.
 
 Stop the old launcher normally first, then copy both `installation.json` and the state disk to
 an independent directory. Start the new artifact against that copy and check the existing
@@ -516,8 +516,8 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
-| [0.0.12 retry](openspec/changes/import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | Current official input; Linux CLI/GUI builds and focused WAL/data retry; Windows and real models not reverified |
-| [Official binary integration](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview official inputs; both native GUIs, production Work/Files/Service, saved administrator ZIPs and stopped 0.0.10 copies; both empty-directory installations reopened; retained Linux 0.0.11 data has a known SQLite/WAL failure; real models not verified |
+| [0.0.12 retry](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | Current official input; Linux CLI/GUI builds and focused WAL/data retry; Windows and real models not reverified |
+| [Official binary integration](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview official inputs; both native GUIs, production Work/Files/Service, saved administrator ZIPs and stopped 0.0.10 copies; both empty-directory installations reopened; retained Linux 0.0.11 data has a known SQLite/WAL failure; real models not verified |
 | [Frozen Core log-export acceptance](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10 at `29e3471`; both native GUIs, real Desktop fault/gap ZIP downloads, stopped-copy persistence and one custom UI/Core port pair; no real model call |
 | [GUI acceptance](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |
 
@@ -528,7 +528,7 @@ Launcher normal/error exports and safe stop with its original Piwork input. The
 [prior frozen Core integration](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 uses the newly built 0.0.10 Guest on Linux/KVM and native Windows/WebView2/WHPX. It covers
 Desktop fault/gap ZIPs saved on Host, stopped-installation copies, language persistence,
-safe shutdown and the custom 19190/19191 path. The [0.0.11 official-input record](openspec/changes/import-official-piwork-binaries/acceptance.md) records that earlier input’s build, scoped integration and stopped-copy upgrade, including both a passing empty-directory Linux deployment/reopen and the unresolved retained-data SQLite/WAL case. None of these scoped records claims a new real-model call
+safe shutdown and the custom 19190/19191 path. The [0.0.11 official-input record](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance.md) records that earlier input’s build, scoped integration and stopped-copy upgrade, including both a passing empty-directory Linux deployment/reopen and the unresolved retained-data SQLite/WAL case. None of these scoped records claims a new real-model call
 or an untested Windows version. GUI builds never tag, push or publish.
 
 ### Linux acceptance
