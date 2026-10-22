@@ -125,6 +125,63 @@ class LockBuildTest(unittest.TestCase):
         self.assertEqual(release['images']['packageHelper'], release['images']['agent'])
         self.assertEqual(release['metadata']['programs'][0]['commit'], BUILD_COMMIT)
 
+    def native_fixture(self):
+        lock, context = fixture()
+        build = context['build']
+        context['manifest']['manifestVersion'] = 2
+        context['manifest']['sourceModified'] = False
+        context['manifest']['images'] = copy.deepcopy(build['images'])
+        build['manifestVersion'] = 2
+        build['nativePrograms'] = {p['program']: {'build': p, 'sha256': digest(ARCHIVE)}
+                                   for p in build.pop('programs')}
+        build['images'] = {role: r['reference'] for role, r in build['images'].items()
+                           if role != 'packageHelper'}
+        del build['publicationCommit']
+        del build['archives']
+        resync(context)
+        return lock, context
+
+    def test_native_v2_preserves_bytes_and_locks_tag_and_program_digests(self):
+        lock, context = self.native_fixture()
+        original = copy.deepcopy(context)
+        updated = piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT,
+                                                      context['payloads'])
+        self.assertEqual(context, original)
+        release = updated['piwork']['release']
+        self.assertEqual(release['releaseCommit'], RELEASE_COMMIT)
+        self.assertEqual(updated['piwork']['commit'], BUILD_COMMIT)
+        self.assertEqual(release['metadata']['publicationCommitBasis'], 'official-git-tag')
+        self.assertEqual(release['metadata']['programSHA256']['piwork-cli'], digest(ARCHIVE))
+        self.assertEqual(release['images']['agent'], release['images']['packageHelper'])
+
+    def test_native_v2_conflicting_reference_is_rejected(self):
+        lock, context = self.native_fixture()
+        context['build']['images']['agent'] = 'wrong:image'
+        resync(context)
+        with self.assertRaisesRegex(piwork_release.ReleaseError, 'image reference differs'):
+            piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT, context['payloads'])
+
+    def test_native_v2_bad_program_digest_is_rejected(self):
+        lock, context = self.native_fixture()
+        context['build']['nativePrograms']['piwork-cli']['sha256'] = 'bad'
+        resync(context)
+        with self.assertRaisesRegex(piwork_release.ReleaseError, 'sha256 is malformed'):
+            piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT, context['payloads'])
+
+    def test_native_v2_reported_publication_commit_cannot_disagree_with_tag(self):
+        lock, context = self.native_fixture()
+        context['build']['publicationCommit'] = 'c' * 40
+        resync(context)
+        with self.assertRaisesRegex(piwork_release.ReleaseError, 'tag target differs'):
+            piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT, context['payloads'])
+
+    def test_legacy_missing_publication_commit_is_still_rejected(self):
+        lock, context = fixture()
+        del context['build']['publicationCommit']
+        resync(context)
+        with self.assertRaisesRegex(piwork_release.ReleaseError, 'publicationCommit'):
+            piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT, context['payloads'])
+
     def test_tag_target_must_match_publication_commit(self):
         lock, context = fixture()
         with self.assertRaises(piwork_release.ReleaseError):

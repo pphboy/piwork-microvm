@@ -142,6 +142,37 @@ def validate_release_metadata(release, tag, tag_commit, payloads, names):
         require(asset.get('size') == len(payloads[key]), 'asset size differs for ' + name)
         require(asset.get('digest') == 'sha256:' + digest, 'asset digest differs for ' + name)
 
+    # Since 0.0.12 the official v2 build asset carries nativePrograms and
+    # tag references; complete registry identities live in release-manifest.
+    # Normalize only our in-memory view. Keep the downloaded bytes untouched.
+    native_v2 = build.get('manifestVersion') == 2 and 'nativePrograms' in build
+    program_sha256 = {}
+    if native_v2:
+        require(manifest.get('manifestVersion') == 2, 'native v2 requires a v2 release-manifest')
+        require(manifest.get('sourceModified') is False, 'release-manifest marks source modified')
+        native = build['nativePrograms']
+        require(isinstance(native, dict), 'nativePrograms is not an object')
+        programs = []
+        for name in ('piwork-core', 'piwork-cli'):
+            record = native.get(name)
+            require(isinstance(record, dict) and isinstance(record.get('build'), dict),
+                    'native program record is missing: ' + name)
+            require(record['build'].get('program') == name, 'native program name differs: ' + name)
+            require(SHA256_RE.match(record.get('sha256', '')) is not None,
+                    'native program sha256 is malformed: ' + name)
+            programs.append(record['build'])
+            program_sha256[name] = record['sha256']
+        images = manifest.get('images', {})
+        for role in ('core',) + DEVICE_IMAGES:
+            require(isinstance(images.get(role), dict), 'release-manifest image is missing: ' + role)
+            require(build.get('images', {}).get(role) == images[role].get('reference'),
+                    'release-build image reference differs: ' + role)
+        build = dict(build, programs=programs, images=images)
+        # The release asset no longer states a separate publication commit.
+        # Resolve the official git tag independently, never infer it from main.
+        if 'publicationCommit' not in build:
+            build['publicationCommit'] = tag_commit
+
     require(build.get('releaseVersion') == version, 'release-build version differs from tag')
     release_id = build.get('releaseId', '')
     require(release_id.startswith(version + '-'), 'releaseId does not carry the release version')
@@ -190,18 +221,22 @@ def validate_release_metadata(release, tag, tag_commit, payloads, names):
         require(images['packageHelper'][field] == images['agent'][field],
                 'package-helper must reuse the Agent image (' + field + ')')
 
-    archives = {entry.get('name'): entry for entry in build.get('archives', [])}
-    archive = archives.get(names['archive'])
-    require(archive is not None, 'release-build does not describe ' + names['archive'])
-    archive_digest = sha256_bytes(payloads['archive'])
-    require(archive.get('size') == len(payloads['archive']), 'archive size differs from release-build')
-    require(archive.get('sha256') == archive_digest, 'archive sha256 differs from release-build')
+    if not native_v2:
+        archives = {entry.get('name'): entry for entry in build.get('archives', [])}
+        archive = archives.get(names['archive'])
+        require(archive is not None, 'release-build does not describe ' + names['archive'])
+        archive_digest = sha256_bytes(payloads['archive'])
+        require(archive.get('size') == len(payloads['archive']), 'archive size differs from release-build')
+        require(archive.get('sha256') == archive_digest, 'archive sha256 differs from release-build')
+    # Both formats also bind all external bytes to the GitHub asset digest and
+    # SHA256SUMS; native v2 additionally locks each actual executable digest.
 
     for key in ('releaseBuild', 'releaseManifest', 'archive'):
         require(sums.get(names[key]) == sha256_bytes(payloads[key]), 'SHA256SUMS differs for ' + names[key])
 
     return {'version': version, 'releaseId': release_id, 'build': build,
-            'manifest': manifest, 'images': images, 'sums': sums}
+            'manifest': manifest, 'images': images, 'sums': sums,
+            'programSHA256': program_sha256, 'metadataFormat': 'native-v2' if native_v2 else 'legacy'}
 
 
 def build_official_lock(lock, tag, release, tag_commit, payloads, fetched_at=None):
@@ -241,6 +276,10 @@ def build_official_lock(lock, tag, release, tag_commit, payloads, fetched_at=Non
             'consoleUIHash': checked['build']['consoleUIHash'],
             'sourceModified': checked['build']['sourceModified'],
             'programs': checked['build']['programs'],
+            'programSHA256': checked['programSHA256'],
+            'metadataFormat': checked['metadataFormat'],
+            'publicationCommitBasis': 'official-git-tag' if 'publicationCommit' not in
+                json.loads(payloads['releaseBuild']) else 'release-build',
         },
         'images': checked['images'],
     }
@@ -509,6 +548,9 @@ def verify_package(root, release, runner=subprocess.run):
         expected = next((p for p in meta['programs'] if p.get('program') == name), None)
         require(expected is not None, 'lock has no program record for ' + name)
         path = root / 'bin' / name
+        expected_sha = meta.get('programSHA256', {}).get(name)
+        if expected_sha:
+            require(sha256_file(path) == expected_sha, 'native program sha256 differs: ' + name)
         identities[name] = elf_identity(path)
         program_identity(path, expected, runner=runner)
     core_help = run_program(root / 'bin/piwork-core', '--help', runner=runner)
