@@ -18,6 +18,34 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+class GitHubDraftReadTest(unittest.TestCase):
+    def result(self, value=None, code=0, error=''):
+        return mock.Mock(returncode=code, stdout=json.dumps(value), stderr=error)
+
+    def test_tag_404_finds_owner_visible_draft_on_later_page(self):
+        draft = {'tag_name': VERSION, 'draft': True, 'assets': [{'name': 'asset', 'digest': 'sha256:abc'}]}
+        runner = mock.Mock(side_effect=[self.result(code=1, error='HTTP 404 Not Found'),
+                                      self.result([{'tag_name': 'older'}] * 100),
+                                      self.result([draft])])
+        remote = release.GitHubRelease(runner=runner)
+        remote.slug = 'owner/repo'
+        self.assertEqual(remote.release(VERSION), draft)
+        self.assertIn('page=2', runner.call_args.args[0][-1])
+
+    def test_absent_tag_and_draft_returns_none(self):
+        runner = mock.Mock(side_effect=[self.result(code=1, error='HTTP 404'), self.result([])])
+        remote = release.GitHubRelease(runner=runner)
+        remote.slug = 'owner/repo'
+        self.assertIsNone(remote.release(VERSION))
+
+    def test_permission_failure_does_not_masquerade_as_missing_draft(self):
+        runner = mock.Mock(return_value=self.result(code=1, error='HTTP 403 Forbidden'))
+        remote = release.GitHubRelease(runner=runner)
+        remote.slug = 'owner/repo'
+        with self.assertRaises(release.Failure):remote.release(VERSION)
+        self.assertEqual(runner.call_count, 1)
+
+
 class FakeRemote:
     def __init__(self, release_value=None, fail_on=None):
         self.value = release_value

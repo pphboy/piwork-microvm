@@ -543,8 +543,18 @@ class GitHubRelease:
     def release(self,tag):
         result=self._run(['api','repos/'+self.repo()+'/releases/tags/'+tag],check=False)
         if result.returncode!=0:
-            if 'HTTP 404' in (result.stderr or '') or 'Not Found' in (result.stderr or ''):return None
-            fail('cannot read release '+tag+': '+result.stderr.strip())
+            if 'HTTP 404' not in (result.stderr or '') and 'Not Found' not in (result.stderr or ''):
+                fail('cannot read release '+tag+': '+result.stderr.strip())
+            # GitHub may omit authenticated drafts from the tag endpoint.
+            # The owner-visible list includes drafts and their asset digests.
+            page=1
+            while True:
+                listed=self._run(['api','repos/'+self.repo()+'/releases?per_page=100&page='+str(page)])
+                values=json.loads(listed.stdout)
+                found=next((value for value in values if value.get('tag_name')==tag),None)
+                if found is not None:return found
+                if len(values)<100:return None
+                page+=1
         return json.loads(result.stdout)
     def create_draft(self,tag,title,notes_file):
         self._run(['release','create',tag,'--draft','--verify-tag','--title',title,'--notes-file',str(notes_file)])
