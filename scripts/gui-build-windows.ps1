@@ -61,12 +61,13 @@ if ($outputFull.StartsWith($distFull, [StringComparison]::OrdinalIgnoreCase)) {
 }
 $goFiles = @(Get-ChildItem -LiteralPath $Source -Recurse -Filter *.go | Where-Object {
     $_.FullName -notmatch '\\(dist|openspec|node_modules|\.git)\\'
-}) + @((Join-Path $Source 'go.mod'), (Join-Path $Source 'go.sum'))
+}) + @((Get-Item -LiteralPath (Join-Path $Source 'go.mod')), (Get-Item -LiteralPath (Join-Path $Source 'go.sum')))
+$sourceFull = (Resolve-Path -LiteralPath $Source).ProviderPath.TrimEnd('\')
 $sourceParts = $goFiles | ForEach-Object {
-    $relative = [IO.Path]::GetRelativePath($Source, $_.FullName).Replace('\', '/')
+    $relative = $_.FullName.Substring($sourceFull.Length).TrimStart('\').Replace('\', '/')
     $fileHash = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLower()
     [ordered]@{ rel = $relative; hash = $fileHash }
-} | Sort-Object rel
+} | Sort-Object {[BitConverter]::ToString([Text.Encoding]::UTF8.GetBytes($_.rel)).Replace('-', '')}
 $sourceText = ($sourceParts | ForEach-Object { $_.rel + "`0" + $_.hash + "`n" }) -join ''
 $sourceFingerprint = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($sourceText))) -replace '-', '').ToLower()
 $record = [ordered]@{
