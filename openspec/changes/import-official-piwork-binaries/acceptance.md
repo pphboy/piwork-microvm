@@ -1,6 +1,6 @@
 # Official Piwork 0.0.11 integration and retained WAL issue
 
-Checked on 2026-10-22. Wrapper target: **v0.2.1**. Binary import, cache reuse, four artifact builds and the scoped integration checks are complete; publication is the separate final step. The user explicitly requested continuing binary delivery and empty-directory deployment while retaining the existing-data WAL failure as a known issue.
+Checked on 2026-10-22. Wrapper target: **v0.2.1**. Binary import, cache reuse, four artifact builds, the scoped integration checks and frozen local release preparation are complete. The latest user instruction defers further pushes, uploads and public release until the user fixes Core and requests an update. Actual publication is not claimed. The existing-data WAL failure remains a known issue.
 
 The build imports the original official Core/CLI bytes. Core runs natively in the Guest; Guest Docker loads the three bundled production images. No upstream npm/Go/image compilation or registry push was performed in official mode.
 
@@ -44,7 +44,7 @@ CORE_STORAGE_FORMAT_UNSUPPORTED: use an independent supported Go data directory
 
 The same failure was reproduced with the original official binary in an independent disk copy. Read-only inspection found matching schema version, marker/database identity and schema objects. SQLite `quick_check` succeeds when the original database and WAL are opened together. Checking only the original main database with `immutable=1` instead reports an out-of-order rowid and an index-entry count mismatch. The locked upstream `corestore.Open` validates with `immutable=true` before recovering the WAL.
 
-No database, format marker or official binary was rewritten to bypass the failure. Private disk/database copies stay outside Git. [evidence/integration-linux.json](evidence/integration-linux.json) records the bounded findings; its status is **failed**, so release verification cannot upgrade Linux integration to verified.
+The original installation database, format marker and official binary were not rewritten to bypass the failure. Diagnostic recovery was confined to a separate private copy. Private disk/database copies stay outside Git. [evidence/integration-linux.json](evidence/integration-linux.json) records the bounded findings; its status is **failed**, so a new-installation pass cannot give Linux integration an unqualified verified status.
 
 The user subsequently directed continuing the binary replacement and release scope, using an empty data directory for deployment. That new Linux GUI installation created a new administrator and real production Work/Files/Service, saved/opened an administrator ZIP, stopped cleanly and reopened with identical account/Work/Service identities, file hashes and SQLite counter. The separate `evidence/linux-empty/` records prove that no old installation or disk was copied into it.
 
@@ -64,7 +64,7 @@ The known failure is retained and is not described as fixed. Linux integration i
 | Shared Guest + Kernel + both QEMU warm preparation | 8.29 | All four component records hit |
 | Four independent payload compressions | 102.15 total | 37.05 / 22.06 / 20.94 / 22.10; bytes matched final payloads |
 
-Explicit rebuilds with existing compiler/Docker caches measured Kernel 17.58s, Linux QEMU 14.21s, Windows QEMU 13.20s and Guest assembly 33.47s. They are not cold-build measurements. The new application required a newly assembled Guest, then the same verified Guest fed all four entries. No upload timing exists because publication did not start. These measurements are not a future-release SLA.
+Explicit rebuilds with existing compiler/Docker caches measured Kernel 17.58s, Linux QEMU 14.21s, Windows QEMU 13.20s and Guest assembly 33.47s. They are not cold-build measurements. The new application required a newly assembled Guest, then the same verified Guest fed all four entries. No completed-upload timing is available: publication created a draft and an upload attempt was stopped on the latest user instruction; no asset upload completed. These measurements are not a future-release SLA.
 
 The Guest/BusyBox index has 167/167 readable package texts. All 38 imported Go module texts were collected. The Agent image index explicitly records missing extracted texts for `libgcc-s1` and `libstdc++6` version `12.2.0-14+deb12u1`; those entries were retained, and the release-note generator discloses the gap and corresponding-source coverage.
 
@@ -78,4 +78,17 @@ The Guest/BusyBox index has 167/167 readable package texts. All 38 imported Go m
 - `evidence/upgrade-linux/`, `evidence/upgrade-windows/`: stopped-copy data and source/backup preservation results.
 - `evidence/import-timings.json`, `evidence/packaging-timings.json`, `evidence/timings.json`: measured stages.
 
-Repository Go tests passed; 121 Python tests passed, including input/cache/publication recovery tests and strict evidence matching. Strict OpenSpec validation passed. Evidence collection excludes credentials, raw ZIPs, disks, binaries and database contents, and checks the known test passwords/synthetic keys. The independent README/demo change is untouched.
+Repository Go tests passed; 124 Python tests passed at `f713c6e`, including input/cache/publication recovery tests, strict evidence matching and three authenticated draft-lookup tests. The frozen `e4347a8` source passed its 121-test suite during local release preparation. The draft-lookup fix is a separate publication-tooling commit; it does not change the frozen source, inputs, notes or assets. Strict OpenSpec validation passed. Evidence collection excludes credentials, raw ZIPs, disks, binaries and database contents, and checks the known test passwords/synthetic keys. The independent README/demo change is untouched.
+
+## Local completion and deferred publication
+
+The user adjusted the completion boundary to the implemented specifications, focused verification and local release preparation, leaving Core repair and subsequent updates to a later task. This changes the execution scope of task 5.6; it does not waive or weaken the publication tool's complete-asset, frozen-input or conflict checks.
+
+- `make release VERSION=0.2.1 REUSE_ARTIFACTS=1` passed in an isolated clean checkout at `e4347a8`; the main checkout's independent README/demo plan was left untouched.
+- The frozen local plan has 12 assets: four CLI/GUI binaries, four checksums, the release manifest, QEMU patches and two readable license archives. A final read-only `verify_plan` checked every size/SHA256 and the notes against the same source and locked inputs. The publication dry run passed without remote writes; the notes include corresponding source, upstream Preview status and the retained WAL issue.
+- Before the deferral, source through `f713c6e` and the annotated `v0.2.1` tag targeting `e4347a8` had already been pushed. The release remains an unpublished draft with zero assets after stopping the publisher and upload child. The latest public release remains v0.2.0; its release/asset identities, sizes and digests match the pre-attempt snapshot. Container images were never pushed.
+- The closure commits remain local. No tag was moved, draft deleted or public release edited during closure. This is local implementation completion, not public release completion.
+
+[evidence/local-finalization.json](evidence/local-finalization.json) records the bounded final checks and actual remote state. Tests of interrupted retry, incomplete placeholders, completed asset conflicts, wrong tag targets, mismatched plans and already-public releases remain passing; no successful real upload or public-release result is invented.
+
+After Core is fixed, the next task must explicitly lock the new official input and associated image identities, re-import the binaries, assemble a new Guest, rebuild the four wrappers and revalidate the changed inputs. The existing frozen v0.2.1 plan and tag retain their old identity; use a new wrapper version/plan for changed source or inputs. These current-input acceptance records do not automatically verify the repaired Core. Preserve the retained failure and untouched stopped backups.

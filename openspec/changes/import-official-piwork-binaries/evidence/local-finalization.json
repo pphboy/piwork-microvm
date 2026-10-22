@@ -1,0 +1,90 @@
+{
+  "scope": "local-release-preparation",
+  "status": "passed",
+  "checkedAt": "2026-10-22T13:16:59+00:00",
+  "basis": "locked-inputs; local asset integrity checked separately; not a public-release or fixed-Core claim",
+  "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+  "wrapperVersion": "0.2.1",
+  "upstreamVersion": "0.0.11 Preview",
+  "frozenSourceCommit": "e4347a806abed8b76c04ce8fc1ca7a3fe6789cac",
+  "publicationToolingCommit": "f713c6e46d77d7ef0bebb901046a2ef49886da56",
+  "localRelease": {
+    "command": "make release VERSION=0.2.1 REUSE_ARTIFACTS=1",
+    "status": "passed",
+    "isolatedCleanCheckout": true,
+    "plan": "dist/release-plans/v0.2.1/plan.json",
+    "assetCount": 12,
+    "assetNames": [
+      "piwork-microvm-v0.2.1-linux-amd64",
+      "piwork-microvm-v0.2.1-linux-amd64.sha256",
+      "piwork-microvm-v0.2.1-windows-amd64.exe",
+      "piwork-microvm-v0.2.1-windows-amd64.exe.sha256",
+      "piwork-microvm-gui-v0.2.1-linux-amd64",
+      "piwork-microvm-gui-v0.2.1-linux-amd64.sha256",
+      "piwork-microvm-gui-v0.2.1-windows-amd64.exe",
+      "piwork-microvm-gui-v0.2.1-windows-amd64.exe.sha256",
+      "release-manifest.json",
+      "qemu-patches.tar.gz",
+      "guest-licenses.tar.gz",
+      "piwork-licenses.tar.gz"
+    ],
+    "finalReadOnlySizeDigestAndNotesCheck": "passed",
+    "dryRun": "passed; no remote writes",
+    "notesInclude": [
+      "corresponding source",
+      "known limitations",
+      "upstream Preview status",
+      "retained WAL failure"
+    ]
+  },
+  "tests": {
+    "goTestAll": "passed",
+    "pythonMain": {
+      "sourceCommit": "f713c6e46d77d7ef0bebb901046a2ef49886da56",
+      "count": 124,
+      "status": "passed"
+    },
+    "pythonFrozenSource": {
+      "sourceCommit": "e4347a806abed8b76c04ce8fc1ca7a3fe6789cac",
+      "count": 121,
+      "status": "passed"
+    },
+    "publicationRecovery": "passing interrupted retry, placeholder cleanup, completed conflict, wrong tag, changed plan and already-public tests",
+    "strictOpenSpec": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "publication": {
+    "status": "deferred-by-user; not published",
+    "publisherAndUploadProcess": "stopped",
+    "remoteReadOnlyCheck": {
+      "checkedAt": "2026-10-22T13:16:09.914964+00:00",
+      "current": {
+        "id": 420737478,
+        "tag": "v0.2.1",
+        "draft": true,
+        "publishedAt": null,
+        "assets": []
+      },
+      "historicalV020Unchanged": true,
+      "latestPublic": "v0.2.0"
+    },
+    "annotatedTag": {
+      "name": "v0.2.1",
+      "objectType": "tag",
+      "target": "e4347a806abed8b76c04ce8fc1ca7a3fe6789cac",
+      "alreadyPushedBeforeDeferral": true
+    },
+    "sourceAlreadyPushedBeforeDeferral": "f713c6e46d77d7ef0bebb901046a2ef49886da56",
+    "closureCommits": "local only",
+    "containerRegistryPush": false
+  },
+  "knownIssue": "retained Linux 0.0.11 test data WAL reopen failure; not repaired; see integration-linux.json",
+  "nextUpdate": "After user fixes Core and requests update: explicitly lock new inputs, reassemble Guest, rebuild and revalidate, use new wrapper version and frozen plan; never repoint existing tag or inherit current acceptance as new-input verification",
+  "excluded": [
+    "credentials",
+    "raw logs and ZIPs",
+    "VM disks and databases",
+    "binary artifacts",
+    "independent README/demo change"
+  ]
+}
