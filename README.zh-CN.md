@@ -419,6 +419,8 @@ verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中
 
 ### 升级已有的 0.2.0 安装
 
+**已知输入问题：** 一份保留的 Linux 0.0.11 测试安装在 SQLite WAL 恢复前被拒绝，同一原版 Core 在 MicroVM 外也能复现。空目录部署/重开与已测的 0.0.10 停机备份副本通过；本发行未修复该故障数据。请保留停机备份，全新部署使用独立空目录，不要删除已有安装来绕过错误。详见[验收记录](openspec/changes/import-official-piwork-binaries/acceptance.md)。
+
 先正常停止旧启动器，再把 `installation.json` 与状态盘一起复制到独立目录。用新的 0.2.1
 产物启动该副本，核对既有账号、Work、Files 与 Service 数据以及正常停止/重开。保留未触碰的
 停机原件及其备份。本次只报告实际测试副本的结果，不承诺通用降级兼容。需要回退时，使用未触碰的
@@ -444,7 +446,7 @@ verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
-| [官方二进制整合验收](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview 官方输入；两平台原生 GUI、生产 Work/Files/Service、管理员 ZIP 和 0.0.10 停机副本；Windows 重开通过，Linux 同盘重开受 SQLite/WAL 检查阻断；尚未发布，未验证真实模型 |
+| [官方二进制整合验收](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview 官方输入；两平台原生 GUI、生产 Work/Files/Service、管理员 ZIP 和 0.0.10 停机副本；两平台空目录安装重开通过，保留的 Linux 0.0.11 测试数据有已知 SQLite/WAL 故障；未验证真实模型 |
 | [冻结 Core 日志导出验收](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10、`29e3471`；两平台原生 GUI、Desktop 故障/缺口 ZIP 实际下载、停机副本持久化及一对自定义 UI/Core 端口；未调用真实模型 |
 | [GUI 验收](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Linux/KVM 与原生 Windows/WebView2/WHPX CoreLoop、目录/日志对话框、Work/Files/Services、数据库持久化与异常恢复；未验证真实模型调用 |
 
@@ -453,7 +455,7 @@ verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中
 已归档的 GUI 记录基于其原 Piwork 输入，覆盖 C1/W1–W5、默认英文、英/简中切换保存、Launcher
 正常/错误导出与安全停止。[此前冻结 Core 整合](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 在 Linux/KVM 与原生 Windows/WebView2/WHPX 上使用新构建的 0.0.10 Guest，覆盖保存到 Host 的 Desktop
-故障/缺口 ZIP、旧安装停机副本、语言保存、安全关机及自定义 19190/19191 路径。[0.0.11 官方输入记录](openspec/changes/import-official-piwork-binaries/acceptance.md) 单独记录当前构建、聚焦整合、停机副本升级及 Linux SQLite/WAL 重开阻断；v0.2.1 尚未发布。
+故障/缺口 ZIP、旧安装停机副本、语言保存、安全关机及自定义 19190/19191 路径。[0.0.11 官方输入记录](openspec/changes/import-official-piwork-binaries/acceptance.md) 单独记录当前构建、聚焦整合、停机副本升级、空目录 Linux 部署/重开通过及尚未解决的旧测试数据 SQLite/WAL 故障。
 这些聚焦记录均不声称新增真实模型调用或未测试的 Windows 版本已通过。GUI 构建不打 tag、不推送、不发布。
 
 ### Linux 验收
