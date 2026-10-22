@@ -888,12 +888,21 @@ def check_prepared(lock=None, root=ROOT):
             'prepared build commit differs from the lock')
     require(record.get('releaseCommit') == release['releaseCommit'],
             'prepared release commit differs from the lock')
-    for key in ASSET_KEYS:
-        require(record.get('assets', {}).get(key, {}).get('sha256') ==
-                release['assets'][key]['sha256'], 'prepared asset differs: ' + key)
-    for role, expected in release['images'].items():
-        require(record.get('images', {}).get(role, {}).get('imageId') == expected['imageId'],
-                'prepared image differs: ' + role)
+    require(lock['piwork'].get('url') == UPSTREAM_REPO,
+            'prepared input is not from the official repository')
+    require(lock['piwork'].get('commit') == record.get('buildCommit'),
+            'locked source commit differs from the prepared build commit')
+    require(record.get('inputMode') == 'official-release', 'prepared input mode differs')
+    require(record.get('version') == release['version'] == release['metadata']['releaseVersion'],
+            'prepared version differs from the lock')
+    require(release.get('tagCommit', release['releaseCommit']) == record.get('releaseCommit'),
+            'locked tag target differs from the prepared release commit')
+    # Compare complete records, not selected hashes/IDs: a new digest, URL,
+    # UI identity or protocol also invalidates an otherwise intact preparation.
+    # Existing records already contain these fields, so checking stays read-only.
+    require(record.get('assets') == release['assets'], 'prepared assets differ from the lock')
+    require(record.get('metadata') == release['metadata'], 'prepared metadata differs from the lock')
+    require(record.get('images') == release['images'], 'prepared images differ from the lock')
     outputs = record.get('outputs') or {}
     require(outputs, 'preparation record has no outputs')
     for relative, expected in outputs.items():

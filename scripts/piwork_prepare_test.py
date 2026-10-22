@@ -1,3 +1,4 @@
+import copy
 import hashlib
 import json
 import pathlib
@@ -172,6 +173,36 @@ class PrepareTest(unittest.TestCase):
             piwork_release.prepare_lock(self.lock, root=self.root,
                                         opener=self.opener, runner=self.docker())
         self.assertEqual(snapshot(), before)
+        piwork_release.check_prepared(self.lock, root=self.root)
+
+    def test_check_rejects_changed_lock_identity_without_touching_outputs(self):
+        piwork_release.prepare_lock(self.lock, root=self.root,
+                                    opener=self.opener, runner=self.docker())
+        paths = [
+            ('piwork', 'url'), ('piwork', 'commit'),
+            ('piwork', 'release', 'version'), ('piwork', 'release', 'tagCommit'),
+            ('piwork', 'release', 'assets', 'archive', 'url'),
+            ('piwork', 'release', 'assets', 'archive', 'size'),
+            ('piwork', 'release', 'metadata', 'sourceInputHash'),
+            ('piwork', 'release', 'metadata', 'desktopUIHash'),
+            ('piwork', 'release', 'metadata', 'consoleUIHash'),
+            ('piwork', 'release', 'metadata', 'programs', 0, 'goVersion'),
+        ]
+        for role in piwork_release.IMAGE_ROLES:
+            for field in ('digest', 'digestReference', 'reference', 'imageId', 'platform', 'protocolLabels'):
+                paths.append(('piwork', 'release', 'images', role, field))
+        before = piwork_release.tree_records(self.root / 'dist')
+        for path in paths:
+            with self.subTest(path=path):
+                changed = copy.deepcopy(self.lock)
+                target = changed
+                for key in path[:-1]:
+                    target = target[key]
+                target[path[-1]] = 'changed-only-in-lock'
+                with mock.patch.object(piwork_release, 'download', side_effect=AssertionError('network')):
+                    with self.assertRaises(piwork_release.ReleaseError):
+                        piwork_release.check_prepared(changed, root=self.root)
+        self.assertEqual(piwork_release.tree_records(self.root / 'dist'), before)
         piwork_release.check_prepared(self.lock, root=self.root)
 
     def test_check_detects_a_modified_output(self):
