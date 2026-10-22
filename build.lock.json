@@ -2,89 +2,95 @@
   "version": 1,
   "piwork": {
     "url": "https://github.com/pphboy/piwork.git",
-    "commit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+    "commit": "4f127751fc4805e504a1af0d7b48c02739f72489",
     "branch": "main",
-    "resolvedAt": "2026-10-22T07:49:17.359596+00:00",
+    "resolvedAt": "2026-10-22T15:36:42.411132+00:00",
     "inputMode": "official-release",
     "release": {
-      "tag": "v0.0.11",
-      "version": "0.0.11",
+      "tag": "v0.0.12",
+      "version": "0.0.12",
       "prerelease": true,
-      "releaseCommit": "2142491f5103b58731de4872d153bd1b876860de",
-      "tagCommit": "2142491f5103b58731de4872d153bd1b876860de",
-      "resolvedAt": "2026-10-22T07:49:17.359596+00:00",
+      "releaseCommit": "c4ce9bbd8fea9d990979332e57b61876cda20da2",
+      "tagCommit": "c4ce9bbd8fea9d990979332e57b61876cda20da2",
+      "resolvedAt": "2026-10-22T15:36:42.411132+00:00",
       "assets": {
         "archive": {
-          "name": "piwork-linux-amd64-0.0.11.tar.gz",
-          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.11/piwork-linux-amd64-0.0.11.tar.gz",
-          "size": 26362017,
-          "sha256": "a909248c9bd9a6571eb26a0dc52773af0a28a932ce24ea3c6706025700be30a9"
+          "name": "piwork-linux-amd64-0.0.12.tar.gz",
+          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.12/piwork-linux-amd64-0.0.12.tar.gz",
+          "size": 26383863,
+          "sha256": "d85bf5b884fdc64f8f3f571b0df34a474cf36e86ed630ea5b0a3c8b947aaf957"
         },
         "releaseBuild": {
           "name": "release-build.json",
-          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.11/release-build.json",
-          "size": 5472,
-          "sha256": "edbe300808844233c64dffcf0e738338d1039b8b1de4ac3fcff9a58fc1ad97ad"
+          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.12/release-build.json",
+          "size": 3531,
+          "sha256": "c6713a7262ca07a4182a2fa55645d878668096a8f2571078b5974dfb8fc2207f"
         },
         "releaseManifest": {
           "name": "release-manifest.json",
-          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.11/release-manifest.json",
+          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.12/release-manifest.json",
           "size": 4092,
-          "sha256": "f2f821b7b6fca6d407dd014280045854174655cccc70d97a4ff1cf6796bc1c36"
+          "sha256": "b5478b090808bc3baba401025632697d28cbed5c51ac73a930c892a8b8779083"
         },
         "sha256sums": {
           "name": "SHA256SUMS",
-          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.11/SHA256SUMS",
-          "size": 1390,
-          "sha256": "4b349242606a11b79445143f19aa35af027de442c6dfa311bd27ebfbe26699b6"
+          "url": "https://github.com/pphboy/piwork/releases/download/v0.0.12/SHA256SUMS",
+          "size": 1597,
+          "sha256": "9e82e1c840f1c1188bbe3216482e26cea5d2446019f88fbad8d89936bee03e1e"
         }
       },
       "metadata": {
-        "releaseId": "0.0.11-a19c6f595fa6-d60025d65577",
-        "releaseVersion": "0.0.11",
-        "sourceCommit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
-        "publicationCommit": "2142491f5103b58731de4872d153bd1b876860de",
-        "sourceInputHash": "d60025d65577833bc6a625cbb4964c7f9d782be5d74f42ece1b65bcd74395632",
-        "desktopUIHash": "498384960e7300c59767965afc8db4a88bf0199119447067355cb00125c4393b",
-        "consoleUIHash": "b89ced29f8d86ad195788a40ff64cf49eed09c67f1371e6f97417c72aac3e37f",
+        "releaseId": "0.0.12-4f127751fc48-2fb10dd31925",
+        "releaseVersion": "0.0.12",
+        "sourceCommit": "4f127751fc4805e504a1af0d7b48c02739f72489",
+        "publicationCommit": "c4ce9bbd8fea9d990979332e57b61876cda20da2",
+        "sourceInputHash": "2fb10dd3192503035931250511779ccf87bec9f759eaabe07fc6d35558f4d8f8",
+        "desktopUIHash": "176fec09554ec85392cdd6ff975c7ca4581f4f71a6e10d0242dde0853f0474b2",
+        "consoleUIHash": "38c716a01d9c7a3f02d2e99a1ef9c2313c121917f4f21ff07471c8900e311dc6",
         "sourceModified": false,
         "programs": [
           {
             "program": "piwork-core",
-            "version": "0.0.11",
-            "commit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+            "version": "0.0.12",
+            "commit": "4f127751fc4805e504a1af0d7b48c02739f72489",
             "modified": false,
             "goVersion": "go1.25.5",
             "os": "linux",
             "architecture": "amd64",
-            "desktopUIHash": "498384960e7300c59767965afc8db4a88bf0199119447067355cb00125c4393b",
-            "consoleUIHash": "b89ced29f8d86ad195788a40ff64cf49eed09c67f1371e6f97417c72aac3e37f"
+            "desktopUIHash": "176fec09554ec85392cdd6ff975c7ca4581f4f71a6e10d0242dde0853f0474b2",
+            "consoleUIHash": "38c716a01d9c7a3f02d2e99a1ef9c2313c121917f4f21ff07471c8900e311dc6"
           },
           {
             "program": "piwork-cli",
-            "version": "0.0.11",
-            "commit": "a19c6f595fa6b2515d19146f3510dfc9f1ba4b8c",
+            "version": "0.0.12",
+            "commit": "4f127751fc4805e504a1af0d7b48c02739f72489",
             "modified": false,
             "goVersion": "go1.25.5",
             "os": "linux",
             "architecture": "amd64",
-            "desktopUIHash": "498384960e7300c59767965afc8db4a88bf0199119447067355cb00125c4393b",
-            "consoleUIHash": "b89ced29f8d86ad195788a40ff64cf49eed09c67f1371e6f97417c72aac3e37f"
+            "desktopUIHash": "176fec09554ec85392cdd6ff975c7ca4581f4f71a6e10d0242dde0853f0474b2",
+            "consoleUIHash": "38c716a01d9c7a3f02d2e99a1ef9c2313c121917f4f21ff07471c8900e311dc6"
           }
-        ]
+        ],
+        "programSHA256": {
+          "piwork-core": "e7d65de554b6a32c347e43d36377033c07757702fa7723573ab523c838012d97",
+          "piwork-cli": "ea6cee0d8c0ce3cc4fadbec69806fb0d1dba233202b8d96ea7a02cb7e333be69"
+        },
+        "metadataFormat": "native-v2",
+        "publicationCommitBasis": "official-git-tag"
       },
       "images": {
         "core": {
-          "reference": "docker.io/pphboy/piwork-core:0.0.11-a19c6f595fa6-d60025d65577",
-          "imageId": "sha256:27ad9758d13579244cdb711a24cfddf2f6ce772dccba5b8975d81d5fec3bd6f4",
+          "reference": "docker.io/pphboy/piwork-core:0.0.12-4f127751fc48-2fb10dd31925",
+          "imageId": "sha256:6acd72200b6008287782c6974bc2872b44c4c5913cf56a78a9c75360a4e3fa98",
           "platform": "linux/amd64",
           "protocolLabels": {},
-          "digest": "sha256:9c2bc84bf816cd1b240d373d322f2945b0874ec45ea53592d8d0a42a301872ca",
-          "digestReference": "docker.io/pphboy/piwork-core@sha256:9c2bc84bf816cd1b240d373d322f2945b0874ec45ea53592d8d0a42a301872ca"
+          "digest": "sha256:bae907a36f4fb4390c9b5f198f675c40b0dc8bed227a15facb43382a0b08c3a5",
+          "digestReference": "docker.io/pphboy/piwork-core@sha256:bae907a36f4fb4390c9b5f198f675c40b0dc8bed227a15facb43382a0b08c3a5"
         },
         "agent": {
-          "reference": "docker.io/pphboy/piwork-agentd:0.0.11-a19c6f595fa6-d60025d65577",
-          "imageId": "sha256:bd0356b2c19aa34290c3f6fd5395a262ad8020118f2f510c20267d8903308db9",
+          "reference": "docker.io/pphboy/piwork-agentd:0.0.12-4f127751fc48-2fb10dd31925",
+          "imageId": "sha256:d9e61389ad02f9701ee1d9a80f1670d0cec28ac7eaa2b2df179eba82b7bf981b",
           "platform": "linux/amd64",
           "protocolLabels": {
             "io.piwork.agent.protocol": "v2",
@@ -94,32 +100,32 @@
             "io.piwork.run-model.contract": "1",
             "io.piwork.work-feedback.contract": "1"
           },
-          "digest": "sha256:0a6a181f7e6e63e626350828e6b624180f241ac712f2c0e91850dbe82d0ca66e",
-          "digestReference": "docker.io/pphboy/piwork-agentd@sha256:0a6a181f7e6e63e626350828e6b624180f241ac712f2c0e91850dbe82d0ca66e"
+          "digest": "sha256:f4cae23ef0219ac7aa90b291fe7bbffbcc3691a42c0e1169a173bcb1653e4fec",
+          "digestReference": "docker.io/pphboy/piwork-agentd@sha256:f4cae23ef0219ac7aa90b291fe7bbffbcc3691a42c0e1169a173bcb1653e4fec"
         },
         "fileHelper": {
-          "reference": "docker.io/pphboy/piwork-file-helper:0.0.11-a19c6f595fa6-d60025d65577",
-          "imageId": "sha256:0654bfe5e865acaea376f8a0398d3629f9de8562b313612c54d7ee924d3aa8ec",
+          "reference": "docker.io/pphboy/piwork-file-helper:0.0.12-4f127751fc48-2fb10dd31925",
+          "imageId": "sha256:6f96baa648462b5014bd6e3a7bda71ea8b7c71ea556027ce62fcbab535f8ea05",
           "platform": "linux/amd64",
           "protocolLabels": {
             "piwork.file_protocol": "1"
           },
-          "digest": "sha256:ff0ed5d519d1db0ba4c53474622a1a3e4d1391e31849fafd5e1601c464b48d73",
-          "digestReference": "docker.io/pphboy/piwork-file-helper@sha256:ff0ed5d519d1db0ba4c53474622a1a3e4d1391e31849fafd5e1601c464b48d73"
+          "digest": "sha256:63c6220783c817b6bacca4e90e0b493d1a61914cc696364aec82c0ed78acdd66",
+          "digestReference": "docker.io/pphboy/piwork-file-helper@sha256:63c6220783c817b6bacca4e90e0b493d1a61914cc696364aec82c0ed78acdd66"
         },
         "snapshotHelper": {
-          "reference": "docker.io/pphboy/piwork-snapshot-helper:0.0.11-a19c6f595fa6-d60025d65577",
-          "imageId": "sha256:ddf4fa51fbfda2db436d5efc73d2164a1b75faea15fdd85e8009304c308b77b5",
+          "reference": "docker.io/pphboy/piwork-snapshot-helper:0.0.12-4f127751fc48-2fb10dd31925",
+          "imageId": "sha256:d7505d16afe756ca92a72dc885fa13124a9a527fb28a1ec948ad3199ffdefbbd",
           "platform": "linux/amd64",
           "protocolLabels": {
             "piwork.snapshot_protocol": "1"
           },
-          "digest": "sha256:d1c8ef00e48529a047e8db1611e1b37d42ceab496fbbb4be883bbcfa6f44fbb6",
-          "digestReference": "docker.io/pphboy/piwork-snapshot-helper@sha256:d1c8ef00e48529a047e8db1611e1b37d42ceab496fbbb4be883bbcfa6f44fbb6"
+          "digest": "sha256:ca2fa5a8e687284c1d8345f51ed8d17edee71fc79c579211e6c6f91da77d1418",
+          "digestReference": "docker.io/pphboy/piwork-snapshot-helper@sha256:ca2fa5a8e687284c1d8345f51ed8d17edee71fc79c579211e6c6f91da77d1418"
         },
         "packageHelper": {
-          "reference": "docker.io/pphboy/piwork-agentd:0.0.11-a19c6f595fa6-d60025d65577",
-          "imageId": "sha256:bd0356b2c19aa34290c3f6fd5395a262ad8020118f2f510c20267d8903308db9",
+          "reference": "docker.io/pphboy/piwork-agentd:0.0.12-4f127751fc48-2fb10dd31925",
+          "imageId": "sha256:d9e61389ad02f9701ee1d9a80f1670d0cec28ac7eaa2b2df179eba82b7bf981b",
           "platform": "linux/amd64",
           "protocolLabels": {
             "io.piwork.agent.protocol": "v2",
@@ -129,8 +135,8 @@
             "io.piwork.run-model.contract": "1",
             "io.piwork.work-feedback.contract": "1"
           },
-          "digest": "sha256:0a6a181f7e6e63e626350828e6b624180f241ac712f2c0e91850dbe82d0ca66e",
-          "digestReference": "docker.io/pphboy/piwork-agentd@sha256:0a6a181f7e6e63e626350828e6b624180f241ac712f2c0e91850dbe82d0ca66e"
+          "digest": "sha256:f4cae23ef0219ac7aa90b291fe7bbffbcc3691a42c0e1169a173bcb1653e4fec",
+          "digestReference": "docker.io/pphboy/piwork-agentd@sha256:f4cae23ef0219ac7aa90b291fe7bbffbcc3691a42c0e1169a173bcb1653e4fec"
         }
       }
     }
