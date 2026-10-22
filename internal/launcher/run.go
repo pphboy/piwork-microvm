@@ -69,7 +69,10 @@ var (
 	buildManifestVersion = "unknown"
 )
 
-// versionText is reported by --version before any virtualization or data work.
+// VersionText is reported by --version before any virtualization or data work.
+// The desktop entry uses it directly because Wails starts before flag parsing.
+func VersionText() string { return versionText() }
+
 func versionText() string {
 	return fmt.Sprintf("piwork-microvm %s\nupstream Piwork %s (%s)\nbundle manifest %s\n",
 		buildVersion, buildUpstreamVersion, buildUpstreamCommit, buildManifestVersion)

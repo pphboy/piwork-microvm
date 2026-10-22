@@ -1,8 +1,10 @@
 import json
 import pathlib
+import shutil
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import bundle
@@ -65,6 +67,83 @@ class TrailerTest(unittest.TestCase):
             self.assertFalse(bundle.body_magic_ok(elf, 'windows'))
             self.assertTrue(bundle.body_magic_ok(pe, 'windows'))
             self.assertFalse(bundle.body_magic_ok(pe, 'linux'))
+
+
+class BuildModeTest(unittest.TestCase):
+    def test_marker_overrides_the_lock_for_bundling(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = pathlib.Path(tmp)
+            (out / 'piwork').mkdir()
+            lock = {'piwork': {'inputMode': 'official-release'}}
+            self.assertEqual(bundle.built_input_mode(out, lock), 'official-release')
+            (out / 'piwork/build-mode.json').write_text(json.dumps({'inputMode': 'source'}))
+            self.assertEqual(bundle.built_input_mode(out, lock), 'source')
+
+
+class BodyRecordTest(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.temp.name)
+        shutil.copyfile(pathlib.Path(bundle.ROOT) / 'build.lock.json',
+                        self.root / 'build.lock.json')
+        self.out = self.root / 'dist'
+        (self.out / 'piwork').mkdir(parents=True)
+        (self.out / 'piwork/metadata.json').write_text(json.dumps({'releaseVersion': '0.0.11'}))
+        self.body = self.out / 'launcher-gui-linux'
+        self.body.write_bytes(b'\x7fELF' + b'body')
+        self.patch = mock.patch.object(bundle, 'ROOT', self.root)
+        self.patch.start()
+        self.identity = bundle.build_identity(self.out, 2)
+
+    def tearDown(self):
+        self.patch.stop()
+        self.temp.cleanup()
+
+    def test_record_binds_the_body_and_locked_inputs(self):
+        record = bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        self.assertEqual(record['body']['sha256'], bundle.sha(self.body))
+        self.assertEqual(record['inputFingerprint'], bundle.input_fingerprint())
+        self.assertEqual(bundle.verify_body_record('gui', 'linux', self.body, self.identity),
+                         record)
+
+    def test_unrecorded_body_cannot_be_packaged(self):
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+
+    def test_changed_body_cannot_be_packaged(self):
+        bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        self.body.write_bytes(self.body.read_bytes() + b'changed')
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+
+    def test_other_entry_or_platform_record_is_rejected(self):
+        bundle.write_body_record('cli', 'linux', self.body, self.identity)
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+        bundle.write_body_record('gui', 'windows', self.body, self.identity)
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+
+    def test_old_version_cannot_be_packaged(self):
+        bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        other = dict(self.identity, version='0.1.9')
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, other)
+
+    def test_body_from_other_go_sources_is_rejected(self):
+        (self.root / 'main.go').write_text('package main\n')
+        bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        (self.root / 'main.go').write_text('package main\n// changed\n')
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+
+    def test_changed_lock_invalidates_the_body(self):
+        bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        lock = json.loads((self.root / 'build.lock.json').read_text())
+        lock['piwork']['commit'] = 'f' * 40
+        (self.root / 'build.lock.json').write_text(json.dumps(lock))
+        with self.assertRaises(SystemExit):
+            bundle.verify_body_record('gui', 'linux', self.body, self.identity)
 
 
 if __name__ == '__main__':

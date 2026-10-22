@@ -5,7 +5,8 @@ The CLI entry remains the default. The GUI entry uses a separately built Wails
 body and separate payload/manifest/artifact names so it never replaces CLI files.
 """
 import argparse, gzip, hashlib, json, os, pathlib, shutil, struct, subprocess, tarfile
-from source import source_path, verify
+import piwork_release
+from source import source_path, verify, input_mode
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MAGIC = b'PIWORK-BUNDLE-v1'
@@ -31,6 +32,108 @@ def release_version():
     if not name or git('cat-file', '-t', name) != 'tag':
         return None
     return name[1:] if name.startswith('v') else name
+
+
+def built_input_mode(out=None, lock=None):
+    """The mode that actually produced dist/piwork, not merely the current lock."""
+    lock = lock or json.loads((ROOT / 'build.lock.json').read_text())
+    marker = pathlib.Path(out or (ROOT / 'dist')) / 'piwork/build-mode.json'
+    if marker.is_file():
+        try:
+            return json.loads(marker.read_text(encoding='utf-8-sig')).get('inputMode', 'source')
+        except json.JSONDecodeError:
+            raise SystemExit('dist/piwork/build-mode.json is unreadable')
+    return input_mode(lock)
+
+
+def input_fingerprint(lock=None):
+    """Stable fingerprint of the locked inputs a body was built against.
+
+    The native Windows script builds the same field list, so a body cannot be
+    packaged after the lock changed.
+    """
+    lock = lock or json.loads((ROOT / 'build.lock.json').read_text())
+    piwork = lock['piwork']
+    release = piwork.get('release') or {}
+    assets = release.get('assets') or {}
+    fields = [piwork.get('inputMode', 'source'), piwork.get('commit', ''),
+              release.get('tag', ''), release.get('releaseCommit', '')]
+    for key in ('archive', 'releaseBuild', 'releaseManifest', 'sha256sums'):
+        fields.append((assets.get(key) or {}).get('sha256', ''))
+    fields += [lock.get('go', ''), lock.get('linux', {}).get('sha256', ''),
+               lock.get('qemu', {}).get('sha256', ''), lock.get('guestBaseImage', ''),
+               lock.get('dockerImage', ''), lock.get('debianSnapshot', '')]
+    return hashlib.sha256('\n'.join(fields).encode()).hexdigest()
+
+
+def source_fingerprint(root=None):
+    """Digest of the Go sources and module files compiled into the launcher body."""
+    root = pathlib.Path(root or ROOT)
+    skip = {'.git', 'dist', 'openspec', 'node_modules'}
+    files = [path for path in root.rglob('*.go')
+             if not (set(path.relative_to(root).parts) & skip)]
+    files += [root / 'go.mod', root / 'go.sum']
+    files = [path for path in files if path.is_file()]
+    digest = hashlib.sha256()
+    for path in sorted(files, key=lambda p: p.relative_to(root).as_posix()):
+        relative = path.relative_to(root).as_posix()
+        digest.update(relative.encode() + b'\0' + sha(path).encode() + b'\n')
+    return digest.hexdigest()
+
+
+def body_record_path(entry, platform):
+    return ROOT / 'dist/build-bodies' / (entry + '-' + platform + '.json')
+
+
+def write_body_record(entry, platform, body, identity):
+    """Bind a built launcher body to its version, upstream identity and inputs."""
+    body = pathlib.Path(body)
+    lock = json.loads((ROOT / 'build.lock.json').read_text())
+    release = lock['piwork'].get('release') or {}
+    record = {'recordVersion': 1, 'entry': entry, 'platform': platform, 'arch': 'amd64',
+              'version': identity['version'], 'manifest': identity['manifest'],
+              'sourceCommit': git('rev-parse', 'HEAD'),
+              'sourceFingerprint': source_fingerprint(),
+              'upstream': {'mode': built_input_mode(), 'version': identity['upstream'],
+                           'buildCommit': identity['commit'],
+                           'releaseCommit': release.get('releaseCommit')},
+              'inputFingerprint': input_fingerprint(lock),
+              'body': {'path': body.name, 'size': body.stat().st_size, 'sha256': sha(body)}}
+    target = body_record_path(entry, platform)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(record, indent=2) + '\n')
+    return record
+
+
+def verify_body_record(entry, platform, body, identity):
+    """Reject stale, foreign or unrecorded bodies before packaging them."""
+    target = body_record_path(entry, platform)
+    if not target.is_file():
+        raise SystemExit(f'missing build record for {entry}/{platform}; rebuild the body')
+    record = json.loads(target.read_text(encoding='utf-8-sig'))
+    if (record.get('entry'), record.get('platform'), record.get('arch')) != (entry, platform, 'amd64'):
+        raise SystemExit(f'build record does not belong to {entry}/{platform}')
+    for field in ('version', 'manifest'):
+        if record.get(field) != identity[field]:
+            raise SystemExit(f'{entry}/{platform} body was built with {field} '
+                             f'{record.get(field)!r}, expected {identity[field]!r}')
+    upstream = record.get('upstream') or {}
+    lock = json.loads((ROOT / 'build.lock.json').read_text())
+    release = lock['piwork'].get('release') or {}
+    expected_upstream = {'mode': built_input_mode(), 'version': identity['upstream'],
+                         'buildCommit': identity['commit'],
+                         'releaseCommit': release.get('releaseCommit')}
+    if upstream != expected_upstream:
+        raise SystemExit(f'{entry}/{platform} body upstream identity does not match the lock')
+    if record.get('inputFingerprint') != input_fingerprint(lock):
+        raise SystemExit(f'{entry}/{platform} body was built from other locked inputs')
+    if record.get('sourceFingerprint') != source_fingerprint():
+        raise SystemExit(f'{entry}/{platform} body was built from other Go sources')
+    body = pathlib.Path(body)
+    digest = record.get('body') or {}
+    if (digest.get('size'), digest.get('sha256')) != (body.stat().st_size, sha(body)):
+        raise SystemExit(f'{entry}/{platform} body bytes differ from its build record')
+    return record
 
 
 def build_identity(out, manifest_version):
@@ -181,13 +284,26 @@ def collect_inputs(entry, platform, out):
         if p.is_file():
             inputs['qemu/' + p.relative_to(qemu_dir).as_posix()] = p
     provenance = {'build.lock.json': ROOT / 'build.lock.json',
-                  'piwork-source.json': source_path().parent / 'source.json',
                   'piwork-metadata.json': out / 'piwork/metadata.json',
                   'piwork-images.json': out / 'piwork/images.json',
-                  'piwork.LICENSE': source_path() / 'LICENSE',
                   'kernel.COPYING': out / 'kernel/pristine' / ('linux-' + json.loads((ROOT / 'build.lock.json').read_text())['linux']['version']) / 'COPYING',
                   'kernel.GPL-2.0': out / 'kernel/pristine' / ('linux-' + json.loads((ROOT / 'build.lock.json').read_text())['linux']['version']) / 'LICENSES/preferred/GPL-2.0',
                   'guest-firmware.json': out / 'guest/firmware.json'}
+    source_json = source_path().parent / 'source.json'
+    if source_json.is_file():
+        provenance['piwork-source.json'] = source_json
+    if built_input_mode(out) == 'official-release':
+        # The official input, its program/image identity and readable license
+        # texts travel with every artifact; no source checkout is required.
+        provenance['piwork-import.json'] = out / 'piwork/import.json'
+        upstream = out / 'piwork/upstream-release'
+        if not upstream.is_dir():
+            raise SystemExit('missing official import tree; run make piwork first')
+        for p in upstream.rglob('*'):
+            if p.is_file():
+                inputs['provenance/piwork-upstream/' + p.relative_to(upstream).as_posix()] = p
+    else:
+        provenance['piwork.LICENSE'] = source_path() / 'LICENSE'
     if platform == 'windows':
         for p in sorted((ROOT / 'guest/qemu').glob('*.patch')):
             provenance['qemu-' + p.name] = p
@@ -270,7 +386,10 @@ def main():
     a = p.parse_args()
     os.chdir(ROOT)
     out = ROOT / 'dist'
-    verify(source_path())
+    if built_input_mode(out) == 'official-release':
+        piwork_release.check_prepared()
+    else:
+        verify(source_path())
     names = artifact_names(a.entry, a.platform)
 
     if a.entry == 'cli':
@@ -282,19 +401,21 @@ def main():
         (out / names['manifest']).write_bytes(manifest_raw + b'\n')
         identity = build_identity(out, manifest['version'])
         body = build_cli_body(out, a.platform, identity, names['body'])
+        write_body_record('cli', a.platform, body, identity)
     else:
         body = pathlib.Path(a.body) if a.body else out / names['body']
         if not body.is_file():
             raise SystemExit(f'GUI body not found: {body}; run scripts/gui-build.py first')
         if not body_magic_ok(body, a.platform):
             raise SystemExit(f'GUI body does not match platform {a.platform}: {body}')
+        identity = build_identity(out, 2)
+        verify_body_record('gui', a.platform, body, identity)
         inputs = collect_inputs(a.entry, a.platform, out)
         payload = out / names['payload']
         records = write_payload(inputs, payload)
         manifest = {'version': 2, 'os': a.platform, 'arch': 'amd64', 'payloadSha256': sha(payload), 'files': records}
         manifest_raw = json.dumps(manifest, sort_keys=True, separators=(',', ':')).encode()
         (out / names['manifest']).write_bytes(manifest_raw + b'\n')
-        identity = build_identity(out, manifest['version'])
 
     artifact = out / names['artifact']
     append_bundle(body, payload, manifest_raw, artifact)

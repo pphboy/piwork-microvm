@@ -69,6 +69,7 @@ def main():
     run(['go', 'build', '-trimpath', '-tags', tags, '-ldflags', flags, '-o', str(body), './cmd/piwork-launcher'], env=env)
     if not body.is_file() or not bundle.body_magic_ok(body, a.platform):
         raise SystemExit(f'GUI body has an unexpected format: {body}')
+    bundle.write_body_record('gui', a.platform, body, identity)
     run([sys.executable, str(ROOT / 'scripts/bundle.py'), '--entry', 'gui', '--platform', a.platform, '--body', str(body)])
     artifact = out / names['artifact']
     print('GUI body:', body, 'bytes:', body.stat().st_size)

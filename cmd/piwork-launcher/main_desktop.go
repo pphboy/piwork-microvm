@@ -230,6 +230,10 @@ func frontendFiles() fs.FS {
 }
 
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "--version" {
+		fmt.Print(launcher.VersionText())
+		return
+	}
 	launcher.LocateBundle = bundle.Locate
 	launcher.LocateBundleObserved = bundle.LocateObserved
 	adapter := &wailsAdapter{}

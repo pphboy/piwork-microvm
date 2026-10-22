@@ -5,11 +5,15 @@ Nothing here publishes unless an explicit publish command is given; the build
 flow itself never pushes or releases. See design.md D1-D7.
 """
 import argparse, datetime, gzip, hashlib, json, os, pathlib, shutil, subprocess, sys, tarfile
-from source import source_path
+import bundle
+import components
+import piwork_release
+from source import source_path, input_mode
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-CHANGE=ROOT/'openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage'
-EVIDENCE=CHANGE/'evidence/completion'
+CHANGE=ROOT/'openspec/changes/import-official-piwork-binaries'
+EVIDENCE=CHANGE/'evidence'
 PLATFORMS=[('linux','piwork-microvm'),('windows','piwork-microvm.exe')]
+ENTRIES=[('cli','linux'),('cli','windows'),('gui','linux'),('gui','windows')]
 def sha(p):
     with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def read_json(p):return json.loads(p.read_text(encoding='utf-8-sig'))
@@ -17,14 +21,25 @@ def write_json(p,value):
     p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 def utc_now():return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
 
+def built_input_mode():
+    """Mode that actually produced dist/piwork, not merely the current lock."""
+    marker=ROOT/'dist/piwork/build-mode.json'
+    if marker.is_file():
+        try:return read_json(marker).get('inputMode','source')
+        except Exception:fail('dist/piwork/build-mode.json is unreadable')
+    return input_mode(read_json(ROOT/'build.lock.json'))
 def upstream_version():
-    """Version declared by the pinned upstream source, not by this wrapper."""
+    """Version declared by the pinned upstream input, not by this wrapper."""
+    lock=read_json(ROOT/'build.lock.json')
+    if input_mode(lock)=='official-release':
+        return lock['piwork']['release']['metadata']['releaseVersion']
     pkg=source_path()/'package.json'
     return read_json(pkg).get('version','unknown') if pkg.exists() else 'unknown'
 def locked_inputs():
     """Identity of the pinned build inputs; stable while build.lock.json is unchanged."""
     lock=read_json(ROOT/'build.lock.json')
     return {'buildLockSHA256':sha(ROOT/'build.lock.json'),
+            'builtInputMode':built_input_mode(),
             'piwork':lock['piwork'],
             'upstreamPiworkVersion':upstream_version(),
             'kernel':{'version':lock['linux']['version'],'url':lock['linux']['url'],'sha256':lock['linux']['sha256']},
@@ -35,31 +50,69 @@ def locked_inputs():
                          'dockerImage':lock['dockerImage'],'goImage':lock['goImage'],
                          'guestBaseImage':lock['guestBaseImage'],'debianSnapshot':lock['debianSnapshot'],
                          'windowsToolchain':lock['qemu']['windowsToolchain']}}
+def artifact_name(entry,platform):
+    return bundle.artifact_names(entry,platform)['artifact']
+def artifact_path(entry,platform):
+    return ROOT/'dist'/artifact_name(entry,platform)
+def manifest_name(entry,platform):
+    return bundle.artifact_names(entry,platform)['manifest']
+def body_record(entry,platform):
+    return read_json(bundle.body_record_path(entry,platform))
 def artifacts():
-    """Identity of the artifacts built for this release; differs on every rebuild."""
+    """Identity of the four artifacts built for this release; differs on every rebuild."""
     out=[]
-    for platform,name in PLATFORMS:
-        binary=ROOT/'dist'/name
+    for entry,platform in ENTRIES:
+        binary=artifact_path(entry,platform)
         if not binary.exists():continue
-        manifest=ROOT/'dist'/('bundle-manifest-'+platform+'.json')
+        manifest=ROOT/'dist'/manifest_name(entry,platform)
         raw=json.dumps(read_json(manifest),sort_keys=True,separators=(',',':')).encode()
-        out.append({'path':'dist/'+name,'os':platform,'arch':'amd64','size':binary.stat().st_size,
+        record=body_record(entry,platform)
+        out.append({'entry':entry,'path':'dist/'+binary.name,'os':platform,'arch':'amd64',
+                    'version':record['version'],'size':binary.stat().st_size,
                     'sha256':sha(binary),'manifestSha256':hashlib.sha256(raw).hexdigest()})
     return out
 
-def platform_verification(evidence,platform):
-    """Acceptance status for one platform. Evidence is keyed to the locked inputs, never to these bytes."""
-    first=evidence/platform/'real-model-first.json';restart=evidence/platform/'real-model-restart.json'
-    if not (first.exists() and restart.exists()):
-        return {'status':'not-verified','reason':'no real-provider acceptance evidence recorded for the locked inputs'}
-    a=read_json(first);b=read_json(restart)
-    if not (a.get('realProvider') and b.get('continuedAfterRestart')):
-        return {'status':'not-verified','reason':'recorded acceptance evidence is incomplete for the locked inputs'}
-    return {'status':'verified','verifiedAt':a.get('checkedAt'),'evidence':str((evidence/platform).relative_to(ROOT))}
+def input_fingerprint():
+    """Canonical digest of every locked input identity, stable across rebuilds."""
+    raw=json.dumps(locked_inputs(),sort_keys=True,separators=(',',':')).encode()
+    return hashlib.sha256(raw).hexdigest()
+def evidence_records(evidence):
+    """Every JSON record that declares a scope; unrelated files are ignored."""
+    records=[]
+    if not pathlib.Path(evidence).is_dir():return records
+    for path in sorted(pathlib.Path(evidence).rglob('*.json')):
+        try:value=read_json(path)
+        except Exception:continue
+        if isinstance(value,dict) and value.get('scope'):
+            value=dict(value);value['_path']=str(path);records.append(value)
+    return records
 def verification(evidence):
-    return {'basis':'locked-inputs',
+    """Scoped acceptance status; only a full input fingerprint match may upgrade a scope."""
+    current=input_fingerprint()
+    records=evidence_records(evidence)
+    def matching(scope,platform=None):
+        return [r for r in records if r.get('scope')==scope and r.get('status')=='passed'
+                and r.get('inputFingerprint')==current
+                and (platform is None or r.get('platform')==platform)]
+    def scoped(scope,platform=None):
+        hits=matching(scope,platform)
+        if hits:
+            return {'status':'verified','verifiedAt':max(r.get('checkedAt','') for r in hits),
+                    'records':[r['_path'] for r in hits]}
+        reason='no passing record with the current input fingerprint'
+        if records:
+            reason='recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs'
+        return {'status':'not-verified','reason':reason}
+    upstream=[r for r in records if r.get('scope')=='upstream']
+    return {'basis':'locked-inputs','inputFingerprint':current,
             'note':'Acceptance evidence covers the locked inputs, not these artifact bytes: the Guest ext4 rootfs is regenerated with fresh UUIDs on every build, so artifacts are not byte-reproducible. Verify downloads with the checksums in this manifest.',
-            'platforms':{platform:platform_verification(evidence,platform) for platform,_ in PLATFORMS}}
+            'scopes':{
+                'build':{'platforms':{platform:scoped('build',platform) for platform,_ in PLATFORMS}},
+                'integration':{'platforms':{platform:scoped('integration',platform) for platform,_ in PLATFORMS}},
+                'realModel':{'platforms':{platform:scoped('real-model',platform) for platform,_ in PLATFORMS}},
+                'upstream':{'status':'reported' if upstream else 'none',
+                            'note':'Upstream verification is informational and never upgrades a MicroVM scope.',
+                            'records':[r['_path'] for r in upstream]}}}
 
 def manifest(version,evidence):
     return {'manifestVersion':1,
@@ -100,6 +153,26 @@ def guest_licenses_archive(out):
             info.size=p.stat().st_size;info.mode=0o444;info.mtime=0;info.uid=info.gid=0
             with p.open('rb') as f:tar.addfile(info,f)
     return out
+def piwork_licenses_archive(out):
+    """Readable license texts for the imported binaries, Go modules and images."""
+    tree=ROOT/'dist/piwork/upstream-release/licenses'
+    if not tree.is_dir():fail('official license tree missing; run make piwork-check')
+    out.parent.mkdir(parents=True,exist_ok=True)
+    with out.open('wb') as raw,gzip.GzipFile(fileobj=raw,mode='wb',filename='',mtime=0) as gz,tarfile.open(fileobj=gz,mode='w|',format=tarfile.PAX_FORMAT) as tar:
+        for p in sorted(tree.rglob('*')):
+            if not p.is_file():continue
+            info=tarfile.TarInfo('piwork-licenses/'+p.relative_to(tree).as_posix())
+            info.size=p.stat().st_size;info.mode=0o444;info.mtime=0;info.uid=info.gid=0
+            with p.open('rb') as f:tar.addfile(info,f)
+    return out
+def official_license_gaps():
+    try:
+        index=read_json(ROOT/'dist/piwork/upstream-release/licenses/index.json')
+    except Exception:
+        return None
+    modules=index.get('goModules',{}).get('absent',0)
+    debian=sum(record.get('absentDebianLicenses',0) for record in index.get('images',{}).values())
+    return modules,debian
 def guest_license_summary():
     p=ROOT/'dist/guest/guest-licenses/index.json'
     return read_json(p) if p.exists() else None
@@ -107,14 +180,25 @@ def guest_license_summary():
 def notes(version,evidence):
     m=manifest(version,evidence);inputs=m['inputs'];kernel=inputs['kernel'];qemu=inputs['qemu']
     lines=['# piwork-microvm v'+version,'',
-           'Bundles original Piwork '+inputs['upstreamPiworkVersion']+' at commit '+inputs['piwork']['commit']+', unmodified.','',
+           'Bundles original Piwork '+inputs['upstreamPiworkVersion']+' at commit '+inputs['piwork']['commit']+', unmodified.']
+    release_input=inputs['piwork'].get('release')
+    if inputs.get('builtInputMode')=='official-release' and release_input:
+        lines+=['','Official release input: `'+release_input['tag']+'` (upstream Preview), actual build commit `'
+                +inputs['piwork']['commit']+'`, publication commit `'+release_input['releaseCommit']+'`. Four asset sizes/SHA256 and three production image digests are recorded in the manifest.']
+    lines+=['',
            '## Artifacts','','| File | Platform | Bytes | SHA256 |','| --- | --- | --- | --- |']
     for a in m['artifacts']:
-        lines.append('| `'+asset_label(version,a['os'],a['path'])+'` | '+a['os']+'/'+a['arch']+' | '+str(a['size'])+' | `'+a['sha256']+'` |')
-    lines+=['','Verify downloads with these checksums.','',
-            '## Verification','',m['verification']['note'],'','| Platform | Status | Evidence |','| --- | --- | --- |']
-    for platform,status in m['verification']['platforms'].items():
-        lines.append('| '+platform+' | '+status['status']+' | '+status.get('evidence',status.get('reason',''))+' |')
+        lines.append('| `'+asset_label(version,a['entry'],a['os'],a['path'])+'` | '+a.get('entry','cli')+' '+a['os']+'/'+a['arch']+' | '+str(a['size'])+' | `'+a['sha256']+'` |')
+    lines+=['','Verify downloads with these checksums.','','## Verification','',m['verification']['note'],
+            '','Input fingerprint: `'+m['verification']['inputFingerprint']+'`',
+            '','| Scope | Platform | Status | Evidence |','| --- | --- | --- | --- |']
+    for scope,group in m['verification']['scopes'].items():
+        if scope=='upstream':
+            lines.append('| upstream | - | '+group['status']+' | '+group['note']+' |')
+            continue
+        for platform,status in group['platforms'].items():
+            detail=', '.join(status.get('records',[]))or status.get('reason','')
+            lines.append('| '+scope+' | '+platform+' | '+status['status']+' | '+detail+' |')
     snapshot=inputs['toolchain']['debianSnapshot']
     count=guest_package_count()
     packages=(str(count)+' Debian packages') if count else 'Debian packages'
@@ -125,6 +209,11 @@ def notes(version,evidence):
         license_gap=str(licenses.get('absent'))+' of '+str(licenses.get('packages'))+' Guest packages have no extractable text; `index.json` lists them.'
     else:
         license_gap='the license index was not available when this manifest was generated.'
+    gaps=official_license_gaps()
+    official_gap=''
+    if gaps is not None:
+        modules,debian=gaps
+        official_gap=(' The imported binaries/images index also records %d Go modules and %d Debian package texts without an extractable file; see `piwork-licenses.tar.gz`.'%(modules,debian))
     lines+=['','## Corresponding source','',
             'This release distributes binaries and a Guest image that include GPL and LGPL components. The written offer below covers every component listed here.','',
             '| Component | License | Source |','| --- | --- | --- |',
@@ -135,11 +224,14 @@ def notes(version,evidence):
             '| BusyBox, in the Guest initramfs and rootfs | GPL-2.0 | the `busybox-static` source package at Debian snapshot `'+snapshot+'` |',
             '| '+packages+' in the Guest rootfs | GPL and LGPL mix | source packages at Debian snapshot `'+snapshot+'`; the installed list is `usr/share/piwork-guest-packages.txt` inside `rootfs.ext4` |',
             '| MinGW-w64 runtime libraries in the Windows QEMU | GPL-3.0 with the GCC runtime exception, or LGPL | the source packages recorded in `provenance/windows-toolchain.lock.json` |',
+            '| Production `piwork-agentd`, `piwork-file-helper` and `piwork-snapshot-helper` images, embedded in `images.tar` | Node.js MIT plus npm/Debian component licenses | built from the Piwork source at commit `'+inputs['piwork']['commit']+'`; readable texts in `piwork-licenses.tar.gz` and `provenance/piwork-upstream/licenses/images/` |',
+            '| Node.js 24 runtime, npm 10 and Yarn 1.22 inside the Agent image | MIT and bundled package licenses | same image source above; texts in `piwork-licenses.tar.gz` |',
             '| Shared libraries shipped beside QEMU (`qemu/lib/*.so`, `*.dll`) | LGPL-2.1+, BSD or GPL-2+ | shipped with the artifact; source as listed above |','',
             'Written offer: the complete corresponding source for every GPL and LGPL component listed above is available on request for three years from this release date (GPL-2.0 section 3(b)).','',
             '## Known limitations','',
             '- License texts for the Guest rootfs packages and BusyBox ship at `provenance/guest-licenses/` inside the artifact and in `guest-licenses.tar.gz`, so they can be read without booting the VM; '+license_gap+' Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
             '- Windows artifacts are unsigned, so SmartScreen may warn on first run.',
+            '- Readable license texts for the imported binaries, Go modules and production images ship as `piwork-licenses.tar.gz` and under `provenance/piwork-upstream/licenses/`. '+('The index records every extraction gap.'+official_gap if official_gap else 'The index records every extraction gap.'),
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
     return '\n'.join(lines)
 
@@ -164,9 +256,14 @@ def git_out(*args):
     r=subprocess.run(['git',*args],capture_output=True,text=True)
     return r.stdout.strip() if r.returncode==0 else None
 def check_tree_clean():
-    """Tracked changes only: untracked scratch files must not block a release."""
-    if git_out('status','--porcelain','--untracked-files=no'):fail('working tree has uncommitted changes')
-def check_source_locked():
+    """Tracked and untracked changes both block a release: untracked Go files compile into artifacts."""
+    if git_out('status','--porcelain'):fail('working tree has uncommitted or untracked changes')
+def check_input_locked():
+    """Source mode verifies the clean checkout; official mode verifies the import record."""
+    if built_input_mode()=='official-release':
+        try:piwork_release.check_prepared()
+        except piwork_release.ReleaseError as err:fail('official input check failed: '+str(err))
+        return
     r=subprocess.run(['python3',str(ROOT/'scripts/source.py'),'--check'],capture_output=True,text=True)
     if r.returncode!=0:fail('locked source check failed: '+(r.stderr.strip() or r.stdout.strip()))
 def check_tag_absent(version):
@@ -180,27 +277,95 @@ def check_head_pushed():
     if not head or not upstream:fail('current branch has no upstream; push it before publishing')
     if subprocess.run(['git','merge-base','--is-ancestor',head,upstream],cwd=ROOT).returncode!=0:
         fail('HEAD is not contained in '+upstream+'; push the branch before publishing')
-def preflight(version,require_gh):
+def preflight(version,require_gh,allow_existing_tag=False):
     """Gate steps 1-3. Everything here runs before any test, build or publish."""
-    check_tree_clean();check_source_locked();check_tag_absent(version)
+    check_tree_clean();check_input_locked()
+    if not allow_existing_tag:check_tag_absent(version)
     if require_gh:check_head_pushed();check_gh()
 
 def run_tests():
     if subprocess.run(['go','test','./...'],cwd=ROOT).returncode!=0:fail('go test ./... failed')
+    if subprocess.run(['python3','-m','unittest','discover','-s','scripts','-p','*_test.py'],
+                      cwd=ROOT).returncode!=0:fail('Python script tests failed')
+def artifact_bytes(path):
+    """Return the launcher body bytes without reading the embedded payload."""
+    info=bundle.read_trailer(path)
+    with pathlib.Path(path).open('rb') as f:return f.read(info['offset'])
+def verify_resources(entry,platform):
+    """The embedded resource manifest must describe the current build inputs."""
+    manifest=read_json(ROOT/'dist'/manifest_name(entry,platform))
+    recorded={record['path']:record['sha256'] for record in manifest.get('files',[])}
+    inputs=bundle.collect_inputs(entry,platform,ROOT/'dist')
+    expected={}
+    for name,source in inputs.items():
+        if isinstance(source,tuple) and source[0]=='inline':
+            expected[name]=hashlib.sha256(source[1]).hexdigest()
+        else:expected[name]=sha(source)
+    if recorded!=expected:
+        missing=sorted(set(expected)-set(recorded));extra=sorted(set(recorded)-set(expected))
+        changed=sorted(name for name in set(expected)&set(recorded) if expected[name]!=recorded[name])
+        fail('resource manifest differs for %s/%s (missing %s, extra %s, changed %s)'
+             %(entry,platform,missing[:3],extra[:3],changed[:3]))
+def sha_region(path,offset,length):
+    digest=hashlib.sha256()
+    with pathlib.Path(path).open('rb') as f:
+        f.seek(offset);remaining=length
+        while remaining:
+            chunk=f.read(min(1<<20,remaining))
+            if not chunk:fail('artifact payload is truncated: '+str(path))
+            digest.update(chunk);remaining-=len(chunk)
+    return digest.hexdigest()
+def verify_embedded(entry,platform,binary,info):
+    """The trailer manifest and payload must equal the sidecar built from current inputs."""
+    sidecar=read_json(ROOT/'dist'/manifest_name(entry,platform))
+    if info['manifest']!=sidecar:fail('%s embedded manifest differs from %s'%(binary.name,manifest_name(entry,platform)))
+    if info['length']!=sidecar.get('size') and sidecar.get('size') is not None:
+        fail('%s payload length differs from the sidecar'%binary.name)
+    if sha_region(binary,info['offset'],info['length'])!=info['manifest'].get('payloadSha256'):
+        fail('%s embedded payload digest differs from its manifest'%binary.name)
 def verify_artifact_version(version):
-    """A silent -X no-op, or artifacts left from another version, would ship a wrong --version."""
-    r=subprocess.run([str(ROOT/'dist'/'piwork-microvm'),'--version'],capture_output=True,text=True)
-    if r.returncode!=0:fail('artifact --version failed: '+(r.stderr.strip() or str(r.returncode)))
-    if 'piwork-microvm '+version not in r.stdout:fail('artifact reports "'+r.stdout.splitlines()[0]+'", expected version '+version)
+    """Every entry must carry this version, a matching body record and real resources."""
+    current_commit=git_out('rev-parse','HEAD')
+    for entry,platform in ENTRIES:
+        binary=artifact_path(entry,platform)
+        if not binary.exists():fail('missing artifact '+str(binary))
+        try:info=bundle.read_trailer(binary)
+        except (OSError,ValueError) as err:fail('%s trailer is invalid: %s'%(binary.name,err))
+        try:record=body_record(entry,platform)
+        except Exception as err:fail('%s build record is unreadable: %s'%(binary.name,err))
+        if record.get('version')!=version:
+            fail('%s build record reports %s, expected %s'%(binary.name,record.get('version'),version))
+        if record.get('sourceCommit')!=current_commit:
+            fail('%s was built from %s, expected %s'%(binary.name,record.get('sourceCommit'),current_commit))
+        body=artifact_bytes(binary)
+        digest=record.get('body') or {}
+        if (digest.get('size'),digest.get('sha256'))!=(len(body),hashlib.sha256(body).hexdigest()):
+            fail('%s body differs from its build record'%binary.name)
+        if platform=='linux' or entry=='gui' and platform=='linux':
+            r=subprocess.run([str(binary),'--version'],capture_output=True,text=True)
+            if r.returncode!=0:fail('%s --version failed: %s'%(binary.name,r.stderr.strip() or r.returncode))
+            if 'piwork-microvm '+version not in r.stdout:
+                fail('%s reports "%s", expected version %s'%(binary.name,r.stdout.splitlines()[0] if r.stdout else '',version))
+        elif version.encode() not in body:
+            fail('%s has no embedded %s version string'%(binary.name,version))
+        verify_embedded(entry,platform,binary,info)
+        verify_resources(entry,platform)
 def run_build(reuse,version):
     """Step 3. The version is an explicit build input, since the release tag does not exist yet.
 
     Reuse is explicit and non-default: it skips the build, not the gate's other checks.
+    The Windows GUI body is native, so a fresh build prepares it only when it was
+    already produced on Windows and recorded; all four artifacts are always verified.
     """
     if not reuse:
         env=os.environ.copy();env['PIWORK_RELEASE_VERSION']=version
-        if subprocess.run(['make','piwork-microvm-all'],cwd=ROOT,env=env).returncode!=0:fail('artifact build failed')
-    missing=[name for _,name in PLATFORMS if not (ROOT/'dist'/name).exists()]
+        if subprocess.run(['make','piwork-microvm-all','piwork-microvm-gui'],cwd=ROOT,env=env).returncode!=0:fail('artifact build failed')
+    lock=read_json(ROOT/'build.lock.json')
+    for kind in components.KINDS:
+        hit,reason=components.verify(kind,lock,root=ROOT)
+        if not hit:fail('component %s cannot be reused (%s); rebuild it before releasing'%(kind,reason))
+    missing=[artifact_name(entry,platform) for entry,platform in ENTRIES
+             if not artifact_path(entry,platform).exists()]
     if missing:fail('missing artifacts, build before releasing: '+', '.join(missing))
     verify_artifact_version(version)
 
@@ -215,65 +380,210 @@ def cmd_release(args):
     run_build(args.reuse_artifacts,args.version);print('Artifacts ready and report '+args.version)
     evidence=pathlib.Path(args.evidence_dir)
     manifest_out=pathlib.Path(args.out) if args.out else ROOT/'dist/release-manifest.json'
-    write_json(manifest_out,manifest(args.version,evidence));print('Wrote',manifest_out)
+    manifest_value=manifest(args.version,evidence)
+    write_json(manifest_out,manifest_value);print('Wrote',manifest_out)
     notes_out=pathlib.Path(args.notes_out) if args.notes_out else ROOT/'dist/release-notes.md'
-    notes_out.write_text(notes(args.version,evidence),encoding='utf-8');print('Wrote',notes_out)
+    notes_text=notes(args.version,evidence)
+    notes_out.write_text(notes_text,encoding='utf-8');print('Wrote',notes_out)
     patches_out=pathlib.Path(args.patches_out) if args.patches_out else ROOT/'dist/qemu-patches.tar.gz'
     patches(patches_out);print('Wrote',patches_out)
     licenses_out=ROOT/'dist/guest-licenses.tar.gz'
     guest_licenses_archive(licenses_out);print('Wrote',licenses_out)
+    piwork_licenses_out=ROOT/'dist/piwork-licenses.tar.gz'
+    piwork_licenses_archive(piwork_licenses_out);print('Wrote',piwork_licenses_out)
+    assets=release_assets(args.version,manifest_out,patches_out,licenses_out,piwork_licenses_out)
+    plan=freeze_plan(args.version,manifest_value,notes_text,assets)
+    print('Froze release plan',plan_path(args.version),'with',len(plan['assets']),'assets')
 
 def repo_slug():
     return git_out('remote','get-url','origin') or 'unknown'
-def asset_label(version,platform,name):
-    return 'piwork-microvm-v'+version+'-'+platform+'-amd64'+('.exe' if name.endswith('.exe') else '')
-def release_assets(version,manifest_path,patches_path,licenses_path):
-    """D4: asset names carry the version, so downloads stay distinguishable across releases.
+def asset_label(version,entry,platform,name):
+    base='piwork-microvm-gui' if entry=='gui' else 'piwork-microvm'
+    return base+'-v'+version+'-'+platform+'-amd64'+('.exe' if name.endswith('.exe') else '')
+def release_assets(version,manifest_path,patches_path,licenses_path,piwork_licenses_path=None):
+    """Asset names carry the version and entry, so downloads stay distinguishable.
 
     gh uses the file name as the asset name and a `#label` only sets the display
     label, so the binaries are staged under their release names instead.
     """
     stage=ROOT/'dist/release-assets';stage.mkdir(parents=True,exist_ok=True)
     assets=[]
-    for platform,name in PLATFORMS:
-        binary=ROOT/'dist'/name
-        if not binary.exists():fail('missing artifact '+name)
-        label=asset_label(version,platform,name)
+    for entry,platform in ENTRIES:
+        binary=artifact_path(entry,platform)
+        if not binary.exists():fail('missing artifact '+binary.name)
+        label=asset_label(version,entry,platform,binary.name)
         staged=stage/label
         if staged.exists() or staged.is_symlink():staged.unlink()
         try:os.link(binary,staged)
         except OSError:shutil.copyfile(binary,staged)
         sums=stage/(label+'.sha256');sums.write_text(sha(binary)+'  '+label+'\n',encoding='utf-8')
         assets+=[(staged,label),(sums,label+'.sha256')]
-    return assets+[(manifest_path,'release-manifest.json'),(patches_path,'qemu-patches.tar.gz'),(licenses_path,'guest-licenses.tar.gz')]
+    assets+=[(manifest_path,'release-manifest.json'),(patches_path,'qemu-patches.tar.gz'),(licenses_path,'guest-licenses.tar.gz')]
+    if piwork_licenses_path is not None:assets.append((piwork_licenses_path,'piwork-licenses.tar.gz'))
+    return assets
+
+def plan_dir(version):
+    return ROOT/'dist/release-plans'/('v'+version)
+def plan_path(version):
+    return plan_dir(version)/'plan.json'
+def freeze_plan(version,manifest_value,notes_text,assets):
+    """Freeze the exact version plan and asset bytes; later retries never regenerate it."""
+    target=plan_dir(version)
+    if plan_path(version).exists():
+        fail('release plan for v'+version+' is already frozen; use a new version or remove it explicitly')
+    target.mkdir(parents=True,exist_ok=True)
+    entries=[]
+    for path,label in assets:
+        staged=target/label
+        if staged.exists():staged.unlink()
+        try:os.link(path,staged)
+        except OSError:shutil.copyfile(path,staged)
+        entries.append({'name':label,'size':staged.stat().st_size,'sha256':sha(staged)})
+    (target/'notes.md').write_text(notes_text,encoding='utf-8')
+    write_json(target/'release-manifest.json',manifest_value)
+    plan={'planVersion':1,'version':version,'tag':'v'+version,
+          'sourceCommit':git_out('rev-parse','HEAD'),
+          'inputFingerprint':input_fingerprint(),'createdAt':utc_now(),
+          'manifest':manifest_value,'notes':notes_text,'assets':entries}
+    write_json(plan_path(version),plan)
+    return plan
+def load_plan(version):
+    path=plan_path(version)
+    if not path.exists():fail('no frozen release plan for v'+version+'; run make release first')
+    return read_json(path)
+def verify_plan(plan,version):
+    """The frozen plan must still describe this version, commit and locked inputs."""
+    if plan.get('planVersion')!=1:fail('unsupported release plan version')
+    if plan.get('version')!=version or plan.get('tag')!='v'+version:fail('release plan is for another version')
+    if plan.get('sourceCommit')!=git_out('rev-parse','HEAD'):fail('release plan targets another source commit')
+    if plan.get('inputFingerprint')!=input_fingerprint():fail('release plan was frozen for other locked inputs')
+    target=plan_dir(version)
+    for asset in plan.get('assets',[]):
+        path=target/asset['name']
+        if not path.is_file():fail('frozen asset is missing: '+asset['name'])
+        if path.stat().st_size!=asset['size']:fail('frozen asset size differs: '+asset['name'])
+        if sha(path)!=asset['sha256']:fail('frozen asset digest differs: '+asset['name'])
+    notes_path=target/'notes.md'
+    if not notes_path.is_file():fail('frozen release notes are missing')
+    if notes_path.read_text(encoding='utf-8')!=plan.get('notes'):
+        fail('frozen release notes differ from the plan')
+def remote_asset(assets,name):
+    return next((a for a in assets if a.get('name')==name),None)
+def asset_matches(remote,planned):
+    return (remote.get('size')==planned['size'] and remote.get('digest')=='sha256:'+planned['sha256'])
+def placeholder(remote):
+    """Only an incomplete upload with no valid digest may be cleaned from our draft."""
+    return remote.get('state')!='uploaded' and not remote.get('digest')
+def verify_remote_assets(release_value,plan):
+    assets=release_value.get('assets') or []
+    missing=[];mismatched=[]
+    for planned in plan['assets']:
+        actual=remote_asset(assets,planned['name'])
+        if actual is None:missing.append(planned['name'])
+        elif not asset_matches(actual,planned):mismatched.append(planned['name'])
+    if missing:mismatched=mismatched+['missing: '+name for name in missing]
+    if mismatched:fail('remote assets are incomplete or differ: '+', '.join(mismatched))
+def ensure_remote_tag(tag,commit):
+    """Accept only the same annotated tag on the same commit; never move a tag."""
+    lines=(git_out('ls-remote','--tags','origin','refs/tags/'+tag,'refs/tags/'+tag+'^{}') or '').splitlines()
+    targets={}
+    for line in lines:
+        sha,_,ref=line.partition('\t');targets[ref.strip()]=sha.strip()
+    remote=targets.get('refs/tags/'+tag+'^{}') or targets.get('refs/tags/'+tag)
+    if remote is not None:
+        if remote!=commit:fail('tag '+tag+' points at '+remote+', plan says '+commit)
+        if 'refs/tags/'+tag+'^{}' not in targets:fail('remote tag '+tag+' is not annotated')
+        return 'existing'
+    local_type=git_out('cat-file','-t','refs/tags/'+tag)
+    if local_type and local_type!='tag':fail('local tag '+tag+' exists but is not annotated')
+    if local_type=='tag':
+        if git_out('rev-parse','refs/tags/'+tag+'^{}')!=commit:fail('local tag '+tag+' points at another commit')
+    else:
+        subprocess.run(['git','tag','-a',tag,commit,'-m','piwork-microvm '+tag],cwd=ROOT,check=True)
+    subprocess.run(['git','push','origin','refs/tags/'+tag],cwd=ROOT,check=True)
+    return 'created'
+class GitHubRelease:
+    """Thin gh CLI wrapper; only the publish command writes remotely."""
+    def __init__(self,runner=subprocess.run):
+        self.runner=runner
+        self.slug=None
+    def _run(self,args,check=True):
+        result=self.runner(['gh',*args],capture_output=True,text=True)
+        if check and result.returncode!=0:
+            fail('gh '+' '.join(args)+' failed: '+(result.stderr.strip() or result.stdout.strip()))
+        return result
+    def repo(self):
+        if self.slug is None:
+            self.slug=self._run(['repo','view','--json','nameWithOwner','--jq','.nameWithOwner']).stdout.strip()
+        return self.slug
+    def release(self,tag):
+        result=self._run(['api','repos/'+self.repo()+'/releases/tags/'+tag],check=False)
+        if result.returncode!=0:
+            if 'HTTP 404' in (result.stderr or '') or 'Not Found' in (result.stderr or ''):return None
+            fail('cannot read release '+tag+': '+result.stderr.strip())
+        return json.loads(result.stdout)
+    def create_draft(self,tag,title,notes_file):
+        self._run(['release','create',tag,'--draft','--verify-tag','--title',title,'--notes-file',str(notes_file)])
+    def upload(self,tag,path,name):
+        self._run(['release','upload',tag,str(path)])
+    def delete_asset(self,tag,name):
+        self._run(['release','delete-asset',tag,name,'--yes'])
+    def publish(self,tag):
+        self._run(['release','edit',tag,'--draft=false','--verify-tag'])
+def publish_plan(plan,version,remote,dry_run=False):
+    """Upload the frozen assets, verify the remote bytes, and only then publish."""
+    verify_plan(plan,version)
+    target=plan_dir(version)
+    if dry_run:
+        print('Dry run: plan '+plan['tag']+' targets '+plan['sourceCommit'])
+        for asset in plan['assets']:print('  asset: '+asset['name']+'  '+str(asset['size'])+'  '+asset['sha256'])
+        print('Dry run: no tag created, nothing uploaded or published.')
+        return {'status':'dry-run'}
+    ensure_remote_tag(plan['tag'],plan['sourceCommit'])
+    existing=remote.release(plan['tag'])
+    if existing and not existing.get('draft'):
+        verify_remote_assets(existing,plan)
+        if (existing.get('body') or '').strip()!=plan['notes'].strip():
+            fail('published release notes differ from the frozen plan; refusing to rewrite them')
+        print('Already published '+plan['tag']+' with matching assets; nothing changed.')
+        return {'status':'already-published'}
+    if existing is None:
+        remote.create_draft(plan['tag'],'piwork-microvm '+plan['tag'],target/'notes.md')
+        existing=remote.release(plan['tag'])
+    if existing is None:fail('draft release is not readable after creation')
+    draft_body=(existing.get('body') or '').strip()
+    if draft_body and draft_body!=plan['notes'].strip():
+        fail('existing draft notes differ from the frozen plan; refusing to rewrite them')
+    assets=existing.get('assets') or []
+    for planned in plan['assets']:
+        actual=remote_asset(assets,planned['name'])
+        if actual is not None and asset_matches(actual,planned):continue
+        if actual is not None:
+            if not placeholder(actual):fail('remote asset '+planned['name']+' already exists with different content')
+            remote.delete_asset(plan['tag'],planned['name'])
+        remote.upload(plan['tag'],target/planned['name'],planned['name'])
+    current=remote.release(plan['tag'])
+    verify_remote_assets(current,plan)
+    remote.publish(plan['tag'])
+    final=remote.release(plan['tag'])
+    if final is None or final.get('draft') is not False:fail('release did not become public')
+    verify_remote_assets(final,plan)
+    print('Published '+plan['tag'])
+    return {'status':'published'}
 
 def cmd_publish(args):
-    """Steps 6-7: tag and GitHub Release. The only command here that writes remotely."""
+    """Steps 6-7: upload the frozen plan and publish. The only remote-writing command."""
     version=args.version;tag='v'+version
-    preflight(version,True);print('Preflight passed for '+tag)
+    preflight(version,True,allow_existing_tag=True);print('Preflight passed for '+tag)
+    run_tests();print('Tests passed')
     run_build(True,version);print('Artifacts report '+version)
-    evidence=pathlib.Path(args.evidence_dir)
-    manifest_out=pathlib.Path(args.manifest_out) if args.manifest_out else ROOT/'dist/release-manifest.json'
-    notes_out=pathlib.Path(args.notes_out) if args.notes_out else ROOT/'dist/release-notes.md'
-    patches_out=pathlib.Path(args.patches_out) if args.patches_out else ROOT/'dist/qemu-patches.tar.gz'
-    write_json(manifest_out,manifest(version,evidence));print('Wrote',manifest_out)
-    notes_out.write_text(notes(version,evidence),encoding='utf-8');print('Wrote',notes_out)
-    patches(patches_out);print('Wrote',patches_out)
-    licenses_out=ROOT/'dist/guest-licenses.tar.gz'
-    guest_licenses_archive(licenses_out);print('Wrote',licenses_out)
-    assets=release_assets(version,manifest_out,patches_out,licenses_out)
+    plan=load_plan(version)
+    verify_plan(plan,version)
     if args.dry_run:
-        print('Dry run: no tag created, nothing pushed and no release published.')
+        publish_plan(plan,version,GitHubRelease(),dry_run=True)
         print('  repository: '+repo_slug())
-        print('  tag: '+tag)
-        for path,label in assets:print('  asset: '+label+'  <- '+str(path.relative_to(ROOT)))
         return
-    subprocess.run(['git','tag','-a',tag,'-m','piwork-microvm '+tag],cwd=ROOT,check=True)
-    subprocess.run(['git','push','origin',tag],cwd=ROOT,check=True)
-    command=['gh','release','create',tag,'--verify-tag','--title','piwork-microvm '+tag,'--notes-file',str(notes_out)]
-    command+=[str(path) for path,_ in assets]
-    subprocess.run(command,cwd=ROOT,check=True)
-    print('Published '+tag)
+    publish_plan(plan,version,GitHubRelease())
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
