@@ -10,7 +10,7 @@ import components
 import piwork_release
 from source import source_path, input_mode
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-CHANGE=ROOT/'openspec/changes/import-official-piwork-binaries'
+CHANGE=ROOT/'openspec/changes/archive/2026-10-23-import-official-piwork-binaries'
 EVIDENCE=CHANGE/'evidence'
 PLATFORMS=[('linux','piwork-microvm'),('windows','piwork-microvm.exe')]
 ENTRIES=[('cli','linux'),('cli','windows'),('gui','linux'),('gui','windows')]
