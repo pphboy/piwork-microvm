@@ -1,0 +1,78 @@
+{
+  "scope": "build-tooling",
+  "status": "passed",
+  "checkedAt": "2026-10-22T16:06:58+00:00",
+  "basis": "locked inputs; tooling regression checks, no new runtime acceptance claim",
+  "inputFingerprint": "183580f9718d61a12a5cff16097a517d5f2fc5ce00a5bae5fdb34071d95c6481",
+  "upstreamVersion": "0.0.12",
+  "warningsResolved": [
+    {
+      "id": 1,
+      "change": "compare complete prepared assets, program/UI metadata, image identities and source/version against lock",
+      "commit": "e6985f9",
+      "regression": "40 lock-only source/version/asset/metadata/image mutations rejected; outputs unchanged; actual previous digest/UI reproductions rejected"
+    },
+    {
+      "id": 2,
+      "change": "copy frozen assets into independent files",
+      "commit": "35fc7c9",
+      "regression": "in-place working writes, next-version preparation, same-version refusal and interrupted retry retain valid snapshots; executable file modes preserved",
+      "followupCommit": "7cfadde"
+    },
+    {
+      "id": 3,
+      "change": "derive release body and limitations from locked upstream version and prerelease state",
+      "commit": "b07296c",
+      "regression": "0.0.12 Preview, 0.0.13 stable and source mode; keep known failure/source offer/unverified scopes"
+    },
+    {
+      "id": 4,
+      "change": "reconcile proposal, design, specs and tasks with 0.0.12 native-v2 and Linux-only follow-up; keep 0.0.11 history",
+      "regression": "strict OpenSpec validation and artifact/input identity review"
+    }
+  ],
+  "tests": {
+    "python": {
+      "count": 136,
+      "status": "passed"
+    },
+    "goTestAll": "passed",
+    "strictOpenSpec": "passed",
+    "gitDiffCheck": "passed",
+    "existingPrepared012Input": "passed"
+  },
+  "legacyFrozenPlanIntegrity": {
+    "checkedAt": "2026-10-22T16:05:32.857704+00:00",
+    "version": "0.2.1",
+    "sourceCommit": "e4347a806abed8b76c04ce8fc1ca7a3fe6789cac",
+    "inputFingerprint": "23c6a0fda864c765cd2d886bacab47b158101dafa62dd5d12840983a1552d3d1",
+    "assetCount": 12,
+    "detachedAssets": [
+      "piwork-microvm-v0.2.1-linux-amd64",
+      "piwork-microvm-v0.2.1-linux-amd64.sha256",
+      "piwork-microvm-v0.2.1-windows-amd64.exe",
+      "piwork-microvm-v0.2.1-windows-amd64.exe.sha256",
+      "piwork-microvm-gui-v0.2.1-linux-amd64",
+      "piwork-microvm-gui-v0.2.1-linux-amd64.sha256",
+      "piwork-microvm-gui-v0.2.1-windows-amd64.exe",
+      "piwork-microvm-gui-v0.2.1-windows-amd64.exe.sha256",
+      "release-manifest.json",
+      "qemu-patches.tar.gz",
+      "guest-licenses.tar.gz",
+      "piwork-licenses.tar.gz"
+    ],
+    "planBytesUnchanged": true,
+    "notesBytesUnchanged": true,
+    "assetSizesAndDigestsUnchanged": true,
+    "allAssetFilesIndependent": true,
+    "remoteWrites": false
+  },
+  "runtimeInputsChanged": false,
+  "vmAcceptanceRerun": false,
+  "nativeWindows012": "not-verified",
+  "completeFourArtifact012ReleasePlan": "not-prepared",
+  "realModels": "not-verified",
+  "remoteWrites": false,
+  "tagMoved": false,
+  "publicReleaseChanged": false
+}

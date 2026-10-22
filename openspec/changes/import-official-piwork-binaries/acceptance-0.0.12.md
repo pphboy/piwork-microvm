@@ -39,3 +39,7 @@ The retained-data tests use full independent qcow2 copies, not main-database-onl
 [evidence/piwork-0.0.12/](evidence/piwork-0.0.12/) contains the Linux build identities, separate integration records for the failed-data copy, clean-data copy and fresh GUI, original-source preservation hashes, allowlisted session/ZIP summaries and actual GUI screenshots. The scoped verification record accepts this input's Linux evidence and leaves Windows and real models unverified; it does not inherit 0.0.11 platform results.
 
 `make piwork-lock TAG=v0.0.12`, `make guest qemu`, the official read-only check, both Linux packaging entries, `go test ./...`, 129 Python tests and `git diff --check` passed. Raw logs, credentials, synthetic keys, ZIPs, databases, disks and executables remain outside Git. Existing license collection and missing-text indexes remain embedded; this retry does not claim a new license-coverage audit or universal WAL/crash-recovery coverage. No release plan for all four artifacts was generated for 0.0.12.
+
+## Subsequent verification fixes
+
+The four follow-up verification warnings are resolved in [verification-warnings.md](verification-warnings.md). The tooling regression suite now has 136 passing Python tests; this does not change the earlier 129-test/runtime record or claim a new VM run. Current-input Windows, full release preparation and real models remain unverified/not executed.
