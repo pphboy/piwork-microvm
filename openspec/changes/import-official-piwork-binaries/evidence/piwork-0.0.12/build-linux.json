@@ -1,0 +1,58 @@
+{
+  "scope": "build",
+  "platform": "linux",
+  "status": "passed",
+  "checkedAt": "2026-10-22T15:46:19Z",
+  "basis": "locked-inputs; artifact identities recorded for integrity only, not byte-reproducible acceptance",
+  "inputFingerprint": "183580f9718d61a12a5cff16097a517d5f2fc5ce00a5bae5fdb34071d95c6481",
+  "wrapperVersion": "0.2.2-dev",
+  "upstreamVersion": "0.0.12",
+  "buildCommit": "4f127751fc4805e504a1af0d7b48c02739f72489",
+  "publicationCommit": "c4ce9bbd8fea9d990979332e57b61876cda20da2",
+  "metadataFormat": "native-v2",
+  "publicationCommitBasis": "official-git-tag",
+  "programSHA256": {
+    "piwork-core": "e7d65de554b6a32c347e43d36377033c07757702fa7723573ab523c838012d97",
+    "piwork-cli": "ea6cee0d8c0ce3cc4fadbec69806fb0d1dba233202b8d96ea7a02cb7e333be69"
+  },
+  "artifacts": [
+    {
+      "entry": "cli",
+      "path": "dist/piwork-microvm",
+      "os": "linux",
+      "arch": "amd64",
+      "version": "0.2.2-dev",
+      "size": 405408754,
+      "sha256": "e0ca62c493070a0439fdb09b8409482ad3cf3da97be1afd15b5ca8da0b0c17cf",
+      "manifestSha256": "1f149896a26e8e6173de613c591df9a6b2ab4a6d502e5bac14fc4f1305cef525"
+    },
+    {
+      "entry": "gui",
+      "path": "dist/piwork-microvm-gui",
+      "os": "linux",
+      "arch": "amd64",
+      "version": "0.2.2-dev",
+      "size": 409751248,
+      "sha256": "404225d65676a7dbd99b81a6f0e4a004c7338a34cb00ac282b1808d0bba0d91a",
+      "manifestSha256": "42d1e5889e684a70916f5b8eff9fa698da6cf88f09441303f7a9527e5a6386c4"
+    }
+  ],
+  "checks": [
+    "original official Core/CLI bytes and identities",
+    "three production image digests, IDs and helper versions",
+    "full prepared-input check",
+    "Linux GUI/CLI body, trailer, payload digest and complete current resources",
+    "Go tests and 129 Python tests"
+  ],
+  "cache": {
+    "kernel": "HIT",
+    "qemuLinux": "HIT",
+    "guest": "rebuilt for changed Piwork inputs; shared by CLI/GUI"
+  },
+  "notVerified": [
+    "native Windows 0.0.12 GUI/CLI",
+    "real-model calls",
+    "public release"
+  ],
+  "remoteMutation": false
+}

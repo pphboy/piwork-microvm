@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-22T15:37:17.624738+00:00",
+  "records": [
+    {
+      "case": "failed",
+      "path": "installation.json",
+      "size": 113,
+      "sha256": "186bde36ea973d9c6b580592d79f9b2a92ffffbb1a02f4c4fb9aaab9cfbd4431",
+      "copied": true,
+      "sourceHashUnchangedAfterRetry": true
+    },
+    {
+      "case": "failed",
+      "path": "disks/state.qcow2",
+      "size": 2567831552,
+      "sha256": "ebada364997e83b9c14522730424920f3c54a170e0c900bd963e5eabf3c2042b",
+      "copied": true,
+      "sourceHashUnchangedAfterRetry": true
+    },
+    {
+      "case": "clean",
+      "path": "installation.json",
+      "size": 113,
+      "sha256": "08b8455259821b3cab670a131aae4b5560c1277659490a44c3c909b949884dd3",
+      "copied": true,
+      "sourceHashUnchangedAfterRetry": true
+    },
+    {
+      "case": "clean",
+      "path": "disks/state.qcow2",
+      "size": 2521694208,
+      "sha256": "6d06c7b9dcbf18724dbdd6a98b3c2282ce3050624df05adc54246d167cd8b3d5",
+      "copied": true,
+      "sourceHashUnchangedAfterRetry": true
+    }
+  ],
+  "userDefaultInstallationMetadataUnchanged": true
+}

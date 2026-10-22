@@ -1,0 +1,33 @@
+{
+  "platform": "Linux/KVM CLI 0.2.2-dev with original Piwork 0.0.12",
+  "realModelCall": false,
+  "userId": "user-c836b725-e449-4b35-9d51-a998de4fdc30",
+  "workId": "work-8d1ec088-7d7b-45bc-8953-c1f834607582",
+  "serviceId": "service-bb2eed25-d8a3-4ebd-af1d-9324525eba36",
+  "serviceRevision": 1,
+  "files": [
+    {
+      "name": "note.txt",
+      "sha256": "3c6fb22f11f316306431e7f1826242f988993061445870651fc4dc042d77b90b"
+    },
+    {
+      "name": "\u4e2d\u6587\u8d44\u6599.txt",
+      "sha256": "94908010fe984e7a302ba8e14ac036b9ca43c4b11d7edb2221b2c2872549af01"
+    },
+    {
+      "name": "\u4e8c\u8fdb\u5236.bin",
+      "sha256": "9c553980e8f221e667ee870739ee4558351cb139a7d74b3b5e248f329ed41f49"
+    }
+  ],
+  "counter": {
+    "value": 1
+  },
+  "export": {
+    "filename": "piwork-logs-log-export-50d6c22a2975d2eb2e4dc66d39e8223a.zip",
+    "size": 9566,
+    "sha256": "53522560323d8187b462e7eb0f1a5843389e241e2111485140c27b8afb3682a1",
+    "coreFiles": 3,
+    "complete": true,
+    "sources": 4
+  }
+}

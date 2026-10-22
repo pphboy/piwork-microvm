@@ -1,0 +1,14 @@
+{
+  "runtimeRemoved": true,
+  "uncleanMarkerAbsent": true,
+  "tail": [
+    "Sending SIGTERM to remaining processes...",
+    "[  232.668731] systemd-journald[87]: Received SIGTERM from PID 1 (systemd-shutdow).",
+    "Sending SIGKILL to remaining processes...",
+    "All filesystems, swaps, loop devices, MD devices and DM devices detached.",
+    "Rebooting.",
+    "[  232.689351] reboot: Restarting system",
+    "[  232.690460] reboot: machine restart",
+    "Guest stopped cleanly. All user data retained."
+  ]
+}

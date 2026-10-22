@@ -1,0 +1,56 @@
+{
+  "basis": "locked-inputs",
+  "inputFingerprint": "183580f9718d61a12a5cff16097a517d5f2fc5ce00a5bae5fdb34071d95c6481",
+  "note": "Acceptance evidence covers the locked inputs, not these artifact bytes: the Guest ext4 rootfs is regenerated with fresh UUIDs on every build, so artifacts are not byte-reproducible. Verify downloads with the checksums in this manifest.",
+  "scopes": {
+    "build": {
+      "platforms": {
+        "linux": {
+          "status": "verified",
+          "verifiedAt": "2026-10-22T15:46:19Z",
+          "records": [
+            "openspec/changes/import-official-piwork-binaries/evidence/piwork-0.0.12/build-linux.json"
+          ]
+        },
+        "windows": {
+          "status": "not-verified",
+          "reason": "recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs"
+        }
+      }
+    },
+    "integration": {
+      "platforms": {
+        "linux": {
+          "status": "verified",
+          "verifiedAt": "2026-10-22T15:50:07Z",
+          "records": [
+            "openspec/changes/import-official-piwork-binaries/evidence/piwork-0.0.12/integration-linux-clean-copy.json",
+            "openspec/changes/import-official-piwork-binaries/evidence/piwork-0.0.12/integration-linux-failed-copy.json",
+            "openspec/changes/import-official-piwork-binaries/evidence/piwork-0.0.12/integration-linux-gui.json"
+          ]
+        },
+        "windows": {
+          "status": "not-verified",
+          "reason": "recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs"
+        }
+      }
+    },
+    "realModel": {
+      "platforms": {
+        "linux": {
+          "status": "not-verified",
+          "reason": "recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs"
+        },
+        "windows": {
+          "status": "not-verified",
+          "reason": "recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs"
+        }
+      }
+    },
+    "upstream": {
+      "status": "none",
+      "note": "Upstream verification is informational and never upgrades a MicroVM scope.",
+      "records": []
+    }
+  }
+}

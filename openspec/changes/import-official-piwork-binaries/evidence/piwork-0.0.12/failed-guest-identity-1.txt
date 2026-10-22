@@ -1,0 +1,9 @@
+{"program":"piwork-core","version":"0.0.12","commit":"4f127751fc4805e504a1af0d7b48c02739f72489","modified":false,"goVersion":"go1.25.5","os":"linux","architecture":"amd64","desktopUIHash":"176fec09554ec85392cdd6ff975c7ca4581f4f71a6e10d0242dde0853f0474b2","consoleUIHash":"38c716a01d9c7a3f02d2e99a1ef9c2313c121917f4f21ff07471c8900e311dc6"}
+pphboy/piwork-snapshot-helper:0.0.12-4f127751fc48-2fb10dd31925 d7505d16afe7
+pphboy/piwork-file-helper:0.0.12-4f127751fc48-2fb10dd31925 6f96baa64846
+pphboy/piwork-agentd:0.0.12-4f127751fc48-2fb10dd31925 d9e61389ad02
+pphboy/piwork-snapshot-helper:0.0.11-a19c6f595fa6-d60025d65577 ddf4fa51fbfd
+pphboy/piwork-file-helper:0.0.11-a19c6f595fa6-d60025d65577 0654bfe5e865
+pphboy/piwork-agentd:0.0.11-a19c6f595fa6-d60025d65577 bd0356b2c19a
+Result=success
+ExecMainStatus=0

@@ -1,0 +1,36 @@
+{
+  "scope": "integration",
+  "platform": "linux",
+  "status": "passed",
+  "scenario": "fresh-empty-data-Linux-GUI-and-reopen",
+  "checkedAt": "2026-10-22T15:50:07Z",
+  "inputFingerprint": "183580f9718d61a12a5cff16097a517d5f2fc5ce00a5bae5fdb34071d95c6481",
+  "basis": "locked-inputs",
+  "wrapperVersion": "0.2.2-dev",
+  "upstreamVersion": "0.0.12",
+  "realModelCall": false,
+  "checks": [
+    "actual Linux Wails GUI with KVM start",
+    "About 0.2.2-dev / upstream 0.0.12 and original Core identity",
+    "new independent empty data root, no copied installation/disk",
+    "actual browser administrator creation and QuickStart",
+    "real production Agent Work and Files create/edit/upload/download/delete",
+    "production Service, ext4 SQLite counter, WebSocket/SSE",
+    "administrator ZIP saved and opened before and after restart",
+    "native confirmation and two clean GUI stops",
+    "GUI reopen retained original account/Work/Service, exact file hashes and SQLite counter",
+    "default user installation metadata unchanged"
+  ],
+  "finalRuntimeRemoved": true,
+  "finalUncleanMarkerAbsent": true,
+  "evidence": [
+    "gui-session-baseline.json",
+    "gui-session-reopened.json",
+    "gui-stop-first.json",
+    "gui-stop-second.json",
+    "gui-guest-identity.json",
+    "gui-browser-result.json",
+    "gui-launcher-about.png",
+    "gui-launcher-reopened.png"
+  ]
+}

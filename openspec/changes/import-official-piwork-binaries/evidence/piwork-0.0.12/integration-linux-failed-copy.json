@@ -1,0 +1,38 @@
+{
+  "scope": "integration",
+  "platform": "linux",
+  "scenario": "retained-failed-0.0.11-data",
+  "basis": "locked-inputs",
+  "inputFingerprint": "183580f9718d61a12a5cff16097a517d5f2fc5ce00a5bae5fdb34071d95c6481",
+  "upstreamVersion": "0.0.12",
+  "wrapperVersion": "0.2.2-dev",
+  "events": [
+    {
+      "cycle": 1,
+      "launcherPid": 3121152,
+      "startedAt": "2026-10-22T15:39:55Z",
+      "healthy": true,
+      "originalDataMatched": true,
+      "guestIdentityCaptured": true,
+      "exitCode": 0,
+      "runtimeRemoved": true,
+      "cleanStopMessage": "Guest stopped cleanly. All user data retained."
+    },
+    {
+      "cycle": 2,
+      "launcherPid": 3122616,
+      "startedAt": "2026-10-22T15:41:46Z",
+      "healthy": true,
+      "originalDataMatched": true,
+      "guestIdentityCaptured": true,
+      "exitCode": 0,
+      "runtimeRemoved": true,
+      "cleanStopMessage": "Guest stopped cleanly. All user data retained."
+    }
+  ],
+  "status": "passed",
+  "checkedAt": "2026-10-22T15:47:55Z",
+  "realModelCall": false,
+  "execution": "final Linux CLI, KVM, isolated copy; original source unchanged",
+  "finalUncleanMarkerAbsent": true
+}

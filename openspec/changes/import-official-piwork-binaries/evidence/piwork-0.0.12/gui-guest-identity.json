@@ -1,0 +1,18 @@
+{
+  "core": {
+    "program": "piwork-core",
+    "version": "0.0.12",
+    "commit": "4f127751fc4805e504a1af0d7b48c02739f72489",
+    "modified": false,
+    "goVersion": "go1.25.5",
+    "os": "linux",
+    "architecture": "amd64",
+    "desktopUIHash": "176fec09554ec85392cdd6ff975c7ca4581f4f71a6e10d0242dde0853f0474b2",
+    "consoleUIHash": "38c716a01d9c7a3f02d2e99a1ef9c2313c121917f4f21ff07471c8900e311dc6"
+  },
+  "kvm": {
+    "enabled": true,
+    "present": true
+  },
+  "coreExecution": "native Guest process, not Docker Core"
+}
