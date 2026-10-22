@@ -84,6 +84,24 @@ class ReleaseGateTest(unittest.TestCase):
         with fake, mock.patch.object(release, 'verify_resources'), self.assertRaises(release.Failure):
             release.verify_artifact_version('0.2.1')
 
+    def test_reuse_gate_checks_complete_body_identity(self):
+        for field, value in [('entry', 'gui'), ('platform', 'windows'),
+                             ('sourceFingerprint', 'stale'), ('inputFingerprint', 'old')]:
+            with self.subTest(field=field):
+                self.make_artifact('cli', 'linux')
+                path = bundle.body_record_path('cli', 'linux')
+                record = json.loads(path.read_text())
+                record['sourceFingerprint'] = bundle.source_fingerprint()
+                lock = json.loads((self.root / 'build.lock.json').read_text())
+                record['upstream'] = {'mode': release.built_input_mode(),
+                                     'version': release.upstream_version(),
+                                     'buildCommit': lock['piwork']['commit'],
+                                     'releaseCommit': lock['piwork']['release']['releaseCommit']}
+                record[field] = value
+                path.write_text(json.dumps(record))
+                with mock.patch.object(release, 'verify_resources'), self.assertRaises(release.Failure):
+                    release.verify_artifact_version('0.2.1')
+
     def test_resource_mismatch_is_rejected(self):
         self.make_artifact('cli', 'linux')
         path = self.root / 'dist/current-input'

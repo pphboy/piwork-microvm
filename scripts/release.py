@@ -325,7 +325,6 @@ def verify_embedded(entry,platform,binary,info):
         fail('%s embedded payload digest differs from its manifest'%binary.name)
 def verify_artifact_version(version):
     """Every entry must carry this version, a matching body record and real resources."""
-    current_commit=git_out('rev-parse','HEAD')
     for entry,platform in ENTRIES:
         binary=artifact_path(entry,platform)
         if not binary.exists():fail('missing artifact '+str(binary))
@@ -335,8 +334,12 @@ def verify_artifact_version(version):
         except Exception as err:fail('%s build record is unreadable: %s'%(binary.name,err))
         if record.get('version')!=version:
             fail('%s build record reports %s, expected %s'%(binary.name,record.get('version'),version))
-        if record.get('sourceCommit')!=current_commit:
-            fail('%s was built from %s, expected %s'%(binary.name,record.get('sourceCommit'),current_commit))
+        identity={'version':version,'manifest':'v2','upstream':upstream_version(),
+                  'commit':read_json(ROOT/'build.lock.json')['piwork']['commit']}
+        try:
+            bundle.verify_body_record(entry,platform,ROOT/'dist'/bundle.artifact_names(entry,platform)['body'],identity)
+        except (SystemExit,OSError,ValueError) as err:
+            fail('%s body identity is invalid: %s'%(binary.name,err))
         body=artifact_bytes(binary)
         digest=record.get('body') or {}
         if (digest.get('size'),digest.get('sha256'))!=(len(body),hashlib.sha256(body).hexdigest()):
