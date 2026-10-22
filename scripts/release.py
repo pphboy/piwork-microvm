@@ -465,7 +465,7 @@ def freeze_plan(version,manifest_value,notes_text,assets):
         if staged.exists():staged.unlink()
         # Work files are rewritten for later releases. A hard link would let
         # those writes mutate this frozen plan and break interrupted retries.
-        shutil.copyfile(path,staged)
+        shutil.copy2(path,staged)
         entries.append({'name':label,'size':staged.stat().st_size,'sha256':sha(staged)})
     (target/'notes.md').write_text(notes_text,encoding='utf-8')
     write_json(target/'release-manifest.json',manifest_value)

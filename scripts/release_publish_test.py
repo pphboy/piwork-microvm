@@ -224,6 +224,8 @@ class FrozenAssetsTest(unittest.TestCase):
                 release.write_json(path, manifest)
             else:
                 path.write_bytes((version + ':' + name).encode())
+                if name == 'alpha.bin':
+                    path.chmod(0o755)
             assets.append((path, name))
         return release.freeze_plan(version, manifest, 'notes ' + version + '\n', assets)
 
@@ -233,6 +235,7 @@ class FrozenAssetsTest(unittest.TestCase):
             source = self.work / asset['name']
             frozen = release.plan_dir(VERSION) / asset['name']
             self.assertFalse(source.samefile(frozen))
+            self.assertEqual(source.stat().st_mode & 0o777, frozen.stat().st_mode & 0o777)
             source.write_bytes(b'overwritten in place')
         release.verify_plan(plan, VERSION)
         first = plan['assets'][0]
