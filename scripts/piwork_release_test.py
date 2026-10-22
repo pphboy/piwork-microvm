@@ -165,7 +165,12 @@ class LockBuildTest(unittest.TestCase):
 
     def test_sha256sums_must_match_the_locked_bytes(self):
         lock, context = fixture()
-        context['payloads']['sha256sums'] = b'0' * 64 + b'  release-build.json\n'
+        bad = b'0' * 64 + b'  release-build.json\n'
+        context['payloads']['sha256sums'] = bad
+        for asset in context['api']['assets']:
+            if asset['name'] == 'SHA256SUMS':
+                asset['size'] = len(bad)
+                asset['digest'] = 'sha256:' + digest(bad)
         with self.assertRaises(piwork_release.ReleaseError):
             piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT,
                                                context['payloads'])

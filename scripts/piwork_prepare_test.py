@@ -122,6 +122,7 @@ class PrepareTest(unittest.TestCase):
         self.assertTrue((dist / 'piwork/bin/piwork-core').is_file())
         self.assertTrue((dist / 'piwork/images.json').is_file())
         self.assertTrue((dist / 'piwork/upstream-release/LICENSE').is_file())
+        self.assertTrue((dist / 'piwork/upstream-release/licenses/index.json').is_file())
         self.assertTrue((dist / 'guest/images.tar').is_file())
         images = json.loads((dist / 'piwork/images.json').read_text())
         self.assertEqual(set(images), set(piwork_release.DEVICE_IMAGES))

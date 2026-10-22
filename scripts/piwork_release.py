@@ -812,17 +812,17 @@ def prepare_lock(lock=None, root=ROOT, opener=download, runner=subprocess.run):
         piwork_target = dist / 'piwork'
         images_target = dist / 'guest/images.tar'
         images_target.parent.mkdir(parents=True, exist_ok=True)
-        if images_target.exists():
-            images_backup = images_target.with_name(images_target.name + '.previous')
-            if images_backup.exists():
-                images_backup.unlink()
-            os.replace(images_target, images_backup)
-        os.replace(stage / 'guest/images.tar', images_target)
         try:
+            if images_target.exists():
+                images_backup = images_target.with_name(images_target.name + '.previous')
+                if images_backup.exists():
+                    images_backup.unlink()
+                os.replace(images_target, images_backup)
+            os.replace(stage / 'guest/images.tar', images_target)
             publish_tree(piwork_stage, piwork_target)
         except BaseException:
             images_target.unlink(missing_ok=True)
-            if images_backup is not None:
+            if images_backup is not None and images_backup.exists():
                 os.replace(images_backup, images_target)
             raise
         if images_backup is not None:

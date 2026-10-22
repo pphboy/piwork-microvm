@@ -9,6 +9,7 @@ as a gap instead of being dropped.
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import re
 import shutil
@@ -61,8 +62,14 @@ def module_dependencies(binary, runner=subprocess.run):
     for line in result.stdout.splitlines():
         fields = line.strip().split('\t')
         if len(fields) >= 3 and fields[0] == 'dep':
-            dependencies.append({'path': fields[1], 'version': fields[2],
-                                 'sum': fields[3] if len(fields) > 3 else None,
+            path, version = fields[1], fields[2]
+            digest = fields[3] if len(fields) > 3 and fields[3] != '=>' else None
+            if '=>' in fields:
+                arrow = fields.index('=>')
+                if arrow + 2 < len(fields):
+                    path, version = fields[arrow + 1], fields[arrow + 2]
+                    digest = fields[arrow + 3] if arrow + 3 < len(fields) else None
+            dependencies.append({'path': path, 'version': version, 'sum': digest,
                                  'usedBy': [pathlib.Path(binary).name]})
     return dependencies
 
@@ -163,6 +170,7 @@ def collect_image_licenses(role, reference, out, runner=subprocess.run, workdir=
     binaries.mkdir(parents=True, exist_ok=True)
     target = pathlib.Path(out) / 'images' / role
     files, total = {}, 0
+    symlinks = {}
     status = None
     helper_binaries = {}
     modules = []
@@ -170,9 +178,14 @@ def collect_image_licenses(role, reference, out, runner=subprocess.run, workdir=
         export_image(reference, export_path, runner=runner)
         with tarfile.open(export_path, 'r:') as tar:
             for member in tar:
-                if not safe_member_name(member.name) or not member.isfile():
+                if not safe_member_name(member.name):
                     continue
                 relative = member.name[2:] if member.name.startswith('./') else member.name
+                if member.issym():
+                    symlinks[relative] = member.linkname
+                    continue
+                if not member.isfile():
+                    continue
                 if relative == 'var/lib/dpkg/status':
                     status = tar.extractfile(member).read()
                     continue
@@ -210,9 +223,18 @@ def collect_image_licenses(role, reference, out, runner=subprocess.run, workdir=
         extracted = set(files)
         for package, version in debian_packages(status):
             relative = 'usr/share/doc/%s/copyright' % package
+            found = relative
+            if relative not in extracted:
+                link = symlinks.get('usr/share/doc/%s' % package)
+                if link:
+                    resolved = pathlib.PurePosixPath('usr/share/doc') / link
+                    candidate = pathlib.PurePosixPath(os.path.normpath(str(resolved))) / 'copyright'
+                    if str(candidate) in extracted:
+                        found = str(candidate)
+            present = found in extracted
             packages.append({'package': package, 'version': version,
-                             'present': relative in extracted, 'path': relative,
-                             'reason': None if relative in extracted
+                             'present': present, 'path': found,
+                             'reason': None if present
                              else 'no /usr/share/doc/%s/copyright in the image' % package})
     image_index = {'role': role, 'reference': reference,
                    'licenseFiles': len(files), 'licenseBytes': total,

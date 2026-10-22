@@ -207,7 +207,7 @@ class ImportTest(unittest.TestCase):
         self.assert_bad_member('/etc/evil', tarfile.REGTYPE)
 
     def test_duplicate_member_is_rejected(self):
-        self.assert_bad_member(ROOT_NAME + '/LICENSE', tarfile.REGTYPE, duplicate=True)
+        self.assert_bad_member(ROOT_NAME + '/duplicate.bin', tarfile.REGTYPE, duplicate=True)
 
     def test_link_member_is_rejected(self):
         self.assert_bad_member(ROOT_NAME + '/link', tarfile.SYMTYPE)
