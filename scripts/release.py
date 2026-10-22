@@ -225,12 +225,14 @@ def notes(version,evidence):
             '| '+packages+' in the Guest rootfs | GPL and LGPL mix | source packages at Debian snapshot `'+snapshot+'`; the installed list is `usr/share/piwork-guest-packages.txt` inside `rootfs.ext4` |',
             '| MinGW-w64 runtime libraries in the Windows QEMU | GPL-3.0 with the GCC runtime exception, or LGPL | the source packages recorded in `provenance/windows-toolchain.lock.json` |',
             '| Production `piwork-agentd`, `piwork-file-helper` and `piwork-snapshot-helper` images, embedded in `images.tar` | Node.js MIT plus npm/Debian component licenses | built from the Piwork source at commit `'+inputs['piwork']['commit']+'`; readable texts in `piwork-licenses.tar.gz` and `provenance/piwork-upstream/licenses/images/` |',
-            '| Node.js 24 runtime, npm 10 and Yarn 1.22 inside the Agent image | MIT and bundled package licenses | same image source above; texts in `piwork-licenses.tar.gz` |',
+            '| Node.js 24 runtime, npm and Yarn inside the Agent image | MIT and bundled package licenses | same image source above; texts in `piwork-licenses.tar.gz` |',
+            '| Debian packages inside the production Agent image, including GCC runtime libraries | GPL/LGPL and other Debian licenses | exact installed versions and copyright/source notices in `piwork-licenses.tar.gz` (`images/agent/INDEX.json`); Debian sources at https://deb.debian.org/debian/pool/ and https://snapshot.debian.org/; covered by the written offer below |',
             '| Shared libraries shipped beside QEMU (`qemu/lib/*.so`, `*.dll`) | LGPL-2.1+, BSD or GPL-2+ | shipped with the artifact; source as listed above |','',
             'Written offer: the complete corresponding source for every GPL and LGPL component listed above is available on request for three years from this release date (GPL-2.0 section 3(b)).','',
             '## Known limitations','',
             '- License texts for the Guest rootfs packages and BusyBox ship at `provenance/guest-licenses/` inside the artifact and in `guest-licenses.tar.gz`, so they can be read without booting the VM; '+license_gap+' Kernel and QEMU license texts ship alongside in `provenance/` and `qemu/licenses/`.',
-            '- Windows artifacts are unsigned, so SmartScreen may warn on first run.',
+            '- Windows artifacts are unsigned, so SmartScreen may warn on first run. Windows requires WHPX and WebView2; Linux requires KVM and the documented GTK/WebKit runtime for the GUI.',
+            '- Piwork 0.0.11 is an upstream Preview. This scoped integration does not verify real-model calls, a full failure matrix or general downgrade compatibility. Upgrade a stopped backup copy and retain the untouched backup.',
             '- Readable license texts for the imported binaries, Go modules and production images ship as `piwork-licenses.tar.gz` and under `provenance/piwork-upstream/licenses/`. '+('The index records every extraction gap.'+official_gap if official_gap else 'The index records every extraction gap.'),
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
     return '\n'.join(lines)
