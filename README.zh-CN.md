@@ -80,7 +80,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
-时才会打开。原版 Piwork 0.0.10 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
+时才会打开。原版 Piwork 0.0.11 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
 
 ## 桌面入口（GUI）
 
@@ -444,16 +444,17 @@ verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
+| [官方二进制整合验收](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview 官方输入；两平台原生 GUI、生产 Work/Files/Service、管理员 ZIP 和 0.0.10 停机副本；Windows 重开通过，Linux 同盘重开受 SQLite/WAL 检查阻断；尚未发布，未验证真实模型 |
 | [冻结 Core 日志导出验收](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10、`29e3471`；两平台原生 GUI、Desktop 故障/缺口 ZIP 实际下载、停机副本持久化及一对自定义 UI/Core 端口；未调用真实模型 |
 | [GUI 验收](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Linux/KVM 与原生 Windows/WebView2/WHPX CoreLoop、目录/日志对话框、Work/Files/Services、数据库持久化与异常恢复；未验证真实模型调用 |
 
 ### GUI 验收
 
 已归档的 GUI 记录基于其原 Piwork 输入，覆盖 C1/W1–W5、默认英文、英/简中切换保存、Launcher
-正常/错误导出与安全停止。[本轮冻结 Core 整合](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
+正常/错误导出与安全停止。[此前冻结 Core 整合](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 在 Linux/KVM 与原生 Windows/WebView2/WHPX 上使用新构建的 0.0.10 Guest，覆盖保存到 Host 的 Desktop
-故障/缺口 ZIP、旧安装停机副本、语言保存、安全关机及自定义 19190/19191 路径。两份记录均不声称新增
-真实模型调用或未测试的 Windows 版本已通过。GUI 构建不打 tag、不推送、不发布。
+故障/缺口 ZIP、旧安装停机副本、语言保存、安全关机及自定义 19190/19191 路径。[0.0.11 官方输入记录](openspec/changes/import-official-piwork-binaries/acceptance.md) 单独记录当前构建、聚焦整合、停机副本升级及 Linux SQLite/WAL 重开阻断；v0.2.1 尚未发布。
+这些聚焦记录均不声称新增真实模型调用或未测试的 Windows 版本已通过。GUI 构建不打 tag、不推送、不发布。
 
 ### Linux 验收
 

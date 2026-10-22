@@ -85,7 +85,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
-happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.10 creates the first
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.11 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
 
 ## Desktop launcher (GUI)
@@ -508,6 +508,7 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
+| [Official binary integration](openspec/changes/import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview official inputs; both native GUIs, production Work/Files/Service, saved administrator ZIPs and stopped 0.0.10 copies; Windows reopen passed; Linux same-installation reopen blocked by SQLite/WAL validation; release pending; real models not verified |
 | [Frozen Core log-export acceptance](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10 at `29e3471`; both native GUIs, real Desktop fault/gap ZIP downloads, stopped-copy persistence and one custom UI/Core port pair; no real model call |
 | [GUI acceptance](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |
 
@@ -515,10 +516,10 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 
 The archived GUI record covers C1/W1–W5, English default, saved English/Chinese switching,
 Launcher normal/error exports and safe stop with its original Piwork input. The
-[current frozen Core integration](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
+[prior frozen Core integration](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md)
 uses the newly built 0.0.10 Guest on Linux/KVM and native Windows/WebView2/WHPX. It covers
 Desktop fault/gap ZIPs saved on Host, stopped-installation copies, language persistence,
-safe shutdown and the custom 19190/19191 path. Neither record claims a new real-model call
+safe shutdown and the custom 19190/19191 path. The [0.0.11 official-input record](openspec/changes/import-official-piwork-binaries/acceptance.md) separately records the current build, scoped integration and stopped-copy upgrade, including the Linux SQLite/WAL reopen blocker. v0.2.1 has not been published. None of these scoped records claims a new real-model call
 or an untested Windows version. GUI builds never tag, push or publish.
 
 ### Linux acceptance
