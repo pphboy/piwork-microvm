@@ -5,6 +5,7 @@ The WebKitGTK content exposes its DOM through AT-SPI, so buttons can be invoked
 without moving the desktop pointer. Test tooling only.
 """
 import sys
+import os
 import gi
 
 gi.require_version('Atspi', '2.0')
@@ -16,6 +17,9 @@ def app_node():
     for i in range(desktop.get_child_count()):
         app = desktop.get_child_at_index(i)
         try:
+            wanted = os.environ.get('PIWORK_GUI_PID')
+            if wanted and app.get_process_id() != int(wanted):
+                continue
             if 'piwork' in (app.get_name() or '').lower():
                 return app
         except Exception:
@@ -67,6 +71,23 @@ def find_role(node, role, name):
     return None
 
 
+def dump_text(node, depth=0, limit=16):
+    if depth > limit:
+        return
+    try:
+        value = ''
+        try:
+            value = node.get_text(0, -1) or ''
+        except Exception:
+            pass
+        if value.strip():
+            print('  ' * depth, node.get_role_name(), repr(value.strip()))
+        for i in range(node.get_child_count()):
+            dump_text(node.get_child_at_index(i), depth + 1, limit)
+    except Exception:
+        pass
+
+
 def click(name, role=None):
     node = find_role(app_node(), role, name) if role else find(app_node(), name, exact=False)
     if not node:
@@ -85,13 +106,15 @@ def main():
         click(sys.argv[2])
     elif command == 'click-button':
         click(sys.argv[2], 'button')
+    elif command == 'text':
+        dump_text(app_node())
     elif command == 'find':
         node = find(app_node(), sys.argv[2], exact=False)
         if not node:
             raise SystemExit('not found')
         print(node.get_role_name(), repr(node.get_name()), 'actions', node.get_n_actions())
     else:
-        raise SystemExit('usage: atspi_ui.py tree|click NAME|click-button NAME|find NAME')
+        raise SystemExit('usage: atspi_ui.py tree|text|click NAME|click-button NAME|find NAME')
 
 
 if __name__ == '__main__':

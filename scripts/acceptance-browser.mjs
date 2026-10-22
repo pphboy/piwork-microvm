@@ -36,7 +36,7 @@ try{
   await page.getByLabel('Confirm password',{exact:true}).fill(credentials.password);
   await page.getByRole('button',{name:'Create administrator',exact:true}).click();
   await page.getByRole('heading',{name:'Sign in to Piwork'}).waitFor();
-  check('First administrator created through unmodified upstream 0.0.9 UI');
+  check('First administrator created through unmodified upstream UI');
  }else await page.goto(origin+'/login');
  stage='sign in';console.log('Stage: '+stage);
  await page.getByLabel('Account',{exact:true}).fill(credentials.account);
@@ -49,14 +49,22 @@ try{
  await page.goto(origin+'/admin/setup');
  await page.locator('#model-form, #choose-form, #workbench-exit').first().waitFor();
  console.log('Quick setup form is available');
- if(await page.getByLabel('Model ID',{exact:true}).count()){
-  await page.getByLabel('Model ID',{exact:true}).fill(realModel?.model||'gpt-4.1-mini');
-  await page.getByLabel('API type',{exact:true}).selectOption(realModel?.api||'openai-responses');
-  await page.getByLabel('Base URL',{exact:true}).fill(realModel?.baseUrl||'https://api.openai.com/v1');
+ const modelId=page.getByLabel('Model ID',{exact:true});
+ if(await modelId.count()){
+  if(realModel&&!await modelId.isVisible())await page.locator('#model-advanced > summary').click();
+  if(await modelId.isVisible()){
+   await modelId.fill(realModel?.model||'gpt-4.1-mini');
+   await page.getByLabel('API type',{exact:true}).selectOption(realModel?.api||'openai-responses');
+   await page.getByLabel('Base URL',{exact:true}).fill(realModel?.baseUrl||'https://api.openai.com/v1');
+  }
+  // 0.0.11 hides model identity behind Advanced settings and keeps its default.
   await page.getByLabel('API Key',{exact:true}).fill(realModel?.credential||syntheticKey);
   let tests=0;page.on('request',r=>{if(r.url().includes('/model-tests'))tests++;});
   await page.getByRole('button',{name:'Save and continue',exact:true}).click();
-  await page.getByText('Your Runtime configuration is saved on this server.',{exact:true}).waitFor();
+  const saved=page.getByText('Your Runtime configuration is saved on this server.',{exact:true});
+  const prepare=page.getByRole('button',{name:/Prepare Piwork/});
+  await Promise.race([saved.waitFor({timeout:120000}),prepare.first().waitFor({timeout:120000})]);
+  if(await prepare.count()&&await prepare.first().isVisible())await prepare.first().click();
   console.log('Model and Runtime saved; waiting for real preparation');
   assert.equal(tests,0,'Saving must not implicitly call a model');
  }
