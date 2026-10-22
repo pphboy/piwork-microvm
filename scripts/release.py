@@ -99,9 +99,20 @@ def verification(evidence):
                 and (platform is None or r.get('platform')==platform)]
     def scoped(scope,platform=None):
         hits=matching(scope,platform)
+        failures=[r for r in records if r.get('scope')==scope and r.get('status')=='failed'
+                  and r.get('inputFingerprint')==current
+                  and (platform is None or r.get('platform')==platform)]
+        issues=[{'record':r['_path'],'summary':r.get('failed','recorded scope failed')}
+                for r in failures]
         if hits:
-            return {'status':'verified','verifiedAt':max(r.get('checkedAt','') for r in hits),
+            result={'status':'verified-with-known-issues' if issues else 'verified',
+                    'verifiedAt':max(r.get('checkedAt','') for r in hits),
                     'records':[r['_path'] for r in hits]}
+            if issues:result['knownIssues']=issues
+            return result
+        if issues:
+            return {'status':'not-verified','reason':'current input has a failed scope record',
+                    'knownIssues':issues}
         reason='no passing record with the current input fingerprint'
         if records:
             reason='recorded evidence lacks a matching input fingerprint, is incomplete, or covers other inputs'
@@ -201,6 +212,8 @@ def notes(version,evidence):
             continue
         for platform,status in group['platforms'].items():
             detail=', '.join(status.get('records',[]))or status.get('reason','')
+            for issue in status.get('knownIssues',[]):
+                detail+='; unresolved: '+issue['summary']+' (`'+issue['record']+'`)'
             lines.append('| '+scope+' | '+platform+' | '+status['status']+' | '+detail+' |')
     snapshot=inputs['toolchain']['debianSnapshot']
     count=guest_package_count()
@@ -238,6 +251,9 @@ def notes(version,evidence):
             '- Piwork 0.0.11 is an upstream Preview. This scoped integration does not verify real-model calls, a full failure matrix or general downgrade compatibility. Upgrade a stopped backup copy and retain the untouched backup.',
             '- Readable license texts for the imported binaries, Go modules and production images ship as `piwork-licenses.tar.gz` and under `provenance/piwork-upstream/licenses/`. '+('The index records every extraction gap.'+official_gap if official_gap else 'The index records every extraction gap.'),
             '- Acceptance evidence is recorded against the locked inputs, not against these artifact bytes; see Verification above.','']
+    for platform,status in m['verification']['scopes']['integration']['platforms'].items():
+        for issue in status.get('knownIssues',[]):
+            lines.append('- Unresolved '+platform+' integration case: '+issue['summary']+'. See `'+issue['record']+'`; passing cases do not supersede this failure. Use a separate empty data directory for a new deployment, and retain stopped backups of existing installations.')
     return '\n'.join(lines)
 
 def cmd_manifest(args):

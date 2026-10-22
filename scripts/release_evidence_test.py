@@ -68,6 +68,26 @@ class EvidenceTest(unittest.TestCase):
                 target[path[-1]] = 'changed'
                 self.assertEqual(self.status(), 'not-verified')
 
+    def test_passing_fresh_case_does_not_hide_same_input_failure(self):
+        self.record()
+        failure = {'scope': 'integration', 'platform': 'linux', 'status': 'failed',
+                   'inputFingerprint': release.input_fingerprint(),
+                   'failed': 'retained data WAL validation'}
+        (self.root / 'retained-data.json').write_text(json.dumps(failure))
+        status = release.verification(self.root)['scopes']['integration']['platforms']['linux']
+        self.assertEqual(status['status'], 'verified-with-known-issues')
+        self.assertEqual(status['knownIssues'][0]['summary'], failure['failed'])
+        self.assertEqual(self.status(platform='windows'), 'not-verified')
+        failure['inputFingerprint'] = 'historical-input'
+        (self.root / 'retained-data.json').write_text(json.dumps(failure))
+        self.assertEqual(self.status(), 'verified')
+
+    def test_current_failure_without_passing_case_stays_unverified(self):
+        self.record(status='failed', failed='reopen failed')
+        status = release.verification(self.root)['scopes']['integration']['platforms']['linux']
+        self.assertEqual(status['status'], 'not-verified')
+        self.assertEqual(status['knownIssues'][0]['summary'], 'reopen failed')
+
     def test_upstream_report_never_upgrades_microvm_integration(self):
         self.record(scope='upstream')
         self.assertEqual(release.verification(self.root)['scopes']['upstream']['status'], 'reported')
