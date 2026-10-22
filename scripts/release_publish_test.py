@@ -196,5 +196,71 @@ class PublishPlanTest(unittest.TestCase):
             self.run_publish(FakeRemote())
 
 
+class FrozenAssetsTest(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.temp.name)
+        self.work = self.root / 'dist'
+        self.work.mkdir()
+        self.patches = [mock.patch.object(release, 'ROOT', self.root),
+                        mock.patch.object(release, 'git_out', return_value=COMMIT),
+                        mock.patch.object(release, 'input_fingerprint', return_value='b' * 64)]
+        for patch in self.patches:
+            patch.start()
+
+    def tearDown(self):
+        for patch in reversed(self.patches):
+            patch.stop()
+        self.temp.cleanup()
+
+    def freeze(self, version):
+        manifest = {'version': version}
+        names = ['alpha.bin', 'alpha.bin.sha256', 'release-manifest.json',
+                 'qemu-patches.tar.gz', 'guest-licenses.tar.gz', 'piwork-licenses.tar.gz']
+        assets = []
+        for name in names:
+            path = self.work / name
+            if name == 'release-manifest.json':
+                release.write_json(path, manifest)
+            else:
+                path.write_bytes((version + ':' + name).encode())
+            assets.append((path, name))
+        return release.freeze_plan(version, manifest, 'notes ' + version + '\n', assets)
+
+    def test_working_overwrites_preserve_snapshot_and_interrupted_retry(self):
+        plan = self.freeze(VERSION)
+        for asset in plan['assets']:
+            source = self.work / asset['name']
+            frozen = release.plan_dir(VERSION) / asset['name']
+            self.assertFalse(source.samefile(frozen))
+            source.write_bytes(b'overwritten in place')
+        release.verify_plan(plan, VERSION)
+        first = plan['assets'][0]
+        remote = FakeRemote({'draft': True, 'body': plan['notes'], 'assets': [
+            {'name': first['name'], 'size': first['size'],
+             'digest': 'sha256:' + first['sha256'], 'state': 'uploaded'}]})
+        with mock.patch.object(release, 'ensure_remote_tag'):
+            result = release.publish_plan(plan, VERSION, remote)
+        self.assertEqual(result['status'], 'published')
+        self.assertNotIn(('upload', first['name']), remote.calls)
+        self.assertEqual(sum(call[0] == 'upload' for call in remote.calls), len(plan['assets']) - 1)
+
+    def test_preparing_next_version_does_not_mutate_previous_plan(self):
+        first = self.freeze(VERSION)
+        first_bytes = {p.name: p.read_bytes() for p in release.plan_dir(VERSION).iterdir()}
+        second = self.freeze('0.2.2')
+        release.verify_plan(first, VERSION)
+        release.verify_plan(second, '0.2.2')
+        self.assertEqual({p.name: p.read_bytes() for p in release.plan_dir(VERSION).iterdir()}, first_bytes)
+
+    def test_same_version_refusal_keeps_the_existing_plan(self):
+        plan = self.freeze(VERSION)
+        before = release.plan_path(VERSION).read_bytes()
+        with self.assertRaisesRegex(release.Failure, 'already frozen'):
+            self.freeze(VERSION)
+        self.assertEqual(release.plan_path(VERSION).read_bytes(), before)
+        release.verify_plan(plan, VERSION)
+
+
 if __name__ == '__main__':
     unittest.main()
