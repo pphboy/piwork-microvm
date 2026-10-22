@@ -84,7 +84,10 @@ def evidence_records(evidence):
         try:value=read_json(path)
         except Exception:continue
         if isinstance(value,dict) and value.get('scope'):
-            value=dict(value);value['_path']=str(path);records.append(value)
+            value=dict(value)
+            try:value['_path']=path.relative_to(ROOT).as_posix()
+            except ValueError:value['_path']=str(path)
+            records.append(value)
     return records
 def verification(evidence):
     """Scoped acceptance status; only a full input fingerprint match may upgrade a scope."""
