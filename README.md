@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.12-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.14-informational)](build.lock.json)
 
 [简体中文](README.zh-CN.md)
 
@@ -85,7 +85,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
-happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.12 creates the first
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.14 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
 
 ## Desktop launcher (GUI)
@@ -328,7 +328,7 @@ offline; users do not need Host Docker or network access.
 | `source-refresh` | Source mode only: re-resolve the official default-branch HEAD and rewrite `build.lock.json` | network, git |
 | `source-check` | Verify the existing clean, locked checkout without fetching | - |
 | `piwork` | Prepare the locked input (official import by default) | Docker, Go 1.25.5, network |
-| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.12` | network, git |
+| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.14` | network, git |
 | `piwork-check` | Verify the prepared official input and its output digests without writing or fetching | Python 3 |
 | `piwork-source` | Explicitly compile the locked commit instead of importing the official release | Docker, Go 1.25.5 |
 | `kernel` | Build the Guest kernel | Docker |
@@ -355,7 +355,7 @@ payload/trailer format is unchanged.
 ```sh
 make piwork                                    # import the locked official release
 make piwork-check                              # read-only verification of that import
-make piwork-lock TAG=v0.0.12                   # explicit release-input update (network)
+make piwork-lock TAG=v0.0.14                   # explicit release-input update (network)
 make piwork-source                             # explicit source compile of the locked commit
 make guest PIWORK_SOURCE=/home/p/Projects/piwork  # assemble the Guest once
 make source-check                              # verify the clean, locked checkout (source mode)
@@ -400,18 +400,18 @@ or run the GUI. No build command tags, pushes or publishes.
 
 [`build.lock.json`](build.lock.json) is the source of truth. `piwork.inputMode` selects
 `official-release` (current) or `source`; a lock without the field is a source lock. The
-current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.12`, the actual
-build commit `4f127751fc4805e504a1af0d7b48c02739f72489` and the separate publication commit
-`c4ce9bbd8fea9d990979332e57b61876cda20da2`. It also records the four asset sizes/SHA256,
+current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.14`, the actual
+build commit `3355a106766116a9d64b8492209a93218f3b4b21` and the separate publication commit
+`7f32eae2219be4fd43f786eccefbab20fa896dc5`. It also records the four asset sizes/SHA256,
 program and UI identity, and the three production image digests. `piwork.commit` is always
-the actual build commit, never the publication commit. In the 0.0.12 native-v2 metadata,
+the actual build commit, never the publication commit. In the current native-v2 metadata,
 program identities/digests come from `nativePrograms`, full image identities come from the
 release manifest, and the publication commit is independently resolved from the official Git tag.
 The original downloaded metadata and executable bytes remain unchanged.
 
 Normal builds consume the lock and never follow `main`, a moving tag or `latest`. In source
 mode they use the full locked commit at `dist/source/<commit>/piwork` and reject modified
-inputs. The bundled upstream version is `0.0.12` (an upstream Preview), independent of the
+inputs. The bundled upstream version is `0.0.14` (an upstream Preview), independent of the
 wrapper version.
 
 ### Local source and reproducibility
@@ -437,11 +437,10 @@ requires booting the VM.
 
 Releases are published on GitHub and cut from a tagged commit. Piwork MicroVM has its own
 version, independent of the upstream Piwork version it bundles; the annotated git tag is the
-source of truth, and `--version` reports both. The current lock uses Piwork 0.0.12 **Preview**.
-The earlier wrapper v0.2.1 / Piwork 0.0.11
-plan remains an unpublished draft. The current Linux retry uses local `0.2.2-dev` builds;
-no new release has been published. Use a new wrapper version for a future release, rather
-than replacing the existing v0.2.1 tag or frozen plan.
+source of truth, and `--version` reports both. Wrapper 0.2.2 bundles Piwork 0.0.14 **Preview**.
+The earlier wrapper v0.2.1 / Piwork 0.0.11 plan remains an unpublished draft;
+its tag and frozen plan are preserved. Use the current release manifest for platform-specific
+verification; acceptance for older locked inputs does not verify the 0.0.14 input.
 
 | Asset | Contents |
 | --- | --- |
@@ -516,7 +515,7 @@ main specs under [`openspec/specs/`](openspec/specs/). The prior change is archi
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 dual-port artifacts; the real-provider row is **NOT VERIFIED** at that stage, because no real key was available |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 artifacts on the same two hosts |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | Development gate only, explicitly not final-artifact acceptance |
-| [0.0.12 retry](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | Current official input; Linux CLI/GUI builds and focused WAL/data retry; Windows and real models not reverified |
+| [0.0.12 retry](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | Official 0.0.12 input; Linux CLI/GUI builds and focused WAL/data retry; Windows and real models not reverified |
 | [Official binary integration](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview official inputs; both native GUIs, production Work/Files/Service, saved administrator ZIPs and stopped 0.0.10 copies; both empty-directory installations reopened; retained Linux 0.0.11 data has a known SQLite/WAL failure; real models not verified |
 | [Frozen Core log-export acceptance](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10 at `29e3471`; both native GUIs, real Desktop fault/gap ZIP downloads, stopped-copy persistence and one custom UI/Core port pair; no real model call |
 | [GUI acceptance](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Native Linux/KVM and Windows/WebView2/WHPX CoreLoop, dialogs/exports, Work/Files/Services, persistent databases and fault recovery; real AI inference not verified |

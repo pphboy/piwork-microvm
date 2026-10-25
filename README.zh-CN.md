@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.12-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.14-informational)](build.lock.json)
 
 [English](README.md)
 
@@ -80,7 +80,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
-时才会打开。原版 Piwork 0.0.12 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
+时才会打开。原版 Piwork 0.0.14 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
 
 ## 桌面入口（GUI）
 
@@ -286,7 +286,7 @@ Guest 归档。最终产物离线加载这些镜像，用户无需 Host Docker �
 | `source-refresh` | 仅源码模式：重新解析官方默认分支 HEAD 并重写 `build.lock.json` | 网络、git |
 | `source-check` | 检查既有的干净固定副本，不拉取 | - |
 | `piwork` | 准备锁定输入（默认导入官方发行制品） | Docker、Go 1.25.5、网络 |
-| `piwork-lock` | 显式替换官方发行输入；需 `TAG`，例如 `TAG=v0.0.12` | 网络、git |
+| `piwork-lock` | 显式替换官方发行输入；需 `TAG`，例如 `TAG=v0.0.14` | 网络、git |
 | `piwork-check` | 只读校验已准备输入及其输出摘要，不写入、不拉取 | Python 3 |
 | `piwork-source` | 显式编译锁定提交，而不是导入官方发行制品 | Docker、Go 1.25.5 |
 | `kernel` | 构建 Guest 内核 | Docker |
@@ -311,7 +311,7 @@ Kernel、QEMU 与 Guest 组装在 `dist/build-current/` 写入组件记录：仅
 ```sh
 make piwork                                    # 导入锁定官方发行制品
 make piwork-check                              # 只读校验该导入
-make piwork-lock TAG=v0.0.12                   # 显式更新发行输入（联网）
+make piwork-lock TAG=v0.0.14                   # 显式更新发行输入（联网）
 make piwork-source                             # 显式编译锁定提交
 make guest PIWORK_SOURCE=/home/p/Projects/piwork  # 统一组装 Guest 一次
 make source-check                              # 检查独立干净锁定副本（源码模式）
@@ -353,16 +353,16 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
 
 [`build.lock.json`](build.lock.json) 是唯一事实来源。`piwork.inputMode` 选择
 `official-release`（当前）或 `source`；缺少该字段的锁按源码锁处理。当前锁固定
-`https://github.com/pphboy/piwork.git`、发行标签 `v0.0.12`、实际构建提交
-`4f127751fc4805e504a1af0d7b48c02739f72489` 和独立的发布提交
-`c4ce9bbd8fea9d990979332e57b61876cda20da2`，并记录四个资产的大小/SHA256、程序与 UI 身份、
+`https://github.com/pphboy/piwork.git`、发行标签 `v0.0.14`、实际构建提交
+`3355a106766116a9d64b8492209a93218f3b4b21` 和独立的发布提交
+`7f32eae2219be4fd43f786eccefbab20fa896dc5`，并记录四个资产的大小/SHA256、程序与 UI 身份、
 以及三个生产镜像摘要。`piwork.commit` 始终是实际构建提交，绝不是发布提交。
-0.0.12 的 native-v2 元数据从 `nativePrograms` 取得程序身份与摘要、从发行清单取得完整镜像
+当前 native-v2 元数据从 `nativePrograms` 取得程序身份与摘要、从发行清单取得完整镜像
 身份，并独立解析官方 Git 标签取得发布提交；下载的原始元数据和可执行字节保持不变。
 
 普通构建只消费锁，不跟随 `main`、可变标签或 `latest`。源码模式使用
 `dist/source/<commit>/piwork` 中固定的完整提交，修改过的输入会被拒绝。内置上游版本为
-`0.0.12`（上游 Preview），与包装层版本相互独立。
+`0.0.14`（上游 Preview），与包装层版本相互独立。
 
 ### 本地源码与可重现性
 
@@ -383,9 +383,10 @@ registry 推送。
 ## 发布
 
 发布在 GitHub 上进行，且只从打过 tag 的提交切出。Piwork MicroVM 有自己的版本号，独立于它
-打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。当前锁使用 Piwork 0.0.12 **Preview**。先前包装层 v0.2.1 /
-Piwork 0.0.11 计划仍是未公开草稿；本次 Linux 重试使用本地 `0.2.2-dev` 构建，尚未发布新版。
-后续发行需使用新的包装层版本，不替换已有 v0.2.1 标签或冻结计划。
+打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。
+包装层 0.2.2 使用 Piwork 0.0.14 **Preview**。先前包装层 v0.2.1 / Piwork 0.0.11
+计划仍是未公开草稿，其标签和冻结计划保持不变。各平台验证状态见本版发行清单；
+旧锁定输入的验收不代表 0.0.14 输入已通过对应验证。
 
 | 资产 | 内容 |
 | --- | --- |
@@ -449,7 +450,7 @@ verified，上游记录永远不会提升 MicroVM 范围。请用所属发布中
 | [two-port-acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/two-port-acceptance.md) | 2026-10-21 | 0.0.9 双入口产物；该阶段真实供应商一行为 **NOT VERIFIED**，因为当时没有可用的真实密钥 |
 | [acceptance.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/acceptance.md) | 2026-10-20 | 0.0.8 产物，同样两台宿主 |
 | [windows-gate.md](openspec/changes/archive/2026-10-21-support-windows-and-disk-only-storage/evidence/windows-gate.md) | 2026-10-20 | 仅开发关口，明确不是最终产物验收 |
-| [0.0.12 重试](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | 当前官方输入；Linux CLI/GUI 构建及聚焦 WAL/数据重试；未重新验证 Windows 和真实模型 |
+| [0.0.12 重试](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance-0.0.12.md) | 2026-10-22 | 官方 0.0.12 输入；Linux CLI/GUI 构建及聚焦 WAL/数据重试；未重新验证 Windows 和真实模型 |
 | [官方二进制整合验收](openspec/changes/archive/2026-10-23-import-official-piwork-binaries/acceptance.md) | 2026-10-22 | Piwork 0.0.11 Preview 官方输入；两平台原生 GUI、生产 Work/Files/Service、管理员 ZIP 和 0.0.10 停机副本；两平台空目录安装重开通过，保留的 Linux 0.0.11 测试数据有已知 SQLite/WAL 故障；未验证真实模型 |
 | [冻结 Core 日志导出验收](openspec/changes/archive/2026-10-22-update-guest-piwork-log-export/acceptance.md) | 2026-10-22 | Piwork 0.0.10、`29e3471`；两平台原生 GUI、Desktop 故障/缺口 ZIP 实际下载、停机副本持久化及一对自定义 UI/Core 端口；未调用真实模型 |
 | [GUI 验收](openspec/changes/archive/2026-10-22-add-cross-platform-desktop-launcher/acceptance.md) | 2026-10-22 | Linux/KVM 与原生 Windows/WebView2/WHPX CoreLoop、目录/日志对话框、Work/Files/Services、数据库持久化与异常恢复；未验证真实模型调用 |
