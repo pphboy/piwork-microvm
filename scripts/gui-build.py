@@ -5,7 +5,7 @@ The GUI body is built with its own CGO/tag configuration. It never changes the
 CLI's CGO_ENABLED=0 build. Windows builds must run on native Windows because
 the Wails desktop toolchain is not cross-compiled from WSL.
 """
-import argparse, json, os, pathlib, subprocess, sys
+import argparse, contextlib, json, os, pathlib, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -37,6 +37,38 @@ def check_linux_build_deps():
             raise SystemExit(f'missing desktop build dependency {module}; install {package} and pkg-config')
 
 
+@contextlib.contextmanager
+def windows_resources(env):
+    """The generator exclusively creates this resource; only its owner removes it."""
+    resource = ROOT / 'cmd/piwork-launcher/rsrc_windows_amd64.syso'
+    with tempfile.TemporaryDirectory(prefix='gui-resources-', dir=ROOT / 'dist') as temp:
+        run(['go', 'run', './tools/gui-resources', '-ico', str(pathlib.Path(temp) / 'icon.ico'),
+             '-syso', str(resource)], env=env)
+        try:
+            yield
+        finally:
+            resource.unlink()
+
+
+def build_body(platform, body, identity, env):
+    flags = '-s -w ' + bundle.version_ldflags(identity)
+    tags = 'desktop production'
+    if platform == 'linux':
+        tags += ' webkit2_41'
+    else:
+        flags = '-s -w -H windowsgui ' + bundle.version_ldflags(identity)
+    # Validate the required source inputs before recording or publishing a body.
+    bundle.source_fingerprint(entry='gui')
+    if platform == 'linux':
+        run(['go', 'run', './tools/gui-resources', '-check'], env=env)
+    with windows_resources(env) if platform == 'windows' else contextlib.nullcontext():
+        run(['go', 'build', '-trimpath', '-tags', tags, '-ldflags', flags,
+             '-o', str(body), './cmd/piwork-launcher'], env=env)
+    if not body.is_file() or not bundle.body_magic_ok(body, platform):
+        raise SystemExit(f'GUI body has an unexpected format: {body}')
+    bundle.write_body_record('gui', platform, body, identity)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--platform', choices=['linux', 'windows'], default='linux' if sys.platform.startswith('linux') else 'windows')
@@ -60,16 +92,7 @@ def main():
     identity = bundle.build_identity(out, 2)
     env = os.environ.copy()
     env.update(CGO_ENABLED='1', GOTOOLCHAIN='local', GOOS=a.platform, GOARCH='amd64')
-    flags = '-s -w ' + bundle.version_ldflags(identity)
-    tags = 'desktop production'
-    if a.platform == 'linux':
-        tags += ' webkit2_41'
-    else:
-        flags = '-s -w -H windowsgui ' + bundle.version_ldflags(identity)
-    run(['go', 'build', '-trimpath', '-tags', tags, '-ldflags', flags, '-o', str(body), './cmd/piwork-launcher'], env=env)
-    if not body.is_file() or not bundle.body_magic_ok(body, a.platform):
-        raise SystemExit(f'GUI body has an unexpected format: {body}')
-    bundle.write_body_record('gui', a.platform, body, identity)
+    build_body(a.platform, body, identity, env)
     run([sys.executable, str(ROOT / 'scripts/bundle.py'), '--entry', 'gui', '--platform', a.platform, '--body', str(body)])
     artifact = out / names['artifact']
     print('GUI body:', body, 'bytes:', body.stat().st_size)

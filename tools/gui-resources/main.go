@@ -120,9 +120,16 @@ func main() {
 	ico := flag.String("ico", "", "new ICO output")
 	object := flag.String("syso", "", "new Windows amd64 COFF output")
 	verify := flag.String("verify-exe", "", "verify embedded PE icon resources against the source")
+	check := flag.Bool("check", false, "validate the source logo without writing resources")
 	flag.Parse()
 	var err error
-	if *verify != "" {
+	if *check {
+		var sourceData []byte
+		sourceData, err = os.ReadFile(*source)
+		if err == nil {
+			_, _, err = resources(sourceData)
+		}
+	} else if *verify != "" {
 		err = verifyEXE(*source, *verify)
 	} else if *ico == "" || *object == "" {
 		err = errors.New("both -ico and -syso output paths are required")

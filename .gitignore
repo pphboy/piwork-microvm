@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 # Generated per-agent instruction files; regenerate with `openspec update`.
 /.claude/
+# Temporary resource linked by the Windows GUI build (also cleaned on failure).
+/cmd/piwork-launcher/rsrc_windows_amd64.syso

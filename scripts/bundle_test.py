@@ -86,6 +86,13 @@ class BodyRecordTest(unittest.TestCase):
         self.root = pathlib.Path(self.temp.name)
         shutil.copyfile(pathlib.Path(bundle.ROOT) / 'build.lock.json',
                         self.root / 'build.lock.json')
+        for relative in ('cmd/piwork-launcher/frontend', 'tools/gui-resources'):
+            shutil.copytree(pathlib.Path(bundle.ROOT) / relative, self.root / relative)
+        for relative in ('cmd/piwork-launcher/ui-sources.json',
+                         'scripts/gui-build.py', 'scripts/gui-build-windows.ps1'):
+            target = self.root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(pathlib.Path(bundle.ROOT) / relative, target)
         self.out = self.root / 'dist'
         (self.out / 'piwork').mkdir(parents=True)
         (self.out / 'piwork/metadata.json').write_text(json.dumps({'releaseVersion': '0.0.11'}))
@@ -144,6 +151,35 @@ class BodyRecordTest(unittest.TestCase):
         (self.root / 'build.lock.json').write_text(json.dumps(lock))
         with self.assertRaises(SystemExit):
             bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+
+    def test_gui_resource_inputs_invalidate_body_without_affecting_cli(self):
+        for relative in ('cmd/piwork-launcher/frontend/assets/piwork-logo.png',
+                         'cmd/piwork-launcher/frontend/index.html',
+                         'cmd/piwork-launcher/ui-sources.json',
+                         'scripts/gui-build.py', 'scripts/gui-build-windows.ps1'):
+            with self.subTest(input=relative):
+                bundle.write_body_record('gui', 'linux', self.body, self.identity)
+                cli = bundle.source_fingerprint(entry='cli')
+                path = self.root / relative
+                original = path.read_bytes()
+                path.write_bytes(original + b'changed')
+                with self.assertRaisesRegex(SystemExit, 'body inputs'):
+                    bundle.verify_body_record('gui', 'linux', self.body, self.identity)
+                self.assertEqual(cli, bundle.source_fingerprint(entry='cli'))
+                path.write_bytes(original)
+
+    def test_generated_resources_do_not_invalidate_record(self):
+        record = bundle.write_body_record('gui', 'linux', self.body, self.identity)
+        resource = self.root / 'cmd/piwork-launcher/rsrc_windows_amd64.syso'
+        resource.write_bytes(b'temporary COFF')
+        self.assertEqual(record, bundle.verify_body_record('gui', 'linux', self.body, self.identity))
+        resource.unlink()
+        self.assertEqual(record, bundle.verify_body_record('gui', 'linux', self.body, self.identity))
+
+    def test_missing_gui_input_is_rejected(self):
+        (self.root / 'cmd/piwork-launcher/frontend/assets/piwork-logo.png').unlink()
+        with self.assertRaisesRegex(SystemExit, 'missing GUI body input'):
+            bundle.write_body_record('gui', 'linux', self.body, self.identity)
 
 
 if __name__ == '__main__':

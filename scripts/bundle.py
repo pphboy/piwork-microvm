@@ -66,16 +66,28 @@ def input_fingerprint(lock=None):
     return hashlib.sha256('\n'.join(fields).encode()).hexdigest()
 
 
-def source_fingerprint(root=None):
-    """Digest of the Go sources and module files compiled into the launcher body."""
+def source_fingerprint(root=None, entry='cli'):
+    """Digest body inputs, including embedded GUI files and resource recipes."""
     root = pathlib.Path(root or ROOT)
     skip = {'.git', 'dist', 'openspec', 'node_modules'}
     files = [path for path in root.rglob('*.go')
              if not (set(path.relative_to(root).parts) & skip)]
     files += [root / 'go.mod', root / 'go.sum']
     files = [path for path in files if path.is_file()]
+    if entry == 'gui':
+        frontend = root / 'cmd/piwork-launcher/frontend'
+        required = ['cmd/piwork-launcher/frontend/assets/piwork-logo.png',
+                    'cmd/piwork-launcher/frontend/index.html',
+                    'cmd/piwork-launcher/ui-sources.json',
+                    'tools/gui-resources/main.go',
+                    'scripts/gui-build.py', 'scripts/gui-build-windows.ps1']
+        for relative in required:
+            if not (root / relative).is_file():
+                raise SystemExit(f'missing GUI body input: {relative}')
+        files += [path for path in frontend.rglob('*') if path.is_file()]
+        files += [root / relative for relative in required]
     digest = hashlib.sha256()
-    for path in sorted(files, key=lambda p: p.relative_to(root).as_posix()):
+    for path in sorted(set(files), key=lambda p: p.relative_to(root).as_posix()):
         relative = path.relative_to(root).as_posix()
         digest.update(relative.encode() + b'\0' + sha(path).encode() + b'\n')
     return digest.hexdigest()
@@ -93,7 +105,7 @@ def write_body_record(entry, platform, body, identity):
     record = {'recordVersion': 1, 'entry': entry, 'platform': platform, 'arch': 'amd64',
               'version': identity['version'], 'manifest': identity['manifest'],
               'sourceCommit': git('rev-parse', 'HEAD'),
-              'sourceFingerprint': source_fingerprint(),
+              'sourceFingerprint': source_fingerprint(entry=entry),
               'upstream': {'mode': built_input_mode(), 'version': identity['upstream'],
                            'buildCommit': identity['commit'],
                            'releaseCommit': release.get('releaseCommit')},
@@ -127,8 +139,8 @@ def verify_body_record(entry, platform, body, identity):
         raise SystemExit(f'{entry}/{platform} body upstream identity does not match the lock')
     if record.get('inputFingerprint') != input_fingerprint(lock):
         raise SystemExit(f'{entry}/{platform} body was built from other locked inputs')
-    if record.get('sourceFingerprint') != source_fingerprint():
-        raise SystemExit(f'{entry}/{platform} body was built from other Go sources')
+    if record.get('sourceFingerprint') != source_fingerprint(entry=entry):
+        raise SystemExit(f'{entry}/{platform} body was built from other Go sources or body inputs; rebuild the body')
     body = pathlib.Path(body)
     digest = record.get('body') or {}
     if (digest.get('size'), digest.get('sha256')) != (body.stat().st_size, sha(body)):

@@ -27,8 +27,20 @@ $env:CGO_ENABLED = '1'
 $env:GOTOOLCHAIN = 'go1.25.5'
 $env:GOOS = 'windows'
 $env:GOARCH = 'amd64'
-& go build -trimpath -buildvcs=false -tags 'desktop production' -ldflags $flags -o $Output ./cmd/piwork-launcher
-if ($LASTEXITCODE -ne 0) { throw "go build failed with exit $LASTEXITCODE" }
+$resource = Join-Path $Source 'cmd/piwork-launcher/rsrc_windows_amd64.syso'
+$resourceDir = Join-Path $Source ('dist/gui-resources-' + [Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $resourceDir | Out-Null
+$ownsResource = $false
+try {
+    & go run ./tools/gui-resources -ico (Join-Path $resourceDir 'icon.ico') -syso $resource
+    if ($LASTEXITCODE -ne 0) { throw "GUI resource generation failed with exit $LASTEXITCODE" }
+    $ownsResource = $true
+    & go build -trimpath -buildvcs=false -tags 'desktop production' -ldflags $flags -o $Output ./cmd/piwork-launcher
+    if ($LASTEXITCODE -ne 0) { throw "go build failed with exit $LASTEXITCODE" }
+} finally {
+    if ($ownsResource) { Remove-Item -LiteralPath $resource -ErrorAction Stop }
+    Remove-Item -LiteralPath $resourceDir -Recurse -Force
+}
 $hash = (Get-FileHash $Output -Algorithm SHA256).Hash.ToLower()
 $size = (Get-Item $Output).Length
 
@@ -62,6 +74,16 @@ if ($outputFull.StartsWith($distFull, [StringComparison]::OrdinalIgnoreCase)) {
 $goFiles = @(Get-ChildItem -LiteralPath $Source -Recurse -Filter *.go | Where-Object {
     $_.FullName -notmatch '\\(dist|openspec|node_modules|\.git)\\'
 }) + @((Get-Item -LiteralPath (Join-Path $Source 'go.mod')), (Get-Item -LiteralPath (Join-Path $Source 'go.sum')))
+$guiInputs = @(
+    'cmd/piwork-launcher/frontend/assets/piwork-logo.png',
+    'cmd/piwork-launcher/frontend/index.html',
+    'cmd/piwork-launcher/ui-sources.json',
+    'tools/gui-resources/main.go',
+    'scripts/gui-build.py', 'scripts/gui-build-windows.ps1'
+)
+$goFiles += @($guiInputs | ForEach-Object { Get-Item -LiteralPath (Join-Path $Source $_) -ErrorAction Stop })
+$goFiles += @(Get-ChildItem -LiteralPath (Join-Path $Source 'cmd/piwork-launcher/frontend') -Recurse -File)
+$goFiles = @($goFiles | Sort-Object -Property FullName -Unique)
 $sourceFull = (Resolve-Path -LiteralPath $Source).ProviderPath.TrimEnd('\')
 $sourceParts = $goFiles | ForEach-Object {
     $relative = $_.FullName.Substring($sourceFull.Length).TrimStart('\').Replace('\', '/')
