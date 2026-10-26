@@ -9,10 +9,12 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"embed"
 	"errors"
 	"fmt"
+	"image/png"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -22,6 +24,7 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/linux"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	goruntime "runtime"
 
@@ -229,6 +232,22 @@ func frontendFiles() fs.FS {
 	return sub
 }
 
+func linuxWindowOptions() (*linux.Options, error) {
+	logo, err := embedded.ReadFile("frontend/assets/piwork-logo.png")
+	if err != nil {
+		return nil, fmt.Errorf("read window icon: %w", err)
+	}
+	if _, err := png.Decode(bytes.NewReader(logo)); err != nil {
+		return nil, fmt.Errorf("decode window icon: %w", err)
+	}
+	return &linux.Options{
+		Icon:        logo,
+		ProgramName: "piwork-microvm-gui",
+		// Match Wails' existing nil-options default; the zero value enables GPU.
+		WebviewGpuPolicy: linux.WebviewGpuPolicyNever,
+	}, nil
+}
+
 func main() {
 	if len(os.Args) > 1 && os.Args[1] == "--version" {
 		fmt.Print(launcher.VersionText())
@@ -245,6 +264,14 @@ func main() {
 		os.Exit(1)
 	}
 	app.controller = controller
+	var linuxOptions *linux.Options
+	if goruntime.GOOS == "linux" {
+		linuxOptions, err = linuxWindowOptions()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "piwork-launcher:", err)
+			os.Exit(1)
+		}
+	}
 
 	err = wails.Run(&options.App{
 		Title:            "Piwork MicroVM",
@@ -255,6 +282,7 @@ func main() {
 		Frameless:        true,
 		BackgroundColour: &options.RGBA{R: 255, G: 255, B: 255, A: 1},
 		AssetServer:      &assetserver.Options{Assets: frontendFiles()},
+		Linux:            linuxOptions,
 		CSSDragProperty:  "--wails-draggable",
 		CSSDragValue:     "drag",
 		OnStartup:        app.startup,
