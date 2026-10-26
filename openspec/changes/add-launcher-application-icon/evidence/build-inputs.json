@@ -1,0 +1,25 @@
+{
+  "wrapperVersion": "0.0.0-dev.715a7d38f328",
+  "compiledSourceCommit": "715a7d38f328d3f652fa2da885e911f02c5e2f5c",
+  "verificationToolsCommit": "c73cf2670fbd4d91e3f8d9751c87776b8cc9f3db",
+  "upstreamVersion": "0.0.14",
+  "upstreamCommit": "3355a106766116a9d64b8492209a93218f3b4b21",
+  "inputFingerprint": "99e07ec8da043e663a047aa2ae94542c291447379f993214e1cfc3ed7911f722",
+  "sourceFingerprint": "36edf76f0a70f587a914c532888c78466aeaef0634ced3e4a790f52aa9590386",
+  "logoInputSHA256": "bed999510609e8e24b96a4f4f0aaa7c3572384248fd2bc37cce943190abd95ab",
+  "artifacts": {
+    "linux": {
+      "path": "dist/piwork-microvm-gui",
+      "size": 410368982,
+      "sourceFingerprintMatches": true,
+      "trailerAndPayloadVerified": true
+    },
+    "windows": {
+      "path": "dist/piwork-microvm-gui.exe",
+      "size": 427989694,
+      "sourceFingerprintMatches": true,
+      "trailerAndPayloadVerified": true
+    }
+  },
+  "verificationBasis": "Locked source/toolchain/image inputs; no release artifact hash binding or byte reproducibility claim."
+}

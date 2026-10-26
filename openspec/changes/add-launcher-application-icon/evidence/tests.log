@@ -1,0 +1,40 @@
+python3 -m unittest discover -s scripts -p '*_test.py'
+.............................................................................................................................................
+----------------------------------------------------------------------
+Ran 141 tests in 0.493s
+
+OK
+Piwork official release prepared: 0.0.11 build commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Piwork official release already verified; reusing preparation for v0.0.11
+Published v0.2.1
+Dry run: plan v0.2.1 targets aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  asset: alpha.bin  5  8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8
+  asset: beta.bin  4  f44e64e75f3948e9f73f8dfa94721c4ce8cbb4f265c4790c702b2d41cfbf2753
+Dry run: no tag created, nothing uploaded or published.
+Published v0.2.1
+Published v0.2.1
+Already published v0.2.1 with matching assets; nothing changed.
+Preflight passed for v0.2.1
+go test ./...
+?   	piwork-microvm/cmd/acceptance-chroot	[no test files]
+ok  	piwork-microvm/cmd/piwork-guest	(cached)
+?   	piwork-microvm/cmd/piwork-microvm	[no test files]
+ok  	piwork-microvm/internal/bundle	(cached)
+ok  	piwork-microvm/internal/desktop	(cached)
+ok  	piwork-microvm/internal/launcher	(cached)
+ok  	piwork-microvm/internal/network	(cached)
+ok  	piwork-microvm/internal/platform	(cached)
+ok  	piwork-microvm/internal/qemu	(cached)
+ok  	piwork-microvm/tools/gui-resources	1.423s
+✔ late old events/snapshots cannot revive running or replace logs (8.334295ms)
+✔ startup subscribes before snapshot; Chinese OS never changes English default (1.153051ms)
+✔ offline language switching preserves VM state, log and known error (0.860197ms)
+✔ static text and dynamic text keys have both built-in translations (0.585397ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49.209262

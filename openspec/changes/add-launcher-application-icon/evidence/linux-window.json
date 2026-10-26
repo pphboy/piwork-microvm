@@ -1,0 +1,14 @@
+{
+  "executable": "/home/p/Projects/piwork-microvm/dist/icon-standalone-linux/piwork-microvm-gui",
+  "geometry": [
+    800,
+    600
+  ],
+  "display": "WSLg Weston/XWayland",
+  "modernIcon": false,
+  "legacyIcon": true,
+  "headerDrag": null,
+  "headerMinimize": null,
+  "headerIdleClose": true,
+  "vmStarted": false
+}

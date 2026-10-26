@@ -1,0 +1,23 @@
+﻿{
+    "executable":  "C:\\Users\\p\\piwork-icon-standalone-20261026\\piwork-microvm-gui.exe",
+    "nativeWindowIcon":  true,
+    "shellIconExtracted":  true,
+    "monitors":  [
+                     {
+                         "dpi":  96,
+                         "width":  800,
+                         "height":  600
+                     },
+                     {
+                         "dpi":  96,
+                         "width":  800,
+                         "height":  600
+                     }
+                 ],
+    "headerDrag":  true,
+    "headerMinimize":  true,
+    "headerIdleClose":  true,
+    "vmStarted":  false,
+    "taskbarVisual":  "not yet captured",
+    "altTabVisual":  "not yet captured"
+}
