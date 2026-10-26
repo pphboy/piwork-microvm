@@ -52,7 +52,13 @@ function Foreground([IntPtr]$window) {
     if ($foregroundThread -ne $currentThread) {
         $attached = [IconProbe]::AttachThreadInput($currentThread, $foregroundThread, $true)
     }
-    try { [void][IconProbe]::SetForegroundWindow($window) } finally {
+    try {
+        # An ALT key transition releases Windows' foreground activation lock.
+        [IconProbe]::keybd_event(18,0,0,[UIntPtr]::Zero)
+        [IconProbe]::keybd_event(18,0,2,[UIntPtr]::Zero)
+        [void][IconProbe]::SetForegroundWindow($window)
+        Start-Sleep -Milliseconds 100
+    } finally {
         if ($attached) { [void][IconProbe]::AttachThreadInput($currentThread, $foregroundThread, $false) }
     }
 }
