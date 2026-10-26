@@ -15,6 +15,9 @@ public static class IconProbe {
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr w, out Rect r);
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr w);
     [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+    [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr w, IntPtr process);
+    [DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
+    [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint from, uint to, bool attach);
     [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr w, int x, int y, int width, int height, bool repaint);
     [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr w, int mode);
     [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr w);
@@ -41,6 +44,17 @@ function Bounds([IntPtr]$window) {
     $r = New-Object IconProbe+Rect
     [void][IconProbe]::GetWindowRect($window, [ref]$r)
     return $r
+}
+function Foreground([IntPtr]$window) {
+    $currentThread = [IconProbe]::GetCurrentThreadId()
+    $foregroundThread = [IconProbe]::GetWindowThreadProcessId([IconProbe]::GetForegroundWindow(), [IntPtr]::Zero)
+    $attached = $false
+    if ($foregroundThread -ne $currentThread) {
+        $attached = [IconProbe]::AttachThreadInput($currentThread, $foregroundThread, $true)
+    }
+    try { [void][IconProbe]::SetForegroundWindow($window) } finally {
+        if ($attached) { [void][IconProbe]::AttachThreadInput($currentThread, $foregroundThread, $false) }
+    }
 }
 function Capture($rectangle, [string]$path) {
     $width = [int]($rectangle.Right - $rectangle.Left)
@@ -69,7 +83,7 @@ try {
     $window = $app.MainWindowHandle
     if ($window -eq [IntPtr]::Zero) { throw 'No owned window appeared' }
     Start-Sleep -Seconds 2
-    [void][IconProbe]::SetForegroundWindow($window)
+    Foreground $window
     $shellIcon = [Drawing.Icon]::ExtractAssociatedIcon($Exe)
     try {
         $bitmap = $shellIcon.ToBitmap()
@@ -87,7 +101,7 @@ try {
         Start-Sleep -Milliseconds 700
         $dpi = [IconProbe]::GetDpiForWindow($window)
         [void][IconProbe]::MoveWindow($window, $screen.Bounds.X+100, $screen.Bounds.Y+100, [int](800*$dpi/96), [int](600*$dpi/96), $true)
-        [void][IconProbe]::SetForegroundWindow($window)
+        Foreground $window
         Start-Sleep -Milliseconds 700
         $r = Bounds $window
         Capture $r (Join-Path $evidence "windows-monitor-$index.png")
@@ -110,7 +124,7 @@ try {
     Click ($moved.Right-[int](67*$scale)) ($moved.Top+[int](30*$scale))
     $minimized = [IconProbe]::IsIconic($window)
     [void][IconProbe]::ShowWindow($window, 9)
-    [void][IconProbe]::SetForegroundWindow($window)
+    Foreground $window
     Start-Sleep -Milliseconds 500
     $r = Bounds $window
     Capture $r (Join-Path $evidence 'windows-header.png')

@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-Location $Source
 $env:PATH = (Join-Path (& go env GOROOT).Trim() 'bin') + ';' + $env:PATH
-$script:RealGo = (Get-Command go).Source
+$global:PiworkIconRealGo = (Get-Command go).Source
 $resource = Join-Path $Source 'cmd/piwork-launcher/rsrc_windows_amd64.syso'
 if (Test-Path -LiteralPath $resource) { throw 'Resource already exists; refusing to disturb another build' }
 $builder = Join-Path $Source 'scripts/gui-build-windows.ps1'
@@ -40,13 +40,13 @@ $record | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 dist/build-bodies
 
 function go {
     if ($args[0] -eq 'build') { throw 'Injected compiler failure for cleanup verification' }
-    & $script:RealGo @args
+    & $global:PiworkIconRealGo @args
 }
 $failed = $false
 try { & $builder -Source $Source -Output $body -Version $Version -Commit $Commit } catch {
     if ($_ -notmatch 'Injected compiler failure') { throw }
     $failed = $true
-} finally { Remove-Item Function:go }
+} finally { Remove-Item Function:go; Remove-Variable PiworkIconRealGo -Scope Global }
 if (-not $failed -or (Test-Path -LiteralPath $resource)) { throw 'Failed build leaked a resource' }
 
 Set-Content -LiteralPath $resource -Value 'acceptance ownership sentinel' -Encoding ascii
