@@ -4,6 +4,8 @@ go 1.25.5
 
 require (
 	github.com/Microsoft/go-winio v0.6.2
+	github.com/leaanthony/winicon v1.0.0
+	github.com/tc-hib/winres v0.3.1
 	github.com/wailsapp/wails/v2 v2.17.0
 	golang.org/x/sys v0.46.0
 )
@@ -58,7 +60,6 @@ require (
 	github.com/leaanthony/gosod v1.0.4 // indirect
 	github.com/leaanthony/slicer v1.6.0 // indirect
 	github.com/leaanthony/u v1.1.1 // indirect
-	github.com/leaanthony/winicon v1.0.0 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
@@ -77,7 +78,6 @@ require (
 	github.com/samber/lo v1.49.1 // indirect
 	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
-	github.com/tc-hib/winres v0.3.1 // indirect
 	github.com/tidwall/gjson v1.14.2 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
