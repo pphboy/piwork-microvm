@@ -116,6 +116,12 @@ optional native "Change" directory action. Click
 only after this VM's `/healthz` returns HTTP 200. The original Piwork page still owns first-run
 administrator creation, model/API key and Runtime configuration.
 
+The window header and system window icon use the bundled Piwork logo. On Windows the EXE,
+taskbar and Alt+Tab use the same logo. Linux supplies the window icon to the desktop;
+some desktops, particularly Wayland sessions, require a registered `.desktop` entry to
+display it in their taskbar. A bare Linux ELF file does not acquire a custom file-manager
+icon. The launcher does not install shortcuts or desktop entries automatically.
+
 - The data root is the complete installation root (metadata, `disks/state.qcow2`, logs). The
   default is `%LOCALAPPDATA%\PiworkMicroVM` on Windows and
   `$XDG_DATA_HOME/piwork-microvm` (or `~/.local/share/piwork-microvm`) on Linux.
@@ -383,6 +389,13 @@ The native body script is the Windows half when the common resource-build host i
 all Guest/QEMU resources remain embedded in the final EXE. Node is only needed to run the
 optional frontend regression command `node --test scripts/frontend_test.mjs`, not to build
 or run the GUI. No build command tags, pushes or publishes.
+
+Both Windows GUI build scripts derive the same multi-size icon from
+`cmd/piwork-launcher/frontend/assets/piwork-logo.png`, using the locked Go dependencies.
+The temporary COFF resource is linked before the bundle is appended and removed after
+compilation, including on build failure. Linux embeds the same PNG; neither platform needs
+a PNG or ICO next to the executable. Logo, embedded frontend and resource-recipe changes
+invalidate old GUI body records: rebuild the body before packaging it again.
 
 ### Outputs
 

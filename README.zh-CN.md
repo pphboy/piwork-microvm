@@ -106,6 +106,11 @@ Core API: http://127.0.0.1:17871
 返回 HTTP 200 后，「打开 Piwork」才可用。管理员创建、模型/API Key 与 Runtime 配置仍由原版 Piwork
 页面负责。
 
+窗口标题栏和系统窗口图标使用内嵌的 Piwork Logo。Windows 的 EXE、任务栏和 Alt+Tab
+使用同一图标；Linux 向桌面环境提供窗口图标，部分桌面（尤其 Wayland 会话）需要注册
+`.desktop` 入口才能在任务栏显示。裸 Linux ELF 文件不会因此获得自定义文件管理器图标。
+Launcher 不自动安装快捷方式或桌面入口。
+
 - 数据根是完整安装根（元数据、`disks/state.qcow2`、日志）。Windows 默认
   `%LOCALAPPDATA%\PiworkMicroVM`，Linux 默认 `$XDG_DATA_HOME/piwork-microvm`（或
   `~/.local/share/piwork-microvm`）。
@@ -336,6 +341,12 @@ Linux GUI 使用 `CGO_ENABLED=1` 和 `desktop production webkit2_41` tag；原�
 `CGO_ENABLED=1`、`desktop production` 和 `-H windowsgui`；CLI 保持禁用 CGO。当公共资源构建主机是
 Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部 Guest/QEMU 资源。只有可选前端回归
 `node --test scripts/frontend_test.mjs` 需要 Node，构建和运行 GUI 不需要。构建不打 tag、不推送、不发布。
+
+两个 Windows GUI 构建脚本均使用锁定 Go 依赖，从
+`cmd/piwork-launcher/frontend/assets/piwork-logo.png` 生成同一规则的多尺寸图标。
+临时 COFF 资源在追加 bundle 前链接，编译成功或失败后都会清理。Linux 内嵌同一 PNG，
+两平台运行时都不需要在程序旁放 PNG 或 ICO。Logo、内嵌前端和资源生成配方变化会使旧 GUI
+主体记录失效，必须重建主体后再封装。
 
 ### 构建产物
 
