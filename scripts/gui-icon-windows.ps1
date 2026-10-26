@@ -120,9 +120,11 @@ try {
     # Actual pointer drag on the blank HTML header exercises Wails drag handling.
     [void][IconProbe]::SetCursorPos($r.Left+[int](450*$scale), $r.Top+[int](30*$scale))
     [IconProbe]::mouse_event(2,0,0,0,[UIntPtr]::Zero)
-    Start-Sleep -Milliseconds 150
-    [void][IconProbe]::SetCursorPos($r.Left+[int](500*$scale), $r.Top+[int](60*$scale))
-    Start-Sleep -Milliseconds 300
+    Start-Sleep -Milliseconds 250
+    for ($step=1; $step -le 20; $step++) {
+        [void][IconProbe]::SetCursorPos($r.Left+[int]((450+2.5*$step)*$scale), $r.Top+[int]((30+1.5*$step)*$scale))
+        Start-Sleep -Milliseconds 20
+    }
     [IconProbe]::mouse_event(4,0,0,0,[UIntPtr]::Zero)
     Start-Sleep -Milliseconds 500
     $moved = Bounds $window
