@@ -5,10 +5,11 @@ param(
  [Parameter(Mandatory=$true)][string]$Root,
  [int]$Port=8080,
  [int]$CorePort=17871,
- [ValidateSet('first','recovery','failures')][string]$Phase='first',
+ [ValidateSet('first','recovery','failures','concurrency')][string]$Phase='first',
  [string]$Browser='C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
 )
 $ErrorActionPreference='Stop'
+if ($Phase -eq 'concurrency' -and -not $PSBoundParameters.ContainsKey('Port')) { $Port = 17891 }
 $env:PIWORK_ACCEPTANCE_OUT=Join-Path $Root 'evidence'
 $env:PIWORK_ACCEPTANCE_PORT=[string]$Port
 $env:PIWORK_ACCEPTANCE_CORE_PORT=[string]$CorePort
@@ -21,6 +22,7 @@ $steps=@()
 if($Phase -eq 'first'){$steps=@('acceptance-browser.mjs','acceptance-storage.mjs','acceptance-grants.mjs','acceptance-grants-browser.mjs')}
 if($Phase -eq 'recovery'){$steps=@('acceptance-baseline.mjs','acceptance-recovery-browser.mjs')}
 if($Phase -eq 'failures'){$steps=@('acceptance-windows-failures.mjs')}
+if($Phase -eq 'concurrency'){$steps=@('acceptance-concurrency.mjs')}
 foreach($step in $steps){
  $arguments=@((Join-Path $Root ('scripts\'+$step)))
  if($Phase -eq 'recovery' -and $step -eq 'acceptance-baseline.mjs'){$arguments+='--verify'}

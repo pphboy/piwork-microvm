@@ -49,6 +49,7 @@ PY
   python3 scripts/clean-runtime.py
   if [[ "$selected_port" != 8080 ]]; then run_node acceptance-baseline.mjs --verify; fi
   run_node acceptance-browser.mjs "$runtime" | tee "$PIWORK_ACCEPTANCE_OUT/browser-$selected_port.log"
+  run_node acceptance-concurrency.mjs
   cp "$PIWORK_ACCEPTANCE_OUT/browser-result.json" "$PIWORK_ACCEPTANCE_OUT/browser-$selected_port.json"
   if [[ "$selected_port" = 8080 ]]; then
     run_node acceptance-storage.mjs
