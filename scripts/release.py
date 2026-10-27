@@ -44,7 +44,8 @@ def locked_inputs():
             'upstreamPiworkVersion':upstream_version(),
             'kernel':{'version':lock['linux']['version'],'url':lock['linux']['url'],'sha256':lock['linux']['sha256']},
             'qemu':{'version':lock['qemu']['version'],'url':lock['qemu']['url'],'sha256':lock['qemu']['sha256'],
-                    'windowsPatches':lock['qemu']['windowsPatches']},
+                    'windowsPatches':lock['qemu']['windowsPatches'],
+                    'libslirp':lock['qemu']['libslirp']},
             'qboot':lock['qboot'],
             'toolchain':{'go':lock['go'],'dockerVersion':lock['dockerVersion'],'nodeImage':lock['nodeImage'],
                          'dockerImage':lock['dockerImage'],'goImage':lock['goImage'],
@@ -136,8 +137,16 @@ def manifest(version,evidence):
             'verification':verification(evidence)}
 
 def patches(out):
-    """The QEMU patches are the only modification to a GPL component, so they are corresponding source."""
-    files=sorted((ROOT/'guest/qemu').glob('*.patch'))
+    """Package the QEMU and libslirp source patches with their corresponding source."""
+    qemu=json.loads((ROOT/'build.lock.json').read_text())['qemu']
+    locked=qemu['windowsPatches'] + qemu['libslirp']['windows']['patches'] + qemu['libslirp']['linux']['patches']
+    checked={}
+    for item in locked:
+        p=ROOT/item['file']
+        if not p.is_file() or sha(p)!=item['sha256']:fail('patch differs from the lock: '+str(p))
+        if p.name in checked and checked[p.name]!=p:fail('conflicting patch names: '+p.name)
+        checked[p.name]=p
+    files=sorted(checked.values())
     if not files:fail('no QEMU patches found')
     out.parent.mkdir(parents=True,exist_ok=True)
     with out.open('wb') as raw,gzip.GzipFile(fileobj=raw,mode='wb',filename='',mtime=0) as gz,tarfile.open(fileobj=gz,mode='w|',format=tarfile.PAX_FORMAT) as tar:
@@ -238,6 +247,7 @@ def notes(version,evidence):
             '| Component | License | Source |','| --- | --- | --- |',
             '| Linux '+kernel['version']+', unmodified | GPL-2.0 | '+kernel['url']+', sha256 `'+kernel['sha256']+'` |',
             '| QEMU '+qemu['version']+', modified by '+str(len(qemu['windowsPatches']))+' patches | GPL-2.0 | '+qemu['url']+', sha256 `'+qemu['sha256']+'`, plus the attached `qemu-patches.tar.gz` |',
+            '| libslirp (Windows and Linux), modified for Host forwarding | BSD-3-Clause | Windows '+qemu['libslirp']['windows']['url']+' at `'+qemu['libslirp']['windows']['revision']+'`; Linux Debian '+qemu['libslirp']['linux']['version']+' source at '+qemu['libslirp']['linux']['sourceBase']+'; patch in `qemu-patches.tar.gz` |',
             '| qboot ROM | GPL-2.0 | `roms/qboot` in the QEMU source archive above, sha256 `'+inputs['qboot']['sha256']+'` |',
             '| libfdt / dtc, linked into QEMU | GPL-2+ | `dtc/` in the QEMU source archive above |',
             '| BusyBox, in the Guest initramfs and rootfs | GPL-2.0 | the `busybox-static` source package at Debian snapshot `'+snapshot+'` |',

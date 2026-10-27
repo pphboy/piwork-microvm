@@ -1,4 +1,5 @@
 import json
+import copy
 import pathlib
 import shutil
 import sys
@@ -78,6 +79,45 @@ class BuildModeTest(unittest.TestCase):
             self.assertEqual(bundle.built_input_mode(out, lock), 'official-release')
             (out / 'piwork/build-mode.json').write_text(json.dumps({'inputMode': 'source'}))
             self.assertEqual(bundle.built_input_mode(out, lock), 'source')
+
+    def test_locked_libslirp_sources_and_patches_bind_launcher_body(self):
+        lock = json.loads((pathlib.Path(bundle.ROOT) / 'build.lock.json').read_text())
+        baseline = bundle.input_fingerprint(lock)
+        for platform, field in [('windows', 'revision'), ('linux', 'version')]:
+            with self.subTest(platform=platform, field=field):
+                altered = copy.deepcopy(lock)
+                altered['qemu']['libslirp'][platform][field] += '-changed'
+                self.assertNotEqual(bundle.input_fingerprint(altered), baseline)
+        for platform in ('windows', 'linux'):
+            with self.subTest(platform=platform, field='patch'):
+                altered = copy.deepcopy(lock)
+                altered['qemu']['libslirp'][platform]['patches'][0]['sha256'] = '0' * 64
+                self.assertNotEqual(bundle.input_fingerprint(altered), baseline)
+        altered = copy.deepcopy(lock)
+        altered['qemu']['libslirp']['linux']['files'][0]['sha256'] = '0' * 64
+        self.assertNotEqual(bundle.input_fingerprint(altered), baseline)
+
+    def test_packaged_libslirp_must_match_source_and_dependency_records(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            for platform in ('linux', 'windows'):
+                with self.subTest(platform=platform):
+                    config = {'revision': platform}
+                    lib = root / ('lib/libslirp.so.0' if platform == 'linux' else 'libslirp-0.dll')
+                    lib.parent.mkdir(parents=True, exist_ok=True); lib.write_bytes(b'patched')
+                    digest = bundle.sha(lib)
+                    record = {'input': config, 'format': 2} if platform == 'linux' else {'input': config, 'binarySha256': digest}
+                    (root / 'libslirp-source.json').write_text(json.dumps(record))
+                    dep = root / ('dependencies.json' if platform == 'linux' else 'native-dependencies.json')
+                    dep.write_text(json.dumps([{'file': str(lib.relative_to(root)), 'sha256': digest}]))
+                    bundle.verify_libslirp(platform, root, config)
+                    lib.write_bytes(b'stale same-name library')
+                    with self.assertRaisesRegex(SystemExit, 'dependency record'):
+                        bundle.verify_libslirp(platform, root, config)
+                    lib.write_bytes(b'patched'); record['input'] = {'revision': 'wrong'}
+                    (root / 'libslirp-source.json').write_text(json.dumps(record))
+                    with self.assertRaisesRegex(SystemExit, 'source'):
+                        bundle.verify_libslirp(platform, root, config)
 
 
 class BodyRecordTest(unittest.TestCase):

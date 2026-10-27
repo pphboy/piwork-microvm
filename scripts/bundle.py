@@ -63,6 +63,17 @@ def input_fingerprint(lock=None):
     fields += [lock.get('go', ''), lock.get('linux', {}).get('sha256', ''),
                lock.get('qemu', {}).get('sha256', ''), lock.get('guestBaseImage', ''),
                lock.get('dockerImage', ''), lock.get('debianSnapshot', '')]
+    qemu = lock.get('qemu', {})
+    for patch in qemu.get('windowsPatches', []):
+        fields += [patch.get('file', ''), patch.get('sha256', '')]
+    slirp = qemu.get('libslirp', {})
+    windows, linux = slirp.get('windows', {}), slirp.get('linux', {})
+    fields += [windows.get('url', ''), windows.get('revision', '')]
+    for patch in windows.get('patches', []):
+        fields += [patch.get('file', ''), patch.get('sha256', '')]
+    fields += [linux.get('version', ''), linux.get('sourceBase', '')]
+    for item in linux.get('files', []) + linux.get('patches', []):
+        fields += [item.get('file', ''), item.get('sha256', '')]
     return hashlib.sha256('\n'.join(fields).encode()).hexdigest()
 
 
@@ -286,6 +297,26 @@ def gui_licenses():
     return files, index
 
 
+def verify_libslirp(platform, qemu_dir, config):
+    """Fail closed when the packaged dependency no longer matches its locked source record."""
+    record = json.loads((qemu_dir / 'libslirp-source.json').read_text())
+    if record.get('input') != config:
+        raise SystemExit('packaged libslirp source does not match the lock')
+    if platform == 'windows':
+        library = qemu_dir / 'libslirp-0.dll'
+        dependencies = json.loads((qemu_dir / 'native-dependencies.json').read_text())
+        matches = [entry for entry in dependencies if entry.get('file', '').lower() == library.name.lower()]
+    else:
+        library = qemu_dir / 'lib/libslirp.so.0'
+        dependencies = json.loads((qemu_dir / 'dependencies.json').read_text())
+        matches = [entry for entry in dependencies if pathlib.PurePosixPath(entry.get('file', '')).name == library.name]
+        if record.get('format') != 2:
+            raise SystemExit('Linux libslirp source was prepared without verified patch application')
+    digest = sha(library)
+    if len(matches) != 1 or matches[0].get('sha256') != digest or (platform == 'windows' and record.get('binarySha256') != digest):
+        raise SystemExit('packaged libslirp differs from its dependency record')
+
+
 def collect_inputs(entry, platform, out):
     """Collect immutable resources, provenance and licenses shared by both entries."""
     qemu_dir = out / ('qemu-windows' if platform == 'windows' else 'qemu')
@@ -317,9 +348,20 @@ def collect_inputs(entry, platform, out):
     else:
         provenance['piwork.LICENSE'] = source_path() / 'LICENSE'
     if platform == 'windows':
-        for p in sorted((ROOT / 'guest/qemu').glob('*.patch')):
+        for item in json.loads((ROOT / 'build.lock.json').read_text())['qemu']['windowsPatches']:
+            p = ROOT / item['file']
+            if sha(p) != item['sha256']:
+                raise SystemExit('QEMU patch differs from the lock: ' + str(p))
             provenance['qemu-' + p.name] = p
         provenance['windows-toolchain.lock.json'] = ROOT / 'guest/qemu/windows-toolchain.lock.json'
+    slirp = json.loads((ROOT / 'build.lock.json').read_text())['qemu']['libslirp'][platform]
+    verify_libslirp(platform, qemu_dir, slirp)
+    for item in slirp['patches']:
+        p = ROOT / item['file']
+        if sha(p) != item['sha256']:
+            raise SystemExit('libslirp patch differs from the lock: ' + str(p))
+        provenance['libslirp-' + p.name] = p
+    provenance['libslirp-source.json'] = qemu_dir / 'libslirp-source.json'
     for name, p in provenance.items():
         inputs['provenance/' + name] = p
     guest_licenses = out / 'guest/guest-licenses'

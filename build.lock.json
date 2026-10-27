@@ -171,7 +171,43 @@
         "file": "guest/qemu/private-pipe.patch",
         "sha256": "bd91ee0ef2cd5184affb86b015669a8edc0ca43ac7fdaf6c9826ac81e43a55ab"
       }
-    ]
+    ],
+    "libslirp": {
+      "windows": {
+        "url": "https://gitlab.freedesktop.org/slirp/libslirp.git",
+        "revision": "26be815b86e8d49add8c9a8b320239b9594ff03d",
+        "patches": [
+          {
+            "file": "guest/qemu/libslirp-hostfwd-backlog.patch",
+            "sha256": "9b9cffe4a88ecc47885f66ac810056538a8f84bd507e1734dce781905e536a94"
+          }
+        ]
+      },
+      "linux": {
+        "version": "4.7.0-1",
+        "sourceBase": "https://snapshot.debian.org/archive/debian/20261018T000000Z/pool/main/libs/libslirp/",
+        "files": [
+          {
+            "file": "libslirp_4.7.0-1.dsc",
+            "sha256": "18803d3341ed2b4b5ca7974ddfcfd23c5a6196a817f05a9fca0aa269e136fafd"
+          },
+          {
+            "file": "libslirp_4.7.0.orig.tar.bz2",
+            "sha256": "358ce8b6ea59ec9deac937cc754f0115b992839e7b0cddf30ffb8f77dc21da82"
+          },
+          {
+            "file": "libslirp_4.7.0-1.debian.tar.xz",
+            "sha256": "dd11e6ddde98443bcfb8dbf9d72d22ef55170e033e0ef4a35177bb731b49cca2"
+          }
+        ],
+        "patches": [
+          {
+            "file": "guest/qemu/libslirp-hostfwd-backlog.patch",
+            "sha256": "9b9cffe4a88ecc47885f66ac810056538a8f84bd507e1734dce781905e536a94"
+          }
+        ]
+      }
+    }
   },
   "qboot": {
     "file": "pc-bios/qboot.rom in the fixed QEMU source archive",

@@ -22,6 +22,10 @@ def lock_record():
         'qemu': {'version': '10.0.8', 'url': 'https://example.invalid/qemu.tar.xz',
                  'sha256': '4' * 64,
                  'windowsPatches': [{'file': 'guest/qemu/pipe-poll.patch', 'sha256': '5' * 64}],
+                 'libslirp': {
+                     'windows': {'revision': 'a' * 40, 'patches': [{'file': 'guest/qemu/libslirp-hostfwd-backlog.patch', 'sha256': 'b' * 64}]},
+                     'linux': {'version': '4.7.0-1', 'patches': [{'file': 'guest/qemu/libslirp-hostfwd-backlog.patch', 'sha256': 'b' * 64}]},
+                 },
                  'windowsToolchain': {'manifest': 'guest/qemu/windows-toolchain.lock.json',
                                       'sha256': '6' * 64,
                                       'baseImage': 'fedora@sha256:7'}},
@@ -49,8 +53,9 @@ class ComponentTest(unittest.TestCase):
         (self.root / 'build.lock.json').write_text(json.dumps(self.lock))
         files = ['scripts/kernel.sh', 'guest/Dockerfile.build', 'guest/kernel/config.fragment',
                  'scripts/qemu.sh', 'scripts/qemu-bundle.py', 'scripts/qemu-windows.sh',
-                 'scripts/qemu-windows-bundle.py', 'scripts/windows-toolchain.py',
+                 'scripts/qemu-windows-bundle.py', 'scripts/windows-toolchain.py', 'scripts/libslirp-source.py',
                  'guest/qemu/Dockerfile.windows', 'guest/qemu/pipe-poll.patch',
+                 'guest/qemu/libslirp-hostfwd-backlog.patch',
                  'guest/qemu/windows-toolchain.lock.json', 'scripts/rootfs.py',
                  'scripts/rootfs-assemble.sh', 'scripts/guest-licenses.py',
                  'guest/rootfs/Dockerfile', 'guest/initramfs/init',
@@ -163,6 +168,23 @@ class ComponentTest(unittest.TestCase):
         hit, reason = self.check('qemu-windows')
         self.assertFalse(hit)
         self.assertIn('inputs changed', reason)
+
+    def test_libslirp_patch_change_invalidates_both_qemu_platforms(self):
+        for kind in ('qemu', 'qemu-windows'):
+            components.write_record(kind, self.lock, root=self.root, runner=runner)
+        (self.root / 'guest/qemu/libslirp-hostfwd-backlog.patch').write_text('changed\n')
+        for kind in ('qemu', 'qemu-windows'):
+            hit, reason = self.check(kind)
+            self.assertFalse(hit)
+            self.assertIn('inputs changed', reason)
+
+    def test_libslirp_platform_source_changes_invalidate_only_its_qemu(self):
+        for kind in ('qemu', 'qemu-windows'):
+            components.write_record(kind, self.lock, root=self.root, runner=runner)
+        changed = copy.deepcopy(self.lock)
+        changed['qemu']['libslirp']['linux']['version'] = 'other'
+        self.assertFalse(self.check('qemu', changed)[0])
+        self.assertTrue(self.check('qemu-windows', changed)[0])
 
     def test_guest_application_change_forces_new_assembly(self):
         components.write_record('guest', self.lock, root=self.root, runner=runner)

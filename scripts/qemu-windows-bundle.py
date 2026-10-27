@@ -5,8 +5,11 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 OUT=ROOT/'dist/qemu-windows'
 SYSTEM={'kernel32.dll','user32.dll','advapi32.dll','shell32.dll','ws2_32.dll','ole32.dll','oleaut32.dll','uuid.dll','version.dll','winmm.dll','imm32.dll','comdlg32.dll','comctl32.dll','gdi32.dll','secur32.dll','crypt32.dll','bcrypt.dll','ntdll.dll','msvcrt.dll','ucrtbase.dll','setupapi.dll','iphlpapi.dll','shlwapi.dll','winspool.drv','powrprof.dll','winhvplatform.dll','winhvemulation.dll'}
 def main():
-    roots=[pathlib.Path('/usr/x86_64-w64-mingw32/sys-root/mingw'),pathlib.Path('/usr/lib/gcc/x86_64-w64-mingw32'),ROOT/'dist/qemu-build-windows']
+    roots=[pathlib.Path('/usr/x86_64-w64-mingw32/sys-root/mingw'),pathlib.Path('/usr/lib/gcc/x86_64-w64-mingw32'),ROOT/'dist/qemu-build-windows-patched']
     available={p.name.lower():p for root in roots for p in root.rglob('*.dll')}
+    slirp=ROOT/'dist/qemu-build-windows-patched/subprojects/slirp/libslirp-0.dll'
+    if not slirp.is_file():raise SystemExit('Missing the patched Windows libslirp build')
+    available[slirp.name.lower()]=slirp
     queue=[OUT/'qemu-system-x86_64.exe'];seen=set();records=[]
     while queue:
         p=queue.pop()
@@ -23,7 +26,12 @@ def main():
                 shutil.copy2(available[lower],target)
             queue.append(target)
         package=subprocess.run(['rpm','-qf',str(available.get(p.name.lower(),p))],capture_output=True,text=True).stdout.strip()
-        records.append({'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'imports':imports,'package':package})
+        record={'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'imports':imports,'package':package}
+        if p.name.lower()==slirp.name.lower():
+            if hashlib.sha256(p.read_bytes()).digest()!=hashlib.sha256(slirp.read_bytes()).digest():raise SystemExit('Packed libslirp differs from the patched build')
+            record['source']=str(slirp.relative_to(ROOT));record['package']='locked patched libslirp subproject'
+        records.append(record)
+    if slirp.name.lower() not in seen:raise SystemExit('QEMU does not import the patched libslirp')
     licenses=OUT/'licenses'
     if licenses.exists():shutil.rmtree(licenses)
     licenses.mkdir()
@@ -31,9 +39,11 @@ def main():
         if p.name.lower() not in seen:p.unlink()
     for p in pathlib.Path('/usr/share/licenses').glob('mingw*'):
         if p.is_dir():shutil.copytree(p,licenses/p.name,dirs_exist_ok=True)
-    source=ROOT/'dist/qemu-source/windows/qemu-10.0.8'
+    source=ROOT/'dist/qemu-source/windows'/('qemu-'+json.loads((ROOT/'build.lock.json').read_text())['qemu']['version'])
     for name in ['COPYING','COPYING.LIB']:shutil.copy2(source/name,licenses/('QEMU-'+name))
     shutil.copy2(source/'subprojects/slirp/COPYRIGHT',licenses/'libslirp-COPYRIGHT')
+    slirp_input=json.loads((ROOT/'build.lock.json').read_text())['qemu']['libslirp']['windows']
+    (OUT/'libslirp-source.json').write_text(json.dumps({'input':slirp_input,'binarySha256':hashlib.sha256(slirp.read_bytes()).hexdigest()},indent=2)+'\n')
     for name in ['README.license','BSD-2-Clause','GPL']:
         shutil.copy2(source/'subprojects/dtc'/name,licenses/('dtc-'+name))
     (OUT/'native-dependencies.json').unlink(missing_ok=True)

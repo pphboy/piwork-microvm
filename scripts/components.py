@@ -136,8 +136,10 @@ def fingerprint(kind, lock, root=ROOT, runner=subprocess.run):
             'qemu': {'version': lock['qemu']['version'], 'url': lock['qemu']['url'],
                      'sha256': lock['qemu']['sha256']},
             'system': {'dockerImage': lock['dockerImage']},
+            'libslirp': {'lock': lock['qemu']['libslirp']['linux'],
+                         'patches': hash_paths([p['file'] for p in lock['qemu']['libslirp']['linux']['patches']], root)},
             'recipe': hash_paths(['scripts/qemu.sh', 'scripts/qemu-bundle.py',
-                                  'guest/Dockerfile.build', 'guest/qemu/Dockerfile'], root),
+                                  'scripts/libslirp-source.py', 'guest/Dockerfile.build', 'guest/qemu/Dockerfile'], root),
             'builderImage': docker_image_id('piwork-microvm-qemu-builder:local', runner=runner),
         }
     if kind == 'qemu-windows':
@@ -148,11 +150,13 @@ def fingerprint(kind, lock, root=ROOT, runner=subprocess.run):
             'patches': [{'file': patch['file'],
                          'sha256': file_identity(pathlib.Path(root) / patch['file'])['sha256']}
                         for patch in lock['qemu']['windowsPatches']],
+            'libslirp': {'lock': lock['qemu']['libslirp']['windows'],
+                         'patches': hash_paths([p['file'] for p in lock['qemu']['libslirp']['windows']['patches']], root)},
             'toolchain': {'lock': lock['qemu']['windowsToolchain'],
                           'manifest': file_identity(pathlib.Path(root) /
                                                     lock['qemu']['windowsToolchain']['manifest'])},
             'recipe': hash_paths(['scripts/qemu-windows.sh', 'scripts/qemu-windows-bundle.py',
-                                  'scripts/windows-toolchain.py',
+                                  'scripts/windows-toolchain.py', 'scripts/libslirp-source.py',
                                   'guest/qemu/Dockerfile.windows'], root),
             'builderImage': docker_image_id('piwork-microvm-qemu-windows-builder:local',
                                             runner=runner),

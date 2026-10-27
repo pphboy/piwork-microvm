@@ -2,7 +2,9 @@
 import copy
 import json
 import pathlib
+import shutil
 import tempfile
+import tarfile
 import unittest
 from unittest import mock
 import release
@@ -110,6 +112,27 @@ class EvidenceTest(unittest.TestCase):
                 self.assertNotIn('Piwork 0.0.11', notes)
                 if not preview:
                     self.assertNotIn('Preview', notes)
+
+    def test_notes_and_patch_attachment_identify_both_locked_sources(self):
+        notes = self.generated_notes()
+        slirp = self.inputs['qemu']['libslirp']
+        for text in (slirp['windows']['url'], slirp['windows']['revision'], slirp['linux']['sourceBase'], slirp['linux']['version']):
+            self.assertIn(text, notes)
+        archive = self.root / 'patches.tar.gz'
+        release.patches(archive)
+        with tarfile.open(archive) as tar:
+            names = set(tar.getnames())
+        self.assertEqual(names, {pathlib.Path(p['file']).name for p in self.inputs['qemu']['windowsPatches'] + slirp['windows']['patches'] + slirp['linux']['patches']})
+        lock = json.loads((release.ROOT / 'build.lock.json').read_text())
+        (self.root / 'build.lock.json').write_text(json.dumps(lock))
+        for patch in lock['qemu']['windowsPatches'] + slirp['windows']['patches']:
+            target = self.root / patch['file']; target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(release.ROOT / patch['file'], target)
+        with mock.patch.object(release, 'ROOT', self.root):
+            release.patches(archive)
+            (self.root / slirp['windows']['patches'][0]['file']).write_text('tampered')
+            with self.assertRaisesRegex(release.Failure, 'differs from the lock'):
+                release.patches(archive)
 
     def test_source_notes_do_not_invent_an_official_release_status(self):
         self.inputs['builtInputMode'] = 'source'

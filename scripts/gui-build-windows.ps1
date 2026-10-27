@@ -60,7 +60,14 @@ $fields = @(
     (LockField $assets.releaseManifest.sha256), (LockField $assets.sha256sums.sha256),
     (LockField $lock.go), (LockField $lock.linux.sha256), (LockField $lock.qemu.sha256),
     (LockField $lock.guestBaseImage), (LockField $lock.dockerImage), (LockField $lock.debianSnapshot)
-) -join "`n"
+)
+foreach ($patch in $lock.qemu.windowsPatches) { $fields += (LockField $patch.file); $fields += (LockField $patch.sha256) }
+$slirp = $lock.qemu.libslirp
+$fields += (LockField $slirp.windows.url); $fields += (LockField $slirp.windows.revision)
+foreach ($patch in $slirp.windows.patches) { $fields += (LockField $patch.file); $fields += (LockField $patch.sha256) }
+$fields += (LockField $slirp.linux.version); $fields += (LockField $slirp.linux.sourceBase)
+foreach ($item in @($slirp.linux.files) + @($slirp.linux.patches)) { $fields += (LockField $item.file); $fields += (LockField $item.sha256) }
+$fields = $fields -join "`n"
 $sha = [Security.Cryptography.SHA256]::Create()
 $fingerprint = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($fields))) -replace '-', '').ToLower()
 $dist = Join-Path $Source 'dist'
