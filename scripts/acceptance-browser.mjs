@@ -71,7 +71,7 @@ try{
  await waitFor(async()=>{const r=await fetch(origin+'/readyz?profile=docker-delivery');return r.status===200;},'actual runtime readiness',300000);
  check('Existing QuickStart saved configuration and all production runtime dependencies became Ready');
  await page.screenshot({path:join(out,'quickstart-ready.png'),fullPage:true});
- await page.goto(origin+'/');await page.getByRole('heading',{name:'Works',exact:true}).waitFor();
+ await page.goto(origin+'/');await page.locator('.works-page').waitFor();
  const login=await fetch(coreOrigin+'/api/v1/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(credentials)});
  assert.equal(login.status,200);const {token}=await login.json();
  async function api(path,method='GET',body){const r=await fetch(coreOrigin+path,{method,headers:{Authorization:'Bearer '+token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const value=await r.json();assert.ok(r.ok,method+' '+path+' failed: '+r.status+' '+value.code);return value;}

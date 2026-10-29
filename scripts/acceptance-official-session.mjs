@@ -37,7 +37,7 @@ try{
  }
  console.log('Stage: browser login');
  const context=await browser.newContext({acceptDownloads:true,viewport:{width:1440,height:1000}});const page=await context.newPage();page.setDefaultTimeout(120000);
- await page.goto(origin+'/login');await page.getByLabel('Account',{exact:true}).fill(credentials.account);await page.getByLabel('Password',{exact:true}).fill(credentials.password);await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.getByRole('heading',{name:'Works',exact:true}).waitFor();
+ await page.goto(origin+'/login');await page.getByLabel('Account',{exact:true}).fill(credentials.account);await page.getByLabel('Password',{exact:true}).fill(credentials.password);await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.locator('.works-page').waitFor();
  console.log('Stage: browser Files and Service');
  await page.goto(origin+'/#/work/'+work.id);await page.getByRole('button',{name:'Files',exact:true}).click();
  await page.locator('button[data-action="open-file"][data-path="/note.txt"]').click();await page.getByLabel('Edit note.txt').waitFor();
@@ -56,7 +56,7 @@ try{
  if(verify){for(const field of ['userId','workId','serviceId','serviceRevision','files','counter'])assert.deepEqual(record[field],previous[field],field+' retained');}
  if(!verify||process.env.PIWORK_EXPORT_ON_REOPEN==='1'){
   console.log('Stage: administrator ZIP');
-  await page.goto(origin+'/');await page.getByRole('heading',{name:'Works',exact:true}).waitFor();
+  await page.goto(origin+'/');await page.locator('.works-page').waitFor();
   await page.locator('[data-action=account]').click();const menu=page.getByRole('menuitem',{name:'Export logs',exact:true});const downloading=page.waitForEvent('download');await menu.click();const download=await downloading;
   const dir=resolve(out,'../downloads');await mkdir(dir,{recursive:true});const target=join(dir,download.suggestedFilename());await download.saveAs(target);const bytes=await readFile(target);
   // Python zipfile works on both native Windows and Linux; no Guest boot is used to read it.

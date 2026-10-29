@@ -28,9 +28,9 @@ const result={platform:label,origin,core,realModelCall:'not attempted; controlle
 page.on('response',r=>{const u=new URL(r.url());if(u.origin===origin&&u.pathname.startsWith('/_desktop/api/'))result.desktopRequests.push({path:u.pathname,status:r.status()});});
 try{
  await page.goto(origin+'/login');
- await Promise.race([page.getByLabel('Account',{exact:true}).waitFor(),page.getByRole('heading',{name:'Works',exact:true}).waitFor()]);
+ await Promise.race([page.getByLabel('Account',{exact:true}).waitFor(),page.locator('.works-page').waitFor()]);
  if(await page.getByLabel('Account',{exact:true}).isVisible()){await page.getByLabel('Account',{exact:true}).fill(creds.account);await page.getByLabel('Password',{exact:true}).fill(creds.password);await page.getByRole('button',{name:'Sign in',exact:true}).click();}
- await page.getByRole('heading',{name:'Works',exact:true}).waitFor();assert.equal(await page.evaluate(()=>location.origin),origin);
+ await page.locator('.works-page').waitFor();assert.equal(await page.evaluate(()=>location.origin),origin);
  const login=await fetch(core+'/api/v1/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(creds)});assert.equal(login.status,200);const {token}=await login.json();
  async function api(path,method='GET',body){const r=await fetch(core+'/api/v1/'+path,{method,headers:{Authorization:'Bearer '+token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const value=await r.json();assert.ok(r.ok,method+' '+path+' '+r.status+' '+value.code);return value;}
  const work=await api('works/'+old.workId);assert.equal(work.id,old.workId);
