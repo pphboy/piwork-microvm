@@ -1,0 +1,18 @@
+{
+  "inputFingerprint": "3cc6114719f7ae4bbfcb424b31a32960f50edf8df236a780076e9f46b31e109c",
+  "checkedAt": "2026-10-29T03:15:01+00:00",
+  "status": "passed",
+  "wrapperVersion": "0.2.4",
+  "upstreamVersion": "0.0.16",
+  "scope": "build",
+  "platform": "linux",
+  "checks": [
+    "Pinned Kernel and patched QEMU cache inputs and output digests verified",
+    "CLI and Wails GUI built with Go 1.25.5 and wrapper version 0.2.4",
+    "Embedded original Piwork 0.0.16 programs, production images, provenance and readable licenses checked",
+    "GUI GTK/WebKit dependency closure resolved"
+  ],
+  "limitations": [
+    "Linux GUI window interaction was not exercised"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "inputFingerprint": "3cc6114719f7ae4bbfcb424b31a32960f50edf8df236a780076e9f46b31e109c",
+  "checkedAt": "2026-10-29T03:15:01+00:00",
+  "status": "passed",
+  "wrapperVersion": "0.2.4",
+  "upstreamVersion": "0.0.16",
+  "scope": "upstream",
+  "sourceCommit": "73dbea6e5c20e5c77a331771754a7838d26046ce",
+  "publicationCommit": "9d9b9d4783f477903a5eb2187c6c1ab1d6b6da6f",
+  "releaseURL": "https://github.com/pphboy/piwork/releases/tag/v0.0.16",
+  "checks": [
+    "Published Core asset digests and program/image identities verified by the official-release importer",
+    "Core unit/contract tests, Desktop browser tests and 244 Console browser tests passed",
+    "Core production native smoke on an isolated Docker Engine and anonymous production image pulls passed"
+  ],
+  "limitations": [
+    "Informational upstream evidence does not verify a MicroVM platform scope",
+    "One optional Engine onboarding case was skipped; the separate production native smoke used Docker Engine 28.5.2",
+    "No real external model call"
+  ]
+}

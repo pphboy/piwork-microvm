@@ -1,0 +1,19 @@
+{
+  "inputFingerprint": "3cc6114719f7ae4bbfcb424b31a32960f50edf8df236a780076e9f46b31e109c",
+  "checkedAt": "2026-10-29T03:15:01+00:00",
+  "status": "passed",
+  "wrapperVersion": "0.2.4",
+  "upstreamVersion": "0.0.16",
+  "scope": "build",
+  "platform": "windows",
+  "checks": [
+    "Native Windows GUI built with Go 1.25.5 and Wails 2.17.0",
+    "CLI and GUI bodies and resources passed release identity and embedded payload verification",
+    "GUI PE subsystem is Windows GUI",
+    "Isolated native GUI window opened and closed cleanly without starting a VM",
+    "Version output reports wrapper 0.2.4 and upstream Piwork 0.0.16"
+  ],
+  "limitations": [
+    "Windows WHPX boot and Work/Service execution were not exercised in this run"
+  ]
+}

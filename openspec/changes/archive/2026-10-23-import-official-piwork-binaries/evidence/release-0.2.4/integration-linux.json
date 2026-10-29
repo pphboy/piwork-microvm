@@ -1,0 +1,27 @@
+{
+  "inputFingerprint": "3cc6114719f7ae4bbfcb424b31a32960f50edf8df236a780076e9f46b31e109c",
+  "checkedAt": "2026-10-29T03:15:01+00:00",
+  "status": "passed",
+  "wrapperVersion": "0.2.4",
+  "upstreamVersion": "0.0.16",
+  "scope": "integration",
+  "platform": "linux",
+  "environment": "Actual KVM Guest; isolated test installation and Docker Engine",
+  "checks": [
+    "Existing QuickStart saved configuration and all production runtime dependencies became Ready",
+    "Real production Agent Work created and ready",
+    "Real browser Files edit persisted in the Work volume",
+    "Original Files UI uploaded/downloaded Chinese text and binary bytes, edited text and deleted a file",
+    "Host browser reached the authorized real Service; Files bytes and ext4 SQLite are shared and persistent",
+    "Anonymous Service access rejected",
+    "Real Service WebSocket round trip and SSE passed through QEMU forwarding",
+    "Real Work network DNS/HTTPS and AI API reachability verified; no model invocation",
+    "Signed in with the administrator and Runtime configuration retained from the prior clean Guest shutdown",
+    "Guest and persistent disks shut down cleanly"
+  ],
+  "limitations": [
+    "No real model invocation; synthetic setup credential used only for readiness",
+    "No Work/Service restart-persistence or empty-cache/alternate-port matrix in this run",
+    "Legacy Works-heading acceptance selectors were replaced with the current Desktop page container before this successful run"
+  ]
+}
