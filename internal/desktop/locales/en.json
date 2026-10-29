@@ -1,6 +1,7 @@
 {
   "more": "More",
   "more.options": "More options",
+  "language": "Language",
   "guide": "Guide",
   "help": "Help",
   "about": "About",
@@ -78,7 +79,7 @@
   "error.generic": "The operation failed. View logs for the exact cause.",
   "error.export": "Could not export logs. Check the destination, free space and diagnostic logs.",
   "error.language": "The language choice was not saved. The previous choice is retained.",
-  "help.body": "Click Start Piwork, then Open Piwork for account, model and runtime setup in your browser.\nLinux needs /dev/kvm; Windows needs WHPX and WebView2.\nChoose a data directory before the first successful start, or after a failed session ends. Existing data is retained.\nMore → English / 简体中文 changes language. The first launch is English; your choice is saved.\nStop and Close wait for Guest shutdown and disk sync. Do not force them.\nFor startup failures, choose View logs, then Export current log. Export all logs includes only the selected installation. Save and send logs to the maintainer yourself; nothing is uploaded.\nIf no window opens, follow More → Guide (README) for system component errors; no early diagnostic file is promised.\nTechnical logs keep their original language; OS dialog controls use the OS language.\nSee More → Guide for dependencies, data paths and troubleshooting.\nFor business failures after Piwork starts, use the administrator account menu → Export logs in the browser. Save the ZIP and check its manifest for gaps. Launcher exports cover runtime/startup errors.",
+  "help.body": "Click Start Piwork, then Open Piwork for account, model and runtime setup in your browser.\nLinux needs /dev/kvm; Windows needs WHPX and WebView2.\nChoose a data directory before the first successful start, or after a failed session ends. Existing data is retained.\nMore → Language → English / 简体中文 changes language. The first launch is English; your choice is saved.\nStop and Close wait for Guest shutdown and disk sync. Do not force them.\nFor startup failures, choose View logs, then Export current log. Export all logs includes only the selected installation. Save and send logs to the maintainer yourself; nothing is uploaded.\nIf no window opens, follow More → Guide (README) for system component errors; no early diagnostic file is promised.\nTechnical logs keep their original language; OS dialog controls use the OS language.\nSee More → Guide for dependencies, data paths and troubleshooting.\nFor business failures after Piwork starts, use the administrator account menu → Export logs in the browser. Save the ZIP and check its manifest for gaps. Launcher exports cover runtime/startup errors.",
   "about.title": "About Piwork MicroVM",
   "about.upstream": "Upstream Piwork",
   "about.platform": "Platform",

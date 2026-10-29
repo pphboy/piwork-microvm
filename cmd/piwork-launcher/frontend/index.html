@@ -14,6 +14,8 @@
   <defs>
     <symbol id="ic-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
     <symbol id="ic-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="ic-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
     <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
     <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
     <symbol id="ic-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
@@ -53,8 +55,15 @@
         <button class="menu-item" role="menuitem" id="helpMenu"><svg class="icon"><use href="#ic-help"/></svg><span data-i18n="help">Help</span></button>
         <button class="menu-item" role="menuitem" id="aboutMenu"><svg class="icon"><use href="#ic-info"/></svg><span data-i18n="about">About</span></button>
         <div class="menu-separator" role="separator"></div>
-        <button class="menu-item" role="menuitemradio" aria-checked="true" data-language="en">English</button>
-        <button class="menu-item" role="menuitemradio" aria-checked="false" data-language="zh-CN">简体中文</button>
+        <div class="language-menu-anchor" role="none">
+          <button class="menu-item" role="menuitem" id="languageTrigger" aria-expanded="false" aria-haspopup="menu" aria-controls="languageMenu">
+            <svg class="icon" aria-hidden="true"><use href="#ic-globe"/></svg><span data-i18n="language">Language</span><span class="end" id="currentLanguage">English</span><svg class="icon sm" aria-hidden="true"><use href="#ic-chevron-right"/></svg>
+          </button>
+          <div class="language-menu" id="languageMenu" role="menu" aria-labelledby="languageTrigger" hidden>
+            <button class="menu-item" role="menuitemradio" aria-checked="true" data-language="en"><svg class="icon language-check" aria-hidden="true"><use href="#ic-check"/></svg>English</button>
+            <button class="menu-item" role="menuitemradio" aria-checked="false" data-language="zh-CN"><svg class="icon language-check" aria-hidden="true"><use href="#ic-check"/></svg>简体中文</button>
+          </div>
+        </div>
         <div class="menu-separator" role="separator"></div>
         <button class="menu-item" role="menuitem" data-external="github"><svg class="icon"><use href="#ic-github"/></svg>GitHub<svg class="icon sm end"><use href="#ic-open"/></svg></button>
         <button class="menu-item" role="menuitem" data-external="discuss"><svg class="icon"><use href="#ic-chat"/></svg><span data-i18n="discuss">Discuss</span><svg class="icon sm end"><use href="#ic-open"/></svg></button>

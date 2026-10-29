@@ -49,6 +49,7 @@
       all(`[data-i18n-${attr}]`).forEach((node) => node.setAttribute(attr, t(node.getAttribute(`data-i18n-${attr}`))));
     }
     all('[data-language]').forEach((button) => button.setAttribute('aria-checked', String(button.dataset.language === ui.language)));
+    byId('currentLanguage').textContent = all('[data-language]').find((button) => button.dataset.language === ui.language).textContent.trim();
   }
 
   function causeText(raw, phase) {
@@ -276,7 +277,14 @@
     refreshLogs();
   }
 
+  function setLanguageMenu(open, focusChoice = false) {
+    byId('languageMenu').hidden = !open;
+    byId('languageTrigger').setAttribute('aria-expanded', String(open));
+    if (open && focusChoice) all('[data-language]').find((button) => button.dataset.language === ui.language).focus();
+  }
+
   function closeMenus() {
+    setLanguageMenu(false);
     byId('moreMenu').classList.remove('open');
     byId('exportMenu').classList.remove('open');
     byId('moreTrigger').setAttribute('aria-expanded', 'false');
@@ -419,8 +427,31 @@
       }
     }));
 
+    byId('languageTrigger').addEventListener('click', () => {
+      setLanguageMenu(byId('languageMenu').hidden, true);
+    });
+    byId('languageTrigger').addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        setLanguageMenu(true, true);
+      }
+    });
+    byId('languageMenu').addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        setLanguageMenu(false);
+        byId('languageTrigger').focus();
+      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const choices = all('[data-language]');
+        const offset = event.key === 'ArrowDown' ? 1 : -1;
+        choices[(choices.indexOf(document.activeElement) + offset + choices.length) % choices.length].focus();
+      }
+    });
+
     all('[data-language]').forEach((button) => button.addEventListener('click', () => withPending(async () => {
       closeMenus();
+      byId('moreTrigger').focus();
       try { onStatus(await call('SetLanguage', button.dataset.language)); }
       catch (err) { errorText(err); showToast(t('error.language'), true); }
     })));
@@ -476,6 +507,10 @@
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         if (byId('modalScrim').classList.contains('visible')) closeModal();
+        else if (!byId('languageMenu').hidden) {
+          setLanguageMenu(false);
+          byId('languageTrigger').focus();
+        }
         else closeMenus();
       }
     });
