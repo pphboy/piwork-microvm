@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.16-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.17-informational)](build.lock.json)
 
 [简体中文](README.zh-CN.md)
 
@@ -85,7 +85,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 The access address is opened in a browser unless `--no-open` is given; on Linux this only
-happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.16 creates the first
+happens when `DISPLAY` or `WAYLAND_DISPLAY` is set. Original Piwork 0.0.17 creates the first
 administrator directly in the browser, after which normal login and QuickStart apply.
 
 ## Desktop launcher (GUI)
@@ -334,7 +334,7 @@ offline; users do not need Host Docker or network access.
 | `source-refresh` | Source mode only: re-resolve the official default-branch HEAD and rewrite `build.lock.json` | network, git |
 | `source-check` | Verify the existing clean, locked checkout without fetching | - |
 | `piwork` | Prepare the locked input (official import by default) | Docker, Go 1.25.5, network |
-| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.16` | network, git |
+| `piwork-lock` | Explicitly replace the official release input; requires `TAG`, for example `TAG=v0.0.17` | network, git |
 | `piwork-check` | Verify the prepared official input and its output digests without writing or fetching | Python 3 |
 | `piwork-source` | Explicitly compile the locked commit instead of importing the official release | Docker, Go 1.25.5 |
 | `kernel` | Build the Guest kernel | Docker |
@@ -361,7 +361,7 @@ payload/trailer format is unchanged.
 ```sh
 make piwork                                    # import the locked official release
 make piwork-check                              # read-only verification of that import
-make piwork-lock TAG=v0.0.16                   # explicit release-input update (network)
+make piwork-lock TAG=v0.0.17                   # explicit release-input update (network)
 make piwork-source                             # explicit source compile of the locked commit
 make guest PIWORK_SOURCE=/home/p/Projects/piwork  # assemble the Guest once
 make source-check                              # verify the clean, locked checkout (source mode)
@@ -413,7 +413,7 @@ invalidate old GUI body records: rebuild the body before packaging it again.
 
 [`build.lock.json`](build.lock.json) is the source of truth. `piwork.inputMode` selects
 `official-release` (current) or `source`; a lock without the field is a source lock. The
-current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.16`, the actual
+current lock pins `https://github.com/pphboy/piwork.git`, release tag `v0.0.17`, the actual
 build commit `73dbea6e5c20e5c77a331771754a7838d26046ce` and the separate publication commit
 `9d9b9d4783f477903a5eb2187c6c1ab1d6b6da6f`. It also records the four asset sizes/SHA256,
 program and UI identity, and the three production image digests. `piwork.commit` is always
@@ -424,7 +424,7 @@ The original downloaded metadata and executable bytes remain unchanged.
 
 Normal builds consume the lock and never follow `main`, a moving tag or `latest`. In source
 mode they use the full locked commit at `dist/source/<commit>/piwork` and reject modified
-inputs. The bundled upstream version is `0.0.16` (an upstream Preview), independent of the
+inputs. The bundled upstream version is `0.0.17` (an upstream Preview), independent of the
 wrapper version.
 
 ### Local source and reproducibility
@@ -450,10 +450,10 @@ requires booting the VM.
 
 Releases are published on GitHub and cut from a tagged commit. Piwork MicroVM has its own
 version, independent of the upstream Piwork version it bundles; the annotated git tag is the
-source of truth, and `--version` reports both. Wrapper 0.2.4 bundles Piwork 0.0.16 **Preview**.
+source of truth, and `--version` reports both. Wrapper 0.2.5 bundles Piwork 0.0.17 **Preview**.
 The earlier wrapper v0.2.1 / Piwork 0.0.11 plan remains an unpublished draft;
 its tag and frozen plan are preserved. Use the current release manifest for platform-specific
-verification; acceptance for older locked inputs does not verify the 0.0.16 input.
+verification; acceptance for older locked inputs does not verify the 0.0.17 input.
 
 | Asset | Contents |
 | --- | --- |
@@ -471,10 +471,10 @@ The GUI needs a native body: build it on native Windows with
 for the Windows one. The Windows body writes its build record, and packaging refuses a body
 whose version, platform, entry or locked inputs do not match.
 
-`make release VERSION=0.2.4` runs the gate, tests, Linux builds, the four-artifact checks,
-manifest and notes, then freezes a version plan under `dist/release-plans/v0.2.4/` and stops.
+`make release VERSION=0.2.5` runs the gate, tests, Linux builds, the four-artifact checks,
+manifest and notes, then freezes a version plan under `dist/release-plans/v0.2.5/` and stops.
 It never tags, pushes or publishes, and no container image is pushed to a registry.
-`make release-publish VERSION=0.2.4` is the separate remote step: it verifies the frozen plan
+`make release-publish VERSION=0.2.5` is the separate remote step: it verifies the frozen plan
 and local bytes, creates or reuses the annotated tag, creates a draft, uploads missing assets,
 checks every remote size and SHA256, and only then makes the release public.
 
@@ -485,7 +485,7 @@ asset with different content, or an already public release with different conten
 rather than overwritten. Upload retries are per file; GitHub offers no in-file resume. The four
 full artifacts still dominate transfer time.
 
-`make release-publish-dry-run VERSION=0.2.4` prints the frozen tag and asset list without
+`make release-publish-dry-run VERSION=0.2.5` prints the frozen tag and asset list without
 creating a tag or touching the remote.
 
 Verification is recorded against the **locked inputs**, not against the downloaded bytes: the

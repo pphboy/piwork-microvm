@@ -1,6 +1,6 @@
 # Piwork MicroVM
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.16-informational)](build.lock.json)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) ![Platforms](https://img.shields.io/badge/platforms-Linux%20x86--64%20%7C%20Windows%2011%20x86--64-blue) [![Upstream Piwork](https://img.shields.io/badge/upstream%20Piwork-0.0.17-informational)](build.lock.json)
 
 [English](README.md)
 
@@ -80,7 +80,7 @@ Core API: http://127.0.0.1:17871
 ```
 
 除 `--no-open` 外，程序会自动打开访问地址；在 Linux 上仅在设置了 `DISPLAY` 或 `WAYLAND_DISPLAY`
-时才会打开。原版 Piwork 0.0.16 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
+时才会打开。原版 Piwork 0.0.17 直接在浏览器创建首位管理员，随后正常登录并完成 QuickStart。
 
 ## 桌面入口（GUI）
 
@@ -291,7 +291,7 @@ Guest 归档。最终产物离线加载这些镜像，用户无需 Host Docker �
 | `source-refresh` | 仅源码模式：重新解析官方默认分支 HEAD 并重写 `build.lock.json` | 网络、git |
 | `source-check` | 检查既有的干净固定副本，不拉取 | - |
 | `piwork` | 准备锁定输入（默认导入官方发行制品） | Docker、Go 1.25.5、网络 |
-| `piwork-lock` | 显式替换官方发行输入；需 `TAG`，例如 `TAG=v0.0.16` | 网络、git |
+| `piwork-lock` | 显式替换官方发行输入；需 `TAG`，例如 `TAG=v0.0.17` | 网络、git |
 | `piwork-check` | 只读校验已准备输入及其输出摘要，不写入、不拉取 | Python 3 |
 | `piwork-source` | 显式编译锁定提交，而不是导入官方发行制品 | Docker、Go 1.25.5 |
 | `kernel` | 构建 Guest 内核 | Docker |
@@ -316,7 +316,7 @@ Kernel、QEMU 与 Guest 组装在 `dist/build-current/` 写入组件记录：仅
 ```sh
 make piwork                                    # 导入锁定官方发行制品
 make piwork-check                              # 只读校验该导入
-make piwork-lock TAG=v0.0.16                   # 显式更新发行输入（联网）
+make piwork-lock TAG=v0.0.17                   # 显式更新发行输入（联网）
 make piwork-source                             # 显式编译锁定提交
 make guest PIWORK_SOURCE=/home/p/Projects/piwork  # 统一组装 Guest 一次
 make source-check                              # 检查独立干净锁定副本（源码模式）
@@ -364,7 +364,7 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
 
 [`build.lock.json`](build.lock.json) 是唯一事实来源。`piwork.inputMode` 选择
 `official-release`（当前）或 `source`；缺少该字段的锁按源码锁处理。当前锁固定
-`https://github.com/pphboy/piwork.git`、发行标签 `v0.0.16`、实际构建提交
+`https://github.com/pphboy/piwork.git`、发行标签 `v0.0.17`、实际构建提交
 `73dbea6e5c20e5c77a331771754a7838d26046ce` 和独立的发布提交
 `9d9b9d4783f477903a5eb2187c6c1ab1d6b6da6f`，并记录四个资产的大小/SHA256、程序与 UI 身份、
 以及三个生产镜像摘要。`piwork.commit` 始终是实际构建提交，绝不是发布提交。
@@ -373,7 +373,7 @@ Linux 时，原生主体脚本负责 Windows 部分，最终 EXE 仍内含全部
 
 普通构建只消费锁，不跟随 `main`、可变标签或 `latest`。源码模式使用
 `dist/source/<commit>/piwork` 中固定的完整提交，修改过的输入会被拒绝。内置上游版本为
-`0.0.16`（上游 Preview），与包装层版本相互独立。
+`0.0.17`（上游 Preview），与包装层版本相互独立。
 
 ### 本地源码与可重现性
 
@@ -395,9 +395,9 @@ registry 推送。
 
 发布在 GitHub 上进行，且只从打过 tag 的提交切出。Piwork MicroVM 有自己的版本号，独立于它
 打包的上游 Piwork 版本；annotated git tag 是事实来源，`--version` 同时报出两者。
-包装层 0.2.4 使用 Piwork 0.0.16 **Preview**。先前包装层 v0.2.1 / Piwork 0.0.11
+包装层 0.2.5 使用 Piwork 0.0.17 **Preview**。先前包装层 v0.2.1 / Piwork 0.0.11
 计划仍是未公开草稿，其标签和冻结计划保持不变。各平台验证状态见本版发行清单；
-旧锁定输入的验收不代表 0.0.16 输入已通过对应验证。
+旧锁定输入的验收不代表 0.0.17 输入已通过对应验证。
 
 | 资产 | 内容 |
 | --- | --- |
@@ -414,9 +414,9 @@ GUI 主体必须在原生 Windows 上用 `scripts/gui-build-windows.ps1` 构建�
 不能替代 Windows GUI。Windows 主体会写入构建记录，封装会拒绝版本、平台、入口或锁定输入
 不匹配的主体。
 
-`make release VERSION=0.2.4` 执行门槛、测试、Linux 构建、四产物检查、清单与说明，随后在
-`dist/release-plans/v0.2.4/` 冻结版本计划并停止。它绝不打 tag、不推送、不发布，也不向任何
-registry 推送容器镜像。`make release-publish VERSION=0.2.4` 是独立的远端步骤：校验冻结计划
+`make release VERSION=0.2.5` 执行门槛、测试、Linux 构建、四产物检查、清单与说明，随后在
+`dist/release-plans/v0.2.5/` 冻结版本计划并停止。它绝不打 tag、不推送、不发布，也不向任何
+registry 推送容器镜像。`make release-publish VERSION=0.2.5` 是独立的远端步骤：校验冻结计划
 与本地字节，创建或复用 annotated tag，建立草稿，上传缺失资产，核对每个远端文件的大小与
 SHA256，全部完成后才公开。
 
@@ -425,7 +425,7 @@ SHA256，全部完成后才公开。
 或已公开版本内容不同时，均明确拒绝而不是覆盖。上传按文件重试；GitHub 不提供文件内断点续传。
 四个完整产物仍占主要传输时间。
 
-`make release-publish-dry-run VERSION=0.2.4` 只打印冻结的 tag 与资产列表，不创建 tag、不写远端。
+`make release-publish-dry-run VERSION=0.2.5` 只打印冻结的 tag 与资产列表，不创建 tag、不写远端。
 
 验收记录以**锁定输入**为基准，而不是下载到的字节：Guest ext4 rootfs 每次构建都重新生成
 UUID，因此同一组输入构建两次，产物仍然不同。清单携带完整输入指纹，并分别列出 `build`、
