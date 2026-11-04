@@ -107,6 +107,25 @@ class ComponentTest(unittest.TestCase):
         hit, reason = self.check('kernel')
         self.assertTrue(hit, reason)
 
+    def test_missing_local_builder_preserves_verified_component(self):
+        components.write_record('kernel', self.lock, root=self.root, runner=runner)
+        missing = lambda *args, **kwargs: Result(1)
+        self.assertTrue(components.verify('kernel', self.lock, root=self.root, runner=missing)[0])
+        (self.root / 'dist/guest/kernel').write_bytes(b'corrupted')
+        self.assertFalse(components.verify('kernel', self.lock, root=self.root, runner=missing)[0])
+
+    def test_missing_builder_does_not_hide_changed_locked_inputs(self):
+        components.write_record('kernel', self.lock, root=self.root, runner=runner)
+        changed = copy.deepcopy(self.lock)
+        changed['linux']['sha256'] = 'f' * 64
+        missing = lambda *args, **kwargs: Result(1)
+        self.assertFalse(components.verify('kernel', changed, root=self.root, runner=missing)[0])
+
+    def test_different_available_builder_invalidates_component(self):
+        components.write_record('kernel', self.lock, root=self.root, runner=runner)
+        changed = lambda *args, **kwargs: Result(0, 'sha256:different\n')
+        self.assertFalse(components.verify('kernel', self.lock, root=self.root, runner=changed)[0])
+
     def test_only_piwork_changes_do_not_invalidate_kernel_or_qemu(self):
         components.write_record('kernel', self.lock, root=self.root, runner=runner)
         components.write_record('qemu', self.lock, root=self.root, runner=runner)

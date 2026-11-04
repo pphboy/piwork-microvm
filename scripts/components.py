@@ -241,6 +241,13 @@ def verify(kind, lock, root=ROOT, runner=subprocess.run, force=False):
     if record.get('kind') != kind:
         return False, 'component record belongs to another kind'
     current = fingerprint(kind, lock, root, runner=runner)
+    # Builder availability is not a change to an already-built component. Keep
+    # its recorded tool identity when the local image has merely been removed;
+    # recipes, locked inputs and every output digest are still checked below.
+    # An available different builder continues to invalidate the cache.
+    saved = record.get('fingerprint') or {}
+    if current.get('builderImage') is None and saved.get('builderImage'):
+        current['builderImage'] = saved['builderImage']
     if record.get('fingerprint') != current:
         return False, 'component inputs changed'
     recorded = record.get('outputs') or {}
