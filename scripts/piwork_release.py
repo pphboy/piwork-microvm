@@ -352,13 +352,17 @@ def package_root(release):
     return 'piwork-linux-amd64-' + commit[:12]
 
 
-def safe_extract(archive, dest, expected_root):
+def safe_extract(archive, dest, expected_root, alternate_root=None):
     """Extract only regular files/directories under one expected root.
 
     Rejects absolute or escaping paths, duplicate targets, links and special
     files before anything is written.
     """
     members, seen, total = [], set(), 0
+    allowed_roots = {expected_root}
+    if alternate_root:
+        allowed_roots.add(alternate_root)
+    selected_root = None
     with tarfile.open(archive, 'r:gz') as tar:
         for member in tar:
             name = member.name
@@ -367,8 +371,11 @@ def safe_extract(archive, dest, expected_root):
                     'archive member has an absolute or non-portable path: %r' % name)
             parts = [part for part in name.split('/') if part not in ('', '.')]
             require(parts and '..' not in parts, 'archive member escapes the extraction root: %r' % name)
-            require(parts[0] == expected_root,
+            require(parts[0] in allowed_roots,
                     'archive member is outside %s: %r' % (expected_root, name))
+            if selected_root is None:
+                selected_root = parts[0]
+            require(parts[0] == selected_root, 'archive contains multiple package roots')
             require(member.type in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE),
                     'archive member is not a regular file or directory: %r' % name)
             require(member.mode & 0o7000 == 0, 'archive member has setuid/setgid/sticky bits: %r' % name)
@@ -386,7 +393,7 @@ def safe_extract(archive, dest, expected_root):
     dest.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive, 'r:gz') as tar:
         tar.extractall(dest, members=members, filter='data')
-    return dest / expected_root
+    return dest / selected_root
 
 
 def elf_identity(path):
@@ -575,7 +582,8 @@ def stage_import(archive, stage, release, runner=subprocess.run):
     stage = pathlib.Path(stage)
     require(not stage.exists(), 'staging directory already exists: ' + str(stage))
     stage.mkdir(parents=True)
-    root = safe_extract(archive, stage / 'unpack', package_root(release))
+    version_root = 'piwork-linux-amd64-' + release['metadata']['releaseVersion']
+    root = safe_extract(archive, stage / 'unpack', package_root(release), version_root)
     checks = verify_package(root, release, runner=runner)
 
     piwork = stage / 'piwork'

@@ -4,6 +4,9 @@ import json
 import pathlib
 import sys
 import unittest
+import io
+import tarfile
+import tempfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import piwork_release
@@ -270,6 +273,33 @@ class LockBuildTest(unittest.TestCase):
         with self.assertRaises(piwork_release.ReleaseError):
             piwork_release.build_official_lock(lock, TAG, context['api'], RELEASE_COMMIT,
                                                context['payloads'])
+
+
+class ArchiveRootTest(unittest.TestCase):
+    def archive(self, path, roots):
+        with tarfile.open(path, 'w:gz') as archive:
+            for root in roots:
+                member = tarfile.TarInfo(root + '/LICENSE')
+                member.size = 4
+                archive.addfile(member, io.BytesIO(b'test'))
+
+    def test_versioned_root_is_explicitly_allowed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = pathlib.Path(temp) / 'release.tar.gz'
+            self.archive(path, ['piwork-linux-amd64-0.0.18'])
+            target = piwork_release.safe_extract(path, pathlib.Path(temp) / 'out',
+                'piwork-linux-amd64-afc6a25400ed', 'piwork-linux-amd64-0.0.18')
+            self.assertEqual((target / 'LICENSE').read_bytes(), b'test')
+
+    def test_mixed_or_unrelated_roots_are_rejected_before_writing(self):
+        for roots in [['legacy', 'version'], ['unrelated']]:
+            with self.subTest(roots=roots), tempfile.TemporaryDirectory() as temp:
+                path = pathlib.Path(temp) / 'release.tar.gz'
+                self.archive(path, roots)
+                output = pathlib.Path(temp) / 'out'
+                with self.assertRaises(piwork_release.ReleaseError):
+                    piwork_release.safe_extract(path, output, 'legacy', 'version')
+                self.assertFalse(output.exists())
 
 
 class TagResolutionTest(unittest.TestCase):
