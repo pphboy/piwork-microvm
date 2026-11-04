@@ -1,0 +1,69 @@
+name: Native Windows GUI body
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: MicroVM release version
+        required: true
+        type: string
+      core_tag:
+        description: Official Core tag matching build.lock.json
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - name: Preserve source bytes across platforms
+        shell: pwsh
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.25.5'
+          cache: true
+      - name: Select native MinGW compiler
+        shell: pwsh
+        run: |
+          $compiler = @('C:\mingw64\bin', 'C:\msys64\mingw64\bin') | Where-Object { Test-Path (Join-Path $_ 'gcc.exe') } | Select-Object -First 1
+          if (-not $compiler) { throw 'Native MinGW compiler is unavailable' }
+          $compiler | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+      - name: Prepare locked official Core metadata
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CORE_TAG: ${{ inputs.core_tag }}
+          WRAPPER_VERSION: ${{ inputs.version }}
+        run: |
+          if ($env:WRAPPER_VERSION -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid wrapper version' }
+          $lock = Get-Content build.lock.json -Raw | ConvertFrom-Json
+          if ($lock.piwork.inputMode -ne 'official-release' -or $lock.piwork.release.tag -ne $env:CORE_TAG) { throw 'Requested Core differs from the lock' }
+          New-Item -ItemType Directory -Force dist/piwork | Out-Null
+          gh release download $env:CORE_TAG --repo pphboy/piwork --pattern release-manifest.json --dir dist/piwork
+          if ($LASTEXITCODE -ne 0) { throw 'Official Core metadata download failed' }
+          Move-Item dist/piwork/release-manifest.json dist/piwork/metadata.json
+          $meta = Get-Content dist/piwork/metadata.json -Raw | ConvertFrom-Json
+          if ($meta.sourceCommit -ne $lock.piwork.commit -or $meta.releaseVersion -ne $lock.piwork.release.version) { throw 'Downloaded Core identity differs from the lock' }
+      - name: Build and record native Windows GUI body
+        shell: pwsh
+        env:
+          WRAPPER_VERSION: ${{ inputs.version }}
+        run: |
+          gcc --version | Out-File dist/native-toolchain.txt
+          go version | Out-File dist/native-toolchain.txt -Append
+          $commit = (git rev-parse HEAD).Trim()
+          & ./scripts/gui-build-windows.ps1 -Source $pwd.Path -Output (Join-Path $pwd.Path 'dist/launcher-gui-windows.exe') -Version $env:WRAPPER_VERSION -Commit $commit
+      - uses: actions/upload-artifact@v7
+        with:
+          name: gui-windows-body-${{ inputs.version }}
+          path: |
+            dist/launcher-gui-windows.exe
+            dist/build-bodies/gui-windows.json
+            dist/native-toolchain.txt
+          if-no-files-found: error
+          retention-days: 14
