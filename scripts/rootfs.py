@@ -2,12 +2,26 @@
 import hashlib, json, os, pathlib, subprocess, tarfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def run(*args,**kw): subprocess.run([str(a) for a in args],check=True,**kw)
+def base_fingerprint():
+    lock=json.loads((ROOT/'build.lock.json').read_text())
+    digest=hashlib.sha256(json.dumps({k:lock[k] for k in ('guestBaseImage','dockerImage','debianSnapshot')},sort_keys=True).encode())
+    files=[ROOT/'guest/rootfs/Dockerfile']+[p for p in (ROOT/'guest/rootfs/files').rglob('*') if p.is_file()]
+    for path in sorted(files):
+        digest.update(path.relative_to(ROOT).as_posix().encode()+b'\0'+path.read_bytes())
+    return digest.hexdigest()
+def prepare_base():
+    expected=base_fingerprint()
+    result=subprocess.run(['docker','image','inspect','--format','{{index .Config.Labels "piwork.microvm.base-input-sha256"}}','piwork-microvm-rootfs:local'],capture_output=True,text=True)
+    if result.returncode==0 and result.stdout.strip()==expected:
+        print('Guest system base: verified input cache hit',flush=True)
+        return
+    run('docker','build','-f','guest/rootfs/Dockerfile','--label','piwork.microvm.base-input-sha256='+expected,'-t','piwork-microvm-rootfs:local','.')
 def main():
     os.chdir(ROOT)
     out=ROOT/'dist';(out/'guest').mkdir(parents=True,exist_ok=True)
     env=os.environ.copy();env.update(CGO_ENABLED='0',GOOS='linux',GOARCH='amd64')
     run('go','build','-trimpath','-ldflags=-s -w','-o',out/'piwork-guest','./cmd/piwork-guest',env=env)
-    run('docker','build','-f','guest/rootfs/Dockerfile','-t','piwork-microvm-rootfs:local','.')
+    prepare_base()
     container=subprocess.check_output(['docker','create','piwork-microvm-rootfs:local'],text=True).strip()
     try:
         for f in ['piwork-core','piwork-cli']:
